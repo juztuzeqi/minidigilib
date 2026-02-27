@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G6 English · Monthly Assessment 1</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #d0e2f2;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            padding: 10px 8px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .paper {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 25px rgba(0, 30, 60, 0.2);
+            padding: 18px 14px;
+        }
+        h1 {
+            font-size: 1.7rem;
+            color: #123b54;
+            margin: 0 0 2px 5px;
+        }
+        .sub {
+            font-size: 0.9rem;
+            color: #34675c;
+            margin-left: 8px;
+            margin-bottom: 15px;
+        }
+        .score-panel {
+            background: #e2edfb;
+            border-radius: 40px;
+            padding: 12px 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 10px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            scroll-margin-top: 20px;
+        }
+        .score-item {
+            background: white;
+            border-radius: 30px;
+            padding: 4px 14px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #114b66;
+            box-shadow: 0 1px 4px #b0c8dd;
+        }
+        .part {
+            background: #f5faff;
+            border-radius: 24px;
+            padding: 18px 12px 22px;
+            margin: 25px 0 18px;
+            border: 1px solid #c0d6ed;
+        }
+        .part h2 {
+            background: #205882;
+            color: white;
+            display: inline-block;
+            padding: 5px 24px;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            margin-top: -34px;
+            margin-bottom: 16px;
+        }
+        
+        /* PART A - multiple choice grid */
+        .grid-a {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .qcard {
+            background: white;
+            border-radius: 18px;
+            padding: 12px 14px;
+            border: 1px solid #d0e2f5;
+            font-size: 0.95rem;
+        }
+        .qnum {
+            font-weight: 700;
+            color: #003f66;
+            margin-right: 5px;
+        }
+        .stem {
+            line-height: 1.4;
+        }
+        .ops {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+            margin-top: 10px;
+        }
+        .ops label {
+            background: #ecf3fc;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .fb {
+            margin-left: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+
+        /* Fill-in style - INPUT DI DALAM SOAL */
+        .fill-block {
+            background: #fffcf0;
+            border-radius: 24px;
+            padding: 18px 16px;
+            margin: 15px 0 10px;
+            border: 2px solid #c0b28b;
+        }
+        
+        .fill-item {
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            flex-wrap: nowrap;
+        }
+        
+        .fill-item .qnum {
+            font-weight: 700;
+            color: #003f66;
+            min-width: 40px;
+            font-size: 1rem;
+            line-height: 1.5;
+            flex-shrink: 0;
+        }
+        
+        .fill-content {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            line-height: 1.5;
+        }
+        
+        .fill-text {
+            display: inline;
+        }
+        
+        .inline-input {
+            display: inline-block;
+            width: 100px;
+            flex-shrink: 0;
+        }
+        
+        .inline-input input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #5f8bb3;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            text-align: center;
+            background: white;
+        }
+        
+        .inline-input input.correct {
+            background: #e3f7e3;
+            border-color: #2a7f4a;
+        }
+        
+        .options-hint {
+            color: #5a6e7c;
+            font-style: italic;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        .fill-feedback {
+            font-weight: 700;
+            font-size: 0.9rem;
+            min-width: 70px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        
+        .fill-feedback.correct { color: #1f8b4c; }
+        .fill-feedback.wrong { color: #c13a3a; }
+        
+        .wordbank {
+            background: #e0dcc0;
+            padding: 12px 18px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 20px;
+            border: 2px dashed #7f6e4e;
+            margin-bottom: 20px;
+        }
+        
+        /* Cloze passages ala Grade 5 */
+        .cloze-passage {
+            background: #fffcf0;
+            border-radius: 24px;
+            padding: 16px 12px;
+            margin: 20px 0 15px;
+            border: 2px solid #c0b28b;
+        }
+        .passage-text {
+            font-size: 1rem;
+            line-height: 2.2;
+            background: #fffcf0;
+            padding: 12px 8px;
+            border-radius: 20px;
+            word-break: break-word;
+            text-align: justify;
+        }
+        .passage-input {
+            display: inline-block;
+            width: auto;
+            min-width: 60px;
+            max-width: 90px;
+            margin: 0 2px;
+            vertical-align: middle;
+            position: relative;
+        }
+        .passage-input input {
+            width: 100%;
+            padding: 6px 6px;
+            border: 1.5px solid #5f8bb3;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+            background: white;
+            height: 32px;
+        }
+        .passage-input input.correct {
+            background: #e3f7e3;
+            border-color: #2a7f4a;
+        }
+        .passage-feedback {
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-left: 4px;
+            min-width: 70px;
+        }
+        .passage-feedback.correct { 
+            color: #12874b; 
+        }
+        .passage-feedback.wrong { 
+            color: #c13a3a; 
+        }
+        
+        .check-bottom {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 8px;
+        }
+        .btn-large {
+            background: #1e4e73;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            width: 100%;
+            max-width: 300px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px #708090;
+        }
+        .btn-small {
+            background: white;
+            border: 1px solid #2c6085;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G6 Monthly Assessment 1</h1>
+    <div class="sub">GB-EB</div>
+
+    <div class="score-panel" id="scorePanel">
+        <span class="score-item">A <span id="scoreA">0</span>/20</span>
+        <span class="score-item">B <span id="scoreB">0</span>/20</span>
+        <span class="score-item">total <span id="scoreTotal">0</span>/40</span>
+        <button class="btn-small" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <!-- PART A: GRAMMAR (20 soal) -->
+    <div class="part">
+        <h2>🔹 PART A – GRAMMAR</h2>
+        
+        <!-- A.1 Punctuation (2 items) -->
+        <div style="font-weight:600; margin:5px 0 15px;">A.1 Punctuation</div>
+        <div class="fill-block" id="a1Container"></div>
+
+        <!-- A.2 Tense Sequence (4 items) -->
+        <div style="font-weight:600; margin:30px 0 15px;">A.2 Tense Sequence</div>
+        <div class="fill-block" id="a2Container"></div>
+
+        <!-- A.3 Modals (3 items) -->
+        <div style="font-weight:600; margin:30px 0 15px;">A.3 Modals</div>
+        <div class="fill-block" id="a3Container"></div>
+
+        <!-- A.4 Adjectives (3 items) -->
+        <div style="font-weight:600; margin:30px 0 15px;">A.4 Adjectives</div>
+        <div class="wordbank">📌 WORD BANK: honest, beautiful, my, her, cold, wonderful, delicious, big</div>
+        <div class="fill-block" id="a4Container"></div>
+
+        <!-- A.5 Forming Adjectives (3 items) -->
+        <div style="font-weight:600; margin:30px 0 15px;">A.5 Forming Adjectives</div>
+        <div class="fill-block" id="a5Container"></div>
+
+        <!-- A.6 Comparatives & Superlatives (5 items) -->
+        <div style="font-weight:600; margin:30px 0 15px;">A.6 Comparatives & Superlatives</div>
+        <div class="fill-block" id="a6Container"></div>
+    </div>
+
+    <!-- PART B: CLOZE PASSAGES (20 soal) -->
+    <div class="part">
+        <h2>🔸 PART B – CLOZE PASSAGES</h2>
+        
+        <!-- B.1 Text 1: The Flooded Bathroom (10 items) -->
+        <div style="font-weight:600; margin-bottom:15px;">B.1 The Flooded Bathroom</div>
+
+        <!-- Word Bank untuk B.1 -->
+        <div class="wordbank">
+            📌 WORD BANK: dripping, installed, irritating, dropping, drained, plumber, upsetting, shocked, burst, flooded, damaged, furniture
+        </div>
+
+        <div class="cloze-passage">
+            <div class="passage-text" id="b1Passage"></div>
+        </div>
+        
+        <!-- B.2 Text 2: Bird Migration in Autumn (10 items) -->
+        <div style="font-weight:600; margin:30px 0 15px;">B.2 Bird Migration in Autumn</div>
+
+        <!-- Word Bank untuk B.2 -->
+        <div class="wordbank">
+            📌 WORD BANK: are, because, before, correctly, day, different, make, night, stars, sun
+        </div>
+
+        <div class="cloze-passage">
+            <div class="passage-text" id="b2Passage"></div>
+        </div>
+    </div>
+
+    <div class="check-bottom">
+        <button class="btn-large" id="checkBtn">🔍 Check Answers</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // A.1 Punctuation (2 items)
+        const a1Sentences = [
+            { before: "1. How is everyone", after: "", correct: "How is everyone?" },
+            { before: "2. Is paul sick", after: "", correct: "Is Paul sick?" }
+        ];
+
+        // A.2 Tense Sequence (4 items)
+        const a2Sentences = [
+            { before: "3. If you ", after: " him now, you would get it tomorrow. (inform/informed)", correct: "informed" },
+            { before: "4. If the headmaster ", after: " it yesterday, he would punish us today. (see/saw)", correct: "saw" },
+            { before: "5. Judy ", after: " the dictionary yesterday. (took/would take)", correct: "took" },
+            { before: "6. He ", after: " to lock the door a while ago. (would forget/forgot)", correct: "forgot" }
+        ];
+
+        // A.3 Modals (3 items)
+        const a3Sentences = [
+            { before: "7. The guides ", after: " dance well.", correct: "can" },
+            { before: "8. You ", after: " eat now.", correct: "may" },
+            { before: "9. We ", after: " gather some firewood now. It is raining heavily.", correct: "cannot" }
+        ];
+
+        // A.4 Adjectives (3 items)
+        const a4Sentences = [
+            { before: "10. Stanley is an ", after: " boy.", correct: "honest" },
+            { before: "11. The scenery at the beach is ", after: ".", correct: "beautiful" },
+            { before: "12. This is ", after: " book, not mine.", correct: "my" }
+        ];
+
+        // A.5 Forming Adjectives (3 items)
+        const a5Sentences = [
+            { before: "13. Help → ", after: "", correct: "helpful" },
+            { before: "14. Fool → ", after: "", correct: "foolish" },
+            { before: "15. Faith → ", after: "", correct: "faithful" }
+        ];
+
+        // A.6 Comparatives & Superlatives (5 items)
+        const a6Sentences = [
+            { before: "16. Joachim is ", after: " than Dominic. (kind)", correct: "kinder" },
+            { before: "17. You are as ", after: " as Janet. (clever)", correct: "clever" },
+            { before: "18. This room is ", after: " than that room. (dark)", correct: "darker" },
+            { before: "19. China has the ", after: " population. (large)", correct: "largest" },
+            { before: "20. This house is ", after: " than that house. (crowded)", correct: "more crowded" }
+        ];
+
+        // B.1 Cloze Passage - correct answers
+        const b1Correct = [
+            "burst", "shocked", "flooded", "furniture", "upsetting",
+            "damaged", "dripping", "plumber", "drained", "installed"
+        ];
+
+        // B.2 Cloze Passage - correct answers
+        const b2Correct = [
+            "before", "because", "are", "sun", "different",
+            "day", "correctly", "make", "night", "stars"
+        ];
+
+        // B.1 Cloze Passage - teks
+        const b1Parts = [
+            "Last week, the water tank in my parents' bathroom ", "(1)", ". We were not in when it happened. So when we got home, we were ", "(2)", " to find that the bathroom was ", "(3)", ". The floor was covered with water and all the ", "(4)", " there was damaged. What was most ", "(5)", " was the fact that my baby sister's cot just outside the bathroom was also ", "(6)", ". To make matters worse, water was ", "(7)", " from the ceiling. Luckily for us, my father had the phone number of a ", "(8)", ". He came as soon as we called and attended to the water tank. He ", "(9)", " the tank of all its water and removed it. Then we had a new one ", "(10)", "."
+        ];
+
+        // B.2 Cloze Passage - teks
+        const b2Parts = [
+            "When it comes to autumn, many species of birds have to head south for a warmer place to live ", "(1)", " the cold winter. Some birds fly south, or migrate, because their food supply runs short in winter. It is possible that birds know when winter is coming ", "(2)", " they notice that the days ", "(3)", " getting shorter. Once they start their migration, they use the ", "(4)", " as a guide. The sun is in ", "(5)", " positions in the sky at different times of the ", "(6)", ". In order to use it as a guide, birds would have to know the time of the day ", "(7)", ". On long flights, birds ", "(8)", " use of the stars to find their routes at ", "(9)", ". Homing pigeons, however, do not use the sun or the ", "(10)", ". They use the magnetic field of the Earth."
+        ];
+
+        // Fungsi buildClozeHtml
+        function buildClozeHtml(partsArray, prefix) {
+            let html = '';
+            for (let i = 0; i < partsArray.length; i++) {
+                const part = partsArray[i];
+                if (part.startsWith('(') && part.endsWith(')')) {
+                    const blankIndex = parseInt(part.match(/\d+/)[0]) - 1;
+                    html += `<span class="passage-input">`;
+                    html += `<input type="text" id="${prefix}_${blankIndex}" placeholder="${blankIndex+1}" autocomplete="off">`;
+                    html += `<span class="passage-feedback" id="fb_${prefix}_${blankIndex}"></span>`;
+                    html += `</span>`;
+                } else {
+                    html += part;
+                }
+            }
+            return html;
+        }
+
+        // Render cloze passages
+        document.getElementById('b1Passage').innerHTML = buildClozeHtml(b1Parts, 'b1');
+        document.getElementById('b2Passage').innerHTML = buildClozeHtml(b2Parts, 'b2');
+
+        // Render A1 - A6
+        function renderFillItems(containerId, sentences, prefix) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            sentences.forEach((s, idx) => {
+                html += `<div class="fill-item">
+                    <span class="fill-content">
+                        <span class="fill-text">${s.before}</span>
+                        <span class="inline-input">
+                            <input type="text" id="${prefix}_${idx}" placeholder="answer" autocomplete="off">
+                        </span>
+                        <span class="fill-text">${s.after}</span>
+                    </span>
+                    <span class="fill-feedback" id="fb_${prefix}_${idx}"></span>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        renderFillItems('a1Container', a1Sentences, 'a1');
+        renderFillItems('a2Container', a2Sentences, 'a2');
+        renderFillItems('a3Container', a3Sentences, 'a3');
+        renderFillItems('a4Container', a4Sentences, 'a4');
+        renderFillItems('a5Container', a5Sentences, 'a5');
+        renderFillItems('a6Container', a6Sentences, 'a6');
+
+        // Fungsi scoring
+        function hitungSkorDanScroll() {
+            let skorA = 0;
+            let skorB = 0;
+            
+            // A.1 (2)
+            for (let i=0; i<2; i++) {
+                const inp = document.getElementById(`a1_${i}`);
+                const fb = document.getElementById(`fb_a1_${i}`);
+                if (inp) {
+                    const val = inp.value.trim();
+                    const benar = a1Sentences[i].correct;
+                    
+                    const valLower = val.toLowerCase().replace(/\s+/g, ' ').trim();
+                    const benarLower = benar.toLowerCase().replace(/\s+/g, ' ').trim();
+                    
+                    if (valLower === benarLower || 
+                        (i === 1 && (valLower === 'is paul sick?' || valLower === 'is paul sick'))) {
+                        fb.innerText = '✓'; 
+                        fb.className = 'fill-feedback correct'; 
+                        inp.classList.add('correct'); 
+                        skorA++;
+                    } else {
+                        fb.innerText = val ? `${benar}` : `${benar}`;
+                        fb.className = 'fill-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+            
+            // A.2 (4)
+            for (let i=0; i<4; i++) {
+                const inp = document.getElementById(`a2_${i}`);
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = a2Sentences[i].correct;
+                    if (val === benar.toLowerCase()) {
+                        fb.innerText = '✓'; 
+                        fb.className = 'fill-feedback correct'; 
+                        inp.classList.add('correct'); 
+                        skorA++;
+                    } else {
+                        fb.innerText = `${benar}`;
+                        fb.className = 'fill-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+            
+            // A.3 (3)
+            for (let i=0; i<3; i++) {
+                const inp = document.getElementById(`a3_${i}`);
+                const fb = document.getElementById(`fb_a3_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = a3Sentences[i].correct;
+                    if (val === benar.toLowerCase()) {
+                        fb.innerText = '✓'; 
+                        fb.className = 'fill-feedback correct'; 
+                        inp.classList.add('correct'); 
+                        skorA++;
+                    } else {
+                        fb.innerText = `${benar}`;
+                        fb.className = 'fill-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+            
+            // A.4 (3)
+            for (let i=0; i<3; i++) {
+                const inp = document.getElementById(`a4_${i}`);
+                const fb = document.getElementById(`fb_a4_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = a4Sentences[i].correct;
+                    if (val === benar.toLowerCase()) {
+                        fb.innerText = '✓'; 
+                        fb.className = 'fill-feedback correct'; 
+                        inp.classList.add('correct'); 
+                        skorA++;
+                    } else {
+                        fb.innerText = `${benar}`;
+                        fb.className = 'fill-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+            
+            // A.5 (3)
+            for (let i=0; i<3; i++) {
+                const inp = document.getElementById(`a5_${i}`);
+                const fb = document.getElementById(`fb_a5_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = a5Sentences[i].correct;
+                    if (val === benar.toLowerCase()) {
+                        fb.innerText = '✓'; 
+                        fb.className = 'fill-feedback correct'; 
+                        inp.classList.add('correct'); 
+                        skorA++;
+                    } else {
+                        fb.innerText = `${benar}`;
+                        fb.className = 'fill-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+            
+            // A.6 (5)
+            for (let i=0; i<5; i++) {
+                const inp = document.getElementById(`a6_${i}`);
+                const fb = document.getElementById(`fb_a6_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = a6Sentences[i].correct;
+                    if (val === benar.toLowerCase()) {
+                        fb.innerText = '✓'; 
+                        fb.className = 'fill-feedback correct'; 
+                        inp.classList.add('correct'); 
+                        skorA++;
+                    } else {
+                        fb.innerText = `${benar}`;
+                        fb.className = 'fill-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            // PART B.1 - The Flooded Bathroom (10 soal)
+            for (let i=0; i<10; i++) {
+                const inp = document.getElementById(`b1_${i}`);
+                const fb = document.getElementById(`fb_b1_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = b1Correct[i];
+                    if (val === benar.toLowerCase()) {
+                        fb.innerText = '✓'; 
+                        fb.className = 'passage-feedback correct'; 
+                        inp.classList.add('correct'); 
+                        skorB++;
+                    } else {
+                        fb.innerText = `${benar}`;
+                        fb.className = 'passage-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+            
+            // B.2 - Bird Migration (10 soal)
+            for (let i=0; i<10; i++) {
+                const inp = document.getElementById(`b2_${i}`);
+                const fb = document.getElementById(`fb_b2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = b2Correct[i];
+                    if (val === benar.toLowerCase()) {
+                        fb.innerText = '✓'; 
+                        fb.className = 'passage-feedback correct'; 
+                        inp.classList.add('correct'); 
+                        skorB++;
+                    } else {
+                        fb.innerText = `${benar}`;
+                        fb.className = 'passage-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetSemua() {
+            // Reset A1-A6
+            for (let i=0; i<2; i++) {
+                const inp = document.getElementById(`a1_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); document.getElementById(`fb_a1_${i}`).innerText = ''; }
+            }
+            for (let i=0; i<4; i++) {
+                const inp = document.getElementById(`a2_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); document.getElementById(`fb_a2_${i}`).innerText = ''; }
+            }
+            for (let i=0; i<3; i++) {
+                const inp = document.getElementById(`a3_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); document.getElementById(`fb_a3_${i}`).innerText = ''; }
+                const inpA4 = document.getElementById(`a4_${i}`);
+                if (inpA4) { inpA4.value = ''; inpA4.classList.remove('correct'); document.getElementById(`fb_a4_${i}`).innerText = ''; }
+                const inpA5 = document.getElementById(`a5_${i}`);
+                if (inpA5) { inpA5.value = ''; inpA5.classList.remove('correct'); document.getElementById(`fb_a5_${i}`).innerText = ''; }
+            }
+            for (let i=0; i<5; i++) {
+                const inp = document.getElementById(`a6_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); document.getElementById(`fb_a6_${i}`).innerText = ''; }
+            }
+            
+            // Reset B1 dan B2
+            for (let i=0; i<10; i++) {
+                const inp1 = document.getElementById(`b1_${i}`);
+                if (inp1) { inp1.value = ''; inp1.classList.remove('correct'); document.getElementById(`fb_b1_${i}`).innerText = ''; }
+                const inp2 = document.getElementById(`b2_${i}`);
+                if (inp2) { inp2.value = ''; inp2.classList.remove('correct'); document.getElementById(`fb_b2_${i}`).innerText = ''; }
+            }
+            
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', hitungSkorDanScroll);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>
