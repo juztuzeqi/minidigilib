@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiniDict — Verb Forms</title>
+<style>
+  body { font-family: Arial; padding: 12px; background: #fafafa; }
+  input { width: 95%; padding: 10px; font-size: 1rem; margin-bottom: 10px; }
+  .word {
+    background: white;
+    padding: 12px;
+    margin: 6px 0;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  .forms {
+    margin-top: 6px;
+    font-size: 0.95rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- HOME BUTTON -->
+<a href="/index.html" class="home-btn">Home</a>
+
+<style>
+.home-btn {
+    position: fixed;
+    top: 10px;
+    right: 12px;
+    background: #ffffffdd;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    font-style: italic;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 0 4px rgba(0,0,0,0.15);
+    z-index: 999;
+}
+.home-btn:hover {
+    background: #ffffff;
+    box-shadow: 0 0 6px rgba(0,0,0,0.25);
+}
+</style>
+
+<h2>Verb Forms (V1 – V2 – V3)</h2>
+<input id="search" placeholder="Search verb..." oninput="render()" />
+<div id="list"></div>
+
+<script>
+let verbs = [];
+
+fetch('verbforms.json')
+  .then(r => r.json())
+  .then(data => { verbs = data; });
+
+function render(){
+  const q = document
+    .getElementById('search')
+    .value
+    .toLowerCase()
+    .trim();
+
+  const box = document.getElementById('list');
+  if(q.length < 2){
+    box.innerHTML = '';
+    return;
+  }
+
+  const results = verbs.filter(v => {
+    const v1 = (v.v1 || '').toLowerCase();
+    const v2 = (v.v2 || '').toLowerCase();
+    const v3 = (v.v3 || '').toLowerCase();
+    return q === v1 || q === v2 || q === v3;
+  });
+
+  box.innerHTML = results.length
+    ? results.map(v => `
+        <div class="word">
+          <b>${v.v1}</b>
+          <div class="forms">
+            V2: ${v.v2}<br>
+            V3: ${v.v3}
+          </div>
+        </div>
+      `).join('')
+    : '<i>Keep typing…</i>';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiniDict — Bilingual</title>
+<style>
+  body { font-family: Arial; padding: 12px; background: #fafafa; }
+  input { width: 95%; padding: 10px; font-size: 1rem; margin-bottom: 10px; }
+  .word { background: white; padding: 12px; margin: 6px 0; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.15);} 
+</style>
+</head>
+<body>
+<!-- HOME BUTTON -->
+<a href="/index.html" class="home-btn">Home</a>
+
+<style>
+.home-btn {
+    position: fixed;
+    top: 10px;
+    right: 12px;
+    background: #ffffffdd;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    font-style: italic;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 0 4px rgba(0,0,0,0.15);
+    z-index: 999;
+}
+.home-btn:hover {
+    background: #ffffff;
+    box-shadow: 0 0 6px rgba(0,0,0,0.25);
+}
+</style>
+<h2>MiniDict (EN-ID)</h2>
+<input id="search" placeholder="Search word..." oninput="render()" />
+<div id="list"></div>
+<script>
+let words = [];
+fetch('bilingual.json')
+  .then(r => r.json())
+  .then(data => { words = data; });
+
+function render(){
+  const q = document
+    .getElementById('search')
+    .value
+    .toLowerCase()
+    .trim();
+
+  const box = document.getElementById('list');
+  if(q.length < 2){ 
+    box.innerHTML = ''; 
+    return; 
+  }
+
+  const results = words.filter(w => {
+    const text = (w.en || '').toLowerCase();
+    return text === q || text.startsWith(q + ' ');
+  });
+
+  box.innerHTML = results.length
+    ? results.map(w => `
+        <div class='word'>
+          <b>${w.en}</b><br>${w.id}
+        </div>
+      `).join('')
+    : '<i>Keep typing…</i>';
+}
+</script>
+</body>
+</html>
