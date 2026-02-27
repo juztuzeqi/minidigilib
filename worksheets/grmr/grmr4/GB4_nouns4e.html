@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Exercise: Articles (a, an, the) - 3 Stories</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 15px;
+        }
+        
+        .story-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .story-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+        
+        .story-btn:hover {
+            background-color: #d5dbdb;
+        }
+        
+        .story-btn.active {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .instructions p {
+            margin: 0;
+        }
+        
+        .story-container {
+            display: none;
+        }
+        
+        .story-container.active {
+            display: block;
+        }
+        
+        .story {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            min-height: 250px;
+        }
+        
+        .blank {
+            display: inline-block;
+            width: 80px;
+            margin: 0 5px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .correct {
+            background-color: #d4edda !important;
+            border-color: #c3e6cb !important;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da !important;
+            border-color: #f5c6cb !important;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #checkBtn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        #checkBtn:hover {
+            background-color: #2980b9;
+        }
+        
+        #resetBtn {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        
+        #resetBtn:hover {
+            background-color: #ddd;
+        }
+        
+        #showAnswerBtn {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        #showAnswerBtn:hover {
+            background-color: #27ae60;
+        }
+        
+        #anotherStoryBtn {
+            background-color: #9b59b6;
+            color: white;
+        }
+        
+        #anotherStoryBtn:hover {
+            background-color: #8e44ad;
+        }
+        
+        .results {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .answers {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .answers h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .answer-item {
+            margin-bottom: 8px;
+            padding: 5px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .story {
+                font-size: 16px;
+                padding: 15px;
+            }
+            
+            .blank {
+                width: 70px;
+            }
+            
+            select {
+                font-size: 14px;
+                padding: 6px;
+            }
+            
+            .story-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Grammar Exercise: Articles (a, an, the)</h1>
+        
+        <div class="story-selector">
+            <button class="story-btn active" data-story="1">Original Story</button>
+            <button class="story-btn" data-story="2">Lina's Story</button>
+            <button class="story-btn" data-story="3">Tom's Story</button>
+        </div>
+        
+        <div class="instructions">
+            <p>Fill in the blanks with the correct article: <strong>'a'</strong>, <strong>'an'</strong>, or <strong>'the'</strong>.</p>
+            <p>Remember: Use 'a' before consonant sounds, 'an' before vowel sounds, and 'the' for specific or previously mentioned things.</p>
+        </div>
+        
+        <!-- Story 1: Original -->
+        <div class="story-container active" id="story1">
+            <div class="story">
+                Yesterday, I went to 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                small park near my house. In 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                park, I saw 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                old man sitting on 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                bench and reading 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                book. Suddenly, 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                dog ran across 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                grass and stopped in front of 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                man. 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                dog had 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                injured leg, so 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                man gently helped it. After 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                few minutes, 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                owner came and thanked 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                kind man for helping 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                dog.
+            </div>
+        </div>
+        
+        <!-- Story 2: Lina's Story -->
+        <div class="story-container" id="story2">
+            <div class="story">
+                Last Sunday, Lina visited 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                bookstore in her town. Inside 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                store, she found 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                interesting magazine on 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                table near 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                window. While reading, 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                cashier offered her 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                cup of tea. After 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                short time, Lina bought 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                magazine and left 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                bookstore feeling happy.
+            </div>
+        </div>
+        
+        <!-- Story 3: Tom's Story -->
+        <div class="story-container" id="story3">
+            <div class="story">
+                This morning, Tom saw 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                bird outside his classroom. 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                bird was sitting on 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                tree beside 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                school gate. Suddenly, 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                teacher opened 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                door and scared 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                bird away. Tom laughed and went back to 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                classroom to start 
+                <span class="blank"><select class="blank-select">
+                    <option value="">Choose...</option>
+                    <option value="a">a</option>
+                    <option value="an">an</option>
+                    <option value="the">the</option>
+                </select></span>
+                lesson.
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="checkBtn">Check Answers</button>
+            <button id="resetBtn">Reset All</button>
+            <button id="showAnswerBtn">Show Answers</button>
+            <button id="anotherStoryBtn">Try Another Story</button>
+        </div>
+        
+        <div class="results" id="results">
+            <div class="score" id="scoreDisplay"></div>
+            <div id="message"></div>
+        </div>
+        
+        <div class="answers" id="answers">
+            <h3>Correct Answers:</h3>
+            <div id="answerList"></div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Grammar Exercise - Practice using articles (a, an, the) in English with 3 different stories</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Correct answers for each story
+            const correctAnswers = {
+                story1: ['a', 'the', 'an', 'a', 'a', 'a', 'the', 'the', 'The', 'an', 'the', 'a', 'the', 'the', 'the'],
+                story2: ['a', 'the', 'an', 'a', 'the', 'the', 'a', 'a', 'the', 'the'],
+                story3: ['a', 'The', 'a', 'the', 'a', 'the', 'the', 'the', 'a']
+            };
+            
+            // Answer explanations
+            const answerExplanations = {
+                story1: [
+                    "1. a (a small park) - 'a' is used before a singular noun starting with a consonant sound",
+                    "2. the (the park) - 'the' is used because the park was already mentioned",
+                    "3. an (an old man) - 'an' is used before a singular noun starting with a vowel sound",
+                    "4. a (a bench) - 'a' is used for a singular, non-specific bench",
+                    "5. a (a book) - 'a' is used for a singular, non-specific book",
+                    "6. a (a dog) - 'a' is used when seeing the dog for the first time",
+                    "7. the (the grass) - 'the' is used because it's the specific grass in the park",
+                    "8. the (the man) - 'the' is used because we're referring to the specific man already mentioned",
+                    "9. The (The dog) - 'The' is used at the beginning of a sentence about the specific dog we just saw",
+                    "10. an (an injured leg) - 'an' is used before a singular noun starting with a vowel sound",
+                    "11. the (the man) - 'the' is used again for the specific man",
+                    "12. a (a few minutes) - 'a' is used in the fixed expression 'a few'",
+                    "13. the (the owner) - 'the' is used because it's the specific owner of the dog",
+                    "14. the (the kind man) - 'the' is used for the specific man who helped",
+                    "15. the (the dog) - 'the' is used for the specific dog we've been talking about"
+                ],
+                story2: [
+                    "1. a (a bookstore) - 'a' is used for a singular, non-specific bookstore",
+                    "2. the (the store) - 'the' is used because the store was just mentioned",
+                    "3. an (an interesting magazine) - 'an' is used before a singular noun starting with a vowel sound",
+                    "4. a (a table) - 'a' is used for a singular, non-specific table",
+                    "5. the (the window) - 'the' is used for a specific window in the bookstore",
+                    "6. the (the cashier) - 'the' is used for the specific cashier working in that store",
+                    "7. a (a cup of tea) - 'a' is used for a singular, non-specific cup of tea",
+                    "8. a (a short time) - 'a' is used in the expression 'a short time'",
+                    "9. the (the magazine) - 'the' is used for the specific magazine she found earlier",
+                    "10. the (the bookstore) - 'the' is used for the specific bookstore mentioned at the beginning"
+                ],
+                story3: [
+                    "1. a (a bird) - 'a' is used when seeing the bird for the first time",
+                    "2. The (The bird) - 'The' is used at the beginning of a sentence about the specific bird just mentioned",
+                    "3. a (a tree) - 'a' is used for a singular, non-specific tree",
+                    "4. the (the school gate) - 'the' is used for a specific, known gate",
+                    "5. a (a teacher) - 'a' is used for a non-specific teacher",
+                    "6. the (the door) - 'the' is used for the specific classroom door",
+                    "7. the (the bird) - 'the' is used for the specific bird we're talking about",
+                    "8. the (the classroom) - 'the' is used for the specific classroom mentioned earlier",
+                    "9. a (a lesson) - 'a' is used for a singular, non-specific lesson"
+                ]
+            };
+            
+            // Get DOM elements
+            const storyBtns = document.querySelectorAll('.story-btn');
+            const storyContainers = document.querySelectorAll('.story-container');
+            const checkBtn = document.getElementById('checkBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const showAnswerBtn = document.getElementById('showAnswerBtn');
+            const anotherStoryBtn = document.getElementById('anotherStoryBtn');
+            const resultsDiv = document.getElementById('results');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const messageDiv = document.getElementById('message');
+            const answersDiv = document.getElementById('answers');
+            const answerList = document.getElementById('answerList');
+            
+            let currentStory = 'story1';
+            
+            // Story selection
+            storyBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const storyId = this.getAttribute('data-story');
+                    
+                    // Update active button
+                    storyBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Hide all story containers
+                    storyContainers.forEach(container => {
+                        container.classList.remove('active');
+                    });
+                    
+                    // Show selected story
+                    document.getElementById(`story${storyId}`).classList.add('active');
+                    currentStory = `story${storyId}`;
+                    
+                    // Reset results and answers
+                    resetAll();
+                });
+            });
+            
+            // Check answers button
+            checkBtn.addEventListener('click', function() {
+                const currentContainer = document.querySelector(`#${currentStory} .story`);
+                const blankSelects = currentContainer.querySelectorAll('.blank-select');
+                const currentAnswers = correctAnswers[currentStory];
+                
+                let correctCount = 0;
+                const totalBlanks = blankSelects.length;
+                
+                // Check each answer
+                blankSelects.forEach((select, index) => {
+                    const userAnswer = select.value;
+                    const correctAnswer = currentAnswers[index];
+                    
+                    // Reset styling
+                    select.classList.remove('correct', 'incorrect');
+                    
+                    // Check if answer is correct
+                    if (userAnswer === correctAnswer.toLowerCase()) {
+                        select.classList.add('correct');
+                        correctCount++;
+                    } else if (userAnswer !== '') {
+                        select.classList.add('incorrect');
+                    }
+                });
+                
+                // Calculate score
+                const score = Math.round((correctCount / totalBlanks) * 100);
+                
+                // Display results
+                scoreDisplay.textContent = `Score: ${correctCount}/${totalBlanks} (${score}%)`;
+                
+                // Display message based on score
+                if (score === 100) {
+                    messageDiv.innerHTML = '<p style="color:#28a745; text-align:center; font-weight:bold;">Excellent! You have a perfect understanding of articles!</p>';
+                } else if (score >= 80) {
+                    messageDiv.innerHTML = '<p style="color:#28a745; text-align:center;">Great job! You understand articles well!</p>';
+                } else if (score >= 60) {
+                    messageDiv.innerHTML = '<p style="color:#ffc107; text-align:center;">Good effort! Review the answers to improve.</p>';
+                } else {
+                    messageDiv.innerHTML = '<p style="color:#dc3545; text-align:center;">Keep practicing! Articles can be tricky but you\'ll get better!</p>';
+                }
+                
+                // Show results
+                resultsDiv.style.display = 'block';
+                answersDiv.style.display = 'none';
+                
+                // Scroll to results
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+            
+            // Reset button
+            resetBtn.addEventListener('click', resetAll);
+            
+            // Show answers button
+            showAnswerBtn.addEventListener('click', function() {
+                const currentContainer = document.querySelector(`#${currentStory} .story`);
+                const blankSelects = currentContainer.querySelectorAll('.blank-select');
+                const currentAnswers = correctAnswers[currentStory];
+                
+                // Fill in correct answers
+                blankSelects.forEach((select, index) => {
+                    select.value = currentAnswers[index];
+                    select.classList.add('correct');
+                    select.classList.remove('incorrect');
+                });
+                
+                // Show answer explanations
+                answerList.innerHTML = '';
+                answerExplanations[currentStory].forEach(explanation => {
+                    const div = document.createElement('div');
+                    div.className = 'answer-item';
+                    div.textContent = explanation;
+                    answerList.appendChild(div);
+                });
+                
+                answersDiv.style.display = 'block';
+                resultsDiv.style.display = 'none';
+                
+                // Scroll to answers
+                answersDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+            
+            // Try another story button
+            anotherStoryBtn.addEventListener('click', function() {
+                // Get current story number
+                const currentStoryNum = parseInt(currentStory.replace('story', ''));
+                
+                // Calculate next story (cycle through 1, 2, 3)
+                let nextStoryNum = currentStoryNum + 1;
+                if (nextStoryNum > 3) nextStoryNum = 1;
+                
+                // Simulate click on the next story button
+                document.querySelector(`.story-btn[data-story="${nextStoryNum}"]`).click();
+                
+                // Reset everything for the new story
+                resetAll();
+            });
+            
+            // Remove incorrect styling when user changes answer
+            document.addEventListener('change', function(e) {
+                if (e.target && e.target.classList.contains('blank-select')) {
+                    e.target.classList.remove('incorrect');
+                }
+            });
+            
+            // Reset all function
+            function resetAll() {
+                // Reset all selects in all stories
+                document.querySelectorAll('.blank-select').forEach(select => {
+                    select.value = '';
+                    select.classList.remove('correct', 'incorrect');
+                });
+                
+                // Hide results and answers
+                resultsDiv.style.display = 'none';
+                answersDiv.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

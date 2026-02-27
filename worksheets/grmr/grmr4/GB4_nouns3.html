@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Singular & Plural Nouns Exercise</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        
+        .exercise-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .exercise-item:last-child {
+            border-bottom: none;
+        }
+        
+        .singular-noun {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        input {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+            font-size: 16px;
+            margin-left: 10px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .correct {
+            border-color: #2ecc71;
+            background-color: #f0fff4;
+        }
+        
+        .incorrect {
+            border-color: #e74c3c;
+            background-color: #fff0f0;
+        }
+        
+        .feedback {
+            margin-left: 15px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .correct-feedback {
+            color: #27ae60;
+        }
+        
+        .incorrect-feedback {
+            color: #c0392b;
+        }
+        
+        .score-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #3498db;
+            margin: 10px 0;
+        }
+        
+        .score-percentage {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 5px 0 15px 0;
+        }
+        
+        .score-message {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #checkBtn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        #checkBtn:hover {
+            background-color: #2980b9;
+        }
+        
+        #resetBtn {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        #resetBtn:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .note {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 30px;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .exercise-number {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 14px;
+            line-height: 24px;
+        }
+        
+        .difficulty {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-left: 10px;
+            font-style: italic;
+        }
+        
+        .score-details {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+        
+        .score-box {
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .score-label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .score-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            width: 80%;
+            height: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #3498db;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Singular & Plural Nouns Exercise</h1>
+        <p class="subtitle">Practice regular and irregular plural forms • Grade 4 Level • Fill in the blanks</p>
+        
+        <div class="instructions">
+            <h3>Instructions</h3>
+            <p>1. For each singular noun shown, type the correct plural form in the blank.</p>
+            <p>2. Pay attention to spelling rules for regular nouns (add -s, -es, change -y to -ies, etc.).</p>
+            <p>3. For irregular nouns, remember their special plural forms (e.g., child → children).</p>
+            <p>4. After completing all exercises, click "Check Answers" to see your score.</p>
+            <p>5. Use "Reset Exercise" to try again.</p>
+        </div>
+        
+        <div id="exerciseContainer">
+            <!-- Exercises will be generated here -->
+        </div>
+        
+        <div class="score-container hidden" id="scoreContainer">
+            <h2>Your Score</h2>
+            <div class="score" id="scoreDisplay">0/30</div>
+            <div class="score-percentage" id="percentageDisplay">0%</div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <div class="score-details">
+                <div class="score-box">
+                    <div class="score-label">Correct</div>
+                    <div class="score-value" id="correctDisplay">0</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">Wrong</div>
+                    <div class="score-value" id="wrongDisplay">30</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">Total</div>
+                    <div class="score-value" id="totalDisplay">30</div>
+                </div>
+            </div>
+            
+            <div class="score-message" id="scoreMessage"></div>
+            <p>Review your answers above. Correct answers are shown in green, incorrect ones in red.</p>
+        </div>
+        
+        <div class="buttons">
+            <button id="checkBtn">Check Answers</button>
+            <button id="resetBtn">Reset Exercise</button>
+        </div>
+        
+        <p class="note">Remember: Some nouns have the same form for singular and plural (e.g., sheep, deer).</p>
+    </div>
+
+    <script>
+        // List of singular nouns and their plural forms (regular and irregular)
+        // Modified items 22-26 for Grade 4 level
+        const nouns = [
+            { singular: "cat", plural: "cats", type: "regular" },
+            { singular: "box", plural: "boxes", type: "regular (add -es)" },
+            { singular: "baby", plural: "babies", type: "regular (change -y to -ies)" },
+            { singular: "knife", plural: "knives", type: "regular (change -f to -ves)" },
+            { singular: "city", plural: "cities", type: "regular (change -y to -ies)" },
+            { singular: "brush", plural: "brushes", type: "regular (add -es)" },
+            { singular: "tomato", plural: "tomatoes", type: "regular (add -es)" },
+            { singular: "child", plural: "children", type: "irregular" },
+            { singular: "woman", plural: "women", type: "irregular" },
+            { singular: "man", plural: "men", type: "irregular" },
+            { singular: "tooth", plural: "teeth", type: "irregular" },
+            { singular: "foot", plural: "feet", type: "irregular" },
+            { singular: "mouse", plural: "mice", type: "irregular" },
+            { singular: "goose", plural: "geese", type: "irregular" },
+            { singular: "person", plural: "people", type: "irregular" },
+            { singular: "leaf", plural: "leaves", type: "regular (change -f to -ves)" },
+            { singular: "sheep", plural: "sheep", type: "irregular (same form)" },
+            { singular: "deer", plural: "deer", type: "irregular (same form)" },
+            { singular: "fish", plural: "fish", type: "irregular (same form)" },
+            { singular: "story", plural: "stories", type: "regular (change -y to -ies)" },
+            { singular: "party", plural: "parties", type: "regular (change -y to -ies)" },
+            { singular: "wolf", plural: "wolves", type: "regular (change -f to -ves)" },
+            { singular: "loaf", plural: "loaves", type: "regular (change -f to -ves)" },
+            { singular: "elf", plural: "elves", type: "regular (change -f to -ves)" },
+            { singular: "scarf", plural: "scarves", type: "regular (change -f to -ves)" },
+            { singular: "roof", plural: "roofs", type: "regular (exception: not -ves)" },
+            { singular: "belief", plural: "beliefs", type: "regular (exception: not -ves)" },
+            { singular: "photo", plural: "photos", type: "regular (add -s)" },
+            { singular: "piano", plural: "pianos", type: "regular (add -s)" },
+            { singular: "hero", plural: "heroes", type: "regular (add -es)" }
+        ];
+
+        // Generate the exercise items
+        const exerciseContainer = document.getElementById('exerciseContainer');
+        
+        nouns.forEach((noun, index) => {
+            const exerciseItem = document.createElement('div');
+            exerciseItem.className = 'exercise-item';
+            exerciseItem.innerHTML = `
+                <span class="exercise-number">${index + 1}</span>
+                The plural of <span class="singular-noun">"${noun.singular}"</span> is:
+                <input type="text" id="noun${index}" data-correct="${noun.plural}">
+                <span class="feedback" id="feedback${index}"></span>
+            `;
+            exerciseContainer.appendChild(exerciseItem);
+        });
+
+        // Check answers button
+        document.getElementById('checkBtn').addEventListener('click', checkAnswers);
+        
+        // Reset button
+        document.getElementById('resetBtn').addEventListener('click', resetExercise);
+        
+        function checkAnswers() {
+            let score = 0;
+            const total = nouns.length;
+            
+            // Check each answer
+            nouns.forEach((noun, index) => {
+                const input = document.getElementById(`noun${index}`);
+                const feedback = document.getElementById(`feedback${index}`);
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswer = noun.plural.toLowerCase();
+                
+                // Clear previous styling
+                input.classList.remove('correct', 'incorrect');
+                feedback.classList.remove('correct-feedback', 'incorrect-feedback');
+                feedback.textContent = '';
+                feedback.style.display = 'none';
+                
+                // Check if answer is correct
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    input.classList.add('correct');
+                    feedback.textContent = `Correct! "${noun.singular}" → "${noun.plural}" (${noun.type})`;
+                    feedback.classList.add('correct-feedback');
+                    feedback.style.display = 'inline';
+                } else if (userAnswer === '') {
+                    input.classList.add('incorrect');
+                    feedback.textContent = `The correct answer is "${noun.plural}" (${noun.type})`;
+                    feedback.classList.add('incorrect-feedback');
+                    feedback.style.display = 'inline';
+                } else {
+                    input.classList.add('incorrect');
+                    feedback.textContent = `Incorrect. The correct plural is "${noun.plural}" (${noun.type})`;
+                    feedback.classList.add('incorrect-feedback');
+                    feedback.style.display = 'inline';
+                }
+            });
+            
+            // Calculate percentage
+            const percentage = Math.round((score / total) * 100);
+            
+            // Display score
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const percentageDisplay = document.getElementById('percentageDisplay');
+            const correctDisplay = document.getElementById('correctDisplay');
+            const wrongDisplay = document.getElementById('wrongDisplay');
+            const totalDisplay = document.getElementById('totalDisplay');
+            const progressFill = document.getElementById('progressFill');
+            const scoreMessage = document.getElementById('scoreMessage');
+            const scoreContainer = document.getElementById('scoreContainer');
+            
+            // Update score displays
+            scoreDisplay.textContent = `${score}/${total}`;
+            percentageDisplay.textContent = `${percentage}%`;
+            correctDisplay.textContent = score;
+            wrongDisplay.textContent = total - score;
+            totalDisplay.textContent = total;
+            
+            // Animate progress bar
+            progressFill.style.width = `${percentage}%`;
+            
+            // Update progress bar color based on percentage
+            if (percentage >= 80) {
+                progressFill.style.backgroundColor = "#2ecc71";
+            } else if (percentage >= 60) {
+                progressFill.style.backgroundColor = "#3498db";
+            } else if (percentage >= 40) {
+                progressFill.style.backgroundColor = "#f39c12";
+            } else {
+                progressFill.style.backgroundColor = "#e74c3c";
+            }
+            
+            scoreContainer.classList.remove('hidden');
+            
+            // Custom message based on score
+            if (score === total) {
+                scoreMessage.textContent = "Perfect! You've mastered singular and plural nouns! 🎉";
+                scoreDisplay.style.color = "#2ecc71";
+                percentageDisplay.style.color = "#2ecc71";
+            } else if (percentage >= 80) {
+                scoreMessage.textContent = "Excellent! You know most plural forms very well!";
+                scoreDisplay.style.color = "#2ecc71";
+                percentageDisplay.style.color = "#2ecc71";
+            } else if (percentage >= 70) {
+                scoreMessage.textContent = "Good job! You know most plural forms.";
+                scoreDisplay.style.color = "#3498db";
+                percentageDisplay.style.color = "#3498db";
+            } else if (percentage >= 50) {
+                scoreMessage.textContent = "Not bad! Review the irregular plurals and try again.";
+                scoreDisplay.style.color = "#f39c12";
+                percentageDisplay.style.color = "#f39c12";
+            } else if (percentage >= 30) {
+                scoreMessage.textContent = "Keep practicing! Review the rules and try again.";
+                scoreDisplay.style.color = "#e74c3c";
+                percentageDisplay.style.color = "#e74c3c";
+            } else {
+                scoreMessage.textContent = "Let's practice more! Remember the rules for regular and irregular plurals.";
+                scoreDisplay.style.color = "#c0392b";
+                percentageDisplay.style.color = "#c0392b";
+            }
+            
+            // Scroll to score for better UX
+            scoreContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function resetExercise() {
+            // Clear all inputs
+            nouns.forEach((noun, index) => {
+                const input = document.getElementById(`noun${index}`);
+                const feedback = document.getElementById(`feedback${index}`);
+                
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+                feedback.textContent = '';
+                feedback.classList.remove('correct-feedback', 'incorrect-feedback');
+                feedback.style.display = 'none';
+            });
+            
+            // Reset progress bar
+            document.getElementById('progressFill').style.width = '0%';
+            
+            // Hide score container
+            document.getElementById('scoreContainer').classList.add('hidden');
+            
+            // Focus on first input
+            document.getElementById('noun0').focus();
+        }
+        
+        // Allow pressing Enter to check answers
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                checkAnswers();
+            }
+        });
+        
+        // Focus on first input on page load
+        window.onload = function() {
+            document.getElementById('noun0').focus();
+        };
+    </script>
+</body>
+</html>

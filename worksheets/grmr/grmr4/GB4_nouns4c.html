@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Much & Many Exercise</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        
+        .exercise-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .exercise-item:last-child {
+            border-bottom: none;
+        }
+        
+        .sentence {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            margin: 0 5px;
+            transition: border-color 0.3s;
+            background-color: white;
+            min-width: 100px;
+        }
+        
+        select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .correct {
+            border-color: #2ecc71;
+            background-color: #f0fff4;
+        }
+        
+        .incorrect {
+            border-color: #e74c3c;
+            background-color: #fff0f0;
+        }
+        
+        .feedback {
+            margin-left: 15px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .correct-feedback {
+            color: #27ae60;
+        }
+        
+        .incorrect-feedback {
+            color: #c0392b;
+        }
+        
+        .score-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #3498db;
+            margin: 10px 0;
+        }
+        
+        .score-percentage {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 5px 0 15px 0;
+        }
+        
+        .score-message {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #checkBtn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        #checkBtn:hover {
+            background-color: #2980b9;
+        }
+        
+        #resetBtn {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        #resetBtn:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .note {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 30px;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .exercise-number {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 14px;
+            line-height: 24px;
+        }
+        
+        .rule-explanation {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-left: 10px;
+            font-style: italic;
+        }
+        
+        .score-details {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+        
+        .score-box {
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .score-label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .score-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            width: 80%;
+            height: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #3498db;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+        
+        .rule-summary {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #eee;
+        }
+        
+        .rule-summary h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .rule-summary ul {
+            padding-left: 20px;
+        }
+        
+        .rule-summary li {
+            margin-bottom: 5px;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .noun-type {
+            font-size: 14px;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Much & Many Exercise</h1>
+        <p class="subtitle">Practice using 'much' and 'many' correctly • Grade 4 Level • Choose the correct option</p>
+        
+        <div class="instructions">
+            <h3>Instructions</h3>
+            <p>1. For each sentence, choose whether to use "much" or "many" in the blank space.</p>
+            <p>2. Remember: We use "many" with countable nouns (things we can count) and "much" with uncountable nouns (things we can't count).</p>
+            <p>3. Countable nouns usually have plural forms (apples, books, children).</p>
+            <p>4. Uncountable nouns usually don't have plural forms (water, sugar, information).</p>
+            <p>5. After completing all exercises, click "Check Answers" to see your score.</p>
+            <p>6. Use "Reset Exercise" to try again.</p>
+        </div>
+        
+        <div class="rule-summary">
+            <h4>Quick Rule Summary:</h4>
+            <ul>
+                <li><span class="highlight">Many</span>: Used with countable nouns (things you can count).</li>
+                <li><span class="highlight">Much</span>: Used with uncountable nouns (things you can't count).</li>
+                <li>Example: "How <span class="highlight">many</span> apples do you have?" (apples are countable)</li>
+                <li>Example: "How <span class="highlight">much</span> sugar do you need?" (sugar is uncountable)</li>
+                <li>Example: "I don't have <span class="highlight">many</span> friends." (friends are countable)</li>
+                <li>Example: "We don't have <span class="highlight">much</span> time." (time is uncountable)</li>
+                <li>Tip: Ask "Can I count it?" If yes, use "many". If no, use "much".</li>
+            </ul>
+        </div>
+        
+        <div id="exerciseContainer">
+            <!-- Exercises will be generated here -->
+        </div>
+        
+        <div class="score-container hidden" id="scoreContainer">
+            <h2>Your Score</h2>
+            <div class="score" id="scoreDisplay">0/15</div>
+            <div class="score-percentage" id="percentageDisplay">0%</div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <div class="score-details">
+                <div class="score-box">
+                    <div class="score-label">Correct</div>
+                    <div class="score-value" id="correctDisplay">0</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">Wrong</div>
+                    <div class="score-value" id="wrongDisplay">15</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">Total</div>
+                    <div class="score-value" id="totalDisplay">15</div>
+                </div>
+            </div>
+            
+            <div class="score-message" id="scoreMessage"></div>
+            <p>Review your answers above. Correct answers are shown in green, incorrect ones in red.</p>
+        </div>
+        
+        <div class="buttons">
+            <button id="checkBtn">Check Answers</button>
+            <button id="resetBtn">Reset Exercise</button>
+        </div>
+        
+        <p class="note">Tip: Look at the noun after the blank. Is it countable or uncountable? That will help you choose between "much" and "many".</p>
+    </div>
+
+    <script>
+        // List of sentences with correct answers for "much" or "many"
+        const exercises = [
+            { 
+                sentence: "How _______ apples do you want?", 
+                options: ["much", "many"],
+                correct: "many",
+                explanation: "'apples' is a countable noun → use 'many'",
+                type: "countable",
+                noun: "apples"
+            },
+            { 
+                sentence: "I don't have _______ time to finish my homework.", 
+                options: ["much", "many"],
+                correct: "much",
+                explanation: "'time' is an uncountable noun → use 'much'",
+                type: "uncountable",
+                noun: "time"
+            },
+            { 
+                sentence: "There are too _______ people in this room.", 
+                options: ["much", "many"],
+                correct: "many",
+                explanation: "'people' is a countable noun → use 'many'",
+                type: "countable",
+                noun: "people"
+            },
+            { 
+                sentence: "How _______ sugar do you need for the cake?", 
+                options: ["much", "many"],
+                correct: "much",
+                explanation: "'sugar' is an uncountable noun → use 'much'",
+                type: "uncountable",
+                noun: "sugar"
+            },
+            { 
+                sentence: "She has so _______ books in her collection.", 
+                options: ["much", "many"],
+                correct: "many",
+                explanation: "'books' is a countable noun → use 'many'",
+                type: "countable",
+                noun: "books"
+            },
+            { 
+                sentence: "We don't have _______ money to buy a new car.", 
+                options: ["much", "many"],
+                correct: "much",
+                explanation: "'money' is an uncountable noun → use 'much'",
+                type: "uncountable",
+                noun: "money"
+            },
+            { 
+                sentence: "How _______ children are in your class?", 
+                options: ["much", "many"],
+                correct: "many",
+                explanation: "'children' is a countable noun → use 'many'",
+                type: "countable",
+                noun: "children"
+            },
+            { 
+                sentence: "There isn't _______ water in the bottle.", 
+                options: ["much", "many"],
+                correct: "much",
+                explanation: "'water' is an uncountable noun → use 'much'",
+                type: "uncountable",
+                noun: "water"
+            },
+            { 
+                sentence: "I have too _______ homework today.", 
+                options: ["much", "many"],
+                correct: "much",
+                explanation: "'homework' is an uncountable noun → use 'much'",
+                type: "uncountable",
+                noun: "homework"
+            },
+            { 
+                sentence: "How _______ pencils are in your pencil case?", 
+                options: ["much", "many"],
+                correct: "many",
+                explanation: "'pencils' is a countable noun → use 'many'",
+                type: "countable",
+                noun: "pencils"
+            },
+            { 
+                sentence: "He doesn't have _______ friends at his new school.", 
+                options: ["much", "many"],
+                correct: "many",
+                explanation: "'friends' is a countable noun → use 'many'",
+                type: "countable",
+                noun: "friends"
+            },
+            { 
+                sentence: "How _______ milk is left in the fridge?", 
+                options: ["much", "many"],
+                correct: "much",
+                explanation: "'milk' is an uncountable noun → use 'much'",
+                type: "uncountable",
+                noun: "milk"
+            },
+            { 
+                sentence: "There aren't _______ cookies in the jar.", 
+                options: ["much", "many"],
+                correct: "many",
+                explanation: "'cookies' is a countable noun → use 'many'",
+                type: "countable",
+                noun: "cookies"
+            },
+            { 
+                sentence: "We don't have _______ information about the event.", 
+                options: ["much", "many"],
+                correct: "much",
+                explanation: "'information' is an uncountable noun → use 'much'",
+                type: "uncountable",
+                noun: "information"
+            },
+            { 
+                sentence: "How _______ students are absent today?", 
+                options: ["much", "many"],
+                correct: "many",
+                explanation: "'students' is a countable noun → use 'many'",
+                type: "countable",
+                noun: "students"
+            }
+        ];
+
+        // Generate the exercise items
+        const exerciseContainer = document.getElementById('exerciseContainer');
+        
+        exercises.forEach((exercise, index) => {
+            const exerciseItem = document.createElement('div');
+            exerciseItem.className = 'exercise-item';
+            
+            // Create options HTML
+            let optionsHTML = '';
+            exercise.options.forEach(option => {
+                optionsHTML += `<option value="${option}">${option}</option>`;
+            });
+            
+            // Add noun type indicator
+            const nounType = exercise.type === 'countable' ? 'Countable' : 'Uncountable';
+            
+            exerciseItem.innerHTML = `
+                <span class="exercise-number">${index + 1}</span>
+                <div class="sentence">${exercise.sentence}</div>
+                <select id="exercise${index}" data-correct="${exercise.correct}">
+                    <option value="">Choose...</option>
+                    ${optionsHTML}
+                </select>
+                <span class="noun-type">(${exercise.noun} - ${nounType})</span>
+                <span class="feedback" id="feedback${index}"></span>
+                <span class="rule-explanation" id="explanation${index}"></span>
+            `;
+            exerciseContainer.appendChild(exerciseItem);
+        });
+
+        // Check answers button
+        document.getElementById('checkBtn').addEventListener('click', checkAnswers);
+        
+        // Reset button
+        document.getElementById('resetBtn').addEventListener('click', resetExercise);
+        
+        function checkAnswers() {
+            let score = 0;
+            const total = exercises.length;
+            
+            // Check each answer
+            exercises.forEach((exercise, index) => {
+                const select = document.getElementById(`exercise${index}`);
+                const feedback = document.getElementById(`feedback${index}`);
+                const explanation = document.getElementById(`explanation${index}`);
+                const userAnswer = select.value;
+                const correctAnswer = exercise.correct;
+                
+                // Clear previous styling
+                select.classList.remove('correct', 'incorrect');
+                feedback.classList.remove('correct-feedback', 'incorrect-feedback');
+                feedback.textContent = '';
+                feedback.style.display = 'none';
+                explanation.textContent = '';
+                
+                // Check if answer is correct
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    select.classList.add('correct');
+                    feedback.textContent = `✓ Correct!`;
+                    feedback.classList.add('correct-feedback');
+                    feedback.style.display = 'inline';
+                    explanation.textContent = exercise.explanation;
+                } else if (userAnswer === '') {
+                    select.classList.add('incorrect');
+                    feedback.textContent = `✗ Please select an answer.`;
+                    feedback.classList.add('incorrect-feedback');
+                    feedback.style.display = 'inline';
+                    explanation.textContent = `The correct answer is "${exercise.correct}" - ${exercise.explanation}`;
+                } else {
+                    select.classList.add('incorrect');
+                    feedback.textContent = `✗ Incorrect`;
+                    feedback.classList.add('incorrect-feedback');
+                    feedback.style.display = 'inline';
+                    explanation.textContent = `The correct answer is "${exercise.correct}" - ${exercise.explanation}`;
+                }
+            });
+            
+            // Calculate percentage
+            const percentage = Math.round((score / total) * 100);
+            
+            // Display score
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const percentageDisplay = document.getElementById('percentageDisplay');
+            const correctDisplay = document.getElementById('correctDisplay');
+            const wrongDisplay = document.getElementById('wrongDisplay');
+            const totalDisplay = document.getElementById('totalDisplay');
+            const progressFill = document.getElementById('progressFill');
+            const scoreMessage = document.getElementById('scoreMessage');
+            const scoreContainer = document.getElementById('scoreContainer');
+            
+            // Update score displays
+            scoreDisplay.textContent = `${score}/${total}`;
+            percentageDisplay.textContent = `${percentage}%`;
+            correctDisplay.textContent = score;
+            wrongDisplay.textContent = total - score;
+            totalDisplay.textContent = total;
+            
+            // Animate progress bar
+            progressFill.style.width = `${percentage}%`;
+            
+            // Update progress bar color based on percentage
+            if (percentage >= 90) {
+                progressFill.style.backgroundColor = "#2ecc71";
+            } else if (percentage >= 70) {
+                progressFill.style.backgroundColor = "#3498db";
+            } else if (percentage >= 50) {
+                progressFill.style.backgroundColor = "#f39c12";
+            } else {
+                progressFill.style.backgroundColor = "#e74c3c";
+            }
+            
+            scoreContainer.classList.remove('hidden');
+            
+            // Custom message based on score
+            if (score === total) {
+                scoreMessage.textContent = "Perfect! You've mastered 'much' and 'many'! 🎉";
+                scoreDisplay.style.color = "#2ecc71";
+                percentageDisplay.style.color = "#2ecc71";
+            } else if (percentage >= 90) {
+                scoreMessage.textContent = "Excellent! You understand 'much' and 'many' very well!";
+                scoreDisplay.style.color = "#2ecc71";
+                percentageDisplay.style.color = "#2ecc71";
+            } else if (percentage >= 70) {
+                scoreMessage.textContent = "Good job! You know how to use 'much' and 'many' correctly.";
+                scoreDisplay.style.color = "#3498db";
+                percentageDisplay.style.color = "#3498db";
+            } else if (percentage >= 50) {
+                scoreMessage.textContent = "Not bad! Review the rules and try again.";
+                scoreDisplay.style.color = "#f39c12";
+                percentageDisplay.style.color = "#f39c12";
+            } else {
+                scoreMessage.textContent = "Keep practicing! Remember: 'many' for countable, 'much' for uncountable.";
+                scoreDisplay.style.color = "#e74c3c";
+                percentageDisplay.style.color = "#e74c3c";
+            }
+            
+            // Scroll to score for better UX
+            scoreContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function resetExercise() {
+            // Clear all selections
+            exercises.forEach((exercise, index) => {
+                const select = document.getElementById(`exercise${index}`);
+                const feedback = document.getElementById(`feedback${index}`);
+                const explanation = document.getElementById(`explanation${index}`);
+                
+                select.value = '';
+                select.classList.remove('correct', 'incorrect');
+                feedback.textContent = '';
+                feedback.classList.remove('correct-feedback', 'incorrect-feedback');
+                feedback.style.display = 'none';
+                explanation.textContent = '';
+            });
+            
+            // Reset progress bar
+            document.getElementById('progressFill').style.width = '0%';
+            
+            // Hide score container
+            document.getElementById('scoreContainer').classList.add('hidden');
+            
+            // Focus on first select
+            document.getElementById('exercise0').focus();
+        }
+        
+        // Allow pressing Enter to check answers
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                checkAnswers();
+            }
+        });
+        
+        // Focus on first select on page load
+        window.onload = function() {
+            document.getElementById('exercise0').focus();
+        };
+    </script>
+</body>
+</html>

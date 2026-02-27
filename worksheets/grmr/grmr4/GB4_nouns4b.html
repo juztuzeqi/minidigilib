@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Some & Any Exercise</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        
+        .exercise-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .exercise-item:last-child {
+            border-bottom: none;
+        }
+        
+        .sentence {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            margin: 0 5px;
+            transition: border-color 0.3s;
+            background-color: white;
+            min-width: 100px;
+        }
+        
+        select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .correct {
+            border-color: #2ecc71;
+            background-color: #f0fff4;
+        }
+        
+        .incorrect {
+            border-color: #e74c3c;
+            background-color: #fff0f0;
+        }
+        
+        .feedback {
+            margin-left: 15px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .correct-feedback {
+            color: #27ae60;
+        }
+        
+        .incorrect-feedback {
+            color: #c0392b;
+        }
+        
+        .score-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #3498db;
+            margin: 10px 0;
+        }
+        
+        .score-percentage {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 5px 0 15px 0;
+        }
+        
+        .score-message {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #checkBtn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        #checkBtn:hover {
+            background-color: #2980b9;
+        }
+        
+        #resetBtn {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        #resetBtn:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .note {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 30px;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .exercise-number {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 14px;
+            line-height: 24px;
+        }
+        
+        .rule-explanation {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-left: 10px;
+            font-style: italic;
+        }
+        
+        .score-details {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+        
+        .score-box {
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .score-label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .score-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            width: 80%;
+            height: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #3498db;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+        
+        .rule-summary {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #eee;
+        }
+        
+        .rule-summary h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .rule-summary ul {
+            padding-left: 20px;
+        }
+        
+        .rule-summary li {
+            margin-bottom: 5px;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Some & Any Exercise</h1>
+        <p class="subtitle">Practice using 'some' and 'any' correctly • Grade 4 Level • Choose the correct option</p>
+        
+        <div class="instructions">
+            <h3>Instructions</h3>
+            <p>1. For each sentence, choose whether to use "some" or "any" in the blank space.</p>
+            <p>2. Remember: We usually use "some" in positive sentences and "any" in negative sentences and questions.</p>
+            <p>3. There are exceptions! We use "some" in questions when offering or requesting something.</p>
+            <p>4. After completing all exercises, click "Check Answers" to see your score.</p>
+            <p>5. Use "Reset Exercise" to try again.</p>
+        </div>
+        
+        <div class="rule-summary">
+            <h4>Quick Rule Summary:</h4>
+            <ul>
+                <li><span class="highlight">Some</span>: Used in positive sentences and questions when offering or requesting.</li>
+                <li><span class="highlight">Any</span>: Used in negative sentences and most questions.</li>
+                <li>Example: "I have <span class="highlight">some</span> apples." (positive)</li>
+                <li>Example: "I don't have <span class="highlight">any</span> apples." (negative)</li>
+                <li>Example: "Do you have <span class="highlight">any</span> apples?" (question)</li>
+                <li>Example: "Would you like <span class="highlight">some</span> apples?" (offering)</li>
+            </ul>
+        </div>
+        
+        <div id="exerciseContainer">
+            <!-- Exercises will be generated here -->
+        </div>
+        
+        <div class="score-container hidden" id="scoreContainer">
+            <h2>Your Score</h2>
+            <div class="score" id="scoreDisplay">0/15</div>
+            <div class="score-percentage" id="percentageDisplay">0%</div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <div class="score-details">
+                <div class="score-box">
+                    <div class="score-label">Correct</div>
+                    <div class="score-value" id="correctDisplay">0</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">Wrong</div>
+                    <div class="score-value" id="wrongDisplay">15</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">Total</div>
+                    <div class="score-value" id="totalDisplay">15</div>
+                </div>
+            </div>
+            
+            <div class="score-message" id="scoreMessage"></div>
+            <p>Review your answers above. Correct answers are shown in green, incorrect ones in red.</p>
+        </div>
+        
+        <div class="buttons">
+            <button id="checkBtn">Check Answers</button>
+            <button id="resetBtn">Reset Exercise</button>
+        </div>
+        
+        <p class="note">Tip: Think about whether the sentence is positive, negative, or a question. Also remember exceptions for offers and requests!</p>
+    </div>
+
+    <script>
+        // List of sentences with correct answers for "some" or "any"
+        const exercises = [
+            { 
+                sentence: "I have _______ apples in my bag.", 
+                options: ["some", "any"],
+                correct: "some",
+                explanation: "Positive sentence → use 'some'",
+                type: "positive"
+            },
+            { 
+                sentence: "Do you have _______ brothers or sisters?", 
+                options: ["some", "any"],
+                correct: "any",
+                explanation: "Question → usually use 'any'",
+                type: "question"
+            },
+            { 
+                sentence: "We don't have _______ milk left.", 
+                options: ["some", "any"],
+                correct: "any",
+                explanation: "Negative sentence → use 'any'",
+                type: "negative"
+            },
+            { 
+                sentence: "Would you like _______ coffee?", 
+                options: ["some", "any"],
+                correct: "some",
+                explanation: "Question offering something → use 'some'",
+                type: "offer"
+            },
+            { 
+                sentence: "There are _______ children playing in the park.", 
+                options: ["some", "any"],
+                correct: "some",
+                explanation: "Positive sentence → use 'some'",
+                type: "positive"
+            },
+            { 
+                sentence: "I can't find _______ pencils on my desk.", 
+                options: ["some", "any"],
+                correct: "any",
+                explanation: "Negative sentence → use 'any'",
+                type: "negative"
+            },
+            { 
+                sentence: "Can I have _______ water, please?", 
+                options: ["some", "any"],
+                correct: "some",
+                explanation: "Question requesting something → use 'some'",
+                type: "request"
+            },
+            { 
+                sentence: "She doesn't want _______ help with her homework.", 
+                options: ["some", "any"],
+                correct: "any",
+                explanation: "Negative sentence → use 'any'",
+                type: "negative"
+            },
+            { 
+                sentence: "There aren't _______ cookies in the jar.", 
+                options: ["some", "any"],
+                correct: "any",
+                explanation: "Negative sentence → use 'any'",
+                type: "negative"
+            },
+            { 
+                sentence: "My mother bought _______ oranges at the market.", 
+                options: ["some", "any"],
+                correct: "some",
+                explanation: "Positive sentence → use 'some'",
+                type: "positive"
+            },
+            { 
+                sentence: "Is there _______ sugar in this tea?", 
+                options: ["some", "any"],
+                correct: "any",
+                explanation: "Question → usually use 'any'",
+                type: "question"
+            },
+            { 
+                sentence: "Could you give me _______ advice about this problem?", 
+                options: ["some", "any"],
+                correct: "some",
+                explanation: "Question requesting something → use 'some'",
+                type: "request"
+            },
+            { 
+                sentence: "I didn't see _______ birds in the tree.", 
+                options: ["some", "any"],
+                correct: "any",
+                explanation: "Negative sentence → use 'any'",
+                type: "negative"
+            },
+            { 
+                sentence: "We need _______ eggs to make the cake.", 
+                options: ["some", "any"],
+                correct: "some",
+                explanation: "Positive sentence → use 'some'",
+                type: "positive"
+            },
+            { 
+                sentence: "Do you want _______ more pizza?", 
+                options: ["some", "any"],
+                correct: "some",
+                explanation: "Question offering something → use 'some'",
+                type: "offer"
+            }
+        ];
+
+        // Generate the exercise items
+        const exerciseContainer = document.getElementById('exerciseContainer');
+        
+        exercises.forEach((exercise, index) => {
+            const exerciseItem = document.createElement('div');
+            exerciseItem.className = 'exercise-item';
+            
+            // Create options HTML
+            let optionsHTML = '';
+            exercise.options.forEach(option => {
+                optionsHTML += `<option value="${option}">${option}</option>`;
+            });
+            
+            exerciseItem.innerHTML = `
+                <span class="exercise-number">${index + 1}</span>
+                <div class="sentence">${exercise.sentence}</div>
+                <select id="exercise${index}" data-correct="${exercise.correct}">
+                    <option value="">Choose...</option>
+                    ${optionsHTML}
+                </select>
+                <span class="feedback" id="feedback${index}"></span>
+                <span class="rule-explanation" id="explanation${index}"></span>
+            `;
+            exerciseContainer.appendChild(exerciseItem);
+        });
+
+        // Check answers button
+        document.getElementById('checkBtn').addEventListener('click', checkAnswers);
+        
+        // Reset button
+        document.getElementById('resetBtn').addEventListener('click', resetExercise);
+        
+        function checkAnswers() {
+            let score = 0;
+            const total = exercises.length;
+            
+            // Check each answer
+            exercises.forEach((exercise, index) => {
+                const select = document.getElementById(`exercise${index}`);
+                const feedback = document.getElementById(`feedback${index}`);
+                const explanation = document.getElementById(`explanation${index}`);
+                const userAnswer = select.value;
+                const correctAnswer = exercise.correct;
+                
+                // Clear previous styling
+                select.classList.remove('correct', 'incorrect');
+                feedback.classList.remove('correct-feedback', 'incorrect-feedback');
+                feedback.textContent = '';
+                feedback.style.display = 'none';
+                explanation.textContent = '';
+                
+                // Check if answer is correct
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    select.classList.add('correct');
+                    feedback.textContent = `✓ Correct!`;
+                    feedback.classList.add('correct-feedback');
+                    feedback.style.display = 'inline';
+                    explanation.textContent = exercise.explanation;
+                } else if (userAnswer === '') {
+                    select.classList.add('incorrect');
+                    feedback.textContent = `✗ Please select an answer.`;
+                    feedback.classList.add('incorrect-feedback');
+                    feedback.style.display = 'inline';
+                    explanation.textContent = `The correct answer is "${exercise.correct}" - ${exercise.explanation}`;
+                } else {
+                    select.classList.add('incorrect');
+                    feedback.textContent = `✗ Incorrect`;
+                    feedback.classList.add('incorrect-feedback');
+                    feedback.style.display = 'inline';
+                    explanation.textContent = `The correct answer is "${exercise.correct}" - ${exercise.explanation}`;
+                }
+            });
+            
+            // Calculate percentage
+            const percentage = Math.round((score / total) * 100);
+            
+            // Display score
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const percentageDisplay = document.getElementById('percentageDisplay');
+            const correctDisplay = document.getElementById('correctDisplay');
+            const wrongDisplay = document.getElementById('wrongDisplay');
+            const totalDisplay = document.getElementById('totalDisplay');
+            const progressFill = document.getElementById('progressFill');
+            const scoreMessage = document.getElementById('scoreMessage');
+            const scoreContainer = document.getElementById('scoreContainer');
+            
+            // Update score displays
+            scoreDisplay.textContent = `${score}/${total}`;
+            percentageDisplay.textContent = `${percentage}%`;
+            correctDisplay.textContent = score;
+            wrongDisplay.textContent = total - score;
+            totalDisplay.textContent = total;
+            
+            // Animate progress bar
+            progressFill.style.width = `${percentage}%`;
+            
+            // Update progress bar color based on percentage
+            if (percentage >= 90) {
+                progressFill.style.backgroundColor = "#2ecc71";
+            } else if (percentage >= 70) {
+                progressFill.style.backgroundColor = "#3498db";
+            } else if (percentage >= 50) {
+                progressFill.style.backgroundColor = "#f39c12";
+            } else {
+                progressFill.style.backgroundColor = "#e74c3c";
+            }
+            
+            scoreContainer.classList.remove('hidden');
+            
+            // Custom message based on score
+            if (score === total) {
+                scoreMessage.textContent = "Perfect! You've mastered 'some' and 'any'! 🎉";
+                scoreDisplay.style.color = "#2ecc71";
+                percentageDisplay.style.color = "#2ecc71";
+            } else if (percentage >= 90) {
+                scoreMessage.textContent = "Excellent! You understand 'some' and 'any' very well!";
+                scoreDisplay.style.color = "#2ecc71";
+                percentageDisplay.style.color = "#2ecc71";
+            } else if (percentage >= 70) {
+                scoreMessage.textContent = "Good job! You know how to use 'some' and 'any' correctly.";
+                scoreDisplay.style.color = "#3498db";
+                percentageDisplay.style.color = "#3498db";
+            } else if (percentage >= 50) {
+                scoreMessage.textContent = "Not bad! Review the rules and try again.";
+                scoreDisplay.style.color = "#f39c12";
+                percentageDisplay.style.color = "#f39c12";
+            } else {
+                scoreMessage.textContent = "Keep practicing! Remember the rules for 'some' and 'any'.";
+                scoreDisplay.style.color = "#e74c3c";
+                percentageDisplay.style.color = "#e74c3c";
+            }
+            
+            // Scroll to score for better UX
+            scoreContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function resetExercise() {
+            // Clear all selections
+            exercises.forEach((exercise, index) => {
+                const select = document.getElementById(`exercise${index}`);
+                const feedback = document.getElementById(`feedback${index}`);
+                const explanation = document.getElementById(`explanation${index}`);
+                
+                select.value = '';
+                select.classList.remove('correct', 'incorrect');
+                feedback.textContent = '';
+                feedback.classList.remove('correct-feedback', 'incorrect-feedback');
+                feedback.style.display = 'none';
+                explanation.textContent = '';
+            });
+            
+            // Reset progress bar
+            document.getElementById('progressFill').style.width = '0%';
+            
+            // Hide score container
+            document.getElementById('scoreContainer').classList.add('hidden');
+            
+            // Focus on first select
+            document.getElementById('exercise0').focus();
+        }
+        
+        // Allow pressing Enter to check answers
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                checkAnswers();
+            }
+        });
+        
+        // Focus on first select on page load
+        window.onload = function() {
+            document.getElementById('exercise0').focus();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Identify the Noun</title>
+<style>
+  body { font-family: system-ui, sans-serif; background:#f7f7f7; padding:10px; text-align: center; }
+  .container { max-width: 600px; margin: 0 auto; }
+  .q { background:#fff; padding:10px; margin-bottom:10px; border-radius:8px; text-align: left; }
+  .word { 
+    padding:2px 4px; 
+    cursor:pointer; 
+    border-radius:4px; 
+    display:inline-block;
+    transition: background-color 0.2s;
+  }
+  /* Hanya beri hover jika belum ada warna */
+  .word:not(.correct):not(.wrong):hover { 
+    background:#eee 
+  }
+  .correct { background:#c8f7c5 }
+  .wrong { background:#f7c5c5 }
+  #reset-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  #reset-btn:hover {
+    background: #45a049;
+  }
+  .instructions {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  .score-container {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .score {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2e7d32;
+  }
+  .score-details {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h3>Identify the Noun</h3>
+  <p>Click on the nouns in each sentence.</p>
+  <p class="instructions">You can click on more than one noun in each sentence.</p>
+
+  <div class="score-container">
+    <div class="score">Score: <span id="score-value">0%</span></div>
+    <div class="score-details" id="score-details">Click nouns to start scoring</div>
+  </div>
+
+  <div class="q" data-nouns="2">
+  1. The <span class="word" onclick="check(this,false)">sleeps</span> 
+  <span class="word" onclick="check(this,true)">cat</span> on the 
+  <span class="word" onclick="check(this,true)">chair</span>.
+  </div>
+
+  <div class="q" data-nouns="3">
+  2. My <span class="word" onclick="check(this,true)">sister</span> 
+  <span class="word" onclick="check(this,false)">buys</span> a new 
+  <span class="word" onclick="check(this,true)">bag</span> at the 
+  <span class="word" onclick="check(this,true)">market</span>.
+  </div>
+
+  <div class="q" data-nouns="3">
+  3. The <span class="word" onclick="check(this,true)">teacher</span> 
+  <span class="word" onclick="check(this,false)">opens</span> the 
+  <span class="word" onclick="check(this,true)">book</span> on the 
+  <span class="word" onclick="check(this,true)">table</span>.
+  </div>
+
+  <div class="q" data-nouns="2">
+  4. A <span class="word" onclick="check(this,true)">dog</span> 
+  <span class="word" onclick="check(this,false)">runs</span> across the 
+  <span class="word" onclick="check(this,true)">yard</span>.
+  </div>
+
+  <div class="q" data-nouns="4">
+  5. The <span class="word" onclick="check(this,true)">boy</span> 
+  <span class="word" onclick="check(this,false)">drinks</span> a 
+  <span class="word" onclick="check(this,true)">glass</span> of 
+  <span class="word" onclick="check(this,true)">milk</span> after 
+  <span class="word" onclick="check(this,true)">school</span>.
+  </div>
+
+  <div class="q" data-nouns="2">
+  6. <span class="word" onclick="check(this,false)">We</span> 
+  <span class="word" onclick="check(this,false)">clean</span> the 
+  <span class="word" onclick="check(this,true)">classroom</span> before the 
+  <span class="word" onclick="check(this,true)">lesson</span> 
+  <span class="word" onclick="check(this,false)">starts</span>.
+  </div>
+
+  <div class="q" data-nouns="3">
+  7. His <span class="word" onclick="check(this,true)">father</span> 
+  <span class="word" onclick="check(this,false)">fixes</span> the 
+  <span class="word" onclick="check(this,true)">bicycle</span> in the 
+<span class="word" onclick="check(this,true)">garage</span>.
+  </div>
+
+  <div class="q" data-nouns="2">
+  8. The <span class="word" onclick="check(this,true)">clock</span> on the 
+  <span class="word" onclick="check(this,true)">wall</span> 
+  <span class="word" onclick="check(this,false)">is</span> 
+  <span class="word" onclick="check(this,false)">old</span>.
+  </div>
+
+  <div class="q" data-nouns="2">
+  9. <span class="word" onclick="check(this,false)">She</span> 
+  <span class="word" onclick="check(this,false)">puts</span> her 
+  <span class="word" onclick="check(this,true)">shoes</span> under the 
+  <span class="word" onclick="check(this,true)">bed</span>.
+  </div>
+
+  <div class="q" data-nouns="3">
+  10. The <span class="word" onclick="check(this,true)">farmer</span> 
+  <span class="word" onclick="check(this,false)">feeds</span> the 
+  <span class="word" onclick="check(this,true)">chickens</span> behind the 
+  <span class="word" onclick="check(this,true)">house</span>.
+  </div>
+
+  <button id="reset-btn" onclick="resetAll()">Do it again</button>
+</div>
+
+<script>
+// Data untuk melacak jawaban
+let scoreData = {
+  totalNouns: 0,
+  correctClicks: 0,
+  wrongClicks: 0
+};
+
+// Hitung total nouns saat halaman dimuat
+function calculateTotalNouns() {
+  const questions = document.querySelectorAll('.q');
+  let total = 0;
+  questions.forEach(q => {
+    total += parseInt(q.getAttribute('data-nouns'));
+  });
+  scoreData.totalNouns = total;
+  return total;
+}
+
+// Inisialisasi total nouns
+calculateTotalNouns();
+
+function check(el, isNoun) {
+  // Hanya ubah warna kata yang diklik
+  if (isNoun) {
+    el.classList.add('correct');
+    el.classList.remove('wrong');
+    scoreData.correctClicks++;
+  } else {
+    el.classList.add('wrong');
+    el.classList.remove('correct');
+    scoreData.wrongClicks++;
+  }
+  
+  // Update score
+  updateScore();
+}
+
+function updateScore() {
+  const totalClicks = scoreData.correctClicks + scoreData.wrongClicks;
+  const maxPossibleScore = scoreData.totalNouns;
+  
+  // Hitung persentase (hanya berdasarkan jawaban benar dari total nouns)
+  let percentage = 0;
+  if (maxPossibleScore > 0) {
+    // Membatasi correctClicks tidak lebih dari totalNouns
+    const actualCorrect = Math.min(scoreData.correctClicks, maxPossibleScore);
+    percentage = Math.round((actualCorrect / maxPossibleScore) * 100);
+  }
+  
+  // Update tampilan score
+  document.getElementById('score-value').textContent = `${percentage}%`;
+  
+  // Update detail score
+  const details = document.getElementById('score-details');
+  details.textContent = `${scoreData.correctClicks} correct, ${scoreData.wrongClicks} wrong (${scoreData.totalNouns} total nouns)`;
+  
+  // Ubah warna berdasarkan score
+  const scoreElement = document.getElementById('score-value');
+  if (percentage === 100) {
+    scoreElement.style.color = '#2e7d32'; // Hijau untuk perfect score
+    details.innerHTML += ' <strong>Perfect! 🎉</strong>';
+  } else if (percentage >= 70) {
+    scoreElement.style.color = '#4CAF50'; // Hijau muda untuk score bagus
+  } else if (percentage >= 50) {
+    scoreElement.style.color = '#ff9800'; // Orange untuk score sedang
+  } else {
+    scoreElement.style.color = '#f44336'; // Merah untuk score rendah
+  }
+}
+
+function resetAll() {
+  // Hapus semua kelas warna
+  const words = document.querySelectorAll('.word');
+  words.forEach(word => {
+    word.classList.remove('correct', 'wrong');
+  });
+  
+  // Reset score data
+  scoreData.correctClicks = 0;
+  scoreData.wrongClicks = 0;
+  
+  // Update score display
+  updateScore();
+}
+
+// Inisialisasi score saat pertama kali load
+updateScore();
+</script>
+
+</body>
+</html>
