@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G5 English Program Monthly Assessment 1• Part A</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #d0e2f2;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            padding: 10px 8px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .paper {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 25px rgba(0, 30, 60, 0.2);
+            padding: 18px 14px;
+        }
+        h1 {
+            font-size: 1.7rem;
+            color: #123b54;
+            margin: 0 0 2px 5px;
+        }
+        .sub {
+            font-size: 0.9rem;
+            color: #34675c;
+            margin-left: 8px;
+            margin-bottom: 15px;
+        }
+        .score-panel {
+            background: #e2edfb;
+            border-radius: 40px;
+            padding: 12px 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 10px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            scroll-margin-top: 20px;
+        }
+        .score-item {
+            background: white;
+            border-radius: 30px;
+            padding: 4px 14px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #114b66;
+            box-shadow: 0 1px 4px #b0c8dd;
+        }
+        .part {
+            background: #f5faff;
+            border-radius: 24px;
+            padding: 18px 12px 22px;
+            margin: 25px 0 18px;
+            border: 1px solid #c0d6ed;
+        }
+        .part h2 {
+            background: #205882;
+            color: white;
+            display: inline-block;
+            padding: 5px 24px;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            margin-top: -34px;
+            margin-bottom: 16px;
+        }
+        
+        /* PART A - grid kompak */
+        .grid-a {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .qcard {
+            background: white;
+            border-radius: 18px;
+            padding: 12px 14px;
+            border: 1px solid #d0e2f5;
+            font-size: 0.95rem;
+        }
+        .qnum {
+            font-weight: 700;
+            color: #003f66;
+            margin-right: 5px;
+        }
+        .stem {
+            line-height: 1.4;
+        }
+        .ops {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+            margin-top: 10px;
+        }
+        .ops label {
+            background: #ecf3fc;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .fb {
+            margin-left: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+
+        /* CLOZE KOMPAK */
+        .cloze-block {
+            background: #fffcf0;
+            border-radius: 24px;
+            padding: 16px 12px;
+            margin: 20px 0 15px;
+            border: 2px solid #c0b28b;
+        }
+        .reading {
+            font-size: 1rem;
+            line-height: 1.8;
+            background: #fffcf0;
+            padding: 12px 8px;
+            border-radius: 20px;
+            word-break: break-word;
+            text-align: justify;
+        }
+        .inline-input {
+            display: inline-block;
+            width: auto;
+            min-width: 48px;
+            max-width: 70px;
+            margin: 0 1px;
+            vertical-align: middle;
+            position: relative;
+        }
+        .inline-input input {
+            width: 100%;
+            padding: 4px 4px;
+            border: 1.5px solid #5f8bb3;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            text-align: center;
+            background: white;
+            font-weight: 500;
+            height: 28px;
+        }
+        .inline-input input.correct {
+            background: #e3f7e3;
+            border-color: #2a7f4a;
+        }
+        .inline-feedback {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-left: 1px;
+            min-width: 16px;
+        }
+        .inline-feedback.correct { color: #12874b; }
+        .inline-feedback.wrong { color: #c13a3a; }
+        
+        .wordbank {
+            background: #e0dcc0;
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            margin: 10px 0 8px;
+            font-weight: 600;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 16px;
+            border: 2px dashed #7f6e4e;
+        }
+        
+        .check-bottom {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 8px;
+        }
+        .btn-large {
+            background: #1e4e73;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            width: 100%;
+            max-width: 300px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px #708090;
+        }
+        .btn-small {
+            background: white;
+            border: 1px solid #2c6085;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G5 Monthly Assessment 1</h1>
+    <div class="sub">GB-EB • Part A (20 Questions)</div>
+
+    <!-- Score panel dengan ID untuk di-scroll -->
+    <div class="score-panel" id="scorePanel">
+        <span class="score-item">A <span id="scoreA">0</span>/20</span>
+        <span class="score-item">B <span id="scoreB">0</span>/20</span>
+        <span class="score-item">total <span id="scoreTotal">0</span>/40</span>
+        <button class="btn-small" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <!-- PART A -->
+    <div class="part">
+        <h2>🔹 PART A</h2>
+        <div class="grid-a" id="partAList"></div>
+    </div>
+
+    <!-- PART B -->
+    <div class="part">
+        <h2>🔸 PART B – CLOZE</h2>
+
+        <!-- TEXT 1 -->
+        <div class="cloze-block">
+            <div style="font-weight:700; margin-bottom:4px;">📖 Text 1: A visit from an uncle</div>
+            <div class="wordbank">📌 BANK: in, was, were, before, of, to, with, is, which, us</div>
+            <div class="reading" id="text1Inline"></div>
+        </div>
+
+        <!-- TEXT 2 -->
+        <div class="cloze-block">
+            <div style="font-weight:700; margin-bottom:4px;">📖 Text 2: The old woman who lived in a shoe</div>
+            <div class="wordbank">📌 BANK: lesson, comfortable, somewhere, nearby, quietly, cruel, insulting, lived, nowhere, silly, miserable, furiously</div>
+            <div class="reading" id="text2Inline"></div>
+        </div>
+    </div>
+
+    <!-- TOMBOL PERIKSA di BAWAH (setelah diklik akan scroll ke atas) -->
+    <div class="check-bottom">
+        <button class="btn-large" id="checkBtn">🔍 Check Answers</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- PART A (20 soal, dengan perbaikan Q6) ----------
+        const partA = [
+            { stem: "Which of the following is a proper noun?", opts: ["school", "bicycle", "Scotland", "mountain"], correct: 2 },
+            { stem: "Identify the noun in this sentence: The man is driving a car.", opts: ["is", "driving", "car", "slowly"], correct: 2 },
+            { stem: "The ______ fell down just now.", opts: ["leaf", "leafs", "leaves", "leafs"], correct: 2 },
+            { stem: "There are many ______ playing in the field.", opts: ["child", "childs", "children", "childrens"], correct: 2 },
+            { stem: "The ______ is buying vegetables.", opts: ["lady", "ladys", "ladies", "lady's"], correct: 0 },
+            { stem: "The farmer has a gaggle of ______.", opts: ["goose", "gooses", "geese", "geeses"], correct: 2 }, // diperbaiki: goose, gooses, geese, geeses
+            { stem: "Julie has ______ toys.", opts: ["many", "much", "a little", "any"], correct: 0 },
+            { stem: "Pick out the uncountable noun.", opts: ["oil", "bicycle", "flower", "stick"], correct: 0 },
+            { stem: "There are only ______ visitors.", opts: ["a few", "a little", "many", "much"], correct: 0 },
+            { stem: "We sang to a ______ of spectators.", opts: ["choir", "team", "crowd", "group"], correct: 2 },
+            { stem: "A ______ of players.", opts: ["herd", "team", "bouquet", "pack"], correct: 1 },
+            { stem: "I eat ______ apple a day.", opts: ["a", "an", "the", "-"], correct: 1 },
+            { stem: "I met him at ______ Anson Road.", opts: ["a", "an", "the", "-"], correct: 3 },
+            { stem: "I have a doll. ______ doll is pretty.", opts: ["A", "An", "The", "-"], correct: 2 },
+            { stem: "This is ______ pen.", opts: ["Mark", "Mark's", "Marks", "Marks'"], correct: 1 },
+            { stem: "Three of the ______ bags are stolen.", opts: ["visitor", "visitor's", "visitors", "visitors'"], correct: 3 },
+            { stem: "Mother is busy. We must clean ______ room.", opts: ["her", "hers", "she", "she's"], correct: 0 },
+            { stem: "Janica claims that the purse is ______.", opts: ["her", "hers", "she", "mine"], correct: 1 },
+            { stem: "Which word belongs to the feminine gender?", opts: ["actor", "actress", "waiter", "king"], correct: 1 },
+            { stem: "What is the feminine gender of 'Prince'?", opts: ["Princess", "Prince", "Princesses", "Princes"], correct: 0 }
+        ];
+
+        // Kunci Part B (10 + 10) - Text 2: (5) cruel, (8) cruel (sesuai PDF)
+        const t1Keys = ["us", "in", "was", "with", "is", "before", "were", "of", "which", "to"];
+        const t2Keys = ["lived", "comfortable", "nearby", "silly", "cruel", "miserable", "nowhere", "insulting", "quietly", "lesson"];
+
+        // RENDER PART A
+        const aContainer = document.getElementById('partAList');
+        function renderPartA() {
+            let html = '';
+            partA.forEach((q, idx) => {
+                html += `<div class="qcard">
+                    <span class="qnum">Q${idx+1}.</span> <span class="stem">${q.stem}</span>
+                    <div class="ops">`;
+                q.opts.forEach((opt, optIdx) => {
+                    html += `<label><input type="radio" name="q${idx}" value="${optIdx}"> ${opt}</label>`;
+                });
+                html += `</div><span class="fb" id="fbA${idx}"></span></div>`;
+            });
+            aContainer.innerHTML = html;
+        }
+        renderPartA();
+
+        // MEMBANGUN TEKS INLINE
+        const text1Parts = [
+            "My uncle came to visit ", "(1)", " last week. He lives ", "(2)", " the heart of London and ", "(3)", " in Singapore on business. He brought a friend ", "(4)", " him. His friend's name ", "(5)", " Mr. Roberts. The week ", "(6)", " his visit, we ", "(7)", " busy preparing the guestrooms and cleaning the house. On the day ", "(8)", " their arrival, my mother cooked a great meal. It was an eight‑course meal, ", "(9)", " everyone said was delicious. My mother was very happy and asked my uncle and his friend ", "(10)", " visit us again soon."
+        ];
+        const text2Parts = [
+            "Once upon a time, there was an old woman who ", "(1)", " in a shoe. This must have been very difficult for her because living in a shoe was not ", "(2)", " at all. One day, she went out and there were some children playing in the street ", "(3)", ". They began shouting at her. \"You ", "(4)", " old woman, why do you live in a shoe?\" they shouted. They were very ", "(5)", " to the old woman. I don't know why the old woman had to live in a shoe, but she must have been very ", "(6)", ", and it was not nice to make fun of an old woman who had ", "(7)", " to live. But children could be very ", "(8)", " sometimes. However, the old woman did not just take their insults ", "(9)", ". She became very angry and, waving her cane at them, she shouted, \"I will teach you all a good ", "(10)", " in manners!\""
+        ];
+
+        function buildClozeHtml(partsArray, prefix) {
+            let html = '';
+            for (let i = 0; i < partsArray.length; i++) {
+                const part = partsArray[i];
+                if (part.startsWith('(') && part.endsWith(')')) {
+                    const blankIndex = parseInt(part.match(/\d+/)[0]) - 1;
+                    html += `<span class="inline-input">`;
+                    html += `<input type="text" id="${prefix}_${blankIndex}" placeholder="${blankIndex+1}" autocomplete="off">`;
+                    html += `<span class="inline-feedback" id="fb_${prefix}_${blankIndex}"></span>`;
+                    html += `</span>`;
+                } else {
+                    html += part;
+                }
+            }
+            return html;
+        }
+
+        document.getElementById('text1Inline').innerHTML = buildClozeHtml(text1Parts, 't1');
+        document.getElementById('text2Inline').innerHTML = buildClozeHtml(text2Parts, 't2');
+
+        // FUNGSI CHECK + SCROLL KE ATAS
+        function hitungSkorDanScroll() {
+            // Part A
+            let skorA = 0;
+            for (let i=0; i<20; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                const fb = document.getElementById(`fbA${i}`);
+                if (selected !== null && parseInt(selected) === partA[i].correct) {
+                    fb.innerText = '✓'; fb.className = 'fb correct'; skorA++;
+                } else {
+                    const benar = partA[i].opts[partA[i].correct];
+                    fb.innerText = selected ? `✗ (${benar})` : `(answer: ${benar})`;
+                    fb.className = 'fb wrong';
+                }
+            }
+
+            // Part B text1
+            let skorB = 0;
+            for (let i=0; i<10; i++) {
+                const inp = document.getElementById(`t1_${i}`);
+                const fb = document.getElementById(`fb_t1_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = t1Keys[i];
+                    if (val === benar.toLowerCase()) {
+                        fb.innerText = '✓'; fb.className = 'inline-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`;
+                        fb.className = 'inline-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+            // text2
+            for (let i=0; i<10; i++) {
+                const inp = document.getElementById(`t2_${i}`);
+                const fb = document.getElementById(`fb_t2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = t2Keys[i];
+                    if (val === benar.toLowerCase()) {
+                        fb.innerText = '✓'; fb.className = 'inline-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`;
+                        fb.className = 'inline-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+
+            // SCROLL KE ATAS (ke score panel)
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetSemua() {
+            for (let i=0; i<20; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                radios.forEach(r => r.checked = false);
+                document.getElementById(`fbA${i}`).innerText = '';
+            }
+            for (let i=0; i<10; i++) {
+                const inp1 = document.getElementById(`t1_${i}`);
+                if (inp1) { inp1.value = ''; inp1.classList.remove('correct'); document.getElementById(`fb_t1_${i}`).innerText = ''; }
+                const inp2 = document.getElementById(`t2_${i}`);
+                if (inp2) { inp2.value = ''; inp2.classList.remove('correct'); document.getElementById(`fb_t2_${i}`).innerText = ''; }
+            }
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', hitungSkorDanScroll);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>
