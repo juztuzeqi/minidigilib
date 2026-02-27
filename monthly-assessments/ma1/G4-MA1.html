@@ -120,7 +120,7 @@
         .fb.correct { color: #1f8b4c; }
         .fb.wrong { color: #c13a3a; }
 
-        /* Fill-in style - satu kalimat utuh */
+        /* Fill-in style - nomor tetap di atas */
         .fill-block {
             background: #fffcf0;
             border-radius: 24px;
@@ -128,29 +128,39 @@
             margin: 15px 0 10px;
             border: 2px solid #c0b28b;
         }
+        
         .fill-item {
-            margin: 16px 0;
+            margin: 20px 0;
             display: flex;
-            align-items: center;
+            align-items: flex-start;  /* Nomor tetap di atas */
             gap: 10px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
+        
         .fill-item .qnum {
             font-weight: 700;
             color: #003f66;
-            min-width: 35px;
+            min-width: 40px;
+            font-size: 1rem;
+            line-height: 1.5;
+            flex-shrink: 0;
         }
-        .sentence {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 5px;
+        
+        .fill-content {
             flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            line-height: 1.5;
         }
+        
         .inline-input {
             display: inline-block;
-            width: 120px;
+            width: 100px;
+            flex-shrink: 0;
         }
+        
         .inline-input input {
             width: 100%;
             padding: 8px 12px;
@@ -160,15 +170,28 @@
             text-align: center;
             background: white;
         }
+        
         .inline-input input.correct {
             background: #e3f7e3;
             border-color: #2a7f4a;
         }
+        
+        .options-hint {
+            color: #5a6e7c;
+            font-style: italic;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            margin-left: 5px;
+        }
+        
         .fill-feedback {
             font-weight: 700;
             font-size: 0.9rem;
             min-width: 70px;
+            text-align: right;
+            flex-shrink: 0;
         }
+        
         .fill-feedback.correct { color: #1f8b4c; }
         .fill-feedback.wrong { color: #c13a3a; }
         
@@ -257,7 +280,7 @@
         
         <div class="fill-block" id="faceContainer"></div>
         
-        <!-- B.2 Verb Agreement (8 soal) -->
+        <!-- B.2 Verb Agreement (8 soal) dengan petunjuk -->
         <div style="font-weight:600; margin:30px 0 15px;">B.2 Verb Agreement</div>
         <div class="fill-block" id="b1Container"></div>
     </div>
@@ -285,50 +308,48 @@
 
         // A.2 Pronouns
         const a2Sentences = [
-            { text: "The cat is playing. ______ is not eating.", correct: "It" },
-            { text: "My brother is reading. ______ is not sleeping.", correct: "He" },
-            { text: "I ______ a girl. My name is Rose.", correct: "am" },
-            { text: "May I eat the cake? Yes ______ may.", correct: "you" },
-            { text: "The children are playing. ______ are enjoying themselves.", correct: "They" }
+            { before: "The cat is playing. ", after: " is not eating.", correct: "It" },
+            { before: "My brother is reading. ", after: " is not sleeping.", correct: "He" },
+            { before: "I ", after: " a girl. My name is Rose.", correct: "am" },
+            { before: "May I eat the cake? Yes ", after: " may.", correct: "you" },
+            { before: "The children are playing. ", after: " are enjoying themselves.", correct: "They" }
         ];
 
         // A.3 is/am/are/was/were
         const a3Sentences = [
-            { text: "My uncle ______ very old.", correct: "is" },
-            { text: "My baby brother ______ very cute.", correct: "is" },
-            { text: "I ______ sick yesterday.", correct: "was" },
-            { text: "The children ______ studying for their exam last week.", correct: "were" },
-            { text: "The kitten ______ eating their food when you called.", correct: "was" }
+            { before: "My uncle ", after: " very old.", correct: "is" },
+            { before: "My baby brother ", after: " very cute.", correct: "is" },
+            { before: "I ", after: " sick yesterday.", correct: "was" },
+            { before: "The children ", after: " studying for their exam last week.", correct: "were" },
+            { before: "The kitten ", after: " eating their food when you called.", correct: "was" }
         ];
 
-        // =====================================================
         // B.1 Parts of the Face (12 soal - lebih natural)
-        // =====================================================
         const faceSentences = [
-            { text: "👁️ We see with our ______ .", correct: "eye" },
-            { text: "⬆️ Above the eye is the ______ .", correct: "eyebrow" },
-            { text: "👃 We smell with our ______ .", correct: "nose" },
-            { text: "😊 We have ______ on our face.", correct: "cheek" },
-            { text: "👄 We speak with our ______ .", correct: "mouth" },
-            { text: "👄 We have upper and lower ______ .", correct: "lip" },
-            { text: "😁 I brush my ______ every day.", correct: "tooth" },
-            { text: "👅 We taste with our ______ .", correct: "tongue" },
-            { text: "👇 This is our ______ . (below mouth)", correct: "chin" },
-            { text: "👂 We hear with our ______ .", correct: "ear" },
-            { text: "🧣 We wear scarf around our ______ .", correct: "neck" },
-            { text: "💇 We comb our ______ every morning.", correct: "hair" }
+            { before: "👁️ We see with our ", after: " .", correct: "eye" },
+            { before: "⬆️ Above the eye is the ", after: " .", correct: "eyebrow" },
+            { before: "👃 We smell with our ", after: " .", correct: "nose" },
+            { before: "😊 We have ", after: " on our face.", correct: "cheek" },
+            { before: "👄 We speak with our ", after: " .", correct: "mouth" },
+            { before: "👄 We have upper and lower ", after: " .", correct: "lip" },
+            { before: "😁 I brush my ", after: " every day.", correct: "tooth" },
+            { before: "👅 We taste with our ", after: " .", correct: "tongue" },
+            { before: "👇 This is our ", after: " . (below mouth)", correct: "chin" },
+            { before: "👂 We hear with our ", after: " .", correct: "ear" },
+            { before: "🧣 We wear scarf around our ", after: " .", correct: "neck" },
+            { before: "💇 We comb our ", after: " every morning.", correct: "hair" }
         ];
 
-        // B.2 verb choice (8 items)
+        // B.2 verb choice (8 items) dengan petunjuk
         const b1Sentences = [
-            { text: "I ______ my mother.", correct: "love" },
-            { text: "My Dad teaches me to ______ the bicycle.", correct: "ride" },
-            { text: "My baby brother ______ in the cot.", correct: "sleeps" },
-            { text: "Can I help you ______ a cake, Mother?", correct: "bake" },
-            { text: "I like to ______ with my cousins.", correct: "play" },
-            { text: "______ you going to the market?", correct: "Are" },
-            { text: "We like to ______ the car.", correct: "wash" },
-            { text: "They ______ the house every day.", correct: "clean" }
+            { before: "I ", after: " my mother.", hint: "(love / loves)", correct: "love" },
+            { before: "My Dad teaches me to ", after: " the bicycle.", hint: "(ride / rides)", correct: "ride" },
+            { before: "My baby brother ", after: " in the cot.", hint: "(sleep / sleeps)", correct: "sleeps" },
+            { before: "Can I help you ", after: " a cake, Mother?", hint: "(bake / bakes)", correct: "bake" },
+            { before: "I like to ", after: " with my cousins.", hint: "(play / plays)", correct: "play" },
+            { before: "", after: " you going to the market?", hint: "(Are / Is)", correct: "Are" },
+            { before: "We like to ", after: " the car.", hint: "(wash / washes)", correct: "wash" },
+            { before: "They ", after: " the house every day.", hint: "(clean / cleans)", correct: "clean" }
         ];
 
         // Render MCQs
@@ -347,20 +368,20 @@
         }
         renderMC();
 
-        // Render fill items
-        function renderFillItems(containerId, sentences, prefix) {
+        // Render fill items - dengan layout FIX (nomor di atas)
+        function renderFillItems(containerId, sentences, prefix, showHint = false) {
             const container = document.getElementById(containerId);
             let html = '';
             sentences.forEach((s, idx) => {
-                const parts = s.text.split('______');
                 html += `<div class="fill-item">
                     <span class="qnum">Q${idx+1}.</span>
-                    <div class="sentence">
-                        <span>${parts[0]}</span>
+                    <div class="fill-content">
+                        <span class="fill-text">${s.before}</span>
                         <span class="inline-input">
-                            <input type="text" id="${prefix}_${idx}" placeholder="type here" autocomplete="off">
+                            <input type="text" id="${prefix}_${idx}" placeholder="answer" autocomplete="off">
                         </span>
-                        <span>${parts[1] || ''}</span>
+                        <span class="fill-text">${s.after}</span>
+                        ${s.hint ? `<span class="options-hint">${s.hint}</span>` : ''}
                     </div>
                     <span class="fill-feedback" id="fb_${prefix}_${idx}"></span>
                 </div>`;
@@ -371,7 +392,7 @@
         renderFillItems('a2Container', a2Sentences, 'a2');
         renderFillItems('a3Container', a3Sentences, 'a3');
         renderFillItems('faceContainer', faceSentences, 'face');
-        renderFillItems('b1Container', b1Sentences, 'b1');
+        renderFillItems('b1Container', b1Sentences, 'b1', true);
 
         // Fungsi scoring
         function hitungSkorDanScroll() {
