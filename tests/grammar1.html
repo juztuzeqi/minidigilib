@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar Test - Grade 1</title>
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+      background: #f0f8ff;
+    }
+    
+    h1 {
+      color: #2196F3;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .question-box {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      border-left: 5px solid #2196F3;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .question-number {
+      background: #2196F3;
+      color: white;
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .options {
+      margin: 15px 0;
+    }
+    
+    .option {
+      padding: 10px;
+      margin: 8px 0;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      background: white;
+    }
+    
+    .option:hover {
+      background: #f0f8ff;
+    }
+    
+    .selected {
+      border-color: #2196F3;
+      background: #e3f2fd;
+    }
+    
+    button {
+      padding: 10px 20px;
+      background: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px;
+    }
+    
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 15px;
+      background: #666;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📚 Grammar Test - Grade 1</h1>
+  
+  <div class="question-box">
+    <div class="question-number">Question 1</div>
+    <p>I ___ a student.</p>
+    <div class="options">
+      <div class="option" onclick="selectAnswer(1, 'a')">a) am</div>
+      <div class="option" onclick="selectAnswer(1, 'b')">b) is</div>
+      <div class="option" onclick="selectAnswer(1, 'c')">c) are</div>
+    </div>
+  </div>
+  
+  <div class="question-box">
+    <div class="question-number">Question 2</div>
+    <p>This ___ my book.</p>
+    <div class="options">
+      <div class="option" onclick="selectAnswer(2, 'a')">a) am</div>
+      <div class="option" onclick="selectAnswer(2, 'b')">b) is</div>
+      <div class="option" onclick="selectAnswer(2, 'c')">c) are</div>
+    </div>
+  </div>
+  
+  <button onclick="checkAnswers()">Submit Answers</button>
+  
+  <br>
+  <a href="grammar.html" class="back-btn">← Back to Grade Selection</a>
+  
+  <script>
+    let answers = {};
+    
+    function selectAnswer(question, choice) {
+      // Remove selection from all options in this question
+      const options = document.querySelectorAll(`.question-box:nth-child(${question + 1}) .option`);
+      options.forEach(opt => opt.classList.remove('selected'));
+      
+      // Mark selected option
+      event.target.classList.add('selected');
+      answers[question] = choice;
+    }
+    
+    function checkAnswers() {
+      const totalQuestions = 2;
+      let score = 0;
+      
+      // Check answers (example)
+      if(answers[1] === 'a') score++;
+      if(answers[2] === 'b') score++;
+      
+      alert(`You got ${score} out of ${totalQuestions} correct!`);
+    }
+  </script>
+</body>
+</html>

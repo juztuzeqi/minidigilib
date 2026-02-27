@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar Test - Grade 5</title>
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      background: #f0f8ff;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      color: #2196F3;
+      margin-bottom: 5px;
+    }
+    
+    /* CONTROLS BAR */
+    .top-controls {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .score-display {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2196F3;
+    }
+    
+    /* QUESTION NAVIGATION */
+    .question-nav {
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .nav-btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      background: #f0f8ff;
+      color: #2196F3;
+      border: 2px solid #2196F3;
+    }
+    
+    .nav-btn:hover:not(:disabled) {
+      background: #2196F3;
+      color: white;
+    }
+    
+    .nav-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .question-counter {
+      font-weight: bold;
+      color: #333;
+    }
+    
+    /* QUESTION BOX */
+    .question-box {
+      background: white;
+      padding: 25px;
+      margin: 20px 0;
+      border-radius: 10px;
+      border-left: 6px solid #2196F3;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+    
+    .question-number {
+      background: #2196F3;
+      color: white;
+      display: inline-block;
+      padding: 8px 15px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .question-text {
+      font-size: 20px;
+      margin: 20px 0;
+      color: #333;
+      line-height: 1.5;
+    }
+    
+    /* OPTIONS */
+    .options {
+      margin: 20px 0;
+    }
+    
+    .option {
+      padding: 15px;
+      margin: 10px 0;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      background: white;
+      transition: all 0.2s;
+      font-size: 17px;
+    }
+    
+    .option:hover {
+      background: #f5faff;
+      border-color: #bbdefb;
+    }
+    
+    .selected {
+      border-color: #2196F3;
+      background: #e3f2fd;
+      font-weight: bold;
+    }
+    
+    .correct {
+      border-color: #4CAF50;
+      background: #e8f5e9;
+    }
+    
+    .incorrect {
+      border-color: #f44336;
+      background: #ffebee;
+    }
+    
+    /* FEEDBACK */
+    .feedback {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .feedback-correct {
+      background: #e8f5e9;
+      border-left: 4px solid #4CAF50;
+      color: #2e7d32;
+    }
+    
+    .feedback-incorrect {
+      background: #ffebee;
+      border-left: 4px solid #f44336;
+      color: #c62828;
+    }
+    
+    /* ACTION BUTTONS */
+    .action-buttons {
+      text-align: center;
+      margin: 25px 0;
+    }
+    
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px 10px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: #2196F3;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #1976D2;
+      transform: translateY(-2px);
+    }
+    
+    .btn-success {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .btn-success:hover {
+      background: #388E3C;
+      transform: translateY(-2px);
+    }
+    
+    .btn-warning {
+      background: #FF9800;
+      color: white;
+    }
+    
+    .btn-warning:hover {
+      background: #F57C00;
+      transform: translateY(-2px);
+    }
+    
+    .btn-danger {
+      background: #f44336;
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      background: #d32f2f;
+      transform: translateY(-2px);
+    }
+    
+    /* RESULTS SECTION */
+    .results-container {
+      display: none;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin: 20px 0;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      animation: fadeIn 0.8s;
+    }
+    
+    .result-score {
+      font-size: 52px;
+      color: #2196F3;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+    
+    .result-message {
+      font-size: 22px;
+      color: #333;
+      margin: 15px 0;
+    }
+    
+    .result-details {
+      text-align: left;
+      margin: 25px 0;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 10px;
+      border: 2px solid #f0f0f0;
+      border-radius: 8px;
+    }
+    
+    .result-item {
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border-left: 4px solid #ddd;
+    }
+    
+    .result-correct {
+      background: #f1f8e9;
+      border-left-color: #4CAF50;
+    }
+    
+    .result-incorrect {
+      background: #ffebee;
+      border-left-color: #f44336;
+    }
+    
+    /* PROGRESS BAR */
+    .progress-container {
+      margin: 20px 0;
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2196F3, #1976D2);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    
+    .progress-text {
+      text-align: right;
+      margin-top: 5px;
+      color: #666;
+      font-size: 14px;
+    }
+    
+    /* BACK BUTTON */
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #666;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    
+    .back-btn:hover {
+      background: #555;
+    }
+    
+    /* ANSWER STATUS INDICATOR */
+    .answer-status {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin: 15px 0;
+    }
+    
+    .status-dot {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      border: 2px solid #ddd;
+      background: white;
+    }
+    
+    .status-dot.answered {
+      background: #2196F3;
+      color: white;
+      border-color: #2196F3;
+    }
+    
+    .status-dot.current {
+      border: 3px solid #FF9800;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <div class="header">
+    <h1>📚 Grammar Test - Grade 5</h1>
+    <p>Complete all 30 questions and check your answers</p>
+  </div>
+  
+  <!-- TOP CONTROLS -->
+  <div class="top-controls">
+    <div class="score-display">
+      Score: <span id="score">0</span>/<span id="total-questions">30</span>
+    </div>
+    <div>
+      <button class="btn-warning" onclick="shuffleQuestions()">🔀 Shuffle Questions</button>
+      <button class="btn-danger" onclick="resetTest()">🔄 Reset Test</button>
+    </div>
+  </div>
+  
+  <!-- PROGRESS BAR -->
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div id="progress-fill" class="progress-fill"></div>
+    </div>
+    <div class="progress-text">
+      Progress: <span id="progress-text">0%</span>
+    </div>
+  </div>
+  
+  <!-- ANSWER STATUS INDICATOR -->
+  <div class="answer-status" id="answer-status">
+    <!-- Dots will be generated by JavaScript -->
+  </div>
+  
+  <!-- QUESTION NAVIGATION -->
+  <div class="question-nav">
+    <button class="nav-btn" onclick="prevQuestion()" id="prev-btn">← Previous</button>
+    <div class="question-counter">
+      Question <span id="current-q-num">1</span> of <span id="total-q">30</span>
+    </div>
+    <button class="nav-btn" onclick="nextQuestion()" id="next-btn">Next →</button>
+  </div>
+  
+  <!-- QUIZ CONTAINER -->
+  <div id="quiz-container">
+    <!-- Questions will be loaded here -->
+  </div>
+  
+  <!-- CHECK BUTTONS -->
+  <div class="action-buttons">
+    <button class="btn-success" onclick="checkCurrentAnswer()">✓ Check This Answer</button>
+    <button class="btn-primary" onclick="checkAllAnswers()">✅ Submit All Answers</button>
+  </div>
+  
+  <!-- RESULTS CONTAINER -->
+  <div id="results-container" class="results-container">
+    <h2>Test Results - Grade 5</h2>
+    <div class="result-score" id="final-score">0%</div>
+    <div class="result-message" id="result-message">Well done!</div>
+    
+    <div id="result-details" class="result-details">
+      <!-- Results will be displayed here -->
+    </div>
+    
+    <div style="margin-top: 25px;">
+      <button class="btn-warning" onclick="reviewAnswers()">📖 Review All Answers</button>
+      <button class="btn-primary" onclick="retryTest()">🔄 Try Again</button>
+      <a href="grammar.html" class="btn-success" style="padding: 12px 20px; text-decoration: none; display: inline-block;">Back to Grade Selection</a>
+    </div>
+  </div>
+  
+  <!-- BACK BUTTON -->
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="grammar.html" class="back-btn">← Back to Grade Selection</a>
+  </div>
+
+  <script>
+    // ============================================
+    // QUESTION DATA FOR GRADE 5
+    // ============================================
+    const questionsData = [
+      {
+        id: 1,
+        question: "By 8 p.m. yesterday, we ___ home.",
+        options: ["has arrived", "had arrived", "arrived", "arrive"],
+        correctAnswer: 1,
+        explanation: "'Had arrived' is past perfect tense. Past perfect shows an action completed before another past action/time ('by 8 p.m. yesterday')."
+      },
+      {
+        id: 2,
+        question: "He wants ___ travel abroad next year.",
+        options: ["go", "going", "to go", "went"],
+        correctAnswer: 2,
+        explanation: "'To go' is the infinitive form. After verbs like 'want', 'need', 'like', we use 'to + base verb' (infinitive)."
+      },
+      {
+        id: 3,
+        question: "That is my father, and this is ___ car.",
+        options: ["his", "him", "he", "hers"],
+        correctAnswer: 0,
+        explanation: "'His' is a possessive adjective showing ownership. We use possessive adjectives (my, your, his, her, etc.) before nouns."
+      },
+      {
+        id: 4,
+        question: "We ___ to the park yesterday.",
+        options: ["go", "goes", "went", "going"],
+        correctAnswer: 2,
+        explanation: "'Went' is the past tense of 'go'. 'Yesterday' indicates past time."
+      },
+      {
+        id: 5,
+        question: "Choose the correct future tense:",
+        options: ["She go to school tomorrow.", "She goes school tomorrow.", "She will go to school tomorrow.", "She will goes school tomorrow."],
+        correctAnswer: 2,
+        explanation: "'Will go' is the correct future tense. Future simple uses 'will + base verb'. 'Goes' is present tense, not future."
+      },
+      {
+        id: 6,
+        question: "By the time we arrived, they ___ dinner.",
+        options: ["have eaten", "had eaten", "eaten", "eat"],
+        correctAnswer: 1,
+        explanation: "'Had eaten' is past perfect. It shows an action completed before another past action ('arrived')."
+      },
+      {
+        id: 7,
+        question: "The dog wagged ___ tail when it saw its owner.",
+        options: ["it", "it's", "its", "they"],
+        correctAnswer: 2,
+        explanation: "'Its' is a possessive pronoun for animals/things. 'It's' means 'it is'. 'Its' shows ownership without apostrophe."
+      },
+      {
+        id: 8,
+        question: "We usually ___ lunch at this restaurant on Saturdays.",
+        options: ["have", "has", "had", "having"],
+        correctAnswer: 0,
+        explanation: "'Have' is present simple for habits. 'Usually' and 'on Saturdays' indicate regular habits."
+      },
+      {
+        id: 9,
+        question: "She ___ to school when it started to rain.",
+        options: ["walk", "walked", "was walking", "walks"],
+        correctAnswer: 2,
+        explanation: "'Was walking' is past continuous. It shows an ongoing action in the past that was interrupted by another action ('started to rain')."
+      },
+      {
+        id: 10,
+        question: "Choose the correct phrase:",
+        options: ["a bunch of bananas", "a bunch of chairs", "a flock of fishes", "a set of fruits"],
+        correctAnswer: 0,
+        explanation: "'A bunch of bananas' is the correct collective noun. Collective nouns are specific groups: bunch (bananas/grapes), flock (birds), set (tools)."
+      },
+      {
+        id: 11,
+        question: "She ___ never been to Japan.",
+        options: ["have", "had", "has", "having"],
+        correctAnswer: 2,
+        explanation: "'Has' is present perfect with 'she' (singular). Present perfect: has/have + past participle."
+      },
+      {
+        id: 12,
+        question: "She ___ studying English for five years.",
+        options: ["has been", "have been", "had being", "has"],
+        correctAnswer: 0,
+        explanation: "'Has been studying' is present perfect continuous. Shows an action that started in the past and continues to now."
+      },
+      {
+        id: 13,
+        question: "Last summer, I visited ___ and saw the Eiffel Tower.",
+        options: ["teacher", "boy", "Paris", "river"],
+        correctAnswer: 2,
+        explanation: "'Paris' is a proper noun (capital city). Proper nouns name specific people, places, or things (always capitalized)."
+      },
+      {
+        id: 14,
+        question: "It ___ (strength) the connection.",
+        options: ["strength", "strengthening", "strong", "strengthens"],
+        correctAnswer: 3,
+        explanation: "'Strengthens' is the verb form. '-ens' suffix makes verbs from adjectives/nouns: strong → strengthen, strength → strengthens."
+      },
+      {
+        id: 15,
+        question: "This pen is mine, but that bag is ___.",
+        options: ["yours", "your", "you", "her"],
+        correctAnswer: 0,
+        explanation: "'Yours' is a possessive pronoun. Possessive pronouns (mine, yours, his, hers) stand alone, without nouns after them."
+      },
+      {
+        id: 16,
+        question: "There are ___ books on the table.",
+        options: ["much", "many", "a little", "a"],
+        correctAnswer: 1,
+        explanation: "'Many' is used with countable plural nouns (books). 'Much' is for uncountable nouns. 'A little' is for uncountable."
+      },
+      {
+        id: 17,
+        question: "Look at the sky! There are ___ stars tonight.",
+        options: ["many", "much", "a little", "little"],
+        correctAnswer: 0,
+        explanation: "'Many' with countable plural nouns (stars). 'Stars' can be counted, so use 'many', not 'much'."
+      },
+      {
+        id: 18,
+        question: "She ___ very happy right now.",
+        options: ["is", "are", "am", "be"],
+        correctAnswer: 0,
+        explanation: "'Is' is used with 'she' (singular). Present tense: I am, you/we/they are, he/she/it is."
+      },
+      {
+        id: 19,
+        question: "Tomorrow at 9 a.m., I ___ in class.",
+        options: ["will be sitting", "will sitting", "sit", "sitting"],
+        correctAnswer: 0,
+        explanation: "'Will be sitting' is future continuous. Shows an action that will be in progress at a specific future time."
+      },
+      {
+        id: 20,
+        question: "I ___ already finished my homework.",
+        options: ["have", "has", "had", "having"],
+        correctAnswer: 0,
+        explanation: "'Have' is present perfect with 'I'. 'Already' often goes with present perfect tense."
+      },
+      {
+        id: 21,
+        question: "My brother ___ to play football every Sunday.",
+        options: ["like", "likes", "liking", "liked"],
+        correctAnswer: 1,
+        explanation: "'Likes' is present simple for 'my brother' (singular). Third person singular adds -s: he/she/it likes."
+      },
+      {
+        id: 22,
+        question: "Listen! The teacher ___ to the class now.",
+        options: ["talks", "is talking", "talked", "will talk"],
+        correctAnswer: 1,
+        explanation: "'Is talking' is present continuous. 'Listen!' and 'now' indicate an action happening at this moment."
+      },
+      {
+        id: 23,
+        question: "She ___ like apples, so she never eats them.",
+        options: ["don't", "doesn't likes", "doesn't like", "not"],
+        correctAnswer: 2,
+        explanation: "'Doesn't like' is present simple negative. With 'she', use 'does not/doesn't + base verb' (without -s)."
+      },
+      {
+        id: 24,
+        question: "I ___ my best friend yesterday.",
+        options: ["meet", "meets", "met", "meeting"],
+        correctAnswer: 2,
+        explanation: "'Met' is past tense of 'meet'. 'Yesterday' indicates past time."
+      },
+      {
+        id: 25,
+        question: "The waiter serves the food, but the ___ takes the order.",
+        options: ["waiter", "waitress", "uncle", "boy"],
+        correctAnswer: 1,
+        explanation: "'Waitress' is the female counterpart of 'waiter'. Gender-specific nouns: waiter (male), waitress (female)."
+      },
+      {
+        id: 26,
+        question: "We ___ studying when the lights went out.",
+        options: ["were", "are", "was", "be"],
+        correctAnswer: 0,
+        explanation: "'Were studying' is past continuous with 'we'. Past continuous: was/were + verb-ing."
+      },
+      {
+        id: 27,
+        question: "He bought ___ orange at the market.",
+        options: ["a", "an", "the", "– (no article)"],
+        correctAnswer: 1,
+        explanation: "'An' is used before vowel sounds. 'Orange' starts with a vowel sound (o-)."
+      },
+      {
+        id: 28,
+        question: "It's sunny. He ___ to swim this afternoon.",
+        options: ["is going swim", "going to swim", "goes to swim", "is going to swim"],
+        correctAnswer: 3,
+        explanation: "'Is going to swim' is future with 'going to'. 'Going to + verb' expresses future plans or predictions."
+      },
+      {
+        id: 29,
+        question: "Choose the correct plural form:",
+        options: ["mouses", "mice", "mices", "mouse"],
+        correctAnswer: 1,
+        explanation: "'Mice' is the irregular plural of 'mouse'. Irregular plurals: mouse→mice, foot→feet, tooth→teeth."
+      },
+      {
+        id: 30,
+        question: "Which sentence uses a possessive noun correctly?",
+        options: ["The cats tail is long.", "The cat's tail is long.", "The cats' tail is long.", "The cat tail is long."],
+        correctAnswer: 1,
+        explanation: "'The cat's tail' uses apostrophe + s for singular possessive. Apostrophe rules: singular noun + 's, plural noun + s'."
+      }
+    ];
+
+    // ============================================
+    // QUIZ STATE MANAGEMENT
+    // ============================================
+    let questions = [...questionsData];
+    let userAnswers = {};
+    let answerStatus = {}; // Track if answer is checked
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let isReviewMode = false;
+    let showAnswers = false;
+
+    // ============================================
+    // INITIALIZE QUIZ
+    // ============================================
+    function initQuiz() {
+      document.getElementById('total-questions').textContent = questions.length;
+      document.getElementById('total-q').textContent = questions.length;
+      loadQuestion(currentQuestionIndex);
+      updateProgress();
+      generateStatusDots();
+      updateNavigationButtons();
+    }
+
+    // ============================================
+    // LOAD QUESTION
+    // ============================================
+    function loadQuestion(index) {
+      currentQuestionIndex = index;
+      const question = questions[index];
+      
+      document.getElementById('current-q-num').textContent = index + 1;
+      
+      let optionsHTML = '';
+      const optionLetters = ['a', 'b', 'c', 'd'];
+      
+      question.options.forEach((option, i) => {
+        let optionClass = 'option';
+        
+        // Check if this option was selected
+        if (userAnswers[question.id] === i) {
+          optionClass += ' selected';
+        }
+        
+        // Check if we're showing answers
+        if (showAnswers && answerStatus[question.id]) {
+          if (i === question.correctAnswer) {
+            optionClass += ' correct';
+          } else if (userAnswers[question.id] === i && i !== question.correctAnswer) {
+            optionClass += ' incorrect';
+          }
+        }
+        
+        optionsHTML += `
+          <div class="${optionClass}" onclick="selectAnswer(${question.id}, ${i})">
+            ${optionLetters[i]}) ${option}
+          </div>
+        `;
+      });
+      
+      // Check if we need to show feedback
+      let feedbackHTML = '';
+      if (showAnswers && answerStatus[question.id]) {
+        const isCorrect = userAnswers[question.id] === question.correctAnswer;
+        feedbackHTML = `
+          <div class="feedback ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}" style="display: block;">
+            <strong>${isCorrect ? '✓ Correct!' : '✗ Incorrect!'}</strong><br>
+            ${question.explanation}
+          </div>
+        `;
+      }
+      
+      const questionHTML = `
+        <div class="question-box">
+          <div class="question-number">Question ${index + 1}</div>
+          <div class="question-text">${question.question}</div>
+          <div class="options">${optionsHTML}</div>
+          ${feedbackHTML}
+        </div>
+      `;
+      
+      document.getElementById('quiz-container').innerHTML = questionHTML;
+      updateProgress();
+      updateStatusDots();
+      updateNavigationButtons();
+    }
+
+    // ============================================
+    // GENERATE STATUS DOTS
+    // ============================================
+    function generateStatusDots() {
+      let dotsHTML = '';
+      for (let i = 0; i < questions.length; i++) {
+        const isAnswered = userAnswers[questions[i].id] !== undefined;
+        const isCurrent = i === currentQuestionIndex;
+        dotsHTML += `
+          <div class="status-dot ${isAnswered ? 'answered' : ''} ${isCurrent ? 'current' : ''}" 
+               onclick="jumpToQuestion(${i})">
+            ${i + 1}
+          </div>
+        `;
+      }
+      document.getElementById('answer-status').innerHTML = dotsHTML;
+    }
+
+    // ============================================
+    // UPDATE STATUS DOTS
+    // ============================================
+    function updateStatusDots() {
+      const dots = document.querySelectorAll('.status-dot');
+      dots.forEach((dot, index) => {
+        const isAnswered = userAnswers[questions[index].id] !== undefined;
+        const isCurrent = index === currentQuestionIndex;
+        
+        dot.className = 'status-dot';
+        if (isAnswered) dot.classList.add('answered');
+        if (isCurrent) dot.classList.add('current');
+      });
+    }
+
+    // ============================================
+    // JUMP TO SPECIFIC QUESTION
+    // ============================================
+    function jumpToQuestion(index) {
+      loadQuestion(index);
+    }
+
+    // ============================================
+    // SELECT ANSWER
+    // ============================================
+    function selectAnswer(questionId, optionIndex) {
+      if (showAnswers && answerStatus[questionId]) return; // Don't allow change if already checked
+      
+      userAnswers[questionId] = optionIndex;
+      loadQuestion(currentQuestionIndex);
+    }
+
+    // ============================================
+    // CHECK CURRENT ANSWER
+    // ============================================
+    function checkCurrentAnswer() {
+      const currentQuestion = questions[currentQuestionIndex];
+      
+      if (userAnswers[currentQuestion.id] === undefined) {
+        alert("Please select an answer first!");
+        return;
+      }
+      
+      // Mark this question as checked
+      answerStatus[currentQuestion.id] = true;
+      
+      // Update score if correct
+      if (userAnswers[currentQuestion.id] === currentQuestion.correctAnswer) {
+        score++;
+        document.getElementById('score').textContent = score;
+      }
+      
+      // Show feedback
+      showAnswers = true;
+      loadQuestion(currentQuestionIndex);
+      
+      // Auto-advance to next question after 1.5 seconds
+      setTimeout(() => {
+        if (currentQuestionIndex < questions.length - 1) {
+          nextQuestion();
+        } else {
+          // If this is the last question, ask if they want to submit
+          if (confirm("This is the last question. Submit all answers now?")) {
+            checkAllAnswers();
+          }
+        }
+      }, 1500);
+    }
+
+    // ============================================
+    // CHECK ALL ANSWERS
+    // ============================================
+    function checkAllAnswers() {
+      // Check if all questions are answered
+      const unansweredQuestions = questions.filter(q => userAnswers[q.id] === undefined);
+      
+      if (unansweredQuestions.length > 0) {
+        if (!confirm(`You have ${unansweredQuestions.length} unanswered question(s). Submit anyway?`)) {
+          return;
+        }
+      }
+      
+      // Mark all questions as checked
+      questions.forEach(q => {
+        answerStatus[q.id] = true;
+      });
+      
+      // Calculate score
+      score = 0;
+      questions.forEach(question => {
+        if (userAnswers[question.id] === question.correctAnswer) {
+          score++;
+        }
+      });
+      
+      // Update score display
+      document.getElementById('score').textContent = score;
+      
+      // Show answers
+      showAnswers = true;
+      loadQuestion(currentQuestionIndex);
+      
+      // Show results after a delay
+      setTimeout(showResults, 1000);
+    }
+
+    // ============================================
+    // SHOW RESULTS
+    // ============================================
+    function showResults() {
+      const percentage = Math.round((score / questions.length) * 100);
+      
+      document.getElementById('final-score').textContent = `${percentage}%`;
+      
+      // Set result message
+      let message = '';
+      let emoji = '';
+      
+      if (percentage === 100) {
+        message = "Perfect Score! 🎉";
+        emoji = "🏆";
+      } else if (percentage >= 90) {
+        message = "Excellent! 🌟";
+        emoji = "⭐";
+      } else if (percentage >= 80) {
+        message = "Very Good! 👍";
+        emoji = "😊";
+      } else if (percentage >= 70) {
+        message = "Good Job!";
+        emoji = "🙂";
+      } else if (percentage >= 60) {
+        message = "Not Bad!";
+        emoji = "👍";
+      } else {
+        message = "Keep Practicing!";
+        emoji = "📚";
+      }
+      
+      document.getElementById('result-message').innerHTML = `${message} ${emoji}<br>You got ${score} out of ${questions.length} correct`;
+      
+      // Build result details
+      let detailsHTML = '';
+      questions.forEach((question, index) => {
+        const userAnswer = userAnswers[question.id];
+        const isCorrect = userAnswer === question.correctAnswer;
+        const optionLetters = ['a', 'b', 'c', 'd'];
+        
+        detailsHTML += `
+          <div class="result-item ${isCorrect ? 'result-correct' : 'result-incorrect'}">
+            <strong>Q${index + 1}:</strong> ${question.question}<br>
+            <small>Your answer: ${userAnswer !== undefined ? optionLetters[userAnswer] + '. ' + question.options[userAnswer] : 'Not answered'}</small><br>
+            <small>Correct answer: ${optionLetters[question.correctAnswer]}. ${question.options[question.correctAnswer]}</small>
+            ${!isCorrect ? `<br><small><em>💡 ${question.explanation}</em></small>` : ''}
+          </div>
+        `;
+      });
+      
+      document.getElementById('result-details').innerHTML = detailsHTML;
+      
+      // Hide quiz, show results
+      document.getElementById('quiz-container').style.display = 'none';
+      document.querySelector('.question-nav').style.display = 'none';
+      document.querySelector('.action-buttons').style.display = 'none';
+      document.querySelector('.progress-container').style.display = 'none';
+      document.getElementById('answer-status').style.display = 'none';
+      document.getElementById('results-container').style.display = 'block';
+    }
+
+    // ============================================
+    // NAVIGATION FUNCTIONS
+    // ============================================
+    function prevQuestion() {
+      if (currentQuestionIndex > 0) {
+        loadQuestion(currentQuestionIndex - 1);
+      }
+    }
+
+    function nextQuestion() {
+      if (currentQuestionIndex < questions.length - 1) {
+        loadQuestion(currentQuestionIndex + 1);
+      }
+    }
+
+    function updateNavigationButtons() {
+      document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+      document.getElementById('next-btn').disabled = currentQuestionIndex === questions.length - 1;
+    }
+
+    // ============================================
+    // SHUFFLE QUESTIONS
+    // ============================================
+    function shuffleQuestions() {
+      if (!confirm("Shuffle questions and restart test?")) return;
+      
+      // Shuffle array
+      for (let i = questions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questions[i], questions[j]] = [questions[j], questions[i]];
+      }
+      
+      resetTest();
+      alert("Questions shuffled! Test restarted.");
+    }
+
+    // ============================================
+    // RESET TEST
+    // ============================================
+    function resetTest() {
+      userAnswers = {};
+      answerStatus = {};
+      score = 0;
+      currentQuestionIndex = 0;
+      showAnswers = false;
+      isReviewMode = false;
+      
+      // Reset displays
+      document.getElementById('score').textContent = '0';
+      document.getElementById('quiz-container').style.display = 'block';
+      document.querySelector('.question-nav').style.display = 'flex';
+      document.querySelector('.action-buttons').style.display = 'block';
+      document.querySelector('.progress-container').style.display = 'block';
+      document.getElementById('answer-status').style.display = 'flex';
+      document.getElementById('results-container').style.display = 'none';
+      
+      loadQuestion(currentQuestionIndex);
+    }
+
+    // ============================================
+    // REVIEW ANSWERS
+    // ============================================
+    function reviewAnswers() {
+      isReviewMode = true;
+      showAnswers = true;
+      currentQuestionIndex = 0;
+      
+      document.getElementById('results-container').style.display = 'none';
+      document.getElementById('quiz-container').style.display = 'block';
+      document.querySelector('.question-nav').style.display = 'flex';
+      document.querySelector('.action-buttons').style.display = 'block';
+      document.querySelector('.progress-container').style.display = 'block';
+      document.getElementById('answer-status').style.display = 'flex';
+      
+      loadQuestion(currentQuestionIndex);
+    }
+
+    // ============================================
+    // RETRY TEST
+    // ============================================
+    function retryTest() {
+      resetTest();
+    }
+
+    // ============================================
+    // UPDATE PROGRESS
+    // ============================================
+    function updateProgress() {
+      const answered = Object.keys(userAnswers).length;
+      const progress = (answered / questions.length) * 100;
+      
+      document.getElementById('progress-fill').style.width = `${progress}%`;
+      document.getElementById('progress-text').textContent = `${Math.round(progress)}%`;
+    }
+
+    // ============================================
+    // START THE QUIZ
+    // ============================================
+    document.addEventListener('DOMContentLoaded', initQuiz);
+  </script>
+</body>
+</html>

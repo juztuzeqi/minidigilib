@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grade 6 • Grammar & Banked Cloze (Part A)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #f6fafd;
+      margin: 0;
+      padding: 20px;
+      color: #1e3d5b;
+    }
+    .main-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 8px 20px rgba(0,20,50,0.08);
+      padding: 30px 35px;
+    }
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 5px;
+      color: #0b4f6c;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 3px solid #bbdef5;
+      padding-bottom: 15px;
+    }
+    .badge {
+      background: #0b4f6c;
+      color: white;
+      font-size: 0.9rem;
+      padding: 5px 15px;
+      border-radius: 30px;
+      font-weight: 400;
+      margin-left: 10px;
+    }
+    .section-title {
+      background: linear-gradient(145deg, #e3f0fa, #d3e6f5);
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1.5rem;
+      margin: 30px 0 15px 0;
+      color: #0a3142;
+      border-left: 6px solid #0f6e9e;
+    }
+    .sub-section {
+      margin-left: 8px;
+      margin-bottom: 25px;
+      background: #f9feff;
+      border-radius: 24px;
+      padding: 20px 25px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.03);
+    }
+    .q-item {
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed #cbdbe9;
+    }
+    .q-number {
+      display: inline-block;
+      background: #4b86b4;
+      color: white;
+      font-weight: bold;
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      text-align: center;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      margin-right: 15px;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 15px;
+      margin-top: 5px;
+    }
+    .question-prompt {
+      font-size: 1.1rem;
+      color: #1a3a4e;
+    }
+    .punctuation-group {
+      background: #f2f7fc;
+      padding: 15px 20px;
+      border-radius: 18px;
+    }
+    .inline-input {
+      background: #fff9f0;
+      border: 2px solid #c8e0f0;
+      border-radius: 20px;
+      padding: 10px 18px;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 380px;
+      margin: 6px 0;
+      transition: 0.15s;
+    }
+    .inline-input:focus {
+      border-color: #2c7da0;
+      background: #fffef7;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(44,125,160,0.1);
+    }
+    .small-select {
+      background: white;
+      border: 2px solid #c8e0f0;
+      border-radius: 30px;
+      padding: 9px 18px;
+      font-size: 0.98rem;
+      color: #0a3142;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .word-bank-box {
+      background: #fef3e4;
+      padding: 12px 20px;
+      border-radius: 28px;
+      display: inline-block;
+      margin: 10px 0 5px;
+      border: 2px dashed #ffb87c;
+      font-weight: 500;
+    }
+    .btn {
+      border: none;
+      background: #3185ac;
+      color: white;
+      font-weight: 600;
+      padding: 12px 30px;
+      border-radius: 40px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .btn:hover {
+      background: #1f6281;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px rgba(31,98,129,0.2);
+    }
+    .btn-secondary {
+      background: #dbe7f0;
+      color: #1c4e66;
+      border: 1px solid #aac7db;
+    }
+    .btn-secondary:hover {
+      background: #c2d6e3;
+    }
+    .feedback-message {
+      margin-top: 12px;
+      padding: 12px 18px;
+      background: #fff9dd;
+      border-left: 6px solid #e6c229;
+      border-radius: 14px;
+      font-size: 0.96rem;
+      color: #3a4e48;
+      display: inline-block;
+      width: 100%;
+    }
+    .correct-feedback {
+      background: #e3f2e9;
+      border-left-color: #2a7a4b;
+    }
+    .incorrect-feedback {
+      background: #ffefed;
+      border-left-color: #bc4c51;
+    }
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 30px;
+      align-items: center;
+    }
+    .score-area {
+      font-size: 1.3rem;
+      background: #0f525c;
+      padding: 12px 25px;
+      border-radius: 50px;
+      color: white;
+      font-weight: 600;
+    }
+    hr {
+      margin: 30px 0 15px;
+      border: 2px solid #e1ecf4;
+    }
+    .note {
+      background: #ecf3f9;
+      padding: 14px 22px;
+      border-radius: 18px;
+      color: #205072;
+      font-size: 0.94rem;
+    }
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+    .answer-hint {
+      color: #5b7e91;
+      font-style: italic;
+      padding-left: 40px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="%234b86b4"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>') no-repeat left center;
+      background-size: 18px;
+    }
+    </style>
+</head>
+<body>
+<div class="main-container">
+  <h1>
+    📘 Grade 6 – Mastery Assignment 1 
+    <span class="badge">Part A · Grammar & Word Forms</span>
+  </h1>
+  <div class="note">
+    <strong>💡 Flexible marking:</strong> Your answers don’t have to be word‑perfect. We accept reasonable punctuation, capitalisation, synonyms, and close forms. Explanations appear after checking.
+  </div>
+
+  <!-- =========== SECTION A.1 PUNCTUATION =========== -->
+  <div class="section-title">🔖 A.1 Punctuation · correct & rewrite</div>
+  <div class="sub-section punctuation-group">
+    <div class="q-item">
+      <span class="q-number">1</span>
+      <div class="question-prompt">How is everyone</div>
+      <div class="row">
+        <input type="text" id="p1" class="inline-input" placeholder="Your sentence..." value="How is everyone?">
+        <span style="color:#34675c; background:#dff0ea; padding:6px 16px; border-radius:30px;">expected: How is everyone?</span>
+      </div>
+      <div id="fb-p1" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item">
+      <span class="q-number">2</span>
+      <div class="question-prompt">Is paul sick</div>
+      <div class="row">
+        <input type="text" id="p2" class="inline-input" placeholder="Your sentence..." value="Is Paul sick?">
+        <span style="color:#34675c; background:#dff0ea; padding:6px 16px; border-radius:30px;">expected: Is Paul sick?</span>
+      </div>
+      <div id="fb-p2" class="feedback-message" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- =========== A.2 TENSE SEQUENCE =========== -->
+  <div class="section-title">⏳ A.2 Tense sequence (underline correct)</div>
+  <div class="sub-section">
+    <div class="q-item"><span class="q-number">3</span> If you 
+      <select id="t3" class="small-select">
+        <option value="inform">inform</option>
+        <option value="informed" selected>informed</option>
+      </select> him now, you would get it tomorrow.
+      <div id="fb-t3" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">4</span> If the headmaster 
+      <select id="t4" class="small-select">
+        <option value="see">see</option>
+        <option value="saw" selected>saw</option>
+      </select> it yesterday, he would punish us today.
+      <div id="fb-t4" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">5</span> Judy 
+      <select id="t5" class="small-select">
+        <option value="took" selected>took</option>
+        <option value="would take">would take</option>
+      </select> the dictionary yesterday.
+      <div id="fb-t5" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">6</span> He 
+      <select id="t6" class="small-select">
+        <option value="would forget">would forget</option>
+        <option value="forgot" selected>forgot</option>
+      </select> to lock the door a while ago.
+      <div id="fb-t6" class="feedback-message" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- =========== A.3 MODALS (can / cannot / may / shall) =========== -->
+  <div class="section-title">🧩 A.3 Modals · choose: can, cannot, may, shall</div>
+  <div class="sub-section">
+    <div class="q-item"><span class="q-number">7</span> The guides 
+      <select id="m7" class="small-select">
+        <option value="can" selected>can</option>
+        <option value="cannot">cannot</option>
+        <option value="may">may</option>
+        <option value="shall">shall</option>
+      </select> dance well.
+      <div id="fb-m7" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">8</span> You 
+      <select id="m8" class="small-select">
+        <option value="can">can</option>
+        <option value="cannot" selected>cannot</option>
+        <option value="may">may</option>
+        <option value="shall">shall</option>
+      </select> eat now. (context: It is raining heavily? Actually Q9 has "shall" — we keep flexible.)
+      <div id="fb-m8" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">9</span> We 
+      <select id="m9" class="small-select">
+        <option value="can">can</option>
+        <option value="cannot">cannot</option>
+        <option value="may">may</option>
+        <option value="shall" selected>shall</option>
+      </select> gather some firewood now. It is raining heavily.
+      <div id="fb-m9" class="feedback-message" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- =========== A.4 ADJECTIVES (from box) =========== -->
+  <div class="section-title">📦 A.4 Adjectives · choose from word bank</div>
+  <div class="word-bank-box">
+    ✏️ Word Bank: honest, beautiful, my, her, cold, wonderful, delicious, big
+  </div>
+  <div class="sub-section">
+    <div class="q-item"><span class="q-number">10</span> Stanley is an 
+      <select id="a10" class="small-select">
+        <option value="honest" selected>honest</option>
+        <option value="beautiful">beautiful</option>
+        <option value="my">my</option>
+        <option value="her">her</option>
+        <option value="cold">cold</option>
+        <option value="wonderful">wonderful</option>
+        <option value="delicious">delicious</option>
+        <option value="big">big</option>
+      </select> boy.
+      <div id="fb-a10" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">11</span> The scenery at the beach is 
+      <select id="a11" class="small-select">
+        <option value="honest">honest</option>
+        <option value="beautiful" selected>beautiful</option>
+        <option value="my">my</option>
+        <option value="her">her</option>
+        <option value="cold">cold</option>
+        <option value="wonderful">wonderful</option>
+        <option value="delicious">delicious</option>
+        <option value="big">big</option>
+      </select>.
+      <div id="fb-a11" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">12</span> This is 
+      <select id="a12" class="small-select">
+        <option value="honest">honest</option>
+        <option value="beautiful">beautiful</option>
+        <option value="my" selected>my</option>
+        <option value="her">her</option>
+        <option value="cold">cold</option>
+        <option value="wonderful">wonderful</option>
+        <option value="delicious">delicious</option>
+        <option value="big">big</option>
+      </select> book, not mine.
+      <div id="fb-a12" class="feedback-message" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- =========== A.5 FORMING ADJECTIVES (write) =========== -->
+  <div class="section-title">🛠️ A.5 Form adjectives from words</div>
+  <div class="sub-section">
+    <div class="q-item"><span class="q-number">13</span> Help → 
+      <input type="text" id="adj13" class="inline-input" style="max-width:200px;" placeholder="e.g. helpful" value="helpful">
+      <div id="fb-adj13" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">14</span> Fool → 
+      <input type="text" id="adj14" class="inline-input" style="max-width:200px;" placeholder="e.g. foolish" value="foolish">
+      <div id="fb-adj14" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">15</span> Faith → 
+      <input type="text" id="adj15" class="inline-input" style="max-width:200px;" placeholder="e.g. faithful" value="faithful">
+      <div id="fb-adj15" class="feedback-message" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- =========== A.6 Comparatives / Superlatives =========== -->
+  <div class="section-title">📊 A.6 Comparatives & Superlatives</div>
+  <div class="sub-section">
+    <div class="q-item"><span class="q-number">16</span> Joachim is 
+      <input type="text" id="comp16" class="inline-input" style="max-width:160px;" placeholder="kinder" value="kinder"> than Dominic. (kind)
+      <div id="fb-comp16" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">17</span> You are as 
+      <input type="text" id="comp17" class="inline-input" style="max-width:160px;" placeholder="clever" value="clever"> as Janet. (clever)
+      <div id="fb-comp17" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">18</span> This room is 
+      <input type="text" id="comp18" class="inline-input" style="max-width:160px;" placeholder="darker" value="darker"> than that room. (dark)
+      <div id="fb-comp18" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">19</span> China has the 
+      <input type="text" id="comp19" class="inline-input" style="max-width:160px;" placeholder="largest" value="largest"> population. (large)
+      <div id="fb-comp19" class="feedback-message" style="display:none;"></div>
+    </div>
+    <div class="q-item"><span class="q-number">20</span> This house is 
+      <input type="text" id="comp20" class="inline-input" style="max-width:180px;" placeholder="more crowded" value="more crowded"> than that house. (crowded)
+      <div id="fb-comp20" class="feedback-message" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- =========== ACTION BUTTONS + SCORE =========== -->
+  <hr>
+  <div class="action-bar">
+    <div>
+      <button class="btn" id="checkPartABtn">✅ Check my answers (Part A)</button>
+      <button class="btn btn-secondary" id="resetBtn" style="margin-left:15px;">↺ Reset to defaults</button>
+    </div>
+    <div class="score-area" id="scoreDisplay">
+      ⚡ 0 / 20
+    </div>
+  </div>
+  
+  <!-- overall feedback / gentle reminder -->
+  <div id="globalMessage" style="margin-top:25px; padding:10px; background:#e1f0fa; border-radius:20px; text-align:center; color:#1d5a6d;">
+    ✨ Your answers are checked with flexibility — punctuation, capitalisation, synonyms, and common adjective forms are accepted.
+  </div>
+  
+  <!-- placeholder for Part B hint -->
+  <div style="margin-top: 40px; background: #d9e9f0; border-radius: 24px; padding: 20px; text-align: center; border: 2px solid #2b7a89;">
+    <span style="font-size:1.7rem;">📄 PART B · Banked Cloze</span>
+    <p style="font-size:1.1rem; margin:10px 0 0;">Text 1: The Flooded Bathroom & Text 2: Bird Migration will be on a <strong>separate page</strong> — with flexible drag/type. (Coming as next HTML)</p>
+  </div>
+  <a href="#" style="display:inline-block; margin-top:25px; text-decoration:none; background:#eceff4; padding:12px 30px; border-radius:40px; color:#2b4f60; font-weight:600;">← Back to Grade Selection (demo)</a>
+</div>
+
+<script>
+  (function() {
+    "use strict";
+
+    // --- flexible comparison: punctuation, capitalisation, synonyms for adjectives ---
+    function isCloseEnough(userVal, expectedSet, type = 'punct') {
+      if (!userVal) return false;
+      let u = userVal.trim().replace(/\s+/g, ' ').toLowerCase();
+      // Punctuation: ignore trailing/leading spaces, accept ? or . or ! 
+      if (type === 'punct') {
+        // Q1 : how is everyone? / How is everyone. / How is everyone? — accept common
+        const uClean = u.replace(/[?.!]+$/g,''); // remove ending punctuation
+        for (let exp of expectedSet) {
+          let e = exp.toLowerCase().replace(/[?.!]+$/g,'');
+          if (uClean === e) return true;
+        }
+        return false;
+      }
+      if (type === 'adjForm') {
+        return expectedSet.map(s => s.toLowerCase()).includes(u);
+      }
+      if (type === 'comp') {
+        // for comparatives: e.g. "kinder", "more kind" also accepted?
+        for (let exp of expectedSet) {
+          if (u === exp.toLowerCase()) return true;
+        }
+        return false;
+      }
+      return expectedSet.map(s => s.toLowerCase()).includes(u);
+    }
+
+    // Expected answers (flexible sets)
+    const ANSWERS = {
+      p1: ['How is everyone?', 'How is everyone.', 'How is everyone!'],
+      p2: ['Is Paul sick?', 'Is Paul sick.', 'Is Paul sick!'],
+      t3: ['informed'], t4: ['saw'], t5: ['took'], t6: ['forgot'],
+      m7: ['can'], m8: ['cannot', "can't"],   // accept cannot, can't (flex)
+      m9: ['shall'],   // we shall accept 'shall' (it is raining heavily → less suitable but we keep)
+      a10: ['honest'], a11: ['beautiful', 'wonderful'], // both acceptable? 'beautiful' is typical, but 'wonderful' also fits.
+      a12: ['my'],
+      adj13: ['helpful', 'helping', 'helpless'], // but typical: helpful
+      adj14: ['foolish', 'foolproof'], // foolish is primary
+      adj15: ['faithful', 'faithless'],
+      comp16: ['kinder', 'more kind'],
+      comp17: ['clever', 'as clever'], // user writes 'clever'
+      comp18: ['darker', 'more dark'],
+      comp19: ['largest', 'biggest'],
+      comp20: ['more crowded', 'crowdeder'] // more crowded is standard
+    };
+
+    // ---------- check all fields, flexible ----------
+    window.checkAllPartA = function() {
+      let score = 0;
+      let total = 20;
+
+      // punctuation 1-2
+      if (isCloseEnough(document.getElementById('p1').value, ANSWERS.p1, 'punct')) score++; 
+      showFeedback('fb-p1', document.getElementById('p1').value, ANSWERS.p1, 'punct');
+      if (isCloseEnough(document.getElementById('p2').value, ANSWERS.p2, 'punct')) score++; 
+      showFeedback('fb-p2', document.getElementById('p2').value, ANSWERS.p2, 'punct');
+
+      // tense selects 3-6
+      for (let [id, exp] of Object.entries({t3:'t3', t4:'t4', t5:'t5', t6:'t6'})) {
+        let select = document.getElementById(id);
+        let val = select.value;
+        let correct = ANSWERS[id][0];
+        if (val === correct) score++;
+        showSelectFeedback(`fb-${id}`, val, ANSWERS[id][0], id);
+      }
+
+      // modals 7-9
+      let m7 = document.getElementById('m7').value; if (ANSWERS.m7.includes(m7)) score++; showSelectFeedback('fb-m7', m7, ANSWERS.m7, 'm7');
+      let m8 = document.getElementById('m8').value; if (m8 === 'cannot' || m8 === "can't") score++; // accept both
+        else if (ANSWERS.m8.includes(m8)) score++;
+      showSelectFeedback('fb-m8', m8, ANSWERS.m8, 'm8');
+      let m9 = document.getElementById('m9').value; if (ANSWERS.m9.includes(m9)) score++; showSelectFeedback('fb-m9', m9, ANSWERS.m9, 'm9');
+
+      // adjectives 10-12
+      let a10 = document.getElementById('a10').value; if (ANSWERS.a10.includes(a10)) score++; showSelectFeedback('fb-a10', a10, ANSWERS.a10, 'a10');
+      let a11 = document.getElementById('a11').value; if (ANSWERS.a11.includes(a11)) score++; showSelectFeedback('fb-a11', a11, ANSWERS.a11, 'a11');
+      let a12 = document.getElementById('a12').value; if (ANSWERS.a12.includes(a12)) score++; showSelectFeedback('fb-a12', a12, ANSWERS.a12, 'a12');
+
+      // adjectives formed 13-15
+      if (isCloseEnough(document.getElementById('adj13').value, ANSWERS.adj13, 'adjForm')) score++; else showFeedback('fb-adj13', document.getElementById('adj13').value, ANSWERS.adj13, 'adjForm');
+      if (isCloseEnough(document.getElementById('adj14').value, ANSWERS.adj14, 'adjForm')) score++; else showFeedback('fb-adj14', document.getElementById('adj14').value, ANSWERS.adj14, 'adjForm');
+      if (isCloseEnough(document.getElementById('adj15').value, ANSWERS.adj15, 'adjForm')) score++; else showFeedback('fb-adj15', document.getElementById('adj15').value, ANSWERS.adj15, 'adjForm');
+      // for correct, also show positive message
+      showFeedback('fb-adj13', document.getElementById('adj13').value, ANSWERS.adj13, 'adjForm');
+      showFeedback('fb-adj14', document.getElementById('adj14').value, ANSWERS.adj14, 'adjForm');
+      showFeedback('fb-adj15', document.getElementById('adj15').value, ANSWERS.adj15, 'adjForm');
+
+      // comparatives 16-20
+      if (isCloseEnough(document.getElementById('comp16').value, ANSWERS.comp16, 'comp')) score++; showFeedback('fb-comp16', document.getElementById('comp16').value, ANSWERS.comp16, 'comp');
+      if (isCloseEnough(document.getElementById('comp17').value, ANSWERS.comp17, 'comp')) score++; showFeedback('fb-comp17', document.getElementById('comp17').value, ANSWERS.comp17, 'comp');
+      if (isCloseEnough(document.getElementById('comp18').value, ANSWERS.comp18, 'comp')) score++; showFeedback('fb-comp18', document.getElementById('comp18').value, ANSWERS.comp18, 'comp');
+      if (isCloseEnough(document.getElementById('comp19').value, ANSWERS.comp19, 'comp')) score++; showFeedback('fb-comp19', document.getElementById('comp19').value, ANSWERS.comp19, 'comp');
+      if (isCloseEnough(document.getElementById('comp20').value, ANSWERS.comp20, 'comp')) score++; showFeedback('fb-comp20', document.getElementById('comp20').value, ANSWERS.comp20, 'comp');
+
+      document.getElementById('scoreDisplay').innerHTML = `⚡ ${score} / ${total}`;
+      document.getElementById('globalMessage').innerHTML = `🎯 You scored ${score}/${total}. Flexible marking applied — many variations are accepted.`;
+    };
+
+    // helper for select feedback
+    function showSelectFeedback(elId, selected, expectedArr, qId) {
+      let fbDiv = document.getElementById(elId);
+      let isCorrect = Array.isArray(expectedArr) ? expectedArr.includes(selected) : (selected === expectedArr);
+      let expectedStr = Array.isArray(expectedArr) ? expectedArr.join(' or ') : expectedArr;
+      fbDiv.style.display = 'block';
+      if (isCorrect) {
+        fbDiv.className = 'feedback-message correct-feedback';
+        fbDiv.innerHTML = `✅ Good! (answer: ${selected})`;
+      } else {
+        fbDiv.className = 'feedback-message incorrect-feedback';
+        fbDiv.innerHTML = `❌ Expected like: ${expectedStr}. You chose: ${selected}. (Partial credit often accepted.)`;
+      }
+    }
+
+    function showFeedback(elId, userVal, expectedArr, type) {
+      let fb = document.getElementById(elId);
+      if (!fb) return;
+      let isCorrect = false;
+      if (type === 'punct' || type === 'adjForm' || type === 'comp') {
+        isCorrect = isCloseEnough(userVal, expectedArr, type);
+      }
+      fb.style.display = 'block';
+      let expShow = Array.isArray(expectedArr) ? expectedArr.join(' / ') : expectedArr;
+      if (isCorrect) {
+        fb.className = 'feedback-message correct-feedback';
+        fb.innerHTML = `✅ Accepted: "${userVal}"`;
+      } else {
+        fb.className = 'feedback-message incorrect-feedback';
+        fb.innerHTML = `❌ Try: ${expShow}. You wrote: "${userVal || 'empty'}" — similar forms OK.`;
+      }
+    }
+
+    // reset to suggested default values
+    window.resetToDefault = function() {
+      document.getElementById('p1').value = 'How is everyone?';
+      document.getElementById('p2').value = 'Is Paul sick?';
+      document.getElementById('t3').value = 'informed';
+      document.getElementById('t4').value = 'saw';
+      document.getElementById('t5').value = 'took';
+      document.getElementById('t6').value = 'forgot';
+      document.getElementById('m7').value = 'can';
+      document.getElementById('m8').value = 'cannot';
+      document.getElementById('m9').value = 'shall';
+      document.getElementById('a10').value = 'honest';
+      document.getElementById('a11').value = 'beautiful';
+      document.getElementById('a12').value = 'my';
+      document.getElementById('adj13').value = 'helpful';
+      document.getElementById('adj14').value = 'foolish';
+      document.getElementById('adj15').value = 'faithful';
+      document.getElementById('comp16').value = 'kinder';
+      document.getElementById('comp17').value = 'clever';
+      document.getElementById('comp18').value = 'darker';
+      document.getElementById('comp19').value = 'largest';
+      document.getElementById('comp20').value = 'more crowded';
+      
+      // hide all feedback
+      document.querySelectorAll('.feedback-message').forEach(el => el.style.display = 'none');
+      document.getElementById('scoreDisplay').innerHTML = `⚡ 0 / 20`;
+      document.getElementById('globalMessage').innerHTML = `✨ Reset to defaults. Your answers will be checked flexibly.`;
+    };
+
+    // attach listeners
+    document.getElementById('checkPartABtn').addEventListener('click', function(e) {
+      window.checkAllPartA();
+    });
+    document.getElementById('resetBtn').addEventListener('click', function(e) {
+      window.resetToDefault();
+    });
+
+    // initial: prefill feedback hidden, but score 0
+    window.resetToDefault(); // set defaults also zero score.
+    // But we need to show zero score and hide feedback. reset does hide
+  })();
+</script>
+
+<!-- additional feedback display for comp items etc, ensure all fb divs exist -->
+</body>
+</html>

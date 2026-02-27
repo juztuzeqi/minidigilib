@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Listening Test - Grade 4</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 10px;
+      background-color: #f8f9fa;
+    }
+    h1 {
+      text-align: center;
+      font-size: 24px;
+    }
+    .info {
+      text-align: center;
+      color: #666;
+      margin-bottom: 20px;
+    }
+    .box {
+      background: white;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    h3 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+    audio {
+      width: 100%;
+      margin-top: 5px;
+    }
+    .count {
+      margin-top: 8px;
+      font-weight: bold;
+      color: #444;
+    }
+    .back {
+      display: block;
+      margin: 20px auto;
+      text-align: center;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 12px;
+      background: #ffffff;
+      border-radius: 10px;
+      width: 80%;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      color: #333;
+    }
+    .back:active {
+      background: #e9ecef;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🎧 Listening Test - Grade 4</h1>
+<p class="info">Each audio can be played only 3 times.</p>
+
+<div class="box">
+  <h3>Text 1</h3>
+  <audio id="audio1" controls>
+    <source src="listening/grade4_text1.mp3" type="audio/mpeg">
+  </audio>
+  <p class="count" id="count1">Plays left: 3</p>
+</div>
+
+<div class="box">
+  <h3>Text 2</h3>
+  <audio id="audio2" controls>
+    <source src="listening/grade4_text2.mp3" type="audio/mpeg">
+  </audio>
+  <p class="count" id="count2">Plays left: 3</p>
+</div>
+    
+<div class="box">
+  <h3>Dictation Test</h3>
+  <audio id="audio3" controls>
+    <source src="listening/grade4_dictation.mp3" type="audio/mpeg">
+  </audio>
+  <p class="count" id="count3">Plays left: 10</p>
+</div>
+
+<a class="back" href="index.html">⬅ Back to Home</a>
+
+<script>
+  function limitPlays(audioId, countId) {
+    let maxPlays = 10;
+    let playCount = 0;
+
+    const audio = document.getElementById(audioId);
+    const counter = document.getElementById(countId);
+
+    audio.addEventListener('play', function () {
+      if (playCount >= maxPlays) {
+        audio.pause();
+        alert("You have reached the maximum number of plays.");
+      } else {
+        playCount++;
+        counter.innerText = "Plays left: " + (maxPlays - playCount);
+      }
+    });
+  }
+
+  limitPlays("audio1", "count1");
+  limitPlays("audio2", "count2");
+  limitPlays("audio3", "count3");
+</script>
+
+</body>
+</html>
