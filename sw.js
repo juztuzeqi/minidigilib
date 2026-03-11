@@ -1,72 +1,26 @@
-const CACHE_NAME = 'minidigilib-v1';
-const urlsToCache = [
-  '/minidigilib/',
-  '/minidigilib/index.html',
-  '/minidigilib/audio/index-ad.html',
-  '/minidigilib/logo.png',
-  '/minidigilib/favicon.png',
-  '/minidigilib/icon-192.png',
-  '/minidigilib/icon-512.png',
-  '/minidigilib/manifest.json'
-];
+// sw.js - Auto-update service worker
+const CACHE_NAME = 'minidigilib-v' + new Date().toISOString().slice(0,10).replace(/-/g, '');
 
-// Install service worker
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Cache opened');
-        return cache.addAll(urlsToCache);
-      })
-  );
+self.addEventListener('install', function(event) {
+  self.skipWaiting();
 });
 
-// Fetch: ambil dari cache dulu, baru network
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Dapat dari cache
-        if (response) {
-          return response;
-        }
-        
-        // Clone request karena sekali pakai
-        const fetchRequest = event.request.clone();
-        
-        return fetch(fetchRequest)
-          .then(response => {
-            // Cek response valid
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            
-            // Clone response untuk cache
-            const responseToCache = response.clone();
-            
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(event.request, responseToCache);
-              });
-            
-            return response;
-          });
-      })
-  );
-});
-
-// Hapus cache lama saat aktivasi
-self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
+self.addEventListener('activate', function(event) {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
+    caches.keys().then(function(cacheNames) {
       return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
+        cacheNames.map(function(cacheName) {
+          if (cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);
           }
         })
       );
+    }).then(function() {
+      return clients.claim();
     })
   );
+});
+
+self.addEventListener('fetch', function(event) {
+  event.respondWith(fetch(event.request));
 });
