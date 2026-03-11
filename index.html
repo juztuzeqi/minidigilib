@@ -14,7 +14,7 @@
     text-align: center;
   }
 
-  /* HEADER */
+  /* HEADER - LOGO LEBIH HALUS */
   .title-box {
     display: flex;
     justify-content: center;
@@ -24,14 +24,20 @@
   }
 
   .title-box img {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     object-fit: contain;
+    border-radius: 50%; /* Bikin logo bulat */
+    background: transparent; /* Pastikan background logo transparan */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Shadow tipis biar nyatu */
+    border: 2px solid white; /* Border putih sebagai transisi */
+    padding: 3px; /* Biar ngga dempet */
   }
 
   h1 {
     margin: 0;
     font-size: 2rem;
+    color: #333;
   }
 
   .subtitle {
@@ -51,13 +57,18 @@
     text-align: center;
     border-radius: 8px;
     font-size: 1.2rem;
+    transition: background 0.3s;
+  }
+
+  a.button:hover {
+    background: #1976D2;
   }
 </style>
 </head>
 
 <body>
 
-<!-- LOGO + TITLE -->
+<!-- LOGO + TITLE (SEKARANG LEBIH HALUS) -->
 <div class="title-box">
   <img src="logo.png" alt="Logo">
   <h1>Mini DigiLib</h1>
@@ -67,14 +78,13 @@
 
 <!-- MENU BUTTONS -->
 <a class="button" href="audio/index-ad.html">Audio</a>
+<a class="button" href="videos/index-vd.html">Short Videos</a>
 <a class="button" href="worksheets/index-ws.html">Worksheets</a>
 <a class="button" href="tests/index-lu.html">Level-Up Tests</a>
-
-<!-- NEW: Monthly Assessments -->
 <a class="button" href="monthly-assessments/index-ma.html">Monthly Assessments</a>
-
 <a class="button" href="dict/index-dc.html">Mini Dictionary</a>
 <a class="button" href="grmr-cheat-sheet/index-gc.html">Grammar Cheat Sheets</a>
+
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
