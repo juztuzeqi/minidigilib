@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>KP2A Worksheet Library</title>
+<title>Worksheet Library</title>
 <link rel="icon" type="image/png" href="favicon.png">
 
 <style>
@@ -20,13 +20,17 @@
   h2 {
     font-size: 20px;
     margin-top: 25px;
+    color: #2c3e50;
+    border-left: 6px solid #4a90e2;
+    padding-left: 12px;
   }
   p {
-    margin: 5px 0 10px;
+    margin: 5px 0 15px;
     color: #555;
+    font-size: 0.9rem;
   }
   ul {
-    list-style-type: none;   /* hilangkan bullet */
+    list-style-type: none;
     padding: 0;
   }
   li {
@@ -41,19 +45,24 @@
     font-size: 18px;
     color: #333;
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    transition: 0.2s;
+  }
+  a:hover {
+    background: #e9ecef;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
   a:active {
-    background: #e9ecef;
+    background: #dde2e6;
   }
-</style>
-</head>
-
-<body>
-<!-- HOME BUTTON -->
-<a href="../index.html" class="home-btn">Home</a>
-
-<style>
-.home-btn {
+  .badge {
+    background: #4a90e2;
+    color: white;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 20px;
+    margin-left: 10px;
+  }
+  .home-btn {
     position: fixed;
     top: 10px;
     right: 12px;
@@ -67,35 +76,54 @@
     backdrop-filter: blur(2px);
     box-shadow: 0 0 4px rgba(0,0,0,0.15);
     z-index: 999;
-}
-.home-btn:hover {
+  }
+  .home-btn:hover {
     background: #ffffff;
     box-shadow: 0 0 6px rgba(0,0,0,0.25);
-}
+  }
 </style>
-<h1>Worksheet Library</h1>
+</head>
 
-<h2>📚 Grammar Book Supplements</h2>
+<body>
+<!-- HOME BUTTON -->
+<a href="../index.html" class="home-btn">🏠 Home</a>
+
+<h1>📋 Worksheet Library</h1>
+<p>Choose an interactive worksheet category below. All grades can use these resources.</p>
+
+<!-- GRAMMAR INTERACTIVE -->
+<h2>🔤 Grammar Interactive</h2>
 <ul>
-  <li><a href="grmr/grmr1.html">📘 Grade 1</a></li>
-  <li><a href="grmr/grmr2.html">📗 Grade 2</a></li>
-  <li><a href="grmr/grmr3.html">📙 Grade 3</a></li>
-  <li><a href="grmr/grmr4.html">📘 Grade 4</a></li>
+  <li><a href="grammar/mixed-tenses-1.html">⏳ Mixed Tenses 1</a></li>
+  <li><a href="grammar/nouns.html">📦 Nouns</a></li>
+  <li><a href="grammar/pronouns.html">👥 Pronouns</a></li>
+  <li><a href="grammar/adjectives.html">🎨 Adjectives</a></li>
+  <li><a href="grammar/prepositions.html">📍 Prepositions</a></li>
+  <li><a href="grammar/verbs.html">⚡ Verbs & Auxiliaries</a></li>
 </ul>
 
-<h2>📚 Exercise Book Supplements</h2>
+<!-- READING INTERACTIVE -->
+<h2>📖 Reading Interactive</h2>
 <ul>
-  <li><a href="excr1.html">📘 Grade 1</a></li>
-  <li><a href="excr2.html">📗 Grade 2</a></li>
-  <li><a href="excr3.html">📙 Grade 3</a></li>
+  <li><a href="reading/short-stories.html">📚 Short Stories with Questions</a></li>
+  <li><a href="reading/cloze-passages.html">🔍 Cloze Passages</a></li>
+  <li><a href="reading/comprehension.html">❓ Reading Comprehension</a></li>
 </ul>
 
-<h2>📚 Miscellaneous</h2>
+<!-- OTHERS / MISCELLANEOUS -->
+<h2>🎲 Others / Miscellaneous</h2>
 <ul>
-  <li><a href="misc1.html">📘 Grammar</a></li>
-  <li><a href="misc2.html">📙 Reading Comprehension</a></li>
-  <li><a href="misc/misc3.html">📙 Other Materials</a></li>
+  <li><a href="misc/vocabulary.html">📇 Vocabulary Builder</a></li>
+  <li><a href="misc/spelling.html">✏️ Spelling Practice</a></li>
+  <li><a href="misc/writing-prompts.html">📝 Writing Prompts</a></li>
+  <li><a href="misc/flashcards.html">🃏 Flashcards</a></li>
+  <li><a href="misc/games.html">🎮 Language Games</a></li>
 </ul>
+
+<!-- Footer note -->
+<p style="margin-top: 30px; font-style: italic; color: #777;">
+  ⚡ Each page can be used across different grades. Teachers can adjust difficulty levels accordingly.
+</p>
 
 </body>
 </html>
