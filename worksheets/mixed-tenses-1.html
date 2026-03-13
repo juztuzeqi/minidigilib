@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G3 Grammar · 5 Tenses Practice</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #d0e2f2;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            padding: 10px 8px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .paper {
+            max-width: 650px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 25px rgba(0, 30, 60, 0.2);
+            padding: 18px 14px;
+        }
+        h1 {
+            font-size: 1.7rem;
+            color: #123b54;
+            margin: 0 0 2px 5px;
+        }
+        .sub {
+            font-size: 0.9rem;
+            color: #34675c;
+            margin-left: 8px;
+            margin-bottom: 10px;
+        }
+        .score-panel {
+            background: #e2edfb;
+            border-radius: 40px;
+            padding: 12px 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 10px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            scroll-margin-top: 20px;
+        }
+        .score-item {
+            background: white;
+            border-radius: 30px;
+            padding: 4px 14px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #114b66;
+            box-shadow: 0 1px 4px #b0c8dd;
+        }
+        .packet-info {
+            background: #f3d9b1;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-weight: 700;
+            color: #4d3e1a;
+        }
+        .qcard {
+            background: #f5faff;
+            border-radius: 18px;
+            padding: 14px 16px;
+            margin: 12px 0;
+            border: 1px solid #c0d6ed;
+        }
+        .qnum {
+            font-weight: 700;
+            color: #003f66;
+            background: #e3efff;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+        .stem {
+            line-height: 1.5;
+            font-size: 1rem;
+            display: inline;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 15px;
+            margin: 12px 0 8px;
+        }
+        .options label {
+            background: #ecf3fc;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            border: 1px solid #b9d2ef;
+        }
+        .options input[type="radio"] {
+            transform: scale(1.1);
+            margin-right: 3px;
+        }
+        .fb {
+            margin-left: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+        
+        .btn-large {
+            background: #1e4e73;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            width: 100%;
+            max-width: 300px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px #708090;
+            margin: 10px auto;
+        }
+        .btn-small {
+            background: white;
+            border: 1px solid #2c6085;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-reset {
+            background: #f9e2cf;
+            border: 2px solid #b4682d;
+            color: #6b3f1c;
+            font-weight: 700;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .footer-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #5f7d9c;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G3 Grammar · 5 Tenses</h1>
+    <div class="sub">Simple Present · Present Continuous · Simple Past · Past Continuous · Simple Future</div>
+
+    <div class="score-panel" id="scorePanel">
+        <span class="packet-info" id="packetDisplay">Paket 1/5</span>
+        <span class="score-item">✅ <span id="scoreCorrect">0</span>/25</span>
+        <span class="score-item">📊 <span id="scorePercent">0%</span></span>
+        <button class="btn-small" id="checkBtn">🔍 Check</button>
+        <button class="btn-small btn-reset" id="resetBtn">🎲 New Packet</button>
+    </div>
+
+    <div id="questionsContainer"></div>
+
+    <div class="button-group">
+        <button class="btn-large" id="checkBottomBtn">🔍 Check Answers</button>
+    </div>
+    
+    <div class="footer-note">
+        ⚡ 5 paket · 25 soal/paket · Urutan soal diacak
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- BANK SOAL (5 paket x 25 soal) ----------
+        const questionBank = [
+            // PAKET 1
+            [
+                // Simple Present (5)
+                { tense: "Simple Present", stem: "She _____ to school every day.", opts: ["go", "goes", "going", "went"], correct: 1 },
+                { tense: "Simple Present", stem: "They _____ football on Sundays.", opts: ["play", "plays", "playing", "played"], correct: 0 },
+                { tense: "Simple Present", stem: "I _____ a glass of milk every morning.", opts: ["drink", "drinks", "drinking", "drank"], correct: 0 },
+                { tense: "Simple Present", stem: "The cat _____ on the sofa.", opts: ["sleep", "sleeps", "sleeping", "slept"], correct: 1 },
+                { tense: "Simple Present", stem: "We _____ to the park on weekends.", opts: ["go", "goes", "going", "went"], correct: 0 },
+                
+                // Present Continuous (5)
+                { tense: "Present Continuous", stem: "She _____ a book right now.", opts: ["read", "reads", "is reading", "are reading"], correct: 2 },
+                { tense: "Present Continuous", stem: "They _____ football in the yard.", opts: ["play", "plays", "is playing", "are playing"], correct: 3 },
+                { tense: "Present Continuous", stem: "I _____ dinner at the moment.", opts: ["cook", "cooks", "am cooking", "is cooking"], correct: 2 },
+                { tense: "Present Continuous", stem: "Look! The sun _____.", opts: ["shine", "shines", "is shining", "are shining"], correct: 2 },
+                { tense: "Present Continuous", stem: "We _____ for the bus now.", opts: ["wait", "waits", "am waiting", "are waiting"], correct: 3 },
+                
+                // Simple Past (5)
+                { tense: "Simple Past", stem: "She _____ a letter yesterday.", opts: ["write", "writes", "wrote", "written"], correct: 2 },
+                { tense: "Simple Past", stem: "They _____ to the beach last week.", opts: ["go", "goes", "going", "went"], correct: 3 },
+                { tense: "Simple Past", stem: "I _____ a funny movie last night.", opts: ["see", "saw", "seen", "seeing"], correct: 1 },
+                { tense: "Simple Past", stem: "He _____ his homework an hour ago.", opts: ["finish", "finishes", "finished", "finishing"], correct: 2 },
+                { tense: "Simple Past", stem: "We _____ at the restaurant yesterday.", opts: ["eat", "eats", "ate", "eaten"], correct: 2 },
+                
+                // Past Continuous (5)
+                { tense: "Past Continuous", stem: "I _____ TV when you called.", opts: ["watch", "watched", "was watching", "were watching"], correct: 2 },
+                { tense: "Past Continuous", stem: "They _____ football at 4 pm yesterday.", opts: ["play", "played", "was playing", "were playing"], correct: 3 },
+                { tense: "Past Continuous", stem: "She _____ dinner when I arrived.", opts: ["cook", "cooked", "was cooking", "were cooking"], correct: 2 },
+                { tense: "Past Continuous", stem: "We _____ for the bus when it rained.", opts: ["wait", "waited", "was waiting", "were waiting"], correct: 3 },
+                { tense: "Past Continuous", stem: "He _____ a book while his sister played.", opts: ["read", "reads", "was reading", "were reading"], correct: 2 },
+                
+                // Simple Future (5)
+                { tense: "Simple Future", stem: "She _____ to Jakarta tomorrow.", opts: ["go", "goes", "will go", "went"], correct: 2 },
+                { tense: "Simple Future", stem: "They _____ a new car next month.", opts: ["buy", "buys", "will buy", "bought"], correct: 2 },
+                { tense: "Simple Future", stem: "I _____ you with your homework later.", opts: ["help", "helps", "will help", "helped"], correct: 2 },
+                { tense: "Simple Future", stem: "We _____ a party next Saturday.", opts: ["have", "has", "will have", "had"], correct: 2 },
+                { tense: "Simple Future", stem: "He _____ a doctor when he grows up.", opts: ["is", "are", "will be", "was"], correct: 2 }
+            ],
+            
+            // PAKET 2
+            [
+                // Simple Present
+                { tense: "Simple Present", stem: "He _____ breakfast at 7 am.", opts: ["have", "has", "is having", "will have"], correct: 1 },
+                { tense: "Simple Present", stem: "The students _____ in the classroom.", opts: ["study", "studies", "studying", "studied"], correct: 0 },
+                { tense: "Simple Present", stem: "My mother _____ delicious cakes.", opts: ["make", "makes", "making", "made"], correct: 1 },
+                { tense: "Simple Present", stem: "_____ you like ice cream?", opts: ["Does", "Do", "Are", "Is"], correct: 1 },
+                { tense: "Simple Present", stem: "The sun _____ in the east.", opts: ["rise", "rises", "is rising", "rose"], correct: 1 },
+                
+                // Present Continuous
+                { tense: "Present Continuous", stem: "Be quiet! The baby _____.", opts: ["sleep", "sleeps", "is sleeping", "are sleeping"], correct: 2 },
+                { tense: "Present Continuous", stem: "They _____ a new house this year.", opts: ["build", "builds", "is building", "are building"], correct: 3 },
+                { tense: "Present Continuous", stem: "I _____ to music right now.", opts: ["listen", "listens", "am listening", "is listening"], correct: 2 },
+                { tense: "Present Continuous", stem: "She _____ a new dress today.", opts: ["wear", "wears", "is wearing", "are wearing"], correct: 2 },
+                { tense: "Present Continuous", stem: "We _____ for the test at the moment.", opts: ["study", "studies", "am studying", "are studying"], correct: 3 },
+                
+                // Simple Past
+                { tense: "Simple Past", stem: "We _____ a great time at the party.", opts: ["have", "has", "had", "will have"], correct: 2 },
+                { tense: "Simple Past", stem: "She _____ a dress for the wedding.", opts: ["buy", "buys", "bought", "will buy"], correct: 2 },
+                { tense: "Simple Past", stem: "They _____ to music last night.", opts: ["listen", "listens", "listened", "will listen"], correct: 2 },
+                { tense: "Simple Past", stem: "I _____ my grandmother yesterday.", opts: ["visit", "visits", "visited", "will visit"], correct: 2 },
+                { tense: "Simple Past", stem: "He _____ a letter to his friend.", opts: ["write", "writes", "wrote", "will write"], correct: 2 },
+                
+                // Past Continuous
+                { tense: "Past Continuous", stem: "At 8 pm, I _____ dinner with my family.", opts: ["have", "had", "was having", "were having"], correct: 2 },
+                { tense: "Past Continuous", stem: "They _____ games when the teacher came.", opts: ["play", "played", "was playing", "were playing"], correct: 3 },
+                { tense: "Past Continuous", stem: "She _____ her room when I saw her.", opts: ["clean", "cleaned", "was cleaning", "were cleaning"], correct: 2 },
+                { tense: "Past Continuous", stem: "We _____ along the beach at sunset.", opts: ["walk", "walked", "was walking", "were walking"], correct: 3 },
+                { tense: "Past Continuous", stem: "He _____ his bike when it started to rain.", opts: ["ride", "rode", "was riding", "were riding"], correct: 2 },
+                
+                // Simple Future
+                { tense: "Simple Future", stem: "I _____ a new book next week.", opts: ["read", "reads", "will read", "readed"], correct: 2 },
+                { tense: "Simple Future", stem: "She _____ to the dentist tomorrow.", opts: ["go", "goes", "will go", "went"], correct: 2 },
+                { tense: "Simple Future", stem: "They _____ a new house next year.", opts: ["build", "builds", "will build", "built"], correct: 2 },
+                { tense: "Simple Future", stem: "We _____ dinner at 7 pm tonight.", opts: ["have", "has", "will have", "had"], correct: 2 },
+                { tense: "Simple Future", stem: "He _____ a famous singer one day.", opts: ["become", "becomes", "will become", "became"], correct: 2 }
+            ],
+            
+            // PAKET 3
+            [
+                // Simple Present
+                { tense: "Simple Present", stem: "We _____ English every Monday.", opts: ["study", "studies", "studying", "studied"], correct: 0 },
+                { tense: "Simple Present", stem: "The shop _____ at 9 am.", opts: ["open", "opens", "opening", "opened"], correct: 1 },
+                { tense: "Simple Present", stem: "My friends _____ basketball after school.", opts: ["play", "plays", "playing", "played"], correct: 0 },
+                { tense: "Simple Present", stem: "_____ your sister like chocolate?", opts: ["Do", "Does", "Is", "Are"], correct: 1 },
+                { tense: "Simple Present", stem: "I _____ coffee, I prefer tea.", opts: ["don't like", "doesn't like", "not like", "no like"], correct: 0 },
+                
+                // Present Continuous
+                { tense: "Present Continuous", stem: "Hurry up! We _____ for you.", opts: ["wait", "waits", "is waiting", "are waiting"], correct: 3 },
+                { tense: "Present Continuous", stem: "The children _____ in the garden.", opts: ["play", "plays", "is playing", "are playing"], correct: 3 },
+                { tense: "Present Continuous", stem: "I _____ a letter to my friend.", opts: ["write", "writes", "am writing", "is writing"], correct: 2 },
+                { tense: "Present Continuous", stem: "She _____ English at the moment.", opts: ["learn", "learns", "is learning", "are learning"], correct: 2 },
+                { tense: "Present Continuous", stem: "They _____ to the radio now.", opts: ["listen", "listens", "is listening", "are listening"], correct: 3 },
+                
+                // Simple Past
+                { tense: "Simple Past", stem: "She _____ to music on her phone.", opts: ["listen", "listens", "listened", "will listen"], correct: 2 },
+                { tense: "Simple Past", stem: "They _____ at the new café.", opts: ["eat", "eats", "ate", "will eat"], correct: 2 },
+                { tense: "Simple Past", stem: "I _____ my keys this morning.", opts: ["lose", "loses", "lost", "will lose"], correct: 2 },
+                { tense: "Simple Past", stem: "He _____ a beautiful song.", opts: ["sing", "sings", "sang", "will sing"], correct: 2 },
+                { tense: "Simple Past", stem: "We _____ a lot of photos.", opts: ["take", "takes", "took", "will take"], correct: 2 },
+                
+                // Past Continuous
+                { tense: "Past Continuous", stem: "I _____ a shower when you knocked.", opts: ["take", "took", "was taking", "were taking"], correct: 2 },
+                { tense: "Past Continuous", stem: "They _____ a movie at 9 pm.", opts: ["watch", "watched", "was watching", "were watching"], correct: 3 },
+                { tense: "Past Continuous", stem: "She _____ a letter when I entered.", opts: ["write", "wrote", "was writing", "were writing"], correct: 2 },
+                { tense: "Past Continuous", stem: "The baby _____ when we got home.", opts: ["sleep", "slept", "was sleeping", "were sleeping"], correct: 2 },
+                { tense: "Past Continuous", stem: "We _____ lunch at the restaurant.", opts: ["have", "had", "was having", "were having"], correct: 3 },
+                
+                // Simple Future
+                { tense: "Simple Future", stem: "I think it _____ tomorrow.", opts: ["rain", "rains", "will rain", "rained"], correct: 2 },
+                { tense: "Simple Future", stem: "She _____ her grandmother next week.", opts: ["visit", "visits", "will visit", "visited"], correct: 2 },
+                { tense: "Simple Future", stem: "They _____ the exam next month.", opts: ["take", "takes", "will take", "took"], correct: 2 },
+                { tense: "Simple Future", stem: "We _____ to the mountains.", opts: ["go", "goes", "will go", "went"], correct: 2 },
+                { tense: "Simple Future", stem: "He _____ late for school again.", opts: ["be", "is", "will be", "was"], correct: 2 }
+            ],
+            
+            // PAKET 4
+            [
+                // Simple Present
+                { tense: "Simple Present", stem: "Cats _____ milk.", opts: ["like", "likes", "liking", "liked"], correct: 0 },
+                { tense: "Simple Present", stem: "She _____ to school by bus.", opts: ["go", "goes", "going", "went"], correct: 1 },
+                { tense: "Simple Present", stem: "They _____ in a big house.", opts: ["live", "lives", "living", "lived"], correct: 0 },
+                { tense: "Simple Present", stem: "_____ he play the guitar?", opts: ["Do", "Does", "Is", "Are"], correct: 1 },
+                { tense: "Simple Present", stem: "The Earth _____ around the Sun.", opts: ["go", "goes", "going", "went"], correct: 1 },
+                
+                // Present Continuous
+                { tense: "Present Continuous", stem: "Please be quiet. I _____.", opts: ["work", "works", "am working", "is working"], correct: 2 },
+                { tense: "Present Continuous", stem: "Look! They _____ the bus.", opts: ["run for", "runs for", "is running for", "are running for"], correct: 3 },
+                { tense: "Present Continuous", stem: "She _____ a bath right now.", opts: ["take", "takes", "is taking", "are taking"], correct: 2 },
+                { tense: "Present Continuous", stem: "We _____ a delicious meal.", opts: ["cook", "cooks", "am cooking", "are cooking"], correct: 3 },
+                { tense: "Present Continuous", stem: "The phone _____. Can you answer it?", opts: ["ring", "rings", "is ringing", "are ringing"], correct: 2 },
+                
+                // Simple Past
+                { tense: "Simple Past", stem: "We _____ a rainbow yesterday.", opts: ["see", "sees", "saw", "will see"], correct: 2 },
+                { tense: "Simple Past", stem: "She _____ a new bag last week.", opts: ["buy", "buys", "bought", "will buy"], correct: 2 },
+                { tense: "Simple Past", stem: "They _____ to the zoo on Sunday.", opts: ["go", "goes", "went", "will go"], correct: 2 },
+                { tense: "Simple Past", stem: "I _____ a cold last week.", opts: ["have", "has", "had", "will have"], correct: 2 },
+                { tense: "Simple Past", stem: "He _____ his arm in the game.", opts: ["break", "breaks", "broke", "will break"], correct: 2 },
+                
+                // Past Continuous
+                { tense: "Past Continuous", stem: "I _____ in the garden at 5 pm.", opts: ["play", "played", "was playing", "were playing"], correct: 2 },
+                { tense: "Past Continuous", stem: "They _____ dinner when we arrived.", opts: ["have", "had", "was having", "were having"], correct: 3 },
+                { tense: "Past Continuous", stem: "She _____ a nap at this time yesterday.", opts: ["take", "took", "was taking", "were taking"], correct: 2 },
+                { tense: "Past Continuous", stem: "We _____ in the pool when it started to rain.", opts: ["swim", "swam", "was swimming", "were swimming"], correct: 3 },
+                { tense: "Past Continuous", stem: "He _____ his car when I saw him.", opts: ["wash", "washed", "was washing", "were washing"], correct: 2 },
+                
+                // Simple Future
+                { tense: "Simple Future", stem: "I promise I _____ you later.", opts: ["call", "calls", "will call", "called"], correct: 2 },
+                { tense: "Simple Future", stem: "She _____ her room tomorrow.", opts: ["clean", "cleans", "will clean", "cleaned"], correct: 2 },
+                { tense: "Simple Future", stem: "They _____ a party next week.", opts: ["have", "has", "will have", "had"], correct: 2 },
+                { tense: "Simple Future", stem: "We _____ to the cinema tonight.", opts: ["go", "goes", "will go", "went"], correct: 2 },
+                { tense: "Simple Future", stem: "He _____ a new bicycle for his birthday.", opts: ["get", "gets", "will get", "got"], correct: 2 }
+            ],
+            
+            // PAKET 5
+            [
+                // Simple Present
+                { tense: "Simple Present", stem: "Birds _____ in the sky.", opts: ["fly", "flies", "flying", "flew"], correct: 0 },
+                { tense: "Simple Present", stem: "My brother _____ coffee.", opts: ["don't like", "doesn't like", "isn't like", "not like"], correct: 1 },
+                { tense: "Simple Present", stem: "The museum _____ at 5 pm.", opts: ["close", "closes", "is closing", "closed"], correct: 1 },
+                { tense: "Simple Present", stem: "We always _____ hands before meals.", opts: ["wash", "washes", "washing", "washed"], correct: 0 },
+                { tense: "Simple Present", stem: "She _____ English very well.", opts: ["speak", "speaks", "is speaking", "spoke"], correct: 1 },
+                
+                // Present Continuous
+                { tense: "Present Continuous", stem: "Why _____ you _____ at me?", opts: ["do ... laugh", "does ... laugh", "are ... laughing", "is ... laughing"], correct: 2 },
+                { tense: "Present Continuous", stem: "I _____ forward to the holiday.", opts: ["look", "looks", "am looking", "is looking"], correct: 2 },
+                { tense: "Present Continuous", stem: "She _____ a new language this year.", opts: ["learn", "learns", "is learning", "are learning"], correct: 2 },
+                { tense: "Present Continuous", stem: "They _____ to move to a new house.", opts: ["plan", "plans", "is planning", "are planning"], correct: 3 },
+                { tense: "Present Continuous", stem: "The weather _____ better now.", opts: ["get", "gets", "is getting", "are getting"], correct: 2 },
+                
+                // Simple Past
+                { tense: "Simple Past", stem: "I _____ a strange noise last night.", opts: ["hear", "hears", "heard", "will hear"], correct: 2 },
+                { tense: "Simple Past", stem: "She _____ me a beautiful gift.", opts: ["give", "gives", "gave", "will give"], correct: 2 },
+                { tense: "Simple Past", stem: "They _____ at the airport at 3 pm.", opts: ["arrive", "arrives", "arrived", "will arrive"], correct: 2 },
+                { tense: "Simple Past", stem: "He _____ the answer to the question.", opts: ["know", "knows", "knew", "will know"], correct: 2 },
+                { tense: "Simple Past", stem: "We _____ a lot of fun at the beach.", opts: ["have", "has", "had", "will have"], correct: 2 },
+                
+                // Past Continuous
+                { tense: "Past Continuous", stem: "While I _____, the phone rang.", opts: ["sleep", "slept", "was sleeping", "were sleeping"], correct: 2 },
+                { tense: "Past Continuous", stem: "They _____ when the lights went out.", opts: ["read", "readed", "was reading", "were reading"], correct: 3 },
+                { tense: "Past Continuous", stem: "She _____ through the park when she met him.", opts: ["walk", "walked", "was walking", "were walking"], correct: 2 },
+                { tense: "Past Continuous", stem: "We _____ about you when you called.", opts: ["talk", "talked", "was talking", "were talking"], correct: 3 },
+                { tense: "Past Continuous", stem: "He _____ his homework all evening.", opts: ["do", "did", "was doing", "were doing"], correct: 2 },
+                
+                // Simple Future
+                { tense: "Simple Future", stem: "We _____ a test next Monday.", opts: ["have", "has", "will have", "had"], correct: 2 },
+                { tense: "Simple Future", stem: "She _____ a doctor when she grows up.", opts: ["become", "becomes", "will become", "became"], correct: 2 },
+                { tense: "Simple Future", stem: "They _____ to London next year.", opts: ["move", "moves", "will move", "moved"], correct: 2 },
+                { tense: "Simple Future", stem: "I _____ you with your project.", opts: ["help", "helps", "will help", "helped"], correct: 2 },
+                { tense: "Simple Future", stem: "He _____ late for the meeting.", opts: ["be", "is", "will be", "was"], correct: 2 }
+            ]
+        ];
+
+        let currentPacket = 0; // 0-4
+
+        // Render soal berdasarkan paket dengan urutan diacak
+        function renderPacket(packetIndex) {
+            // Copy array dan acak urutannya
+            const questions = [...questionBank[packetIndex]].sort(() => Math.random() - 0.5);
+            
+            const container = document.getElementById('questionsContainer');
+            let html = '';
+            
+            questions.forEach((q, idx) => {
+                html += `<div class="qcard">
+                    <span class="qnum">Q${idx+1}.</span>
+                    <span class="stem">${q.stem}</span>
+                    <div class="options">`;
+                
+                q.opts.forEach((opt, optIdx) => {
+                    html += `<label>
+                        <input type="radio" name="q${idx}" value="${optIdx}"> ${opt}
+                    </label>`;
+                });
+                
+                html += `</div>
+                    <span class="fb" id="fbQ${idx}"></span>
+                </div>`;
+            });
+            
+            container.innerHTML = html;
+            document.getElementById('packetDisplay').innerText = `Paket ${packetIndex + 1}/5`;
+            
+            // Reset scores
+            document.getElementById('scoreCorrect').innerText = '0';
+            document.getElementById('scorePercent').innerText = '0%';
+            
+            // Clear all feedback
+            for (let i = 0; i < 25; i++) {
+                const fb = document.getElementById(`fbQ${i}`);
+                if (fb) fb.innerText = '';
+                
+                // Uncheck all radios
+                const radios = document.getElementsByName(`q${i}`);
+                if (radios) {
+                    radios.forEach(r => r.checked = false);
+                }
+            }
+        }
+
+        // Fungsi scoring
+        function checkAnswers() {
+            const questions = [...questionBank[currentPacket]].sort(() => Math.random() - 0.5); // Harus konsisten dengan render
+            // TAPI kita tidak bisa pakai sort di sini karena akan beda urutan dengan yang ditampilkan!
+            // Kita harus simpan urutan saat render
+            
+            // Solusi: Ambil dari DOM urutan soalnya
+            let correct = 0;
+            
+            for (let i = 0; i < 25; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                
+                // Dapatkan jawaban benar dari bank sesuai paket, tapi kita tidak tahu urutan soalnya!
+                // Ini masalah karena kita mengacak urutan di render tapi tidak menyimpan urutannya.
+                
+                // Solusi: Kita simpan urutan soal saat render di variable global
+            }
+            
+            // Untuk sementara, kita perbaiki dengan cara menyimpan urutan
+        }
+
+        // Simpan urutan soal terakhir
+        let currentQuestions = [];
+
+        function renderPacket(packetIndex) {
+            // Copy array dan acak urutannya
+            currentQuestions = [...questionBank[packetIndex]].sort(() => Math.random() - 0.5);
+            
+            const container = document.getElementById('questionsContainer');
+            let html = '';
+            
+            currentQuestions.forEach((q, idx) => {
+                html += `<div class="qcard">
+                    <span class="qnum">Q${idx+1}.</span>
+                    <span class="stem">${q.stem}</span>
+                    <div class="options">`;
+                
+                q.opts.forEach((opt, optIdx) => {
+                    html += `<label>
+                        <input type="radio" name="q${idx}" value="${optIdx}"> ${opt}
+                    </label>`;
+                });
+                
+                html += `</div>
+                    <span class="fb" id="fbQ${idx}"></span>
+                </div>`;
+            });
+            
+            container.innerHTML = html;
+            document.getElementById('packetDisplay').innerText = `Paket ${packetIndex + 1}/5`;
+            
+            // Reset scores
+            document.getElementById('scoreCorrect').innerText = '0';
+            document.getElementById('scorePercent').innerText = '0%';
+        }
+
+        // Fungsi scoring yang benar
+        function checkAnswers() {
+            let correct = 0;
+            
+            for (let i = 0; i < 25; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                
+                const fb = document.getElementById(`fbQ${i}`);
+                if (selected !== null && parseInt(selected) === currentQuestions[i].correct) {
+                    fb.innerText = '✓';
+                    fb.className = 'fb correct';
+                    correct++;
+                } else {
+                    const benar = currentQuestions[i].opts[currentQuestions[i].correct];
+                    fb.innerText = selected ? `✗ (${benar})` : `? (${benar})`;
+                    fb.className = 'fb wrong';
+                }
+            }
+            
+            const percent = Math.round((correct / 25) * 100);
+            document.getElementById('scoreCorrect').innerText = correct;
+            document.getElementById('scorePercent').innerText = percent + '%';
+            
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Reset pindah paket (acak)
+        function newPacket() {
+            let newIndex = Math.floor(Math.random() * 5);
+            // Hindari paket yang sama berturut-turut
+            while (newIndex === currentPacket && questionBank.length > 1) {
+                newIndex = Math.floor(Math.random() * 5);
+            }
+            currentPacket = newIndex;
+            renderPacket(currentPacket);
+        }
+
+        // Initial render
+        renderPacket(0);
+
+        // Event listeners
+        document.getElementById('checkBtn').addEventListener('click', checkAnswers);
+        document.getElementById('checkBottomBtn').addEventListener('click', checkAnswers);
+        document.getElementById('resetBtn').addEventListener('click', newPacket);
+    })();
+</script>
+</body>
+</html>
