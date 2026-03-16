@@ -174,6 +174,18 @@
     color: #6b4f2a;
     margin-bottom: 10px;
   }
+  .clear-btn {
+    background: #ffcccc;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .clear-btn:active {
+    background: #ffaaaa;
+  }
 </style>
 </head>
 
@@ -186,7 +198,6 @@
 
   <div class="tracker">
     <span class="tracker-item" id="lessonTracker">📊 0/15 lessons</span>
-    <span class="tracker-item" id="historyBtn" style="cursor: pointer;" onclick="showHistoryPanel()">📋 History</span>
   </div>
 
   <div class="lesson-grid" id="lessonList"></div>
@@ -242,33 +253,30 @@
     });
   });
 
-  // ==================== RECORDING FEATURE (SAVE LOCALLY) ====================
+  // ==================== RECORDING FEATURE ====================
   let mediaRecorder;
   let audioChunks = [];
   let currentStream = null;
   let currentLesson = null;
   let currentButton = null;
 
-  // Start recording
+  // Start recording - DENGAN BITRATE 256kbps!
   async function startRecording(lessonName, button) {
     try {
-        currentLesson = lessonName;
-        currentButton = button;
-        
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        currentStream = stream;
-        
-        // 🎯 BITRATE LEBIH TINGGI
-        const options = { audioBitsPerSecond: 128000 };
-        mediaRecorder = new MediaRecorder(stream, options);  // <-- PAKAI OPTIONS
-        
-        audioChunks = [];
-        
-        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-        mediaRecorder.onstop = handleStop;
-        
-        // Reset all buttons...
-        // ... sisanya tetap sama
+      currentLesson = lessonName;
+      currentButton = button;
+      
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      currentStream = stream;
+      
+      // 🎯 BITRATE 256kbps - SUARA JERNIH!
+      const options = { audioBitsPerSecond: 256000 };
+      mediaRecorder = new MediaRecorder(stream, options);
+      
+      audioChunks = [];
+      
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+      mediaRecorder.onstop = handleStop;
       
       // Reset all buttons
       document.querySelectorAll('.record-btn').forEach(btn => {
@@ -374,7 +382,7 @@
     showHistoryPanel();
   }
 
-  // Show history panel
+  // Show history panel (otomatis muncul di bawah)
   window.showHistoryPanel = function() {
     const history = JSON.parse(localStorage.getItem('recordingHistory') || '[]');
     let existing = document.getElementById('historyBox');
@@ -385,18 +393,38 @@
       document.querySelector('.container').appendChild(div);
     }
     
-    let html = '<h4>📋 Recording History (last 10)</h4>';
+    let html = '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">';
+    html += '<h4 style="margin:0;">📋 Recording History (last 10)</h4>';
+    html += '<button class="clear-btn" onclick="clearHistory()">🗑️ Clear</button>';
+    html += '</div>';
+    
     if (history.length === 0) {
       html += '<p style="color:#888; font-style:italic;">No recordings yet</p>';
     } else {
       history.slice().reverse().forEach(h => {
-        html += `<div style="font-size:0.8rem; margin:8px 0; padding:8px; background:#fff; border-radius:10px;">
+        html += `<div style="font-size:0.8rem; margin:8px 0; padding:8px; background:#fff; border-radius:10px; border:1px solid #ddd;">
           💾 <b>${h.lesson}</b> · ${h.time}<br>
           <span style="color:#666;">${h.info}</span>
         </div>`;
       });
     }
-    document.getElementById('historyBox').innerHTML = html;
+    
+    if (existing) {
+      existing.innerHTML = html;
+    } else {
+      const div = document.createElement('div');
+      div.id = 'historyBox';
+      div.innerHTML = html;
+      document.querySelector('.container').appendChild(div);
+    }
+  };
+
+  // Clear history
+  window.clearHistory = function() {
+    if (confirm('Delete all recording history?')) {
+      localStorage.removeItem('recordingHistory');
+      showHistoryPanel();
+    }
   };
 
   // Event listener for all record buttons
