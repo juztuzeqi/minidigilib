@@ -58,30 +58,32 @@
     color: #1d4e6b;
     font-size: 0.9rem;
   }
-  .speaking-btn {
-    background: #ffb347;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 40px;
-    font-weight: 700;
-    color: #3d2b1a;
-    cursor: pointer;
+  .home-btn {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    background: #ffffffdd;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    border-radius: 30px;
+    text-decoration: none;
+    color: #2c3e50;
+    backdrop-filter: blur(2px);
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    font-size: 0.95rem;
-  }
-  .speaking-btn:active {
-    background: #f0a030;
+    z-index: 999;
+    border: 1px solid #d0ddee;
+    font-weight: 500;
   }
   .lesson-grid {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     margin-bottom: 30px;
   }
   .card {
     background: white;
-    border-radius: 20px;
-    padding: 16px;
+    border-radius: 24px;
+    padding: 18px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     border: 1px solid #dee7f0;
   }
@@ -106,85 +108,105 @@
   }
   audio {
     width: 100%;
-    height: 40px;
+    height: 44px;
     border-radius: 30px;
+    margin-bottom: 12px;
   }
   .record-row {
     display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
     justify-content: flex-end;
-    margin-top: 10px;
+    margin-top: 5px;
   }
-  .record-link {
-    background: #f0f5ff;
-    border: 1px solid #9bb6d0;
-    padding: 6px 16px;
-    border-radius: 30px;
-    font-size: 0.85rem;
-    color: #1e4e8c;
-    text-decoration: none;
-    display: inline-flex;
+  .record-btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: #d0e0ff;
+    border: 1px solid #4a7db5;
+    color: #1e3b5c;
+    transition: 0.2s;
+    min-width: 140px;
+  }
+  .record-btn:active {
+    opacity: 0.7;
+  }
+  .recording-indicator {
+    background: #ff6b6b !important;
+    color: white;
+    animation: pulse 1s infinite;
+    border-color: #ff0000;
+  }
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+  .success-box {
+    background: #e6ffe6;
+    padding: 10px 15px;
+    border-radius: 40px;
+    display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
+    font-size: 0.9rem;
+    border: 1px solid #00aa00;
+    flex-wrap: wrap;
   }
-  .record-link:active {
-    background: #d8e4f5;
-  }
-  .home-btn {
-    position: fixed;
-    top: 12px;
-    right: 12px;
-    background: #ffffffdd;
-    padding: 6px 14px;
-    font-size: 0.85rem;
+  .copy-btn {
+    background: white;
+    border: 1px solid #00aa00;
     border-radius: 30px;
-    text-decoration: none;
-    color: #2c3e50;
-    backdrop-filter: blur(2px);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    z-index: 999;
-    border: 1px solid #d0ddee;
-    font-weight: 500;
-  }
-  .home-btn:hover {
-    background: #ffffff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    padding: 5px 15px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: 600;
   }
   .footer-note {
     text-align: center;
     color: #7a8b9f;
     font-size: 0.8rem;
-    margin: 20px 0;
+    margin: 30px 0 20px;
+  }
+  #historyBox {
+    margin-top: 25px;
+    padding: 15px;
+    background: #f8f0e0;
+    border-radius: 24px;
+    border: 1px solid #e0d0b0;
+  }
+  #historyBox h4 {
+    color: #6b4f2a;
+    margin-bottom: 10px;
   }
 </style>
 </head>
 
 <body>
-<!-- HOME BUTTON -->
 <a href="../index.html" class="home-btn">🏠 Home</a>
 
 <div class="container">
   <h1>📘 Conversation Book 1</h1>
-  <div class="sub">15 lessons · listen and repeat</div>
+  <div class="sub">15 lessons · listen and practice speaking</div>
 
-  <!-- Tracker sederhana (motivasi, bukan paksaan) -->
   <div class="tracker">
-    <span class="tracker-item">📊 0/15 lessons</span>
-    <span class="tracker-item">⏱️ 0 min listened</span>
-    <button class="speaking-btn" id="practiceBtn">🎤 Practice Speaking</button>
+    <span class="tracker-item" id="lessonTracker">📊 0/15 lessons</span>
+    <span class="tracker-item" id="historyBtn" style="cursor: pointer;" onclick="showHistoryPanel()">📋 History</span>
   </div>
 
-  <!-- Daftar Lesson -->
-  <div class="lesson-grid" id="lessonList">
-    <!-- Akan diisi JavaScript -->
-  </div>
+  <div class="lesson-grid" id="lessonList"></div>
 
   <div class="footer-note">
-    ⚡ Klik audio untuk mendengar. Latih pengucapan dengan tombol rekam nanti.
+    ⚡ Click the blue button to record and upload your voice
   </div>
 </div>
 
 <script>
-  // Data lessons
+(function() {
   const lessons = [
     "Lesson 01", "Lesson 02", "Lesson 03", "Lesson 04", "Lesson 05",
     "Lesson 06", "Lesson 07", "Lesson 08", "Lesson 09", "Lesson 10",
@@ -194,7 +216,6 @@
   // Render lessons
   const container = document.getElementById('lessonList');
   let html = '';
-  
   lessons.forEach((lesson, index) => {
     const lessonNum = (index + 1).toString().padStart(2, '0');
     html += `
@@ -205,118 +226,204 @@
         </div>
         <audio controls preload="none">
           <source src="book1/track1-${lessonNum}.mp3" type="audio/mpeg">
-          Your browser does not support audio.
         </audio>
         <div class="record-row">
-          <a href="#" class="record-link" data-lesson="${index}">
-            🎙️ Record yourself
-          </a>
+          <button class="record-btn" data-lesson="${index}">🎤 Record & Upload</button>
         </div>
       </div>
     `;
   });
-  
   container.innerHTML = html;
 
-  // Tracker sederhana (nanti bisa dikembangkan)
-  const audioElements = document.querySelectorAll('audio');
-  let totalListened = 0;
-  let completedLessons = new Set();
-
-  audioElements.forEach((audio, idx) => {
+  // Tracker lesson
+  const lessonTracker = document.getElementById('lessonTracker');
+  const completedLessons = new Set();
+  document.querySelectorAll('audio').forEach((audio, idx) => {
     audio.addEventListener('timeupdate', () => {
-      if (audio.currentTime > 3) { // Minimal denger 3 detik
+      if (audio.currentTime > 5) {
         completedLessons.add(idx);
-        document.querySelector('.tracker-item:first-child').innerText = 
-          `📊 ${completedLessons.size}/15 lessons`;
+        lessonTracker.innerText = `📊 ${completedLessons.size}/15 lessons`;
       }
     });
-
     audio.addEventListener('ended', () => {
       completedLessons.add(idx);
-      document.querySelector('.tracker-item:first-child').innerText = 
-        `📊 ${completedLessons.size}/15 lessons`;
+      lessonTracker.innerText = `📊 ${completedLessons.size}/15 lessons`;
     });
   });
 
-  // Tombol Practice Speaking (nanti nyambung ke fitur rekam)
-  document.getElementById('practiceBtn').addEventListener('click', () => {
-    alert('🎤 Fitur rekam akan segera hadir! Siapkan microphone.');
-    // Nanti redirect ke halaman speaking practice
-    // window.location.href = 'speaking-practice.html';
-  });
+  // ==================== RECORDING FEATURE ====================
+  let mediaRecorder;
+  let audioChunks = [];
+  let currentStream = null;
+  let currentLesson = null;
+  let currentButton = null;
 
-  // Record links (sementara alert)
-  // Record links - LANGSUNG JADI!
-const recordLinks = document.querySelectorAll('.record-link');
-recordLinks.forEach(link => {
-    link.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const lessonName = lessons[link.dataset.lesson];
-        
-        // Ganti link jadi tombol record
-        link.innerHTML = '🔴 Click to start recording';
-        link.style.background = '#ffcccc';
-        
-        try {
-            // Minta izin mic
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            const mediaRecorder = new MediaRecorder(stream);
-            let chunks = [];
-            
-            mediaRecorder.ondataavailable = e => chunks.push(e.data);
-            
-            mediaRecorder.onstop = async () => {
-                link.innerHTML = '⏫ Uploading...';
-                
-                // Buat file blob
-                const blob = new Blob(chunks, { type: 'audio/webm' });
-                
-                // Upload ke file.io
-                const formData = new FormData();
-                formData.append('file', blob, `${lessonName}.webm`);
-                
-                try {
-                    const res = await fetch('https://file.io', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    const data = await res.json();
-                    
-                    // Tampilkan link
-                    link.innerHTML = `✅ Link: ${data.link.slice(0, 20)}...`;
-                    link.href = data.link;
-                    link.target = '_blank';
-                    
-                    alert(`✅ Sukses! Link rekaman:\n${data.link}\n\nCopy dan kirim ke guru!`);
-                } catch (err) {
-                    link.innerHTML = '❌ Gagal upload. Coba lagi.';
-                }
-                
-                // Matikan mic
-                stream.getTracks().forEach(track => track.stop());
-            };
-            
-            // Mulai rekam
-            mediaRecorder.start();
-            link.innerHTML = '⏹️ Click to STOP recording';
-            link.style.background = '#ff9999';
-            
-            // Stop kalau diklik lagi
-            link.onclick = (e) => {
-                e.preventDefault();
-                mediaRecorder.stop();
-                link.onclick = null; // reset
-            };
-            
-        } catch (err) {
-            alert('❌ Izinkan mic dulu ya!');
-            link.innerHTML = '🎙️ Record yourself';
-            link.style.background = '';
+  // Start recording
+  async function startRecording(lessonName, button) {
+    try {
+      currentLesson = lessonName;
+      currentButton = button;
+      
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      currentStream = stream;
+      
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+      
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+      mediaRecorder.onstop = handleStop;
+      
+      // Reset all buttons
+      document.querySelectorAll('.record-btn').forEach(btn => {
+        btn.classList.remove('recording-indicator');
+        btn.disabled = false;
+        btn.innerText = '🎤 Record & Upload';
+      });
+      
+      button.classList.add('recording-indicator');
+      button.innerText = '⏹️ STOP Recording';
+      button.disabled = false;
+      
+      mediaRecorder.start();
+      
+    } catch (err) {
+      alert('❌ Please allow microphone access');
+      button.innerText = '🎤 Record & Upload';
+    }
+  }
+
+  // Handle after stop
+  async function handleStop() {
+    if (!mediaRecorder) return;
+    
+    const blob = new Blob(audioChunks, { type: 'audio/webm' });
+    
+    if (currentStream) {
+      currentStream.getTracks().forEach(track => track.stop());
+      currentStream = null;
+    }
+    
+    currentButton.classList.remove('recording-indicator');
+    currentButton.innerText = '⏫ Uploading...';
+    currentButton.disabled = true;
+    
+    await uploadToQuickUpload(blob);
+  }
+
+  // Upload to QuickUpload.io
+  async function uploadToQuickUpload(blob) {
+    try {
+      const formData = new FormData();
+      formData.append('file', blob, `${currentLesson}.webm`);
+      
+      const res = await fetch('https://api.quickupload.io/v1/files', {
+        method: 'POST',
+        body: formData
+      });
+      
+      const data = await res.json();
+      
+      if (data.file && data.file.url) {
+        const successHtml = `
+          <div class="success-box">
+            <span>✅</span>
+            <span style="flex:1; overflow:hidden; font-size:0.8rem;">${data.file.url}</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('${data.file.url}'); alert('Link copied!')">📋 Copy</button>
+          </div>
+        `;
+        currentButton.outerHTML = successHtml;
+        saveToHistory('cloud', data.file.url);
+      } else {
+        throw new Error('Upload failed');
+      }
+    } catch (err) {
+      console.error(err);
+      currentButton.innerText = '❌ Upload failed';
+      currentButton.style.background = '#ffcccc';
+      currentButton.disabled = false;
+    }
+  }
+
+  // Save to IndexedDB
+  async function saveToIndexedDB(blob) {
+    const db = await new Promise((resolve, reject) => {
+      const req = indexedDB.open('MyRecordings', 1);
+      req.onupgradeneeded = () => {
+        req.result.createObjectStore('recordings', { keyPath: 'id', autoIncrement: true });
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = reject;
+    });
+    
+    const tx = db.transaction('recordings', 'readwrite');
+    tx.objectStore('recordings').add({
+      lesson: currentLesson,
+      audio: blob,
+      date: new Date()
+    });
+  }
+
+  // Save to history
+  function saveToHistory(type, info) {
+    let history = JSON.parse(localStorage.getItem('recordingHistory') || '[]');
+    history.push({
+      lesson: currentLesson,
+      type: type,
+      info: info,
+      time: new Date().toLocaleString()
+    });
+    if (history.length > 10) history = history.slice(-10);
+    localStorage.setItem('recordingHistory', JSON.stringify(history));
+    showHistoryPanel();
+  }
+
+  // Show history panel
+  window.showHistoryPanel = function() {
+    const history = JSON.parse(localStorage.getItem('recordingHistory') || '[]');
+    let existing = document.getElementById('historyBox');
+    
+    if (!existing) {
+      const div = document.createElement('div');
+      div.id = 'historyBox';
+      document.querySelector('.container').appendChild(div);
+    }
+    
+    let html = '<h4>📋 Recording History (last 10)</h4>';
+    if (history.length === 0) {
+      html += '<p style="color:#888; font-style:italic;">No recordings yet</p>';
+    } else {
+      history.slice().reverse().forEach(h => {
+        html += `<div style="font-size:0.8rem; margin:8px 0; padding:8px; background:#fff; border-radius:10px;">
+          ☁️ <b>${h.lesson}</b> · ${h.time}<br>
+          <span style="color:#0066aa;">${h.info}</span>
+        </div>`;
+      });
+    }
+    document.getElementById('historyBox').innerHTML = html;
+  };
+
+  // Event listener for all record buttons
+  document.querySelectorAll('.record-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      
+      if (btn.classList.contains('recording-indicator')) {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+          mediaRecorder.stop();
         }
+        return;
+      }
+      
+      const lessonIndex = btn.dataset.lesson;
+      const lessonName = lessons[lessonIndex];
+      
+      await startRecording(lessonName, btn);
     });
-});
-</script>
+  });
 
+  // Show history on load
+  showHistoryPanel();
+})();
+</script>
 </body>
 </html>
