@@ -2,166 +2,321 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 
 <title>Conversation Book 1</title>
 <link rel="icon" type="image/png" href="favicon.png">
 
 <style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
   body {
-    font-family: Arial, sans-serif;
-    margin: 10px;
-    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+    background: #f0f4f8;
+    padding: 12px 10px;
+    min-height: 100vh;
   }
-  h2 {
-    text-align: center;
-    font-size: 24px;
+  .container {
+    max-width: 650px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 28px;
+    color: #123b54;
+    margin: 5px 0 2px 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sub {
+    font-size: 0.9rem;
+    color: #34675c;
+    margin-left: 8px;
     margin-bottom: 20px;
+    border-bottom: 1px solid #cbd5e0;
+    padding-bottom: 10px;
   }
-  .lesson {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 12px;
+  .tracker {
+    background: #e6eefa;
+    border-radius: 40px;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tracker-item {
+    background: white;
+    border-radius: 30px;
+    padding: 6px 18px;
+    font-weight: 600;
+    color: #1d4e6b;
+    font-size: 0.9rem;
+  }
+  .speaking-btn {
+    background: #ffb347;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 40px;
+    font-weight: 700;
+    color: #3d2b1a;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    font-size: 0.95rem;
+  }
+  .speaking-btn:active {
+    background: #f0a030;
+  }
+  .lesson-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  .card {
+    background: white;
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #dee7f0;
+  }
+  .lesson-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 12px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   }
-  .lesson p {
-    margin: 0 0 8px 0;
-    font-size: 18px;
-    font-weight: bold;
+  .lesson-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1e3b5c;
+  }
+  .badge {
+    background: #d4e0f0;
+    color: #1e4e8c;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
   }
   audio {
-    width: 100%;   /* audio jadi full width */
+    width: 100%;
+    height: 40px;
+    border-radius: 30px;
   }
-  .back {
-    display: block;
-    margin: 20px auto;
-    text-align: center;
+  .record-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  .record-link {
+    background: #f0f5ff;
+    border: 1px solid #9bb6d0;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    color: #1e4e8c;
     text-decoration: none;
-    font-size: 18px;
-    padding: 12px;
-    background: #ffffff;
-    border-radius: 10px;
-    width: 80%;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    color: #333;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
   }
-  .back:active {
-    background: #e9ecef;
+  .record-link:active {
+    background: #d8e4f5;
+  }
+  .home-btn {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    background: #ffffffdd;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    border-radius: 30px;
+    text-decoration: none;
+    color: #2c3e50;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    z-index: 999;
+    border: 1px solid #d0ddee;
+    font-weight: 500;
+  }
+  .home-btn:hover {
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .footer-note {
+    text-align: center;
+    color: #7a8b9f;
+    font-size: 0.8rem;
+    margin: 20px 0;
   }
 </style>
 </head>
 
 <body>
+<!-- HOME BUTTON -->
+<a href="../index.html" class="home-btn">🏠 Home</a>
 
-<h2>📘 Conversation Book 1</h2>
+<div class="container">
+  <h1>📘 Conversation Book 1</h1>
+  <div class="sub">15 lessons · listen and repeat</div>
 
-<div class="lesson">
-  <p>Lesson 01</p>
-  <audio controls>
-    <source src="book1/track1-01.mp3" type="audio/mpeg">
-  </audio>
+  <!-- Tracker sederhana (motivasi, bukan paksaan) -->
+  <div class="tracker">
+    <span class="tracker-item">📊 0/15 lessons</span>
+    <span class="tracker-item">⏱️ 0 min listened</span>
+    <button class="speaking-btn" id="practiceBtn">🎤 Practice Speaking</button>
+  </div>
+
+  <!-- Daftar Lesson -->
+  <div class="lesson-grid" id="lessonList">
+    <!-- Akan diisi JavaScript -->
+  </div>
+
+  <div class="footer-note">
+    ⚡ Klik audio untuk mendengar. Latih pengucapan dengan tombol rekam nanti.
+  </div>
 </div>
 
-<div class="lesson">
-  <p>Lesson 02</p>
-  <audio controls>
-    <source src="book1/track1-02.mp3" type="audio/mpeg">
-  </audio>
-</div>
+<script>
+  // Data lessons
+  const lessons = [
+    "Lesson 01", "Lesson 02", "Lesson 03", "Lesson 04", "Lesson 05",
+    "Lesson 06", "Lesson 07", "Lesson 08", "Lesson 09", "Lesson 10",
+    "Lesson 11", "Lesson 12", "Lesson 13", "Lesson 14", "Lesson 15"
+  ];
 
-<div class="lesson">
-  <p>Lesson 03</p>
-  <audio controls>
-    <source src="book1/track1-03.mp3" type="audio/mpeg">
-  </audio>
-</div>
+  // Render lessons
+  const container = document.getElementById('lessonList');
+  let html = '';
+  
+  lessons.forEach((lesson, index) => {
+    const lessonNum = (index + 1).toString().padStart(2, '0');
+    html += `
+      <div class="card">
+        <div class="lesson-header">
+          <span class="lesson-title">${lesson}</span>
+          <span class="badge">Track 1-${lessonNum}</span>
+        </div>
+        <audio controls preload="none">
+          <source src="book1/track1-${lessonNum}.mp3" type="audio/mpeg">
+          Your browser does not support audio.
+        </audio>
+        <div class="record-row">
+          <a href="#" class="record-link" data-lesson="${index}">
+            🎙️ Record yourself
+          </a>
+        </div>
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
 
-<div class="lesson">
-  <p>Lesson 04</p>
-  <audio controls>
-    <source src="book1/track1-04.mp3" type="audio/mpeg">
-  </audio>
-</div>
+  // Tracker sederhana (nanti bisa dikembangkan)
+  const audioElements = document.querySelectorAll('audio');
+  let totalListened = 0;
+  let completedLessons = new Set();
 
-<div class="lesson">
-  <p>Lesson 05</p>
-  <audio controls>
-    <source src="book1/track1-05.mp3" type="audio/mpeg">
-  </audio>
-</div>
+  audioElements.forEach((audio, idx) => {
+    audio.addEventListener('timeupdate', () => {
+      if (audio.currentTime > 3) { // Minimal denger 3 detik
+        completedLessons.add(idx);
+        document.querySelector('.tracker-item:first-child').innerText = 
+          `📊 ${completedLessons.size}/15 lessons`;
+      }
+    });
 
-<div class="lesson">
-  <p>Lesson 06</p>
-  <audio controls>
-    <source src="book1/track1-06.mp3" type="audio/mpeg">
-  </audio>
-</div>
+    audio.addEventListener('ended', () => {
+      completedLessons.add(idx);
+      document.querySelector('.tracker-item:first-child').innerText = 
+        `📊 ${completedLessons.size}/15 lessons`;
+    });
+  });
 
-<div class="lesson">
-  <p>Lesson 07</p>
-  <audio controls>
-    <source src="book1/track1-07.mp3" type="audio/mpeg">
-  </audio>
-</div>
+  // Tombol Practice Speaking (nanti nyambung ke fitur rekam)
+  document.getElementById('practiceBtn').addEventListener('click', () => {
+    alert('🎤 Fitur rekam akan segera hadir! Siapkan microphone.');
+    // Nanti redirect ke halaman speaking practice
+    // window.location.href = 'speaking-practice.html';
+  });
 
-<div class="lesson">
-  <p>Lesson 08</p>
-  <audio controls>
-    <source src="book1/track1-08.mp3" type="audio/mpeg">
-  </audio>
-</div>
-    
-<div class="lesson">
-  <p>Lesson 09</p>
-  <audio controls>
-    <source src="book1/track1-09.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>Lesson 10</p>
-  <audio controls>
-    <source src="book1/track1-10.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>Lesson 11</p>
-  <audio controls>
-    <source src="book1/track1-11.mp3" type="audio/mpeg">
-  </audio>
-</div>    
-
-<div class="lesson">
-  <p>Lesson 12</p>
-  <audio controls>
-    <source src="book1/track1-12.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>Lesson 13</p>
-  <audio controls>
-    <source src="book1/track1-13.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>Lesson 14</p>
-  <audio controls>
-    <source src="book1/track1-14.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>Lesson 15</p>
-  <audio controls>
-    <source src="book1/track1-15.mp3" type="audio/mpeg">
-  </audio>
-</div>
-    
-<a class="back" href="index.html">⬅ Back to Home</a>
+  // Record links (sementara alert)
+  // Record links - LANGSUNG JADI!
+const recordLinks = document.querySelectorAll('.record-link');
+recordLinks.forEach(link => {
+    link.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const lessonName = lessons[link.dataset.lesson];
+        
+        // Ganti link jadi tombol record
+        link.innerHTML = '🔴 Click to start recording';
+        link.style.background = '#ffcccc';
+        
+        try {
+            // Minta izin mic
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const mediaRecorder = new MediaRecorder(stream);
+            let chunks = [];
+            
+            mediaRecorder.ondataavailable = e => chunks.push(e.data);
+            
+            mediaRecorder.onstop = async () => {
+                link.innerHTML = '⏫ Uploading...';
+                
+                // Buat file blob
+                const blob = new Blob(chunks, { type: 'audio/webm' });
+                
+                // Upload ke file.io
+                const formData = new FormData();
+                formData.append('file', blob, `${lessonName}.webm`);
+                
+                try {
+                    const res = await fetch('https://file.io', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await res.json();
+                    
+                    // Tampilkan link
+                    link.innerHTML = `✅ Link: ${data.link.slice(0, 20)}...`;
+                    link.href = data.link;
+                    link.target = '_blank';
+                    
+                    alert(`✅ Sukses! Link rekaman:\n${data.link}\n\nCopy dan kirim ke guru!`);
+                } catch (err) {
+                    link.innerHTML = '❌ Gagal upload. Coba lagi.';
+                }
+                
+                // Matikan mic
+                stream.getTracks().forEach(track => track.stop());
+            };
+            
+            // Mulai rekam
+            mediaRecorder.start();
+            link.innerHTML = '⏹️ Click to STOP recording';
+            link.style.background = '#ff9999';
+            
+            // Stop kalau diklik lagi
+            link.onclick = (e) => {
+                e.preventDefault();
+                mediaRecorder.stop();
+                link.onclick = null; // reset
+            };
+            
+        } catch (err) {
+            alert('❌ Izinkan mic dulu ya!');
+            link.innerHTML = '🎙️ Record yourself';
+            link.style.background = '';
+        }
+    });
+});
+</script>
 
 </body>
 </html>
