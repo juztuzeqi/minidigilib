@@ -252,17 +252,23 @@
   // Start recording
   async function startRecording(lessonName, button) {
     try {
-      currentLesson = lessonName;
-      currentButton = button;
-      
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      currentStream = stream;
-      
-      mediaRecorder = new MediaRecorder(stream);
-      audioChunks = [];
-      
-      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-      mediaRecorder.onstop = handleStop;
+        currentLesson = lessonName;
+        currentButton = button;
+        
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        currentStream = stream;
+        
+        // 🎯 BITRATE LEBIH TINGGI
+        const options = { audioBitsPerSecond: 128000 };
+        mediaRecorder = new MediaRecorder(stream, options);  // <-- PAKAI OPTIONS
+        
+        audioChunks = [];
+        
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.onstop = handleStop;
+        
+        // Reset all buttons...
+        // ... sisanya tetap sama
       
       // Reset all buttons
       document.querySelectorAll('.record-btn').forEach(btn => {
