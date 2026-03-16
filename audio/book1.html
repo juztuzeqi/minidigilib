@@ -157,15 +157,6 @@
     border: 1px solid #00aa00;
     flex-wrap: wrap;
   }
-  .copy-btn {
-    background: white;
-    border: 1px solid #00aa00;
-    border-radius: 30px;
-    padding: 5px 15px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    font-weight: 600;
-  }
   .footer-note {
     text-align: center;
     color: #7a8b9f;
@@ -201,7 +192,7 @@
   <div class="lesson-grid" id="lessonList"></div>
 
   <div class="footer-note">
-    ⚡ Click the blue button to record and upload your voice
+    ⚡ Click the button to record and save your voice to your phone
   </div>
 </div>
 
@@ -228,7 +219,7 @@
           <source src="book1/track1-${lessonNum}.mp3" type="audio/mpeg">
         </audio>
         <div class="record-row">
-          <button class="record-btn" data-lesson="${index}">🎤 Record & Upload</button>
+          <button class="record-btn" data-lesson="${index}">🎤 Record & Save</button>
         </div>
       </div>
     `;
@@ -251,7 +242,7 @@
     });
   });
 
-  // ==================== RECORDING FEATURE ====================
+  // ==================== RECORDING FEATURE (SAVE LOCALLY) ====================
   let mediaRecorder;
   let audioChunks = [];
   let currentStream = null;
@@ -277,7 +268,7 @@
       document.querySelectorAll('.record-btn').forEach(btn => {
         btn.classList.remove('recording-indicator');
         btn.disabled = false;
-        btn.innerText = '🎤 Record & Upload';
+        btn.innerText = '🎤 Record & Save';
       });
       
       button.classList.add('recording-indicator');
@@ -288,7 +279,7 @@
       
     } catch (err) {
       alert('❌ Please allow microphone access');
-      button.innerText = '🎤 Record & Upload';
+      button.innerText = '🎤 Record & Save';
     }
   }
 
@@ -304,41 +295,37 @@
     }
     
     currentButton.classList.remove('recording-indicator');
-    currentButton.innerText = '⏫ Uploading...';
+    currentButton.innerText = '💾 Saving...';
     currentButton.disabled = true;
     
-    await uploadToQuickUpload(blob);
+    // Save to device (download)
+    saveToDevice(blob);
   }
 
-  // Upload to QuickUpload.io
-  async function uploadToQuickUpload(blob) {
+  // Save to device (download)
+  function saveToDevice(blob) {
     try {
-      const formData = new FormData();
-      formData.append('file', blob, `${currentLesson}.webm`);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${currentLesson}-${Date.now()}.webm`;
+      a.click();
       
-      const res = await fetch('https://api.quickupload.io/v1/files', {
-        method: 'POST',
-        body: formData
-      });
+      // Clean up
+      setTimeout(() => URL.revokeObjectURL(url), 100);
       
-      const data = await res.json();
+      // Save to IndexedDB for history
+      saveToIndexedDB(blob);
       
-      if (data.file && data.file.url) {
-        const successHtml = `
-          <div class="success-box">
-            <span>✅</span>
-            <span style="flex:1; overflow:hidden; font-size:0.8rem;">${data.file.url}</span>
-            <button class="copy-btn" onclick="navigator.clipboard.writeText('${data.file.url}'); alert('Link copied!')">📋 Copy</button>
-          </div>
-        `;
-        currentButton.outerHTML = successHtml;
-        saveToHistory('cloud', data.file.url);
-      } else {
-        throw new Error('Upload failed');
-      }
+      // Update UI
+      currentButton.outerHTML = '<div class="success-box">✅ Saved to phone</div>';
+      
+      // Save to history
+      saveToHistory('local', 'Saved to device');
+      
     } catch (err) {
       console.error(err);
-      currentButton.innerText = '❌ Upload failed';
+      currentButton.innerText = '❌ Save failed';
       currentButton.style.background = '#ffcccc';
       currentButton.disabled = false;
     }
@@ -346,21 +333,25 @@
 
   // Save to IndexedDB
   async function saveToIndexedDB(blob) {
-    const db = await new Promise((resolve, reject) => {
-      const req = indexedDB.open('MyRecordings', 1);
-      req.onupgradeneeded = () => {
-        req.result.createObjectStore('recordings', { keyPath: 'id', autoIncrement: true });
-      };
-      req.onsuccess = () => resolve(req.result);
-      req.onerror = reject;
-    });
-    
-    const tx = db.transaction('recordings', 'readwrite');
-    tx.objectStore('recordings').add({
-      lesson: currentLesson,
-      audio: blob,
-      date: new Date()
-    });
+    try {
+      const db = await new Promise((resolve, reject) => {
+        const req = indexedDB.open('MyRecordings', 1);
+        req.onupgradeneeded = () => {
+          req.result.createObjectStore('recordings', { keyPath: 'id', autoIncrement: true });
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = reject;
+      });
+      
+      const tx = db.transaction('recordings', 'readwrite');
+      tx.objectStore('recordings').add({
+        lesson: currentLesson,
+        audio: blob,
+        date: new Date()
+      });
+    } catch (err) {
+      console.warn('IndexedDB save failed:', err);
+    }
   }
 
   // Save to history
@@ -394,8 +385,8 @@
     } else {
       history.slice().reverse().forEach(h => {
         html += `<div style="font-size:0.8rem; margin:8px 0; padding:8px; background:#fff; border-radius:10px;">
-          ☁️ <b>${h.lesson}</b> · ${h.time}<br>
-          <span style="color:#0066aa;">${h.info}</span>
+          💾 <b>${h.lesson}</b> · ${h.time}<br>
+          <span style="color:#666;">${h.info}</span>
         </div>`;
       });
     }
