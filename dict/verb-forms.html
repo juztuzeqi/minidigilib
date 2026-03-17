@@ -54,9 +54,13 @@
 <script>
 let verbs = [];
 
-fetch('verbforms.json')
+fetch('verbforms.json?t=' + Date.now())  // <-- tambah parameter timestamp
   .then(r => r.json())
-  .then(data => { verbs = data; });
+  .then(data => { verbs = data; })
+  .catch(err => {
+    console.error('Error loading verbs:', err);
+    document.getElementById('list').innerHTML = '<i>Failed to load verbs data</i>';
+  });
 
 function render(){
   const q = document
