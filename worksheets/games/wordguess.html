@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Guess · Bonus Game</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: #f0f4f8;
+      padding: 12px 10px;
+      display: flex;
+      justify-content: center;
+    }
+    .paper {
+      max-width: 550px;
+      width: 100%;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 6px 18px rgba(0,20,40,0.1);
+      padding: 22px 16px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #1d3e5e;
+      margin-bottom: 5px;
+    }
+    .sub {
+      color: #3a6b8c;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #ced9e5;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 15px;
+      color: #3a6b8c;
+      text-decoration: none;
+    }
+    .progress-bar {
+      background: #e6edf6;
+      border-radius: 40px;
+      padding: 12px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+    .score-badge {
+      background: white;
+      padding: 5px 15px;
+      border-radius: 30px;
+    }
+    .correct { color: #1f7a4c; }
+    .incorrect { color: #b13e3e; }
+    .desc {
+      background: #e9f0fa;
+      padding: 20px;
+      border-radius: 60px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .word-display {
+      font-size: 2.5rem;
+      letter-spacing: 15px;
+      font-weight: 700;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .input-area {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .guess-input {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #8aa9c4;
+      border-radius: 50px;
+      font-size: 1rem;
+    }
+    .btn {
+      background: #1e4e73;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn:active {
+      background: #123a55;
+    }
+    .btn-success {
+      background: #2a7f4a;
+    }
+    .message {
+      text-align: center;
+      min-height: 40px;
+      font-weight: 600;
+      margin: 15px 0;
+    }
+    .completed-banner {
+      background: #c0e0d0;
+      border-radius: 40px;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #165a3a;
+      margin: 30px 0;
+    }
+    .summary-stats {
+      background: #f8f0e0;
+      border-radius: 30px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="paper">
+  <a href="../index.html" class="back-link">← Back to Games</a>
+  <h1>🧩 Word Guess</h1>
+  <div class="sub">Complete all 10 words · Wrong answers are counted</div>
+  
+  <div id="gameArea"></div>
+</div>
+
+<script>
+  // ==================== 10 KATA ====================
+  const wordBank = [
+    { word: 'cat', desc: 'A small pet that meows' },
+    { word: 'dog', desc: 'A pet that barks' },
+    { word: 'fish', desc: 'Animal that swims' },
+    { word: 'bird', desc: 'Animal that flies' },
+    { word: 'sun', desc: 'Gives light during the day' },
+    { word: 'moon', desc: 'Seen in the night sky' },
+    { word: 'apple', desc: 'A red or green fruit' },
+    { word: 'rice', desc: 'Staple food in Asia' },
+    { word: 'house', desc: 'A place to live' },
+    { word: 'chair', desc: 'You sit on this' }
+  ];
+
+  // State
+  let questions = []; // array acak
+  let currentIndex = 0;
+  let stats = {
+    correct: 0,
+    incorrect: 0,
+    totalAnswered: 0
+  };
+  let gameCompleted = false;
+
+  // Fungsi acak array (Fisher-Yates)
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Inisialisasi game baru (acak soal)
+  function initGame() {
+    // Copy wordBank dan acak
+    questions = shuffleArray([...wordBank]);
+    currentIndex = 0;
+    stats = {
+      correct: 0,
+      incorrect: 0,
+      totalAnswered: 0
+    };
+    gameCompleted = false;
+    saveProgress();
+  }
+
+  // Load dari localStorage (kalau ada)
+  function loadProgress() {
+    const saved = localStorage.getItem('wordguessProgressV2');
+    if (saved) {
+      const data = JSON.parse(saved);
+      const today = new Date().toDateString();
+      if (data.date === today) {
+        questions = data.questions || [];
+        currentIndex = data.currentIndex || 0;
+        stats = data.stats || { correct: 0, incorrect: 0, totalAnswered: 0 };
+        gameCompleted = data.gameCompleted || false;
+        
+        // Validasi: kalau questions kosong, init ulang
+        if (!questions || questions.length === 0) {
+          initGame();
+        }
+      } else {
+        initGame();
+      }
+    } else {
+      initGame();
+    }
+  }
+
+  function saveProgress() {
+    const data = {
+      date: new Date().toDateString(),
+      questions: questions,
+      currentIndex: currentIndex,
+      stats: stats,
+      gameCompleted: gameCompleted
+    };
+    localStorage.setItem('wordguessProgressV2', JSON.stringify(data));
+  }
+
+  // Cek apakah semua soal sudah dijawab
+  function checkCompletion() {
+    if (currentIndex >= questions.length) {
+      gameCompleted = true;
+      saveProgress();
+      return true;
+    }
+    return false;
+  }
+
+  // Render game
+  function render() {
+    const gameArea = document.getElementById('gameArea');
+    
+    // Kalau game selesai
+    if (gameCompleted) {
+      const accuracy = stats.totalAnswered > 0 
+        ? Math.round((stats.correct / stats.totalAnswered) * 100) 
+        : 0;
+      
+      gameArea.innerHTML = `
+        <div class="completed-banner">
+          🏆 MISSION COMPLETED! 🏆
+        </div>
+        
+        <div class="summary-stats">
+          <h3 style="margin-bottom:15px;">📊 Final Score</h3>
+          <p style="font-size:1.3rem;">✅ Correct: ${stats.correct}</p>
+          <p style="font-size:1.3rem; color:#b13e3e;">❌ Incorrect: ${stats.incorrect}</p>
+          <p style="font-size:1.1rem; margin-top:10px;">Accuracy: ${accuracy}%</p>
+        </div>
+        
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button class="btn btn-success" onclick="playAgain()">🔄 Play Again</button>
+          <button class="btn" onclick="window.location.href='../index.html'">🏠 Home</button>
+        </div>
+      `;
+      return;
+    }
+    
+    const currentQ = questions[currentIndex];
+    
+    let html = `
+      <div class="progress-bar">
+        <span>🔤 Word ${currentIndex + 1}/${questions.length}</span>
+        <span class="score-badge">
+          <span class="correct">✅ ${stats.correct}</span> 
+          <span class="incorrect">❌ ${stats.incorrect}</span>
+        </span>
+      </div>
+      
+      <div class="desc">📌 ${currentQ.desc}</div>
+      <div class="word-display">${'_ '.repeat(currentQ.word.length)}</div>
+      
+      <div class="input-area">
+        <input type="text" id="guess" class="guess-input" placeholder="Your answer" autocomplete="off">
+        <button class="btn" onclick="checkGuess()">Guess</button>
+      </div>
+      
+      <div id="message" class="message"></div>
+    `;
+    
+    gameArea.innerHTML = html;
+    document.getElementById('guess').focus();
+  }
+
+  // Cek jawaban
+  window.checkGuess = function() {
+    if (gameCompleted) return;
+    
+    const guess = document.getElementById('guess').value.trim().toLowerCase();
+    const msg = document.getElementById('message');
+    const currentQ = questions[currentIndex];
+    
+    if (!guess) {
+      msg.innerHTML = 'Please type a word';
+      msg.style.color = '#b4682d';
+      return;
+    }
+    
+    if (guess === currentQ.word) {
+      // Jawaban benar
+      msg.innerHTML = '✅ Correct!';
+      msg.style.color = '#1f7a4c';
+      stats.correct++;
+    } else {
+      // Jawaban salah - tetap lanjut
+      msg.innerHTML = `❌ Incorrect. The answer was "${currentQ.word}"`;
+      msg.style.color = '#b13e3e';
+      stats.incorrect++;
+    }
+    
+    stats.totalAnswered++;
+    currentIndex++;
+    saveProgress();
+    
+    // Cek apakah sudah selesai
+    if (checkCompletion()) {
+      render();
+    } else {
+      // Kasih jeda biar pesan kebaca
+      setTimeout(() => {
+        render();
+      }, 1200);
+    }
+  };
+
+  // Play Again (acak ulang soal)
+  window.playAgain = function() {
+    initGame();
+    render();
+  };
+
+  // Reset game
+  window.resetGame = function() {
+    initGame();
+    render();
+  };
+
+  // Enter key
+  document.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && !gameCompleted) {
+      const guessBtn = document.querySelector('button[onclick="checkGuess()"]');
+      if (guessBtn) checkGuess();
+    }
+  });
+
+  // Initialize
+  loadProgress();
+  render();
+</script>
+</body>
+</html>
