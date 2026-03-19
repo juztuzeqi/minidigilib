@@ -15,256 +15,119 @@
             background: #f0f7ff;
             padding: 15px;
             min-height: 100vh;
-        }
-        .container {
-            max-width: 650px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 32px;
-            padding: 25px 20px;
-            box-shadow: 0 8px 20px rgba(0,20,50,0.1);
-        }
-        h1 {
-            font-size: 2.2rem;
-            color: #1d4e6b;
-            margin-bottom: 5px;
-        }
-        .sub {
-            color: #3a6b8c;
-            font-size: 0.95rem;
-            border-bottom: 2px solid #cde1f0;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-        .grade-section {
-            background: #f8fbff;
-            border-radius: 28px;
-            padding: 20px 15px;
-            margin-bottom: 20px;
-            border: 2px solid #d4e4f5;
-        }
-        .grade-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #0b4b6b;
-            margin-bottom: 15px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
         }
-        .download-link {
-            font-size: 0.9rem;
-            background: #e9f2fa;
-            padding: 6px 15px;
-            border-radius: 30px;
-            text-decoration: none;
+        .container {
+            max-width: 550px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            padding: 40px 25px;
+            box-shadow: 0 8px 25px rgba(0,20,50,0.15);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
             color: #1d4e6b;
-            border: 1px solid #8eb9d5;
+            margin-bottom: 20px;
         }
-        .paket-info {
-            font-size: 0.9rem;
-            color: #3a6b8c;
-            margin-bottom: 8px;
-            font-style: italic;
+        .construction-icon {
+            font-size: 5rem;
+            margin: 20px 0;
+            animation: gentlePulse 2s infinite ease-in-out;
         }
-        .paket-grid {
-            display: flex;
-            gap: 10px;
-            margin: 10px 0 15px;
-            flex-wrap: wrap;
+        @keyframes gentlePulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.9; }
         }
-        .paket-btn {
-            flex: 1;
-            min-width: 90px;
+        h2 {
+            font-size: 2rem;
+            color: #b45f2b;
+            margin-bottom: 15px;
+        }
+        .message {
+            background: #fef7e0;
+            border: 3px dashed #c0a86a;
+            border-radius: 40px;
+            padding: 25px;
+            margin: 25px 0;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #4d3e1a;
+        }
+        .highlight {
+            background: #1e4e73;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 60px;
+            display: inline-block;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        .button {
+            display: inline-block;
             background: #e9f2fa;
             border: 2px solid #8eb9d5;
-            border-radius: 40px;
-            padding: 12px 0;
-            font-size: 1rem;
+            border-radius: 60px;
+            padding: 15px 40px;
+            margin: 20px 0;
+            font-size: 1.2rem;
             font-weight: 600;
             color: #1d4e6b;
-            cursor: pointer;
+            text-decoration: none;
             transition: 0.2s;
         }
-        .paket-btn.active {
-            background: #1e4e73;
-            border-color: #0a3142;
-            color: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        .audio-box {
-            background: #dcebf9;
-            border-radius: 30px;
-            padding: 20px;
-            margin: 5px 0;
-            text-align: center;
-            border: 2px solid #8eb9d5;
-        }
-        .current-paket {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #0b4b6b;
-            background: white;
-            display: inline-block;
-            padding: 4px 20px;
-            border-radius: 30px;
-        }
-        audio {
-            width: 100%;
-            max-width: 300px;
-            margin: 5px auto;
+        .button:hover {
+            background: #d4e4f5;
+            transform: scale(1.02);
         }
         .footer-note {
-            text-align: center;
             color: #5f7d9c;
-            font-size: 0.85rem;
-            margin-top: 20px;
+            font-size: 0.9rem;
+            margin-top: 25px;
             font-style: italic;
         }
         .home-btn {
             position: fixed;
-            top: 10px;
-            right: 12px;
+            top: 15px;
+            right: 15px;
             background: #ffffffdd;
-            padding: 4px 10px;
-            font-size: 0.8rem;
-            font-style: italic;
-            border-radius: 6px;
+            padding: 8px 18px;
+            border-radius: 30px;
             text-decoration: none;
             color: #333;
             backdrop-filter: blur(2px);
-            box-shadow: 0 0 4px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             z-index: 999;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
-    <a href="../index.html" class="home-btn">Home</a>
+    <a href="../index.html" class="home-btn">🏠 Home</a>
     
     <div class="container">
-        <h1>📝 MA 1 · Spelling Test</h1>
-        <div class="sub">Grade 2 · 3 · 4 · 5 · 6</div>
-
-        <!-- GRADE 2 -->
-        <div class="grade-section">
-            <div class="grade-title">
-                GRADE 2
-                <a href="grade2_pkg/grade2_words.txt" download class="download-link">📥 word list</a>
-            </div>
-            <div class="paket-info">Choose packet:</div>
-            <div class="paket-grid">
-                <button class="paket-btn active" onclick="selectPaket(2, 1, this)">PACKET 1</button>
-                <button class="paket-btn" onclick="selectPaket(2, 2, this)">PACKET 2</button>
-                <button class="paket-btn" onclick="selectPaket(2, 3, this)">PACKET 3</button>
-            </div>
-            <div class="audio-box">
-                <div class="current-paket" id="current-2">▶ Packet 1</div>
-                <audio id="audio-2" controls>
-                    <source src="grade2_pkg/grade2_pkg1.mp3" type="audio/mpeg">
-                </audio>
-            </div>
+        <div class="construction-icon">🚧</div>
+        <h1>MA 1</h1>
+        <h2>Spelling Test</h2>
+        
+        <div class="message">
+            <span class="highlight">📢 UNDER CONSTRUCTION</span>
+            <br><br>
+            We're building this page.<br>
+            <strong>Spelling Test MA 2 is already available</strong><br>
+            in the Listening Centre.
         </div>
-
-        <!-- GRADE 3 -->
-        <div class="grade-section">
-            <div class="grade-title">
-                GRADE 3
-                <a href="grade3_pkg/grade3_words.txt" download class="download-link">📥 word list</a>
-            </div>
-            <div class="paket-info">Choose packet:</div>
-            <div class="paket-grid">
-                <button class="paket-btn active" onclick="selectPaket(3, 1, this)">PACKET 1</button>
-                <button class="paket-btn" onclick="selectPaket(3, 2, this)">PACKET 2</button>
-                <button class="paket-btn" onclick="selectPaket(3, 3, this)">PACKET 3</button>
-            </div>
-            <div class="audio-box">
-                <div class="current-paket" id="current-3">▶ Packet 1</div>
-                <audio id="audio-3" controls>
-                    <source src="grade3_pkg/grade3_pkg1.mp3" type="audio/mpeg">
-                </audio>
-            </div>
-        </div>
-
-        <!-- GRADE 4 -->
-        <div class="grade-section">
-            <div class="grade-title">
-                GRADE 4
-                <a href="grade4_pkg/grade4_words.txt" download class="download-link">📥 word list</a>
-            </div>
-            <div class="paket-info">Choose packet:</div>
-            <div class="paket-grid">
-                <button class="paket-btn active" onclick="selectPaket(4, 1, this)">PACKET 1</button>
-                <button class="paket-btn" onclick="selectPaket(4, 2, this)">PACKET 2</button>
-                <button class="paket-btn" onclick="selectPaket(4, 3, this)">PACKET 3</button>
-            </div>
-            <div class="audio-box">
-                <div class="current-paket" id="current-4">▶ Packet 1</div>
-                <audio id="audio-4" controls>
-                    <source src="grade4_pkg/grade4_pkg1.mp3" type="audio/mpeg">
-                </audio>
-            </div>
-        </div>
-
-        <!-- GRADE 5 (placeholder) -->
-        <div class="grade-section">
-            <div class="grade-title">
-                GRADE 5
-                <a href="grade5_pkg/grade5_words.txt" download class="download-link">📥 word list</a>
-            </div>
-            <div class="paket-info">Choose packet:</div>
-            <div class="paket-grid">
-                <button class="paket-btn active" onclick="selectPaket(5, 1, this)">PACKET 1</button>
-                <button class="paket-btn" onclick="selectPaket(5, 2, this)">PACKET 2</button>
-                <button class="paket-btn" onclick="selectPaket(5, 3, this)">PACKET 3</button>
-            </div>
-            <div class="audio-box">
-                <div class="current-paket" id="current-5">▶ Packet 1</div>
-                <audio id="audio-5" controls>
-                    <source src="grade5_pkg/grade5_pkg1.mp3" type="audio/mpeg">
-                </audio>
-            </div>
-        </div>
-
-        <!-- GRADE 6 (placeholder) -->
-        <div class="grade-section">
-            <div class="grade-title">
-                GRADE 6
-                <a href="grade6_pkg/grade6_words.txt" download class="download-link">📥 word list</a>
-            </div>
-            <div class="paket-info">Choose packet:</div>
-            <div class="paket-grid">
-                <button class="paket-btn active" onclick="selectPaket(6, 1, this)">PACKET 1</button>
-                <button class="paket-btn" onclick="selectPaket(6, 2, this)">PACKET 2</button>
-                <button class="paket-btn" onclick="selectPaket(6, 3, this)">PACKET 3</button>
-            </div>
-            <div class="audio-box">
-                <div class="current-paket" id="current-6">▶ Packet 1</div>
-                <audio id="audio-6" controls>
-                    <source src="grade6_pkg/grade6_pkg1.mp3" type="audio/mpeg">
-                </audio>
-            </div>
-        </div>
-
+        
+        <a href="index-ad.html" class="button">🎧 Go to Listening Centre</a>
+        <a href="spelling-ma2.html" class="button" style="background: #1e4e73; color: white; border-color: #0a3142;">📄 Try MA 2 Instead</a>
+        
         <div class="footer-note">
-            Choose packet · Play · Write on paper
+            ✨ MA 1 · MA 3 · MA 4 will be ready soon
         </div>
     </div>
-
-    <script>
-        function selectPaket(grade, pkg, btn) {
-            // Update active button
-            let gradeSection = btn.closest('.grade-section');
-            gradeSection.querySelectorAll('.paket-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Update current packet display
-            document.getElementById(`current-${grade}`).innerHTML = `▶ Packet ${pkg}`;
-            
-            // Update audio (sesuai struktur folder gradeX_pkg)
-            let audio = document.getElementById(`audio-${grade}`);
-            audio.src = `grade${grade}_pkg/grade${grade}_pkg${pkg}.mp3`;
-            audio.load();
-        }
-    </script>
 </body>
 </html>
