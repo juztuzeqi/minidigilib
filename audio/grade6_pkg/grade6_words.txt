@@ -1,0 +1,24 @@
+WORDS FOR SPELLING TEST GRADE 6
+==================================================
+
+Package 1:
+  Nouns (Abstract): argument, decision, organization, signature, lecture, brochure, benefit, profit, justice, kindness, length, mystery, quantity, intention, intuition, tension, strength, youth, method, failure, scene, route, vehicle, witness, temperature
+  Adjectives (Positive): fascinate, genuine, humorous, courageous, accurate, efficient, generous, immense, hilarious, patient, valuable, youthful, delicate
+  Others: benefit, profit, length, method
+  Adjectives (Negative/Neutral): sulky, nervous, questionable, unexpected, fragile, sour
+  Verbs: decide, deny, kneel, manage, participate, hesitate, obey, respond, admire, collapse, urge
+
+Package 2:
+  Nouns (Abstract): argument, decision, organization, signature, lecture, brochure, benefit, profit, justice, kindness, length, mystery, quantity, intention, intuition, tension, strength, youth, method, failure, scene, route, vehicle, witness, temperature
+  Adjectives (Positive): fascinate, genuine, humorous, courageous, accurate, efficient, generous, immense, hilarious, patient, valuable, youthful, delicate
+  Adjectives (Negative/Neutral): sulky, nervous, questionable, unexpected, fragile, sour
+  Verbs: decide, deny, kneel, manage, participate, hesitate, obey, respond, admire, collapse, urge
+  Others: benefit, profit, length, method
+
+Package 3:
+  Others: benefit, profit, length, method
+  Adjectives (Positive): fascinate, genuine, humorous, courageous, accurate, efficient, generous, immense, hilarious, patient, valuable, youthful, delicate
+  Nouns (Abstract): argument, decision, organization, signature, lecture, brochure, benefit, profit, justice, kindness, length, mystery, quantity, intention, intuition, tension, strength, youth, method, failure, scene, route, vehicle, witness, temperature
+  Adjectives (Negative/Neutral): sulky, nervous, questionable, unexpected, fragile, sour
+  Verbs: decide, deny, kneel, manage, participate, hesitate, obey, respond, admire, collapse, urge
+

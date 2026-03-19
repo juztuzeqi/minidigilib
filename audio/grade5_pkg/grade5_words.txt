@@ -1,0 +1,33 @@
+WORDS FOR SPELLING TEST GRADE 5
+==================================================
+
+Package 1:
+  Others: dictionary, fight, process, repeat, attention, except
+  Verbs: improve, process, welcome, record, migrate, return, claim, attract, struggle, mention, fight, repeat, except
+  Nouns (Abstract): choice, product, sympathy, success, occupation, knowledge, murder, challenge, wealth, patience, attention, account, article, magazine, spectacle
+  People: lawyer, stranger, foreigner, gentleman
+  Places: hospital, restaurant, village, church, hometown, location
+  Food: vegetable, liquid, shower
+  Adjectives: high, shocked, rotten, unknown, above
+  Holidays & Celebrations: Christmas, celebrate
+
+Package 2:
+  Holidays & Celebrations: Christmas, celebrate
+  Food: vegetable, liquid, shower
+  Places: hospital, restaurant, village, church, hometown, location
+  People: lawyer, stranger, foreigner, gentleman
+  Adjectives: high, shocked, rotten, unknown, above
+  Others: dictionary, fight, process, repeat, attention, except
+  Nouns (Abstract): choice, product, sympathy, success, occupation, knowledge, murder, challenge, wealth, patience, attention, account, article, magazine, spectacle
+  Verbs: improve, process, welcome, record, migrate, return, claim, attract, struggle, mention, fight, repeat, except
+
+Package 3:
+  Verbs: improve, process, welcome, record, migrate, return, claim, attract, struggle, mention, fight, repeat, except
+  Adjectives: high, shocked, rotten, unknown, above
+  Holidays & Celebrations: Christmas, celebrate
+  Nouns (Abstract): choice, product, sympathy, success, occupation, knowledge, murder, challenge, wealth, patience, attention, account, article, magazine, spectacle
+  Places: hospital, restaurant, village, church, hometown, location
+  Food: vegetable, liquid, shower
+  People: lawyer, stranger, foreigner, gentleman
+  Others: dictionary, fight, process, repeat, attention, except
+

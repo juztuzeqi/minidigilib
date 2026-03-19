@@ -1,0 +1,34 @@
+WORDS FOR SPELLING TEST GRADE 4
+==================================================
+
+Package 1:
+  Abstract: independence, trouble, excited, information, either, competition
+  Daily Life: bicycle, trouser, vacation, recess, privacy, setting, matchstick, refrigerator, textbook, experience
+  Verbs: rescue, realize, escape, exchange, decided, crawl, brought, forgotten, forgotten
+  Places: factory, mosque, church, boutique
+  Adverbs: suddenly, immediately, usually, sometimes
+  Adjectives: fierce, naughty, dangerous, strange, quiet, interesting, attractive, obedient, healthy, personal, complete
+  People & Roles: workaholic, servant, chauffeur, daughter, character
+  Health & Body: disease, tongue
+
+Package 2:
+  Places: factory, mosque, church, boutique
+  Daily Life: bicycle, trouser, vacation, recess, privacy, setting, matchstick, refrigerator, textbook, experience
+  Adjectives: fierce, naughty, dangerous, strange, quiet, interesting, attractive, obedient, healthy, personal, complete
+  Adverbs: suddenly, immediately, usually, sometimes
+  Abstract: independence, trouble, excited, information, either, competition
+  Verbs: rescue, realize, escape, exchange, decided, crawl, brought, forgotten, forgotten
+  People & Roles: workaholic, servant, chauffeur, daughter, character
+  Health & Body: disease, tongue
+ 
+
+Package 3:
+  Abstract: independence, trouble, excited, information, either, competition
+  Adverbs: suddenly, immediately, usually, sometimes
+  Verbs: rescue, realize, escape, exchange, decided, crawl, brought, forgotten, forgotten
+  Adjectives: fierce, naughty, dangerous, strange, quiet, interesting, attractive, obedient, healthy, personal, complete
+  Daily Life: bicycle, trouser, vacation, recess, privacy, setting, matchstick, refrigerator, textbook, experience
+  Health & Body: disease, tongue
+  People & Roles: workaholic, servant, chauffeur, daughter, character
+  Places: factory, mosque, church, boutique
+

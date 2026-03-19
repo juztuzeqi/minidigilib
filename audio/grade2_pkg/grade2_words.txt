@@ -1,0 +1,36 @@
+WORDS FOR SPELLING TEST GRADE 2
+==================================================
+
+Package 1:
+  Adjectives: dirty, scared, handsome, famous, expensive
+  Places: library, bridge, cage
+  Animals: giraffe
+  Verbs: bought, flew, escape, belongs, drives, touch
+  Daily Life: present, queue
+  Grammar: pronouns, adjective, personal
+  Transportation: bicycle, aeroplane, balloon
+  Other: between, evening, classmates
+  Professions: lawyer, farmer, fireman, courier
+
+Package 2:
+  Other: between, evening, classmates
+  Transportation: bicycle, aeroplane, balloon
+  Animals: giraffe
+  Daily Life: present, queue
+  Adjectives: dirty, scared, handsome, famous, expensive
+  Grammar: pronouns, adjective, personal
+  Professions: lawyer, farmer, fireman, courier
+  Places: library, bridge, cage
+  Verbs: bought, flew, escape, belongs, drives, touch
+
+Package 3:
+  Grammar: pronouns, adjective, personal
+  Other: between, evening, classmates
+  Places: library, bridge, cage
+  Transportation: bicycle, aeroplane, balloon
+  Professions: lawyer, farmer, fireman, courier
+  Daily Life: present, queue
+  Animals: giraffe
+  Adjectives: dirty, scared, handsome, famous, expensive
+  Verbs: bought, flew, escape, belongs, drives, touch
+

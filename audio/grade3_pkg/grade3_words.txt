@@ -1,0 +1,30 @@
+WORDS FOR SPELLING TEST GRADE 3
+========================================
+
+Package 1:
+  Others: quite, uniform
+  Food: fruits, breakfast
+  Professions: fishmonger, typist, judge, monitor
+  People: classmates, cousin, enemy
+  Places/Objects: painting, vehicle, armchair, window
+  Adjectives: beautiful, obedient, interesting, larger, cheaper, early
+  Verbs: attacked, hiding, arrive, against
+
+Package 2:
+  Others: quite, uniform
+  Food: fruits, breakfast
+  Places/Objects: painting, vehicle, armchair, window
+  Verbs: attacked, hiding, arrive, against
+  Professions: fishmonger, typist, judge, monitor
+  Adjectives: beautiful, obedient, interesting, larger, cheaper, early
+  People: classmates, cousin, enemy
+
+Package 3:
+  People: classmates, cousin, enemy
+  Others: quite, uniform
+  Adjectives: beautiful, obedient, interesting, larger, cheaper, early
+  Places/Objects: painting, vehicle, armchair, window
+  Professions: fishmonger, typist, judge, monitor
+  Food: fruits, breakfast
+  Verbs: attacked, hiding, arrive, against
+
