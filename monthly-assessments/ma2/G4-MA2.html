@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G4 English Program Monthly Assessment 2</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #d0e2f2; font-family: 'Segoe UI', Roboto, sans-serif; padding: 10px 8px; display: flex; justify-content: center; }
+        .paper { max-width: 700px; width: 100%; background: white; border-radius: 28px; box-shadow: 0 8px 25px rgba(0,30,60,0.2); padding: 18px 14px; }
+        h1 { font-size: 1.7rem; color: #123b54; margin: 0 0 2px 5px; }
+        .sub { font-size: 0.9rem; color: #34675c; margin-left: 8px; margin-bottom: 15px; }
+        .score-panel { background: #e2edfb; border-radius: 40px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; justify-content: space-between; margin-bottom: 20px; scroll-margin-top: 20px; }
+        .score-item { background: white; border-radius: 30px; padding: 4px 14px; font-weight: 600; font-size: 0.9rem; color: #114b66; box-shadow: 0 1px 4px #b0c8dd; }
+        .part { background: #f5faff; border-radius: 24px; padding: 18px 12px 22px; margin: 25px 0 18px; border: 1px solid #c0d6ed; }
+        .part h2 { background: #205882; color: white; display: inline-block; padding: 5px 24px; border-radius: 40px; font-size: 1.3rem; margin-top: -34px; margin-bottom: 16px; }
+        .grid-a { display: flex; flex-direction: column; gap: 12px; }
+        .qcard { background: white; border-radius: 18px; padding: 12px 14px; border: 1px solid #d0e2f5; font-size: 0.95rem; }
+        .qnum { font-weight: 700; color: #003f66; margin-right: 5px; }
+        .stem { line-height: 1.4; }
+        .ops { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; }
+        .ops label { background: #ecf3fc; padding: 4px 14px; border-radius: 30px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 4px; }
+        .fb { margin-left: 8px; font-weight: 600; font-size: 0.9rem; }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+        .fill-block { background: #fffcf0; border-radius: 24px; padding: 18px 16px; margin: 15px 0 10px; border: 2px solid #c0b28b; }
+        .fill-item { margin: 20px 0; display: flex; align-items: flex-start; gap: 10px; flex-wrap: nowrap; }
+        .fill-item .qnum { font-weight: 700; color: #003f66; min-width: 40px; font-size: 1rem; line-height: 1.5; flex-shrink: 0; }
+        .fill-content { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; line-height: 1.5; }
+        .inline-input { display: inline-block; width: 140px; flex-shrink: 0; }
+        .inline-input input, .inline-input select { width: 100%; padding: 8px 12px; border: 2px solid #5f8bb3; border-radius: 30px; font-size: 0.9rem; text-align: center; background: white; }
+        .inline-input input.correct, .inline-input select.correct { background: #e3f7e3; border-color: #2a7f4a; }
+        .fill-feedback { font-weight: 700; font-size: 0.9rem; min-width: 80px; text-align: right; flex-shrink: 0; }
+        .fill-feedback.correct { color: #1f8b4c; }
+        .fill-feedback.wrong { color: #c13a3a; }
+        .wordbank { background: #e0dcc0; padding: 12px 18px; border-radius: 40px; font-size: 0.95rem; font-weight: 600; display: flex; flex-wrap: wrap; gap: 8px 20px; border: 2px dashed #7f6e4e; margin-bottom: 20px; }
+        .check-bottom { display: flex; justify-content: center; margin: 20px 0 8px; }
+        .btn-large { background: #1e4e73; color: white; border: none; padding: 14px 30px; border-radius: 60px; font-size: 1.3rem; font-weight: 700; width: 100%; max-width: 300px; cursor: pointer; }
+        .btn-small { background: white; border: 1px solid #2c6085; padding: 6px 16px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .section-title { font-weight: 600; margin: 20px 0 10px; font-size: 1.1rem; color: #205882; }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G4 Monthly Assessment 2</h1>
+    <div class="sub">English Program | Grammar & Vocabulary</div>
+
+    <div class="score-panel" id="scorePanel">
+        <span class="score-item">A <span id="scoreA">0</span>/20</span>
+        <span class="score-item">B <span id="scoreB">0</span>/20</span>
+        <span class="score-item">total <span id="scoreTotal">0</span>/40</span>
+        <button class="btn-small" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <div class="part">
+        <h2>🔹 PART A: Grammar</h2>
+        
+        <div class="section-title">A.1 Multiple Choice</div>
+        <div class="grid-a" id="partAMC"></div>
+
+        <div class="section-title">A.2 Change to Questions (do/does/did)</div>
+        <div class="fill-block" id="a2Container"></div>
+
+        <div class="section-title">A.3 Change to Questions (to be: is/am/are/was/were)</div>
+        <div class="fill-block" id="a3Container"></div>
+    </div>
+
+    <div class="part">
+        <h2>🔸 PART B: Exercise</h2>
+        
+        <div class="section-title">B.1 Choose the correct word</div>
+        <div class="fill-block" id="b1Container"></div>
+        
+        <div class="section-title">B.2 Fill in the blanks</div>
+        <div class="wordbank">📌 WORD BANK: neck, eyebrow, ears, feet, waist, lap, stomach, shoulders, nails, middle</div>
+        <div class="fill-block" id="b2Container"></div>
+    </div>
+
+    <div class="check-bottom">
+        <button class="btn-large" id="checkBtn">🔍 Check Answers</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // A.1 Multiple Choice (10)
+        const mcqs = [
+            { stem: "Mr James has a car. That is ... car.", opts: ["my", "his", "her", "their"], correct: 1 },
+            { stem: "I have a hamster. This is ... hamster.", opts: ["his", "her", "my", "their"], correct: 2 },
+            { stem: "My dog has a bowl. This is ... bowl.", opts: ["my", "her", "their", "its"], correct: 3 },
+            { stem: "This is my father's clock. It is ... clock.", opts: ["my", "his", "her", "their"], correct: 1 },
+            { stem: "I ... typing a letter on the computer.", opts: ["is", "are", "am", "be"], correct: 2 },
+            { stem: "She ... cooking a meal now.", opts: ["am", "are", "is", "be"], correct: 2 },
+            { stem: "She ... baking a cake yesterday.", opts: ["was", "were", "is", "am"], correct: 0 },
+            { stem: "We ... playing with marbles this morning.", opts: ["am", "is", "was", "were"], correct: 3 },
+            { stem: "The shop will open ... nine o'clock.", opts: ["in", "on", "at", "under"], correct: 2 },
+            { stem: "Our teacher lives ... Batu Aji.", opts: ["at", "in", "on", "under"], correct: 1 }
+        ];
+
+        // A.2 Change to Questions (tanpa to be) - pakai do/does/did
+        const a2Sentences = [
+            { before: "The lady sells cookies.", after: "", correct: "Does the lady sell cookies?" },
+            { before: "They bought a TV set.", after: "", correct: "Did they buy a TV set?" },
+            { before: "They saw a tiger last night.", after: "", correct: "Did they see a tiger last night?" },
+            { before: "She lives in Bangkok.", after: "", correct: "Does she live in Bangkok?" },
+            { before: "The boys like to drink milk.", after: "", correct: "Do the boys like to drink milk?" }
+        ];
+
+        // A.3 Change to Questions (menggunakan to be)
+        const a3Sentences = [
+            { before: "That woman is old.", after: "", correct: "Is that woman old?" },
+            { before: "The coffee is hot.", after: "", correct: "Is the coffee hot?" },
+            { before: "Nelly was crying yesterday.", after: "", correct: "Was Nelly crying yesterday?" },
+            { before: "I am not going to school tomorrow.", after: "", correct: "Am I not going to school tomorrow?" },
+            { before: "The mangoes on the table are sour.", after: "", correct: "Are the mangoes on the table sour?" }
+        ];
+
+        // B.1 Underline correct (10)
+        const b1Sentences = [
+            { before: "My maid puts on a yellow ", options: ["apron", "bib"], after: " when she cooks.", correct: "apron" },
+            { before: "David changes into his ", options: ["pyjamas", "trousers"], after: " before going to bed.", correct: "pyjamas" },
+            { before: "The scout came to the meeting dressed in his ", options: ["pinafore", "uniform"], after: ".", correct: "uniform" },
+            { before: "It is cold. Please put on your ", options: ["shirt", "sweater"], after: ".", correct: "sweater" },
+            { before: "Look at the grey cloudy in the sky. Bring along your ", options: ["overall", "raincoat"], after: " when you go out.", correct: "raincoat" },
+            { before: "Adam changes into his swimming ", options: ["costume", "trunks"], after: " before jumping into the pool.", correct: "trunks" },
+            { before: "Every bride looks pretty in her ", options: ["space suit", "wedding gown"], after: ".", correct: "wedding gown" },
+            { before: "Mr Kang puts some name cards in the ", options: ["button", "pocket"], after: " of his shirt.", correct: "pocket" },
+            { before: "The waiter wears a black ", options: ["stocking", "vest"], after: " over his white shirt.", correct: "vest" },
+            { before: "I wear my scarf around my ", options: ["neck", "eye"], after: " to keep it warm during winter.", correct: "neck" }
+        ];
+
+        // B.2 Fill in blank (10)
+        const b2Sentences = [
+            { before: "I wear a scarf around my ", after: " to keep it warm during winter.", correct: "neck" },
+            { before: "I wear a belt around my ", after: " to tighten my trousers.", correct: "waist" },
+            { before: "I wear a ring around my ", after: " finger.", correct: "middle" },
+            { before: "We should cut our ", after: " regularly to keep them neat and clean.", correct: "nails" },
+            { before: "My jacket has ", after: " pads to make me look broader.", correct: "shoulders" },
+            { before: "The belly button is a small hole in the middle of our ", after: ".", correct: "stomach" },
+            { before: "The woman sits her child on her ", after: " and rocks him to sleep.", correct: "lap" },
+            { before: "Parents often tickle the ", after: " of their baby.", correct: "feet" },
+            { before: "Women have their ", after: " pierced so that they can wear earrings.", correct: "ears" },
+            { before: "There is a look of surprise on his face. He raises his ", after: ".", correct: "eyebrow" }
+        ];
+
+        // Render MCQs
+        const mcContainer = document.getElementById('partAMC');
+        function renderMC() {
+            let html = '';
+            mcqs.forEach((q, idx) => {
+                html += `<div class="qcard"><span class="qnum">${idx+1}.</span> <span class="stem">${q.stem}</span>
+                    <div class="ops">`;
+                q.opts.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(97 + optIdx);
+                    html += `<label><input type="radio" name="mc${idx}" value="${optIdx}"> ${letter}) ${opt}</label>`;
+                });
+                html += `</div><span class="fb" id="fbMC${idx}"></span></div>`;
+            });
+            mcContainer.innerHTML = html;
+        }
+        renderMC();
+
+        function renderFillItems(containerId, sentences, prefix, isDropdown = false) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            sentences.forEach((s, idx) => {
+                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content"><span class="fill-text">${s.before}</span>`;
+                if (isDropdown && s.options) {
+                    html += `<span class="inline-input"><select id="${prefix}_${idx}"><option value="">-- choose --</option>`;
+                    s.options.forEach(opt => html += `<option value="${opt}">${opt}</option>`);
+                    html += `</select></span>`;
+                } else {
+                    html += `<span class="inline-input"><input type="text" id="${prefix}_${idx}" placeholder="answer" autocomplete="off"></span>`;
+                }
+                html += `<span class="fill-text">${s.after}</span></div><span class="fill-feedback" id="fb_${prefix}_${idx}"></span></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        renderFillItems('a2Container', a2Sentences, 'a2', false);
+        renderFillItems('a3Container', a3Sentences, 'a3', false);
+        renderFillItems('b1Container', b1Sentences, 'b1', true);
+        renderFillItems('b2Container', b2Sentences, 'b2', false);
+
+        // Scoring
+        function hitungSkorDanScroll() {
+            let skorA = 0;
+            // MCQs
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                const fb = document.getElementById(`fbMC${i}`);
+                if (selected !== null && parseInt(selected) === mcqs[i].correct) {
+                    fb.innerText = '✓'; fb.className = 'fb correct'; skorA++;
+                } else {
+                    const benar = mcqs[i].opts[mcqs[i].correct];
+                    const benarLetter = String.fromCharCode(97 + mcqs[i].correct);
+                    fb.innerText = selected ? `✗ (${benarLetter}) ${benar}` : `(answer: ${benarLetter}) ${benar}`;
+                    fb.className = 'fb wrong';
+                }
+            }
+            // A.2
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`a2_${i}`);
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase().replace(/[?]/g, '');
+                    const benar = a2Sentences[i].correct.toLowerCase().replace(/[?]/g, '');
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorA++;
+                    } else {
+                        fb.innerText = val ? `✗ ${a2Sentences[i].correct}` : `${a2Sentences[i].correct}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+            // A.3
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`a3_${i}`);
+                const fb = document.getElementById(`fb_a3_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase().replace(/[?]/g, '');
+                    const benar = a3Sentences[i].correct.toLowerCase().replace(/[?]/g, '');
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorA++;
+                    } else {
+                        fb.innerText = val ? `✗ ${a3Sentences[i].correct}` : `${a3Sentences[i].correct}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            let skorB = 0;
+            // B.1
+            for (let i = 0; i < 10; i++) {
+                const sel = document.getElementById(`b1_${i}`);
+                const fb = document.getElementById(`fb_b1_${i}`);
+                if (sel) {
+                    const val = sel.value;
+                    const benar = b1Sentences[i].correct;
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; sel.style.borderColor = '#2a7f4a'; sel.style.background = '#e3f7e3'; skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`; fb.className = 'fill-feedback wrong'; sel.style.borderColor = '#5f8bb3'; sel.style.background = 'white';
+                    }
+                }
+            }
+            // B.2
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`b2_${i}`);
+                const fb = document.getElementById(`fb_b2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = b2Sentences[i].correct.toLowerCase();
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${b2Sentences[i].correct}` : `${b2Sentences[i].correct}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetSemua() {
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                radios.forEach(r => r.checked = false);
+                const fb = document.getElementById(`fbMC${i}`);
+                if (fb) fb.innerText = '';
+            }
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`a2_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (fb) fb.innerText = '';
+                const inp3 = document.getElementById(`a3_${i}`);
+                if (inp3) { inp3.value = ''; inp3.classList.remove('correct'); }
+                const fb3 = document.getElementById(`fb_a3_${i}`);
+                if (fb3) fb3.innerText = '';
+            }
+            for (let i = 0; i < 10; i++) {
+                const sel = document.getElementById(`b1_${i}`);
+                if (sel) { sel.value = ''; sel.style.borderColor = '#5f8bb3'; sel.style.background = 'white'; }
+                const fb = document.getElementById(`fb_b1_${i}`);
+                if (fb) fb.innerText = '';
+                const inp = document.getElementById(`b2_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); }
+                const fb2 = document.getElementById(`fb_b2_${i}`);
+                if (fb2) fb2.innerText = '';
+            }
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', hitungSkorDanScroll);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>
