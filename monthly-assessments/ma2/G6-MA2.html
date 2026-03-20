@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G6 English Program Monthly Assessment 2 • Part A & B</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #d0e2f2;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            padding: 10px 8px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .paper {
+            max-width: 700px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 25px rgba(0, 30, 60, 0.2);
+            padding: 18px 14px;
+        }
+        h1 {
+            font-size: 1.7rem;
+            color: #123b54;
+            margin: 0 0 2px 5px;
+        }
+        .sub {
+            font-size: 0.9rem;
+            color: #34675c;
+            margin-left: 8px;
+            margin-bottom: 15px;
+        }
+        .score-panel {
+            background: #e2edfb;
+            border-radius: 40px;
+            padding: 12px 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 10px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            scroll-margin-top: 20px;
+        }
+        .score-item {
+            background: white;
+            border-radius: 30px;
+            padding: 4px 14px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #114b66;
+            box-shadow: 0 1px 4px #b0c8dd;
+        }
+        .part {
+            background: #f5faff;
+            border-radius: 24px;
+            padding: 18px 12px 22px;
+            margin: 25px 0 18px;
+            border: 1px solid #c0d6ed;
+        }
+        .part h2 {
+            background: #205882;
+            color: white;
+            display: inline-block;
+            padding: 5px 24px;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            margin-top: -34px;
+            margin-bottom: 16px;
+        }
+        
+        /* PART A - grid kompak */
+        .grid-a {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .qcard {
+            background: white;
+            border-radius: 18px;
+            padding: 12px 14px;
+            border: 1px solid #d0e2f5;
+            font-size: 0.95rem;
+        }
+        .qnum {
+            font-weight: 700;
+            color: #003f66;
+            margin-right: 5px;
+        }
+        .stem {
+            line-height: 1.4;
+        }
+        .ops {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+            margin-top: 10px;
+        }
+        .ops label {
+            background: #ecf3fc;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .fb {
+            margin-left: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+
+        /* CLOZE KOMPAK */
+        .cloze-block {
+            background: #fffcf0;
+            border-radius: 24px;
+            padding: 16px 12px;
+            margin: 20px 0 15px;
+            border: 2px solid #c0b28b;
+        }
+        .reading {
+            font-size: 1rem;
+            line-height: 1.8;
+            background: #fffcf0;
+            padding: 12px 8px;
+            border-radius: 20px;
+            word-break: break-word;
+            text-align: justify;
+        }
+        .inline-input {
+            display: inline-block;
+            width: auto;
+            min-width: 70px;
+            max-width: 100px;
+            margin: 0 2px;
+            vertical-align: middle;
+            position: relative;
+        }
+        .inline-input input {
+            width: 100%;
+            padding: 4px 6px;
+            border: 1.5px solid #5f8bb3;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-align: center;
+            background: white;
+            font-weight: 500;
+            height: 32px;
+        }
+        .inline-input input.correct {
+            background: #e3f7e3;
+            border-color: #2a7f4a;
+        }
+        .inline-feedback {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-left: 3px;
+            min-width: 20px;
+        }
+        .inline-feedback.correct { color: #12874b; }
+        .inline-feedback.wrong { color: #c13a3a; }
+        
+        .wordbank {
+            background: #e0dcc0;
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            margin: 10px 0 8px;
+            font-weight: 600;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 16px;
+            border: 2px dashed #7f6e4e;
+        }
+        
+        .check-bottom {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 8px;
+        }
+        .btn-large {
+            background: #1e4e73;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            width: 100%;
+            max-width: 300px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px #708090;
+        }
+        .btn-small {
+            background: white;
+            border: 1px solid #2c6085;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        hr {
+            margin: 10px 0;
+            border-color: #c0d6ed;
+        }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G6 Monthly Assessment 2</h1>
+    <div class="sub">English Program | Grammar & Cloze</div>
+
+    <!-- Score panel -->
+    <div class="score-panel" id="scorePanel">
+        <span class="score-item">A <span id="scoreA">0</span>/20</span>
+        <span class="score-item">B <span id="scoreB">0</span>/20</span>
+        <span class="score-item">total <span id="scoreTotal">0</span>/40</span>
+        <button class="btn-small" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <!-- PART A: GRAMMAR (20 soal) -->
+    <div class="part">
+        <h2>🔹 PART A: Grammar</h2>
+        <div class="grid-a" id="partAList"></div>
+    </div>
+
+    <!-- PART B: EXERCISE (Cloze) -->
+    <div class="part">
+        <h2>🔸 PART B: Cloze Exercise</h2>
+
+        <!-- TEXT 1: Sandra's Birthday Accident -->
+        <div class="cloze-block">
+            <div style="font-weight:700; margin-bottom:4px;">📖 Text 1: Sandra's Birthday Accident</div>
+            <div class="wordbank">📌 BANK: accidentally, bouncy, bought, brought, comforted, hurriedly, replaced, rushed, scolded, shocked, smashed, thrilled</div>
+            <div class="reading" id="text1Inline"></div>
+        </div>
+
+        <!-- TEXT 2: The Life Cycle of Butterflies -->
+        <div class="cloze-block">
+            <div style="font-weight:700; margin-bottom:4px;">📖 Text 2: The Life Cycle of Butterflies</div>
+            <div class="wordbank">📌 BANK: before, can, into, its, Other, over, suck, Then, they, through</div>
+            <div class="reading" id="text2Inline"></div>
+        </div>
+    </div>
+
+    <!-- CHECK BUTTON -->
+    <div class="check-bottom">
+        <button class="btn-large" id="checkBtn">🔍 Check Answers</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ========== PART A: 20 GRAMMAR SOAL ==========
+        // Format: stem, opts (a,b,c,d), correct (0-index)
+        const partA = [
+            { stem: "The children played ______.", opts: ["happy", "happily", "happiness", "happiest"], correct: 1 },
+            { stem: "The alarm went off ______.", opts: ["sudden", "suddenly", "suddenness", "suddenest"], correct: 1 },
+            { stem: "Daniel ______ talks to us.", opts: ["seldom", "seldomly", "neverly", "oftenly"], correct: 0 },
+            { stem: "The boy answered our questions ______.", opts: ["clever", "cleverer", "cleverly", "cleverest"], correct: 2 },
+            { stem: "The villagers live ______.", opts: ["peaceful", "peace", "peacefully", "peacefulness"], correct: 2 },
+            { stem: "The dog missed its master ______.", opts: ["dear", "dearly", "dearness", "dears"], correct: 1 },
+            { stem: "Jean danced ______ than Joanna.", opts: ["graceful", "gracefully", "more gracefully", "most gracefully"], correct: 2 },
+            { stem: "Ignatius talked as ______ as he could.", opts: ["honest", "honestly", "more honestly", "most honestly"], correct: 1 },
+            { stem: "They came ______ than we expected.", opts: ["soon", "sooner", "soonest", "more soon"], correct: 1 },
+            { stem: "The fire victims will stay here ______.", opts: ["briefly", "permanently", "temporarily", "shortly"], correct: 2 },
+            { stem: "Angie has been praying ______.", opts: ["for a long time", "for a moment", "overnight", "shortly"], correct: 0 },
+            { stem: "The rat ran ______ the trap and was caught inside.", opts: ["at", "in", "into", "onto"], correct: 2 },
+            { stem: "A coin fell ______ the drain.", opts: ["in", "onto", "into", "under"], correct: 2 },
+            { stem: "The shop is closed ______ Sunday.", opts: ["in", "at", "on", "by"], correct: 2 },
+            { stem: "Nita is afraid ______ seeing the headmaster.", opts: ["with", "of", "for", "about"], correct: 1 },
+            { stem: "The police promised to look ______ the matter.", opts: ["for", "after", "into", "up"], correct: 2 },
+            { stem: "Our neighbours turned ______ our offer to help.", opts: ["away", "off", "down", "up"], correct: 2 },
+            { stem: "If it is dark, we ______ the candles.", opts: ["light", "will light", "would light", "lighting"], correct: 1 },
+            { stem: "If no one comes, we ______ the meeting.", opts: ["cancel", "will cancel", "would cancel", "cancels"], correct: 1 },
+            { stem: "If the price is high, we ______ not buy it.", opts: ["do", "will", "would", "are"], correct: 1 }
+        ];
+
+        // ========== PART B KEYS ==========
+        // Text 1: Sandra's Birthday Accident (10 blanks)
+        const t1Keys = ["bought", "thrilled", "bouncy", "accidentally", "smashed", "rushed", "shocked", "scolded", "comforted", "replaced"];
+        
+        // Text 2: The Life Cycle of Butterflies (10 blanks)
+        const t2Keys = ["over", "can", "through", "its", "Then", "before", "into", "suck", "Other", "they"];
+
+        // ========== RENDER PART A ==========
+        const aContainer = document.getElementById('partAList');
+        function renderPartA() {
+            let html = '';
+            partA.forEach((q, idx) => {
+                html += `<div class="qcard">
+                    <span class="qnum">Q${idx+1}.</span> <span class="stem">${q.stem}</span>
+                    <div class="ops">`;
+                q.opts.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(97 + optIdx); // a, b, c, d
+                    html += `<label><input type="radio" name="q${idx}" value="${optIdx}"> ${letter}) ${opt}</label>`;
+                });
+                html += `</div><span class="fb" id="fbA${idx}"></span></div>`;
+            });
+            aContainer.innerHTML = html;
+        }
+        renderPartA();
+
+        // ========== MEMBANGUN TEKS CLOZE INLINE ==========
+        // Text 1 parts with placeholders (1) to (10)
+        const text1Parts = [
+            "For her birthday last year, Sandra's father ", "(1)", " her red ball. Sandra was ", "(2)", " to receive it. She had always wanted one to play with. It was big and ", "(3)", ". Sandra played ball with her friends. One day, while they were really enjoying themselves, Sandra ", "(4)", " kicked the ball straight into her living room window and ", "(5)", " it. Sandra's parents ", "(6)", " to see what had happened. They were ", "(7)", ". Sandra started to cry. She was afraid that she would be ", "(8)", ". Instead, her parents ", "(9)", " her and told her not to worry. The next day, Sandra's father arranged to have the window ", "(10)", "."
+        ];
+
+        // Text 2 parts with placeholders (1) to (10)
+        const text2Parts = [
+            "Butterflies are beautiful insects found all ", "(1)", " the world, but most species ", "(2)", " be found in tropical climates. A butterfly goes ", "(3)", " many changes in ", "(4)", " body form and colour during its life cycle. There are four stages of butterfly life: egg, caterpillar, pupa and adult. Caterpillars hatch from eggs after about two weeks. ", "(5)", " they start feeding on leaves. The pupal stage lasts about two weeks ", "(6)", " it turns into a butterfly. Most butterflies feed on the nectar of flowers. They use a long mouth part to dip ", "(7)", " the flowers and ", "(8)", " up the nectar. ", "(9)", " butterflies, however, prefer to feed on rotting fruit. Butterflies are important to nature because ", "(10)", " pollinate plants as they feed."
+        ];
+
+        function buildClozeHtml(partsArray, prefix) {
+            let html = '';
+            for (let i = 0; i < partsArray.length; i++) {
+                const part = partsArray[i];
+                const match = part.match(/^\((\d+)\)$/);
+                if (match) {
+                    const blankIndex = parseInt(match[1]) - 1;
+                    html += `<span class="inline-input">`;
+                    html += `<input type="text" id="${prefix}_${blankIndex}" placeholder="(${blankIndex+1})" autocomplete="off">`;
+                    html += `<span class="inline-feedback" id="fb_${prefix}_${blankIndex}"></span>`;
+                    html += `</span>`;
+                } else {
+                    html += part;
+                }
+            }
+            return html;
+        }
+
+        document.getElementById('text1Inline').innerHTML = buildClozeHtml(text1Parts, 't1');
+        document.getElementById('text2Inline').innerHTML = buildClozeHtml(text2Parts, 't2');
+
+        // ========== FUNGSI CHECK SCORE & SCROLL ==========
+        function hitungSkorDanScroll() {
+            // Part A Scoring
+            let skorA = 0;
+            for (let i = 0; i < 20; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                const fb = document.getElementById(`fbA${i}`);
+                if (selected !== null && parseInt(selected) === partA[i].correct) {
+                    fb.innerText = '✓';
+                    fb.className = 'fb correct';
+                    skorA++;
+                } else {
+                    const benar = partA[i].opts[partA[i].correct];
+                    const benarLetter = String.fromCharCode(97 + partA[i].correct);
+                    if (selected !== null) {
+                        fb.innerText = `✗ (${benarLetter}) ${benar}`;
+                    } else {
+                        fb.innerText = `(answer: ${benarLetter}) ${benar}`;
+                    }
+                    fb.className = 'fb wrong';
+                }
+            }
+
+            // Part B Text 1 Scoring
+            let skorB = 0;
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`t1_${i}`);
+                const fb = document.getElementById(`fb_t1_${i}`);
+                if (inp) {
+                    const val = inp.value.trim();
+                    const benar = t1Keys[i];
+                    if (val.toLowerCase() === benar.toLowerCase()) {
+                        fb.innerText = '✓';
+                        fb.className = 'inline-feedback correct';
+                        inp.classList.add('correct');
+                        skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`;
+                        fb.className = 'inline-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+            
+            // Part B Text 2 Scoring
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`t2_${i}`);
+                const fb = document.getElementById(`fb_t2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim();
+                    const benar = t2Keys[i];
+                    if (val.toLowerCase() === benar.toLowerCase()) {
+                        fb.innerText = '✓';
+                        fb.className = 'inline-feedback correct';
+                        inp.classList.add('correct');
+                        skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`;
+                        fb.className = 'inline-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+
+            // Scroll ke score panel
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ========== RESET SEMUA ==========
+        function resetSemua() {
+            // Reset Part A radio buttons
+            for (let i = 0; i < 20; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                radios.forEach(r => r.checked = false);
+                const fb = document.getElementById(`fbA${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset Text 1 inputs
+            for (let i = 0; i < 10; i++) {
+                const inp1 = document.getElementById(`t1_${i}`);
+                if (inp1) {
+                    inp1.value = '';
+                    inp1.classList.remove('correct');
+                    const fb1 = document.getElementById(`fb_t1_${i}`);
+                    if (fb1) fb1.innerText = '';
+                }
+                const inp2 = document.getElementById(`t2_${i}`);
+                if (inp2) {
+                    inp2.value = '';
+                    inp2.classList.remove('correct');
+                    const fb2 = document.getElementById(`fb_t2_${i}`);
+                    if (fb2) fb2.innerText = '';
+                }
+            }
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        // Event listeners
+        document.getElementById('checkBtn').addEventListener('click', hitungSkorDanScroll);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>
