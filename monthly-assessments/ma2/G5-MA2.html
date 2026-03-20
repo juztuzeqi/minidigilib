@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G5 English Program Monthly Assessment 2 • Part A & B</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #d0e2f2;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            padding: 10px 8px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .paper {
+            max-width: 700px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 25px rgba(0, 30, 60, 0.2);
+            padding: 18px 14px;
+        }
+        h1 {
+            font-size: 1.7rem;
+            color: #123b54;
+            margin: 0 0 2px 5px;
+        }
+        .sub {
+            font-size: 0.9rem;
+            color: #34675c;
+            margin-left: 8px;
+            margin-bottom: 15px;
+        }
+        .score-panel {
+            background: #e2edfb;
+            border-radius: 40px;
+            padding: 12px 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 10px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            scroll-margin-top: 20px;
+        }
+        .score-item {
+            background: white;
+            border-radius: 30px;
+            padding: 4px 14px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #114b66;
+            box-shadow: 0 1px 4px #b0c8dd;
+        }
+        .part {
+            background: #f5faff;
+            border-radius: 24px;
+            padding: 18px 12px 22px;
+            margin: 25px 0 18px;
+            border: 1px solid #c0d6ed;
+        }
+        .part h2 {
+            background: #205882;
+            color: white;
+            display: inline-block;
+            padding: 5px 24px;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            margin-top: -34px;
+            margin-bottom: 16px;
+        }
+        
+        /* PART A - grid kompak */
+        .grid-a {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .qcard {
+            background: white;
+            border-radius: 18px;
+            padding: 12px 14px;
+            border: 1px solid #d0e2f5;
+            font-size: 0.95rem;
+        }
+        .qnum {
+            font-weight: 700;
+            color: #003f66;
+            margin-right: 5px;
+        }
+        .stem {
+            line-height: 1.4;
+        }
+        .ops {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+            margin-top: 10px;
+        }
+        .ops label {
+            background: #ecf3fc;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .fb {
+            margin-left: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+
+        /* CLOZE KOMPAK */
+        .cloze-block {
+            background: #fffcf0;
+            border-radius: 24px;
+            padding: 16px 12px;
+            margin: 20px 0 15px;
+            border: 2px solid #c0b28b;
+        }
+        .reading {
+            font-size: 1rem;
+            line-height: 1.8;
+            background: #fffcf0;
+            padding: 12px 8px;
+            border-radius: 20px;
+            word-break: break-word;
+            text-align: justify;
+        }
+        .inline-input {
+            display: inline-block;
+            width: auto;
+            min-width: 70px;
+            max-width: 100px;
+            margin: 0 2px;
+            vertical-align: middle;
+            position: relative;
+        }
+        .inline-input input {
+            width: 100%;
+            padding: 4px 6px;
+            border: 1.5px solid #5f8bb3;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-align: center;
+            background: white;
+            font-weight: 500;
+            height: 32px;
+        }
+        .inline-input input.correct {
+            background: #e3f7e3;
+            border-color: #2a7f4a;
+        }
+        .inline-feedback {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-left: 3px;
+            min-width: 20px;
+        }
+        .inline-feedback.correct { color: #12874b; }
+        .inline-feedback.wrong { color: #c13a3a; }
+        
+        .wordbank {
+            background: #e0dcc0;
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            margin: 10px 0 8px;
+            font-weight: 600;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 16px;
+            border: 2px dashed #7f6e4e;
+        }
+        
+        .check-bottom {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 8px;
+        }
+        .btn-large {
+            background: #1e4e73;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            width: 100%;
+            max-width: 300px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px #708090;
+        }
+        .btn-small {
+            background: white;
+            border: 1px solid #2c6085;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        hr {
+            margin: 10px 0;
+            border-color: #c0d6ed;
+        }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G5 Monthly Assessment 2</h1>
+    <div class="sub">English Program | Grammar & Cloze</div>
+
+    <!-- Score panel -->
+    <div class="score-panel" id="scorePanel">
+        <span class="score-item">A <span id="scoreA">0</span>/20</span>
+        <span class="score-item">B <span id="scoreB">0</span>/20</span>
+        <span class="score-item">total <span id="scoreTotal">0</span>/40</span>
+        <button class="btn-small" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <!-- PART A: GRAMMAR (20 soal) -->
+    <div class="part">
+        <h2>🔹 PART A: Grammar</h2>
+        <div class="grid-a" id="partAList"></div>
+    </div>
+
+    <!-- PART B: EXERCISE (Cloze) -->
+    <div class="part">
+        <h2>🔸 PART B: Cloze Exercise</h2>
+
+        <!-- TEXT 1: Chris and his mother discussing homework -->
+        <div class="cloze-block">
+            <div style="font-weight:700; margin-bottom:4px;">📖 Text 1: Chris and his mother discussing homework</div>
+            <div class="wordbank">📌 BANK: optional, inquired, expression, responded, assignment, multiplication, calculators, wonder, immediately, difference, sarcastically, compulsory</div>
+            <div class="reading" id="text1Inline"></div>
+        </div>
+
+        <!-- TEXT 2: Facts about mosquitoes -->
+        <div class="cloze-block">
+            <div style="font-weight:700; margin-bottom:4px;">📖 Text 2: Facts about mosquitoes</div>
+            <div class="wordbank">📌 BANK: mosquito, from, just, for, into, are, male, that, or, But</div>
+            <div class="reading" id="text2Inline"></div>
+        </div>
+    </div>
+
+    <!-- CHECK BUTTON -->
+    <div class="check-bottom">
+        <button class="btn-large" id="checkBtn">🔍 Check Answers</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ========== PART A: 20 GRAMMAR SOAL ==========
+        // Format: stem, opts (a,b,c,d), correct (0-index)
+        const partA = [
+            { stem: "The twins ______ very cute.", opts: ["is", "are", "was", "were"], correct: 1 },
+            { stem: "There ______ a large crowd at the stadium yesterday.", opts: ["is", "are", "was", "were"], correct: 2 },
+            { stem: "Desmond ______ taken the hammer from the toolbox.", opts: ["has", "have", "is", "are"], correct: 0 },
+            { stem: "We ______ our homework in the evening.", opts: ["does", "do", "doing", "done"], correct: 1 },
+            { stem: "Paul and Peter ______ friends since they were young.", opts: ["is", "are", "has been", "have been"], correct: 3 },
+            { stem: "Each child ______ a toy to play with.", opts: ["has", "have", "having", "had"], correct: 0 },
+            { stem: "One of the boys ______ missing during the trip.", opts: ["is", "are", "have", "do"], correct: 0 },
+            { stem: "She helped me ______ the cake for the party.", opts: ["bake", "to bake", "baked", "baking"], correct: 0 },
+            { stem: "Rachel likes to ______ the new pupil in her class.", opts: ["friend", "friends", "friendly", "befriend"], correct: 3 },
+            { stem: "Derek often ______ us during the school holidays.", opts: ["visit", "visits", "visiting", "visited"], correct: 1 },
+            { stem: "A tiger ______ an animal that lives in the jungle.", opts: ["is", "are", "am", "be"], correct: 0 },
+            { stem: "Look! The sun ______ brightly in the sky.", opts: ["shine", "shines", "is shining", "are shining"], correct: 2 },
+            { stem: "Sarah ______ a cup by accident yesterday.", opts: ["break", "breaks", "broke", "broken"], correct: 2 },
+            { stem: "The villager ______ the snake with a bamboo stick just now.", opts: ["hit", "hits", "hitted", "hitting"], correct: 0 },
+            { stem: "Ben ______ to himself the whole night.", opts: ["talk", "talks", "was talking", "were talking"], correct: 2 },
+            { stem: "We ______ the book already, so you can have it.", opts: ["read", "reads", "have read", "has read"], correct: 2 },
+            { stem: "Monica ______ out when the phone rang.", opts: ["go", "goes", "went", "had gone"], correct: 3 },
+            { stem: "James ______ the letter on Thursday.", opts: ["send", "sends", "will send", "shall send"], correct: 2 },
+            { stem: "We ______ the books tomorrow morning.", opts: ["buying", "shall buy", "buy", "buys"], correct: 1 },
+            { stem: "Nancy ______ a cake for us next week.", opts: ["will bake", "are going to bake", "baking", "bake"], correct: 0 } // will bake (c) is most common, but is going to bake also acceptable; using will bake as key
+        ];
+
+        // ========== PART B KEYS ==========
+        // Text 1: Chris and his mother (10 blanks)
+        // Urutan: (1) inquired, (2) responded, (3) optional, (4) expression, (5) assignment, (6) multiplication, (7) calculators, (8) wonder, (9) sarcastically, (10) immediately
+        const t1Keys = ["inquired", "responded", "optional", "expression", "assignment", "multiplication", "calculators", "wonder", "sarcastically", "immediately"];
+        
+        // Text 2: Mosquitoes (10 blanks)
+        // Urutan: (1) are, (2) for, (3) that, (4) just, (5) But, (6) male, (7) or, (8) into, (9) from, (10) mosquito
+        const t2Keys = ["are", "for", "that", "just", "But", "male", "or", "into", "from", "mosquito"];
+
+        // ========== RENDER PART A ==========
+        const aContainer = document.getElementById('partAList');
+        function renderPartA() {
+            let html = '';
+            partA.forEach((q, idx) => {
+                html += `<div class="qcard">
+                    <span class="qnum">Q${idx+1}.</span> <span class="stem">${q.stem}</span>
+                    <div class="ops">`;
+                q.opts.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(97 + optIdx); // a, b, c, d
+                    html += `<label><input type="radio" name="q${idx}" value="${optIdx}"> ${letter}) ${opt}</label>`;
+                });
+                html += `</div><span class="fb" id="fbA${idx}"></span></div>`;
+            });
+            aContainer.innerHTML = html;
+        }
+        renderPartA();
+
+        // ========== MEMBANGUN TEKS CLOZE INLINE ==========
+        // Text 1 parts with placeholders (1) to (10)
+        const text1Parts = [
+            "Chris knew the question was coming. His mother asked him the same question every day when he came home from school. \"Do you have any homework today?\" she ", "(1)", ". \"Yes and no,\" Chris ", "(2)", ". \"What do you mean by yes and no?\" \"The teacher said that homework is ", "(3)", " tonight. That means we don't have to do it.\" Mrs Amez's ", "(4)", " was not as gleeful as her son's. \"It also means that you may do the homework. What's the ", "(5)", "?\" \"Oh, just to study our ", "(6)", " facts for tomorrow's maths game. We can use ", "(7)", " if we want. They're optional too.\" \"I'm not sure I like it, but I guess optional means it's our option. I ", "(8)", " what your choice will be?\" she added ", "(9)", ". \"Homework - no, calculator - yes!\" Chris answered ", "(10)", "."
+        ];
+
+        // Text 2 parts with placeholders (1) to (10)
+        const text2Parts = [
+            "Mosquitoes ", "(1)", " annoying insects. Their bites can leave you feeling itchy ", "(2)", " hours. They are so sneaky ", "(3)", " they land on you without a sound and you only notice them after they have ", "(4)", " enjoyed a big meal. ", "(5)", " not all mosquitoes bite. In fact, ", "(6)", " mosquitoes feed on plant juices. Only female ones drink blood to get nutrition for making eggs. Just one bite into your arm ", "(7)", " leg can help a female mosquito produce 50 to 100 eggs! The mosquito has a pointed beak that sticks ", "(8)", " your skin. Once your skin is pierced, it spits saliva into the wound to stop the blood ", "(9)", " clotting. When the blood does not clot, it is easier for the ", "(10)", " to suck it. The saliva causes your skin to itch and swell."
+        ];
+
+        function buildClozeHtml(partsArray, prefix) {
+            let html = '';
+            for (let i = 0; i < partsArray.length; i++) {
+                const part = partsArray[i];
+                // Check if this part is a placeholder like "(1)"
+                const match = part.match(/^\((\d+)\)$/);
+                if (match) {
+                    const blankIndex = parseInt(match[1]) - 1;
+                    html += `<span class="inline-input">`;
+                    html += `<input type="text" id="${prefix}_${blankIndex}" placeholder="(${blankIndex+1})" autocomplete="off">`;
+                    html += `<span class="inline-feedback" id="fb_${prefix}_${blankIndex}"></span>`;
+                    html += `</span>`;
+                } else {
+                    html += part;
+                }
+            }
+            return html;
+        }
+
+        document.getElementById('text1Inline').innerHTML = buildClozeHtml(text1Parts, 't1');
+        document.getElementById('text2Inline').innerHTML = buildClozeHtml(text2Parts, 't2');
+
+        // ========== FUNGSI CHECK SCORE & SCROLL ==========
+        function hitungSkorDanScroll() {
+            // Part A Scoring
+            let skorA = 0;
+            for (let i = 0; i < 20; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                const fb = document.getElementById(`fbA${i}`);
+                if (selected !== null && parseInt(selected) === partA[i].correct) {
+                    fb.innerText = '✓';
+                    fb.className = 'fb correct';
+                    skorA++;
+                } else {
+                    const benar = partA[i].opts[partA[i].correct];
+                    const benarLetter = String.fromCharCode(97 + partA[i].correct);
+                    if (selected !== null) {
+                        fb.innerText = `✗ (${benarLetter}) ${benar}`;
+                    } else {
+                        fb.innerText = `(answer: ${benarLetter}) ${benar}`;
+                    }
+                    fb.className = 'fb wrong';
+                }
+            }
+
+            // Part B Text 1 Scoring
+            let skorB = 0;
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`t1_${i}`);
+                const fb = document.getElementById(`fb_t1_${i}`);
+                if (inp) {
+                    const val = inp.value.trim();
+                    const benar = t1Keys[i];
+                    if (val.toLowerCase() === benar.toLowerCase()) {
+                        fb.innerText = '✓';
+                        fb.className = 'inline-feedback correct';
+                        inp.classList.add('correct');
+                        skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`;
+                        fb.className = 'inline-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+            
+            // Part B Text 2 Scoring
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`t2_${i}`);
+                const fb = document.getElementById(`fb_t2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim();
+                    const benar = t2Keys[i];
+                    if (val.toLowerCase() === benar.toLowerCase()) {
+                        fb.innerText = '✓';
+                        fb.className = 'inline-feedback correct';
+                        inp.classList.add('correct');
+                        skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`;
+                        fb.className = 'inline-feedback wrong';
+                        inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+
+            // Scroll ke score panel
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ========== RESET SEMUA ==========
+        function resetSemua() {
+            // Reset Part A radio buttons
+            for (let i = 0; i < 20; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                radios.forEach(r => r.checked = false);
+                const fb = document.getElementById(`fbA${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset Text 1 inputs
+            for (let i = 0; i < 10; i++) {
+                const inp1 = document.getElementById(`t1_${i}`);
+                if (inp1) {
+                    inp1.value = '';
+                    inp1.classList.remove('correct');
+                    const fb1 = document.getElementById(`fb_t1_${i}`);
+                    if (fb1) fb1.innerText = '';
+                }
+                const inp2 = document.getElementById(`t2_${i}`);
+                if (inp2) {
+                    inp2.value = '';
+                    inp2.classList.remove('correct');
+                    const fb2 = document.getElementById(`fb_t2_${i}`);
+                    if (fb2) fb2.innerText = '';
+                }
+            }
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        // Event listeners
+        document.getElementById('checkBtn').addEventListener('click', hitungSkorDanScroll);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>
