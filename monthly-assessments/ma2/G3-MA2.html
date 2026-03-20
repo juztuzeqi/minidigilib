@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G3 English Program Monthly Assessment 2</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #d0e2f2; font-family: 'Segoe UI', Roboto, sans-serif; padding: 10px 8px; display: flex; justify-content: center; }
+        .paper { max-width: 750px; width: 100%; background: white; border-radius: 28px; box-shadow: 0 8px 25px rgba(0,30,60,0.2); padding: 18px 14px; }
+        h1 { font-size: 1.7rem; color: #123b54; margin: 0 0 2px 5px; }
+        .sub { font-size: 0.9rem; color: #34675c; margin-left: 8px; margin-bottom: 15px; }
+        .score-panel { background: #e2edfb; border-radius: 40px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; justify-content: space-between; margin-bottom: 20px; scroll-margin-top: 20px; }
+        .score-item { background: white; border-radius: 30px; padding: 4px 14px; font-weight: 600; font-size: 0.9rem; color: #114b66; box-shadow: 0 1px 4px #b0c8dd; }
+        .part { background: #f5faff; border-radius: 24px; padding: 18px 12px 22px; margin: 25px 0 18px; border: 1px solid #c0d6ed; }
+        .part h2 { background: #205882; color: white; display: inline-block; padding: 5px 24px; border-radius: 40px; font-size: 1.3rem; margin-top: -34px; margin-bottom: 16px; }
+        .grid-a { display: flex; flex-direction: column; gap: 12px; }
+        .qcard { background: white; border-radius: 18px; padding: 12px 14px; border: 1px solid #d0e2f5; font-size: 0.95rem; }
+        .qnum { font-weight: 700; color: #003f66; margin-right: 5px; }
+        .stem { line-height: 1.4; }
+        .ops { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; }
+        .ops label { background: #ecf3fc; padding: 4px 14px; border-radius: 30px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 4px; }
+        .fb { margin-left: 8px; font-weight: 600; font-size: 0.9rem; }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+        .fill-block { background: #fffcf0; border-radius: 24px; padding: 18px 16px; margin: 15px 0 10px; border: 2px solid #c0b28b; }
+        .fill-item { margin: 20px 0; display: flex; align-items: flex-start; gap: 10px; flex-wrap: nowrap; }
+        .fill-item .qnum { font-weight: 700; color: #003f66; min-width: 40px; font-size: 1rem; line-height: 1.5; flex-shrink: 0; }
+        .fill-content { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; line-height: 1.5; }
+        .inline-input { display: inline-block; width: 140px; flex-shrink: 0; }
+        .inline-input input, .inline-input select { width: 100%; padding: 8px 12px; border: 2px solid #5f8bb3; border-radius: 30px; font-size: 0.9rem; text-align: center; background: white; }
+        .inline-input input.correct, .inline-input select.correct { background: #e3f7e3; border-color: #2a7f4a; }
+        .fill-feedback { font-weight: 700; font-size: 0.9rem; min-width: 80px; text-align: right; flex-shrink: 0; }
+        .fill-feedback.correct { color: #1f8b4c; }
+        .fill-feedback.wrong { color: #c13a3a; }
+        .wordbank { background: #e0dcc0; padding: 12px 18px; border-radius: 40px; font-size: 0.95rem; font-weight: 600; display: flex; flex-wrap: wrap; gap: 8px 20px; border: 2px dashed #7f6e4e; margin-bottom: 20px; }
+        .check-bottom { display: flex; justify-content: center; margin: 20px 0 8px; }
+        .btn-large { background: #1e4e73; color: white; border: none; padding: 14px 30px; border-radius: 60px; font-size: 1.3rem; font-weight: 700; width: 100%; max-width: 300px; cursor: pointer; }
+        .btn-small { background: white; border: 1px solid #2c6085; padding: 6px 16px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .section-title { font-weight: 600; margin: 20px 0 10px; font-size: 1.1rem; color: #205882; }
+        .icon { font-size: 1.3rem; margin-right: 5px; }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G3 Monthly Assessment 2</h1>
+    <div class="sub">English Program | Grammar & Vocabulary</div>
+
+    <div class="score-panel" id="scorePanel">
+        <span class="score-item">A <span id="scoreA">0</span>/20</span>
+        <span class="score-item">B <span id="scoreB">0</span>/10</span>
+        <span class="score-item">total <span id="scoreTotal">0</span>/30</span>
+        <button class="btn-small" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <!-- PART A -->
+    <div class="part">
+        <h2>🔹 PART A: Grammar</h2>
+        
+        <div class="section-title">A.1 Multiple Choice</div>
+        <div class="grid-a" id="partAMC"></div>
+
+        <div class="section-title">A.2 Capital Letters</div>
+        <div class="fill-block" id="a2Container"></div>
+
+        <div class="section-title">A.3 Question Words</div>
+        <div class="fill-block" id="a3Container"></div>
+    </div>
+
+    <!-- PART B -->
+    <div class="part">
+        <h2>🔸 PART B: Vocabulary</h2>
+        <div class="wordbank">📌 WORD BANK: Food, Sleep, Teeth, Bath, Exercise, Water, Orange juice, Fruit, Milk, Soup</div>
+        <div class="fill-block" id="b1Container"></div>
+    </div>
+
+    <div class="check-bottom">
+        <button class="btn-large" id="checkBtn">🔍 Check Answers</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // A.1 Multiple Choice (10)
+        const mcqs = [
+            { stem: "Choose the proper places for full stops, question marks and commas: John Tom Moses Susan and Roy are all my friends.", opts: [
+                "John, Tom Moses, Susan and Roy are all my friends?",
+                "John Tom, Moses Susan and Roy are all my friends.",
+                "John, Tom, Moses, Susan and Roy are all my friends.",
+                "John Tom Moses Susan, and Roy are all my friends?"
+            ], correct: 2 },
+            { stem: "Choose the proper places: Is there a painting on the wall.", opts: [
+                "Is there a painting on the wall.",
+                "Is there a painting on the wall?",
+                "Is there, a painting on the wall.",
+                "Is there a painting, on the wall."
+            ], correct: 1 },
+            { stem: "I was attacked ... dog.", opts: ["with", "by a", "from", "to"], correct: 1 },
+            { stem: "Please wait for me ... the bus stop.", opts: ["in", "on", "at", "under"], correct: 2 },
+            { stem: "I can jump ... this fence.", opts: ["in", "under", "over", "beside"], correct: 2 },
+            { stem: "... stars in the sky are extra bright tonight.", opts: ["A", "An", "The", "Some"], correct: 2 },
+            { stem: "This is ... most interesting book I have read.", opts: ["a", "an", "the", "some"], correct: 2 },
+            { stem: "... is John doing?", opts: ["Who", "What", "Which", "Where"], correct: 1 },
+            { stem: "... of the two pens is cheaper?", opts: ["Who", "What", "Which", "Where"], correct: 2 },
+            { stem: "... is your best friend?", opts: ["Who", "What", "Which", "Where"], correct: 0 }
+        ];
+
+        // A.2 Capital Letters (5)
+        const a2Sentences = [
+            { before: "that boy is my cousin, john.", after: "", correct: "That boy is my cousin, John." },
+            { before: "do you think jane and her friends like miss lee?", after: "", correct: "Do you think Jane and her friends like Miss Lee?" },
+            { before: "is that girl susan?", after: "", correct: "Is that girl Susan?" },
+            { before: "this oven is made in japan.", after: "", correct: "This oven is made in Japan." },
+            { before: "my grandfather was born in china.", after: "", correct: "My grandfather was born in China." }
+        ];
+
+        // A.3 Question Words (5)
+        const a3Sentences = [
+            { before: "______ of the two watches is cheaper?", after: "", correct: "Which" },
+            { before: "______ is your birthday?", after: "", correct: "When" },
+            { before: "______ were you absent yesterday?", after: "", correct: "Why" },
+            { before: "______ are you reading?", after: "", correct: "What" },
+            { before: "______ books are missing? Yours or mine?", after: "", correct: "Whose" }
+        ];
+
+        // B.1 Vocabulary dengan icon (10)
+        const b1Items = [
+            { icon: "💧", before: "We drink", after: "every day.", correct: "Water" },
+            { icon: "🥛", before: "We drink", after: "at breakfast.", correct: "Milk" },
+            { icon: "🍊", before: "Sometimes, we drink", after: ".", correct: "Orange juice" },
+            { icon: "🍎🍌", before: "We eat", after: ".", correct: "Fruit" },
+            { icon: "🏋️", before: "I must", after: "every day.", correct: "Exercise" },
+            { icon: "🍔", before: "I must not eat unclean", after: ".", correct: "Food" },
+            { icon: "🦷", before: "I must brush my", after: ".", correct: "Teeth" },
+            { icon: "😴", before: "I must", after: "early.", correct: "Sleep" },
+            { icon: "🛁", before: "I must take a", after: "every day.", correct: "Bath" },
+            { icon: "🥣", before: "At lunch and dinner, we drink", after: ".", correct: "Soup" }
+        ];
+
+        // Render MCQs
+        const mcContainer = document.getElementById('partAMC');
+        function renderMC() {
+            let html = '';
+            mcqs.forEach((q, idx) => {
+                html += `<div class="qcard"><span class="qnum">${idx+1}.</span> <span class="stem">${q.stem}</span>
+                    <div class="ops">`;
+                q.opts.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(97 + optIdx);
+                    html += `<label><input type="radio" name="mc${idx}" value="${optIdx}"> ${letter}) ${opt}</label>`;
+                });
+                html += `</div><span class="fb" id="fbMC${idx}"></span></div>`;
+            });
+            mcContainer.innerHTML = html;
+        }
+        renderMC();
+
+        // Render fill items (text input)
+        function renderFillItems(containerId, sentences, prefix) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            sentences.forEach((s, idx) => {
+                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
+                    <span class="fill-text">${s.before}</span>
+                    <span class="inline-input"><input type="text" id="${prefix}_${idx}" placeholder="answer" autocomplete="off"></span>
+                    <span class="fill-text">${s.after}</span>
+                </div><span class="fill-feedback" id="fb_${prefix}_${idx}"></span></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // Render B1 dengan dropdown + icon
+        function renderB1() {
+            const container = document.getElementById('b1Container');
+            let html = '';
+            b1Items.forEach((item, idx) => {
+                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
+                    <span class="icon">${item.icon}</span>
+                    <span class="fill-text">${item.before}</span>
+                    <span class="inline-input"><select id="b1_${idx}">
+                        <option value="">-- choose --</option>
+                        <option value="Water">Water</option>
+                        <option value="Milk">Milk</option>
+                        <option value="Orange juice">Orange juice</option>
+                        <option value="Fruit">Fruit</option>
+                        <option value="Exercise">Exercise</option>
+                        <option value="Food">Food</option>
+                        <option value="Teeth">Teeth</option>
+                        <option value="Sleep">Sleep</option>
+                        <option value="Bath">Bath</option>
+                        <option value="Soup">Soup</option>
+                    </select></span>
+                    <span class="fill-text">${item.after}</span>
+                </div><span class="fill-feedback" id="fb_b1_${idx}"></span></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        renderFillItems('a2Container', a2Sentences, 'a2');
+        renderFillItems('a3Container', a3Sentences, 'a3');
+        renderB1();
+
+        // Scoring
+        function hitungSkorDanScroll() {
+            let skorA = 0;
+            // MCQs (10)
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                const fb = document.getElementById(`fbMC${i}`);
+                if (selected !== null && parseInt(selected) === mcqs[i].correct) {
+                    fb.innerText = '✓'; fb.className = 'fb correct'; skorA++;
+                } else {
+                    const benar = mcqs[i].opts[mcqs[i].correct];
+                    const benarLetter = String.fromCharCode(97 + mcqs[i].correct);
+                    fb.innerText = selected ? `✗ (${benarLetter}) ${benar}` : `(answer: ${benarLetter}) ${benar}`;
+                    fb.className = 'fb wrong';
+                }
+            }
+            // A.2 (5)
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`a2_${i}`);
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim();
+                    const benar = a2Sentences[i].correct;
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorA++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+            // A.3 (5)
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`a3_${i}`);
+                const fb = document.getElementById(`fb_a3_${i}`);
+                if (inp) {
+                    const val = inp.value.trim();
+                    const benar = a3Sentences[i].correct;
+                    if (val.toLowerCase() === benar.toLowerCase()) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorA++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            let skorB = 0;
+            // B.1 (10)
+            for (let i = 0; i < 10; i++) {
+                const sel = document.getElementById(`b1_${i}`);
+                const fb = document.getElementById(`fb_b1_${i}`);
+                if (sel) {
+                    const val = sel.value;
+                    const benar = b1Items[i].correct;
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; sel.style.borderColor = '#2a7f4a'; sel.style.background = '#e3f7e3'; skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`;
+                        fb.className = 'fill-feedback wrong'; sel.style.borderColor = '#5f8bb3'; sel.style.background = 'white';
+                    }
+                }
+            }
+
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetSemua() {
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                radios.forEach(r => r.checked = false);
+                const fb = document.getElementById(`fbMC${i}`);
+                if (fb) fb.innerText = '';
+            }
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`a2_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (fb) fb.innerText = '';
+                const inp3 = document.getElementById(`a3_${i}`);
+                if (inp3) { inp3.value = ''; inp3.classList.remove('correct'); }
+                const fb3 = document.getElementById(`fb_a3_${i}`);
+                if (fb3) fb3.innerText = '';
+            }
+            for (let i = 0; i < 10; i++) {
+                const sel = document.getElementById(`b1_${i}`);
+                if (sel) { sel.value = ''; sel.style.borderColor = '#5f8bb3'; sel.style.background = 'white'; }
+                const fb = document.getElementById(`fb_b1_${i}`);
+                if (fb) fb.innerText = '';
+            }
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', hitungSkorDanScroll);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>
