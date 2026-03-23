@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Flash Test - Vocabulary Quiz</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f1f5f9;
+    margin: 0;
+    padding: 16px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 550px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin: 0 0 4px 0;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .sub {
+    color: #475569;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    border-left: 3px solid #3b82f6;
+    padding-left: 12px;
+  }
+
+  .mode-toggle {
+    background: white;
+    border-radius: 40px;
+    padding: 6px;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .mode-btn {
+    background: #e2e8f0;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex: 1;
+    transition: all 0.2s;
+    color: #334155;
+  }
+
+  .mode-btn.active {
+    background: #3b82f6;
+    color: white;
+  }
+
+  .batch-selector {
+    background: white;
+    border-radius: 40px;
+    padding: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .batch-btn {
+    background: #e2e8f0;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 40px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #334155;
+  }
+
+  .batch-btn.active {
+    background: #3b82f6;
+    color: white;
+  }
+
+  .card-area {
+    background: white;
+    border-radius: 32px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+    padding: 40px 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: transform 0.1s ease;
+  }
+
+  .card-area.clickable {
+    cursor: pointer;
+  }
+
+  .card-area.clickable:active {
+    transform: scale(0.98);
+  }
+
+  .emoji {
+    font-size: 8rem;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .word-display {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0f172a;
+    background: #f8fafc;
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 60px;
+    margin-top: 8px;
+  }
+
+  .tap-hint {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 20px;
+  }
+
+  .repeat-btn {
+    background: #f1f5f9;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 8px 20px;
+    border-radius: 40px;
+    transition: all 0.2s;
+  }
+
+  .repeat-btn:active {
+    background: #e2e8f0;
+    transform: scale(0.96);
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .quiz-btn {
+    background: white;
+    border: 2px solid #e2e8f0;
+    padding: 16px;
+    border-radius: 60px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #1e293b;
+    text-align: left;
+    padding-left: 24px;
+  }
+
+  .quiz-btn:hover {
+    background: #f8fafc;
+    border-color: #3b82f6;
+  }
+
+  .quiz-btn.correct {
+    background: #22c55e;
+    border-color: #22c55e;
+    color: white;
+  }
+
+  .quiz-btn.wrong {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: white;
+  }
+
+  .quiz-feedback {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 40px;
+  }
+
+  .quiz-feedback.correct {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .quiz-feedback.wrong {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .score-area {
+    background: white;
+    border-radius: 28px;
+    padding: 16px 20px;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #3b82f6;
+  }
+
+  .next-btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 60px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  .next-btn:active {
+    background: #2563eb;
+  }
+
+  .reset-btn {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    padding: 10px;
+    border-radius: 40px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 8px;
+    color: #475569;
+  }
+
+  .progress {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 8px;
+  }
+
+  .nav-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .nav-btn {
+    flex: 1;
+    padding: 12px;
+    background: white;
+    border: none;
+    border-radius: 40px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .nav-btn:active {
+    background: #e2e8f0;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>📝 Flash Test <span style="font-size: 0.9rem;">🎯 quiz</span></h1>
+  <div class="sub">Learn new words, then test yourself</div>
+
+  <div class="mode-toggle">
+    <button class="mode-btn" id="learnModeBtn">📖 Learn</button>
+    <button class="mode-btn" id="quizModeBtn">🎯 Quiz</button>
+  </div>
+
+  <div class="batch-selector" id="batchSelector"></div>
+
+  <!-- LEARN MODE -->
+  <div id="learnView">
+    <div class="card-area clickable" id="cardArea">
+      <div class="emoji" id="emojiDisplay">🐱</div>
+      <div id="wordDisplay" class="word-display" style="display: none;"></div>
+      <div class="tap-hint">👇 Tap card → listen & see the word</div>
+    </div>
+    <div class="nav-buttons">
+      <button id="prevLearnBtn" class="nav-btn">◀ Previous</button>
+      <button id="nextLearnBtn" class="nav-btn">Next ▶</button>
+    </div>
+  </div>
+
+  <!-- QUIZ MODE -->
+  <div id="quizView" style="display: none;">
+    <div class="card-area" style="cursor: default;">
+      <div class="emoji" id="quizEmoji">🐱</div>
+      <button id="repeatAudioBtn" class="repeat-btn">🔊 Repeat Audio</button>
+      <div class="tap-hint">Listen, then choose the correct answer</div>
+    </div>
+    <div id="quizOptions" class="quiz-options"></div>
+    <div id="quizFeedback" class="quiz-feedback" style="display: none;"></div>
+    <div class="score-area">
+      <div>Score: <span id="score" class="score">0</span> / <span id="totalQuestions">10</span></div>
+      <div class="progress" id="quizProgress">Question 1 / 10</div>
+      <button id="nextQuizBtn" class="next-btn">Next ▶</button>
+      <button id="resetQuizBtn" class="reset-btn">🔄 Restart Quiz</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ==================== DATA FLASHCARDS ====================
+  const batches = {
+    1: { name: "🟢 Basic Objects & Animals", data: [
+      { word: "cat", emoji: "🐱", hint: "kucing" }, { word: "dog", emoji: "🐶", hint: "anjing" },
+      { word: "fish", emoji: "🐟", hint: "ikan" }, { word: "bird", emoji: "🐦", hint: "burung" },
+      { word: "book", emoji: "📚", hint: "buku" }, { word: "pen", emoji: "✒️", hint: "pulpen" },
+      { word: "bag", emoji: "🎒", hint: "tas" }, { word: "chair", emoji: "🪑", hint: "kursi" },
+      { word: "table", emoji: "┬─┬", hint: "meja" }, { word: "ball", emoji: "⚽", hint: "bola" }
+    ] },
+    2: { name: "🔵 Actions", data: [
+      { word: "eat", emoji: "🍽️", hint: "makan" }, { word: "drink", emoji: "🥤", hint: "minum" },
+      { word: "run", emoji: "🏃", hint: "lari" }, { word: "walk", emoji: "🚶", hint: "jalan" },
+      { word: "sit", emoji: "🧘", hint: "duduk" }, { word: "stand", emoji: "🧍", hint: "berdiri" },
+      { word: "jump", emoji: "🦘", hint: "lompat" }, { word: "read", emoji: "📖", hint: "membaca" },
+      { word: "write", emoji: "✍️", hint: "menulis" }, { word: "sleep", emoji: "😴", hint: "tidur" }
+    ] },
+    3: { name: "🟡 Adjectives", data: [
+      { word: "big", emoji: "🐘", hint: "besar" }, { word: "small", emoji: "🐜", hint: "kecil" },
+      { word: "hot", emoji: "🌶️", hint: "panas" }, { word: "cold", emoji: "❄️", hint: "dingin" },
+      { word: "happy", emoji: "😊", hint: "senang" }, { word: "sad", emoji: "😢", hint: "sedih" },
+      { word: "fast", emoji: "⚡", hint: "cepat" }, { word: "slow", emoji: "🐢", hint: "lambat" },
+      { word: "good", emoji: "👍", hint: "baik" }, { word: "bad", emoji: "👎", hint: "buruk" }
+    ] },
+    4: { name: "🟣 People & Daily Life", data: [
+      { word: "boy", emoji: "👦", hint: "laki-laki" }, { word: "girl", emoji: "👧", hint: "perempuan" },
+      { word: "teacher", emoji: "👩‍🏫", hint: "guru" }, { word: "mother", emoji: "👩‍👧", hint: "ibu" },
+      { word: "father", emoji: "👨‍👧", hint: "ayah" }, { word: "friend", emoji: "🤝", hint: "teman" },
+      { word: "baby", emoji: "👶", hint: "bayi" }, { word: "student", emoji: "🎓", hint: "murid" },
+      { word: "man", emoji: "👨‍💼", hint: "pria" }, { word: "woman", emoji: "👩‍💼", hint: "wanita" }
+    ] },
+    5: { name: "🔴 Daily Objects", data: [
+      { word: "cup", emoji: "🥤", hint: "gelas" }, { word: "plate", emoji: "🍽️", hint: "piring" },
+      { word: "spoon", emoji: "🥄", hint: "sendok" }, { word: "door", emoji: "🚪", hint: "pintu" },
+      { word: "window", emoji: "🪟", hint: "jendela" }, { word: "bed", emoji: "🛏️", hint: "tempat tidur" },
+      { word: "shoes", emoji: "👟", hint: "sepatu" }, { word: "hat", emoji: "🧢", hint: "topi" },
+      { word: "car", emoji: "🚗", hint: "mobil" }, { word: "house", emoji: "🏠", hint: "rumah" }
+    ] }
+  };
+
+  let currentBatch = 1;
+  let currentIndex = 0;
+  let mode = "learn";
+  let quizState = {
+    questions: [],
+    currentQuestion: 0,
+    score: 0,
+    answered: false
+  };
+
+  const audioPlayer = new Audio();
+
+  function getCurrentCard() {
+    return batches[currentBatch].data[currentIndex];
+  }
+
+  function playAudio(word) {
+    const audioPath = `../audio/flashcards/batch${currentBatch}/${word}.mp3`;
+    audioPlayer.src = audioPath;
+    audioPlayer.play().catch(e => console.log("Audio error:", e));
+  }
+
+  function updateLearnView() {
+    const card = getCurrentCard();
+    document.getElementById("emojiDisplay").textContent = card.emoji;
+    document.getElementById("wordDisplay").style.display = "none";
+  }
+
+  function revealWord() {
+    const card = getCurrentCard();
+    const display = document.getElementById("wordDisplay");
+    display.textContent = `${card.word}`;
+    display.style.display = "inline-block";
+    playAudio(card.word);
+  }
+
+  function nextLearn() {
+    currentIndex = (currentIndex + 1) % batches[currentBatch].data.length;
+    updateLearnView();
+  }
+
+  function prevLearn() {
+    currentIndex = (currentIndex - 1 + batches[currentBatch].data.length) % batches[currentBatch].data.length;
+    updateLearnView();
+  }
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function generateQuizQuestions() {
+    const batchData = batches[currentBatch].data;
+    const questions = [];
+    for (let i = 0; i < batchData.length; i++) {
+      const correct = batchData[i];
+      const otherWords = batchData.filter((_, idx) => idx !== i).map(c => c.word);
+      const shuffledOthers = shuffleArray([...otherWords]);
+      const options = [correct.word, shuffledOthers[0], shuffledOthers[1], shuffledOthers[2]];
+      questions.push({
+        emoji: correct.emoji,
+        correct: correct.word,
+        hint: correct.hint,
+        options: shuffleArray(options)
+      });
+    }
+    return shuffleArray(questions);
+  }
+
+  function startQuiz() {
+    quizState.questions = generateQuizQuestions();
+    quizState.currentQuestion = 0;
+    quizState.score = 0;
+    quizState.answered = false;
+    updateQuizDisplay();
+    document.getElementById("score").textContent = "0";
+    document.getElementById("totalQuestions").textContent = quizState.questions.length;
+  }
+
+  function updateQuizDisplay() {
+    const q = quizState.questions[quizState.currentQuestion];
+    if (!q) return;
+    document.getElementById("quizEmoji").textContent = q.emoji;
+    document.getElementById("quizProgress").textContent = `Question ${quizState.currentQuestion + 1} / ${quizState.questions.length}`;
+    document.getElementById("score").textContent = quizState.score;
+    
+    // Auto-play audio saat soal muncul
+    setTimeout(() => {
+        playAudio(q.correct);
+    }, 100);
+    
+    const optionsDiv = document.getElementById("quizOptions");
+    optionsDiv.innerHTML = "";
+    q.options.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.textContent = opt;
+      btn.classList.add("quiz-btn");
+      btn.onclick = () => answerQuiz(opt);
+      optionsDiv.appendChild(btn);
+    });
+    document.getElementById("quizFeedback").style.display = "none";
+    quizState.answered = false;
+    document.getElementById("nextQuizBtn").disabled = false;
+  }
+
+  function answerQuiz(selected) {
+    if (quizState.answered) return;
+    const q = quizState.questions[quizState.currentQuestion];
+    const isCorrect = (selected === q.correct);
+    quizState.answered = true;
+    
+    const feedback = document.getElementById("quizFeedback");
+    if (isCorrect) {
+      quizState.score++;
+      feedback.textContent = `✅ Correct! ${q.correct}`;
+      feedback.className = "quiz-feedback correct";
+    } else {
+      feedback.textContent = `❌ Wrong! Answer: ${q.correct}`;
+      feedback.className = "quiz-feedback wrong";
+    }
+    feedback.style.display = "block";
+    document.getElementById("score").textContent = quizState.score;
+    
+    const buttons = document.querySelectorAll(".quiz-btn");
+    buttons.forEach(btn => {
+      if (btn.textContent === q.correct) {
+        btn.classList.add("correct");
+      } else if (btn.textContent === selected && !isCorrect) {
+        btn.classList.add("wrong");
+      }
+      btn.disabled = true;
+    });
+    
+    playAudio(q.correct);
+  }
+
+  function nextQuiz() {
+    if (!quizState.answered) return;
+    if (quizState.currentQuestion + 1 < quizState.questions.length) {
+      quizState.currentQuestion++;
+      quizState.answered = false;
+      updateQuizDisplay();
+    } else {
+      const feedback = document.getElementById("quizFeedback");
+      feedback.textContent = `🎉 Finished! Final score: ${quizState.score} / ${quizState.questions.length}`;
+      feedback.className = "quiz-feedback correct";
+      feedback.style.display = "block";
+      document.getElementById("nextQuizBtn").disabled = true;
+    }
+  }
+
+  function resetQuiz() {
+    startQuiz();
+  }
+
+  function setBatch(batchId) {
+    currentBatch = batchId;
+    currentIndex = 0;
+    updateLearnView();
+    if (mode === "quiz") startQuiz();
+    
+    document.querySelectorAll(".batch-btn").forEach(btn => {
+      if (parseInt(btn.dataset.batch) === batchId) btn.classList.add("active");
+      else btn.classList.remove("active");
+    });
+  }
+
+  function setMode(newMode) {
+    mode = newMode;
+    if (mode === "learn") {
+      document.getElementById("learnView").style.display = "block";
+      document.getElementById("quizView").style.display = "none";
+      document.getElementById("learnModeBtn").classList.add("active");
+      document.getElementById("quizModeBtn").classList.remove("active");
+      updateLearnView();
+    } else {
+      document.getElementById("learnView").style.display = "none";
+      document.getElementById("quizView").style.display = "block";
+      document.getElementById("learnModeBtn").classList.remove("active");
+      document.getElementById("quizModeBtn").classList.add("active");
+      startQuiz();
+    }
+  }
+
+  function buildBatchSelector() {
+    const container = document.getElementById("batchSelector");
+    container.innerHTML = "";
+    for (let i = 1; i <= 5; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = batches[i].name;
+      btn.classList.add("batch-btn");
+      btn.dataset.batch = i;
+      btn.onclick = () => setBatch(i);
+      container.appendChild(btn);
+    }
+  }
+
+  // Event Listeners
+  document.getElementById("cardArea")?.addEventListener("click", revealWord);
+  document.getElementById("prevLearnBtn")?.addEventListener("click", prevLearn);
+  document.getElementById("nextLearnBtn")?.addEventListener("click", nextLearn);
+  document.getElementById("nextQuizBtn")?.addEventListener("click", nextQuiz);
+  document.getElementById("resetQuizBtn")?.addEventListener("click", resetQuiz);
+  document.getElementById("learnModeBtn")?.addEventListener("click", () => setMode("learn"));
+  document.getElementById("quizModeBtn")?.addEventListener("click", () => setMode("quiz"));
+  document.getElementById("repeatAudioBtn")?.addEventListener("click", () => {
+    const q = quizState.questions[quizState.currentQuestion];
+    if (q) playAudio(q.correct);
+  });
+
+  buildBatchSelector();
+  setBatch(1);
+  setMode("learn");
+</script>
+</body>
+</html>

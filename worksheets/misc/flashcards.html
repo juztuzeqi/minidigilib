@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Flashcards - 5 Paket</title>
+<style>
+  * {
+    box-sizing: border-box;
+    user-select: none;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f1f5f9;
+    margin: 0;
+    padding: 16px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 550px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin: 0 0 4px 0;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .sub {
+    color: #475569;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    border-left: 3px solid #3b82f6;
+    padding-left: 12px;
+  }
+
+  .batch-selector {
+    background: white;
+    border-radius: 40px;
+    padding: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .batch-btn {
+    background: #e2e8f0;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 40px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #334155;
+  }
+
+  .batch-btn.active {
+    background: #3b82f6;
+    color: white;
+    box-shadow: 0 2px 6px rgba(59,130,246,0.3);
+  }
+
+  .card-area {
+    background: white;
+    border-radius: 32px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.02);
+    padding: 30px 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    touch-action: manipulation;
+  }
+
+  .card-area:active {
+    transform: scale(0.98);
+  }
+
+  .emoji {
+    font-size: 8rem;
+    display: block;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .word-display {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0f172a;
+    background: #f8fafc;
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 60px;
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  .tap-hint {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 20px;
+  }
+
+  .nav-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .nav-btn {
+    background: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 60px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+    color: #1e293b;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    touch-action: manipulation;
+  }
+
+  .nav-btn:active {
+    background: #e2e8f0;
+    transform: scale(0.96);
+  }
+
+  .shuffle-btn {
+    background: #f59e0b;
+    color: white;
+  }
+
+  .shuffle-btn:active {
+    background: #d97706;
+  }
+
+  .tracker-section {
+    background: white;
+    border-radius: 28px;
+    padding: 16px 20px;
+    margin-top: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+
+  .tracker-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #334155;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .stats {
+    background: #eef2ff;
+    padding: 6px 12px;
+    border-radius: 40px;
+    font-size: 0.8rem;
+    color: #1e40af;
+  }
+
+  .tracker-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .hafal-btn {
+    background: #22c55e;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 60px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    flex: 1;
+    touch-action: manipulation;
+  }
+
+  .hafal-btn:active {
+    background: #16a34a;
+  }
+
+  .belum-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 60px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    flex: 1;
+    touch-action: manipulation;
+  }
+
+  .belum-btn:active {
+    background: #dc2626;
+  }
+
+  .reset-tracker {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    padding: 8px 16px;
+    border-radius: 40px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    width: 100%;
+    color: #475569;
+    touch-action: manipulation;
+  }
+
+  .reset-tracker:active {
+    background: #e2e8f0;
+  }
+
+  .progress-bar {
+    background: #e2e8f0;
+    border-radius: 20px;
+    height: 8px;
+    margin: 12px 0 8px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    background: #3b82f6;
+    width: 0%;
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.2s;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>📇 Kartu Belajar <span style="font-size: 1rem;">🎧 ketuk kartu</span></h1>
+  <div class="sub">5 paket · 50 kata · catatan hafalan</div>
+
+  <div class="batch-selector" id="batchSelector"></div>
+
+  <div class="card-area" id="cardArea">
+    <div class="emoji" id="emojiDisplay">🐱</div>
+    <div id="wordDisplay" class="word-display" style="display: none;"></div>
+    <div class="tap-hint">👇 Ketuk kartu → dengar suara & lihat kata</div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="nav-btn" id="prevBtn">◀ Sebelumnya</button>
+    <button class="nav-btn shuffle-btn" id="shuffleBtn">🎲 Acak</button>
+    <button class="nav-btn" id="nextBtn">Selanjutnya ▶</button>
+  </div>
+
+  <div class="tracker-section">
+    <div class="tracker-title">
+      <span>📊 Catatan Hafalan</span>
+      <span class="stats" id="statsText">0 / 10 hafal</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="tracker-buttons">
+      <button class="hafal-btn" id="hafalBtn">✅ Sudah Hafal</button>
+      <button class="belum-btn" id="belumBtn">❌ Belum Hafal</button>
+    </div>
+    <button class="reset-tracker" id="resetTrackerBtn">🔄 Reset semua hafalan (paket ini)</button>
+  </div>
+</div>
+
+<script>
+  // ==================== DATA FLASHCARDS ====================
+  // BATCH 1 - Basic Objects & Animals
+  const batch1 = [
+    { word: "cat", emoji: "🐱", hint: "kucing" },
+    { word: "dog", emoji: "🐶", hint: "anjing" },
+    { word: "fish", emoji: "🐟", hint: "ikan" },
+    { word: "bird", emoji: "🐦", hint: "burung" },
+    { word: "book", emoji: "📚", hint: "buku" },
+    { word: "pen", emoji: "✒️", hint: "pulpen" },
+    { word: "bag", emoji: "🎒", hint: "tas" },
+    { word: "chair", emoji: "🪑", hint: "kursi" },
+    { word: "table", emoji: "┬─┬", hint: "meja" },
+    { word: "ball", emoji: "⚽", hint: "bola" }
+  ];
+
+  // BATCH 2 - Actions
+  const batch2 = [
+    { word: "eat", emoji: "🍽️", hint: "makan" },
+    { word: "drink", emoji: "🥤", hint: "minum" },
+    { word: "run", emoji: "🏃", hint: "lari" },
+    { word: "walk", emoji: "🚶", hint: "jalan" },
+    { word: "sit", emoji: "🧘", hint: "duduk" },
+    { word: "stand", emoji: "🧍", hint: "berdiri" },
+    { word: "jump", emoji: "🦘", hint: "lompat" },
+    { word: "read", emoji: "📖", hint: "membaca" },
+    { word: "write", emoji: "✍️", hint: "menulis" },
+    { word: "sleep", emoji: "😴", hint: "tidur" }
+  ];
+
+  // BATCH 3 - Adjectives
+  const batch3 = [
+    { word: "big", emoji: "🐘", hint: "besar" },
+    { word: "small", emoji: "🐜", hint: "kecil" },
+    { word: "hot", emoji: "🌶️", hint: "panas" },
+    { word: "cold", emoji: "❄️", hint: "dingin" },
+    { word: "happy", emoji: "😊", hint: "senang" },
+    { word: "sad", emoji: "😢", hint: "sedih" },
+    { word: "fast", emoji: "⚡", hint: "cepat" },
+    { word: "slow", emoji: "🐢", hint: "lambat" },
+    { word: "good", emoji: "👍", hint: "baik" },
+    { word: "bad", emoji: "👎", hint: "buruk" }
+  ];
+
+  // BATCH 4 - People & Daily Life
+  const batch4 = [
+    { word: "boy", emoji: "👦", hint: "laki-laki" },
+    { word: "girl", emoji: "👧", hint: "perempuan" },
+    { word: "teacher", emoji: "👩‍🏫", hint: "guru" },
+    { word: "mother", emoji: "👩‍👧", hint: "ibu" },
+    { word: "father", emoji: "👨‍👧", hint: "ayah" },
+    { word: "friend", emoji: "🤝", hint: "teman" },
+    { word: "baby", emoji: "👶", hint: "bayi" },
+    { word: "student", emoji: "🎓", hint: "murid" },
+    { word: "man", emoji: "👨‍💼", hint: "pria" },
+    { word: "woman", emoji: "👩‍💼", hint: "wanita" }
+  ];
+
+  // BATCH 5 - Daily Objects Extended
+  const batch5 = [
+    { word: "cup", emoji: "🥤", hint: "gelas" },
+    { word: "plate", emoji: "🍽️", hint: "piring" },
+    { word: "spoon", emoji: "🥄", hint: "sendok" },
+    { word: "door", emoji: "🚪", hint: "pintu" },
+    { word: "window", emoji: "🪟", hint: "jendela" },
+    { word: "bed", emoji: "🛏️", hint: "tempat tidur" },
+    { word: "shoes", emoji: "👟", hint: "sepatu" },
+    { word: "hat", emoji: "🧢", hint: "topi" },
+    { word: "car", emoji: "🚗", hint: "mobil" },
+    { word: "house", emoji: "🏠", hint: "rumah" }
+  ];
+
+  const allBatches = {
+    1: { name: "🟢 Benda Dasar & Hewan", data: batch1 },
+    2: { name: "🔵 Kata Kerja Dasar", data: batch2 },
+    3: { name: "🟡 Kata Sifat", data: batch3 },
+    4: { name: "🟣 Orang & Kehidupan", data: batch4 },
+    5: { name: "🔴 Benda Sehari-hari", data: batch5 }
+  };
+
+  // ------------------ STATE ------------------
+  let currentBatch = 1;
+  let currentIndex = 0;
+  let currentOrder = [];
+  let isShuffled = false;
+  let masteryMap = {};
+
+  // DOM Elements
+  const batchSelectorDiv = document.getElementById("batchSelector");
+  const cardArea = document.getElementById("cardArea");
+  const emojiDisplay = document.getElementById("emojiDisplay");
+  const wordDisplaySpan = document.getElementById("wordDisplay");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const shuffleBtn = document.getElementById("shuffleBtn");
+  const hafalBtn = document.getElementById("hafalBtn");
+  const belumBtn = document.getElementById("belumBtn");
+  const resetTrackerBtn = document.getElementById("resetTrackerBtn");
+  const statsText = document.getElementById("statsText");
+  const progressFill = document.getElementById("progressFill");
+
+  const audioPlayer = new Audio();
+
+  function getCurrentCardData() {
+    const batchData = allBatches[currentBatch].data;
+    const idx = currentOrder[currentIndex];
+    return batchData[idx];
+  }
+
+  function renderCard(resetWord = true) {
+    const card = getCurrentCardData();
+    emojiDisplay.textContent = card.emoji;
+    if (resetWord) {
+      wordDisplaySpan.style.display = "none";
+      wordDisplaySpan.textContent = "";
+    }
+  }
+
+  function revealAndPlay() {
+    const card = getCurrentCardData();
+    const word = card.word;
+    const hint = card.hint || "";
+    const audioPath = `../audio/flashcards/batch${currentBatch}/${word}.mp3`;
+    
+    if (hint) {
+      wordDisplaySpan.textContent = `${word} (${hint})`;
+    } else {
+      wordDisplaySpan.textContent = word;
+    }
+    wordDisplaySpan.style.display = "inline-block";
+    
+    audioPlayer.src = audioPath;
+    audioPlayer.play().catch(e => console.log("Audio error:", e));
+  }
+
+  function updateTrackerUI() {
+    const batchData = allBatches[currentBatch].data;
+    if (!masteryMap[currentBatch]) {
+      masteryMap[currentBatch] = {};
+    }
+    const batchMastery = masteryMap[currentBatch];
+    
+    let masteredCount = 0;
+    for (let i = 0; i < batchData.length; i++) {
+      const w = batchData[i].word;
+      if (batchMastery[w] === true) masteredCount++;
+    }
+    const total = batchData.length;
+    statsText.textContent = `${masteredCount} / ${total} hafal`;
+    const percent = (masteredCount / total) * 100;
+    progressFill.style.width = `${percent}%`;
+  }
+
+  function setMastery(status) {
+    const card = getCurrentCardData();
+    const word = card.word;
+    if (!masteryMap[currentBatch]) {
+      masteryMap[currentBatch] = {};
+    }
+    masteryMap[currentBatch][word] = status;
+    updateTrackerUI();
+    localStorage.setItem("flashcard_mastery", JSON.stringify(masteryMap));
+  }
+
+  function resetCurrentBatchMastery() {
+    if (!masteryMap[currentBatch]) {
+      masteryMap[currentBatch] = {};
+    }
+    const batchData = allBatches[currentBatch].data;
+    for (let i = 0; i < batchData.length; i++) {
+      const w = batchData[i].word;
+      masteryMap[currentBatch][w] = false;
+    }
+    updateTrackerUI();
+    localStorage.setItem("flashcard_mastery", JSON.stringify(masteryMap));
+  }
+
+  function loadMastery() {
+    const saved = localStorage.getItem("flashcard_mastery");
+    if (saved) {
+      try {
+        masteryMap = JSON.parse(saved);
+      } catch(e) { console.log("parse error"); }
+    }
+    for (let b = 1; b <= 5; b++) {
+      if (!masteryMap[b]) {
+        masteryMap[b] = {};
+      }
+      const batchData = allBatches[b].data;
+      for (let i = 0; i < batchData.length; i++) {
+        const w = batchData[i].word;
+        if (masteryMap[b][w] === undefined) {
+          masteryMap[b][w] = false;
+        }
+      }
+    }
+    updateTrackerUI();
+  }
+
+  function rebuildOrder() {
+    const length = allBatches[currentBatch].data.length;
+    if (isShuffled) {
+      const arr = Array.from({ length }, (_, i) => i);
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      currentOrder = arr;
+    } else {
+      currentOrder = Array.from({ length }, (_, i) => i);
+    }
+    if (currentIndex >= currentOrder.length) currentIndex = 0;
+    if (currentIndex < 0) currentIndex = 0;
+  }
+
+  function refreshAll(resetWordHidden = true) {
+    rebuildOrder();
+    if (currentIndex >= currentOrder.length) currentIndex = currentOrder.length - 1;
+    if (currentIndex < 0) currentIndex = 0;
+    renderCard(resetWordHidden);
+    updateTrackerUI();
+    document.querySelectorAll(".batch-btn").forEach(btn => {
+      if (parseInt(btn.dataset.batch) === currentBatch) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+  }
+
+  function setBatch(batchId) {
+    if (currentBatch === batchId) return;
+    currentBatch = batchId;
+    currentIndex = 0;
+    isShuffled = false;
+    refreshAll(true);
+  }
+
+  function nextCard() {
+    if (currentOrder.length === 0) return;
+    currentIndex = (currentIndex + 1) % currentOrder.length;
+    refreshAll(true);
+  }
+
+  function prevCard() {
+    if (currentOrder.length === 0) return;
+    currentIndex = (currentIndex - 1 + currentOrder.length) % currentOrder.length;
+    refreshAll(true);
+  }
+
+  function toggleShuffle() {
+    isShuffled = !isShuffled;
+    currentIndex = 0;
+    refreshAll(true);
+  }
+
+  function buildBatchSelector() {
+    batchSelectorDiv.innerHTML = "";
+    for (let i = 1; i <= 5; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = `${allBatches[i].name}`;
+      btn.classList.add("batch-btn");
+      btn.dataset.batch = i;
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        setBatch(i);
+      });
+      batchSelectorDiv.appendChild(btn);
+    }
+  }
+
+  function bindEvents() {
+    cardArea.addEventListener("click", (e) => {
+      revealAndPlay();
+    });
+    
+    prevBtn.addEventListener("click", prevCard);
+    nextBtn.addEventListener("click", nextCard);
+    shuffleBtn.addEventListener("click", toggleShuffle);
+    
+    hafalBtn.addEventListener("click", () => setMastery(true));
+    belumBtn.addEventListener("click", () => setMastery(false));
+    resetTrackerBtn.addEventListener("click", () => resetCurrentBatchMastery());
+  }
+
+  function init() {
+    buildBatchSelector();
+    loadMastery();
+    isShuffled = false;
+    currentBatch = 1;
+    currentIndex = 0;
+    refreshAll(true);
+    bindEvents();
+  }
+
+  init();
+</script>
+</body>
+</html>
