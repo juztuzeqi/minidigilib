@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G1 English Program Monthly Assessment 2</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #d0e2f2; font-family: 'Segoe UI', Roboto, sans-serif; padding: 10px 8px; display: flex; justify-content: center; }
+        .paper { max-width: 750px; width: 100%; background: white; border-radius: 28px; box-shadow: 0 8px 25px rgba(0,30,60,0.2); padding: 18px 14px; }
+        h1 { font-size: 1.7rem; color: #123b54; margin: 0 0 2px 5px; }
+        .sub { font-size: 0.9rem; color: #34675c; margin-left: 8px; margin-bottom: 15px; }
+        .score-panel { background: #e2edfb; border-radius: 40px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; justify-content: space-between; margin-bottom: 20px; scroll-margin-top: 20px; }
+        .score-item { background: white; border-radius: 30px; padding: 4px 14px; font-weight: 600; font-size: 0.9rem; color: #114b66; box-shadow: 0 1px 4px #b0c8dd; }
+        .part { background: #f5faff; border-radius: 24px; padding: 18px 12px 22px; margin: 25px 0 18px; border: 1px solid #c0d6ed; }
+        .part h2 { background: #205882; color: white; display: inline-block; padding: 5px 24px; border-radius: 40px; font-size: 1.3rem; margin-top: -34px; margin-bottom: 16px; }
+        .grid-a { display: flex; flex-direction: column; gap: 12px; }
+        .qcard { background: white; border-radius: 18px; padding: 12px 14px; border: 1px solid #d0e2f5; font-size: 0.95rem; }
+        .qnum { font-weight: 700; color: #003f66; margin-right: 5px; }
+        .stem { line-height: 1.4; }
+        .ops { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; }
+        .ops label { background: #ecf3fc; padding: 4px 14px; border-radius: 30px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+        .fb { margin-left: 8px; font-weight: 600; font-size: 0.9rem; }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+        .fill-block { background: #fffcf0; border-radius: 24px; padding: 18px 16px; margin: 15px 0 10px; border: 2px solid #c0b28b; }
+        .fill-item { margin: 20px 0; display: flex; align-items: flex-start; gap: 10px; flex-wrap: nowrap; }
+        .fill-item .qnum { font-weight: 700; color: #003f66; min-width: 40px; font-size: 1rem; line-height: 1.5; flex-shrink: 0; }
+        .fill-content { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; line-height: 1.5; }
+        .inline-input { display: inline-block; width: 140px; flex-shrink: 0; }
+        .inline-input input, .inline-input select { width: 100%; padding: 8px 12px; border: 2px solid #5f8bb3; border-radius: 30px; font-size: 0.9rem; text-align: center; background: white; }
+        .inline-input input.correct, .inline-input select.correct { background: #e3f7e3; border-color: #2a7f4a; }
+        .fill-feedback { font-weight: 700; font-size: 0.9rem; min-width: 80px; text-align: right; flex-shrink: 0; }
+        .fill-feedback.correct { color: #1f8b4c; }
+        .fill-feedback.wrong { color: #c13a3a; }
+        .text-question { background: #eef3fc; padding: 12px 15px; border-radius: 28px; margin-bottom: 18px; border-left: 8px solid #205882; }
+        .text-title { font-weight: 800; font-size: 1.1rem; color: #0f4c6b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .text-passage { background: #fef8e7; padding: 12px 15px; border-radius: 20px; margin: 10px 0 15px; font-style: normal; color: #2d3e50; border: 1px solid #ffe0a3; }
+        .check-bottom { display: flex; justify-content: center; margin: 20px 0 8px; }
+        .btn-large { background: #1e4e73; color: white; border: none; padding: 14px 30px; border-radius: 60px; font-size: 1.3rem; font-weight: 700; width: 100%; max-width: 300px; cursor: pointer; }
+        .btn-small { background: white; border: 1px solid #2c6085; padding: 6px 16px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .section-title { font-weight: 600; margin: 20px 0 10px; font-size: 1.1rem; color: #205882; }
+        .inline-text { display: inline; margin-right: 5px; }
+        .inline-input-mini { display: inline-block; width: 110px; }
+        .inline-input-mini input { width: 100%; padding: 6px 8px; border: 2px solid #5f8bb3; border-radius: 28px; text-align: center; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G1 Monthly Assessment 2</h1>
+    <div class="sub">English Program | Grammar, Vocabulary & Reading</div>
+
+    <div class="score-panel" id="scorePanel">
+        <span class="score-item">Part A <span id="scoreA">0</span>/20</span>
+        <span class="score-item">Part B <span id="scoreB">0</span>/10</span>
+        <span class="score-item">Total <span id="scoreTotal">0</span>/30</span>
+        <button class="btn-small" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <!-- PART A: GRAMMAR & VOCABULARY -->
+    <div class="part">
+        <h2>🔹 PART A: Grammar & Vocabulary</h2>
+        
+        <div class="section-title">A.1 Multiple Choice (Questions 1–10)</div>
+        <div class="grid-a" id="partAMC"></div>
+
+        <div class="section-title">A.2 Fill in the blanks (is/am/are/have/has)</div>
+        <div class="fill-block" id="a2Container"></div>
+
+        <div class="section-title">A.3 Countable / Uncountable & Articles</div>
+        <div class="fill-block" id="a3Container"></div>
+    </div>
+
+    <!-- PART B: READING COMPREHENSION -->
+    <div class="part">
+        <h2>🔸 PART B: Reading Comprehension</h2>
+        
+        <!-- Text 1: Tony and The Books -->
+        <div class="text-question">
+            <div class="text-title">📖 Text 1: Toni and The Books</div>
+            <div class="text-passage">
+                Toni is in the classroom. He is sitting on his chair. There are four books on the table. Those books are new and interesting. He wants to read that book one by one. His favorite hobby is reading books.
+            </div>
+            <div id="text1Questions"></div>
+        </div>
+
+        <!-- Text 2: The Holiday -->
+        <div class="text-question">
+            <div class="text-title">✈️ Text 2: The Holiday</div>
+            <div class="text-passage">
+                Benny and his family will go to Bali for holiday. Benny is happy because he never goes to Bali. Benny has six days for holiday and he will go there by plane. Benny and his family will enjoy and have fun together.
+            </div>
+            <div id="text2Questions"></div>
+        </div>
+    </div>
+
+    <div class="check-bottom">
+        <button class="btn-large" id="checkBtn">🔍 Check Answers</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- A.1 Multiple Choice (10 items) based on PDF page 1 ----------
+        const mcqs = [
+            { stem: "This is a...🐇", opts: ["rabbit", "bird", "cat", "tiger"], correct: 0 },          // rabbit
+            { stem: "These are two...🍊🍊", opts: ["apples", "bananas", "oranges", "melons"], correct: 2 },                     // oranges
+            { stem: "She... a new dress.", opts: ["has", "have"], correct: 0 },                        // has
+            { stem: "Lily has... umbrella.", opts: ["a", "an", "the","-"], correct: 1 },                          // an
+            { stem: "I see... stars at night.", opts: ["a", "an", "the","-"], correct: 3 },                       // -
+            { stem: "Which one is a countable noun?", opts: ["apple juice", "sugar", "oil", "mango"], correct: 3 }, // mango
+            { stem: "Which one is an uncountable noun?", opts: ["egg", "bread", "rice", "flower"], correct: 2 },   // rice
+            { stem: "There is... box in the kitchen.", opts: ["many", "a few", "some", "a"], correct: 3 },         // a
+            { stem: "There are ... erasers on the table.", opts: ["a little", "some", "any", "an"], correct: 1 },  // some
+            { stem: "We have ... friends in my class.", opts: ["much", "a lot of", "a", "an"], correct: 1 }        // a lot of
+        ];
+
+        // ---------- A.2 Fill blanks: have/has / is/am/are (10 items based on PDF page 2) ----------
+        const a2Items = [
+            { before: "I", after: "a cat and two birds.", correct: "have" },
+            { before: "We", after: "new story books.", correct: "have" },
+            { before: "My mother", after: "some fruits.", correct: "has" },
+            { before: "There", after: "five mangoes on the table.", correct: "are" },
+            { before: "She", after: "pretty shoes.", correct: "has" },
+            { before: "Madyana", after: "red dress.", correct: "has" },
+            { before: "My friend", after: "handsome and kind.", correct: "is" },
+            { before: "You", after: "my best friend in this school.", correct: "are" },
+            { before: "I", after: "ten years old.", correct: "am" },
+            { before: "They", after: "basketball players.", correct: "are" }
+        ];
+
+        // ---------- A.3 Mixed: countable/uncountable + articles (extra 5 questions to reach total 25 in part A) ----------
+        // Based on PDF style: some extra blending (countable/uncountable distinction) to make total 25 points for part A
+        const a3Items = [
+            { before: "We need", after: "water. (some / a)", correct: "some" },
+            { before: "There is", after: "orange on the plate. (a / an)", correct: "an" },
+            { before: "I have", after: "money in my pocket. (much / many)", correct: "much" },
+            { before: "She eats", after: "apple every morning. (a / an)", correct: "an" },
+            { before: "How", after: "books do you have? (much / many)", correct: "many" }
+        ];
+
+        // ---------- TEXT 1 QUESTIONS (5 items) ----------
+        const text1Qs = [
+            { question: "Who is in the classroom?", correct: "Toni" },
+            { question: "Where are the books?", correct: "on the table" },
+            { question: "How many books are on the table?", correct: "four" },
+            { question: "Does he want to read the book?", correct: "yes" },
+            { question: "What is his favorite hobby?", correct: "reading books" }
+        ];
+
+        // ---------- TEXT 2 QUESTIONS (5 items) ----------
+        const text2Qs = [
+            { question: "Where will Benny go?", correct: "Bali" },
+            { question: "Why is Benny happy?", correct: "because he never goes to Bali" },
+            { question: "How many days for holiday?", correct: "six" },
+            { question: "How does he go to Bali?", correct: "by plane" },
+            { question: "How do Benny and his family feel?", correct: "happy" }  // they will enjoy and have fun = happy
+        ];
+
+        // ========== RENDER ALL SECTIONS ==========
+        // Render MCQs
+        const mcContainer = document.getElementById('partAMC');
+        function renderMC() {
+            let html = '';
+            mcqs.forEach((q, idx) => {
+                html += `<div class="qcard"><span class="qnum">${idx+1}.</span> <span class="stem">${q.stem}</span>
+                    <div class="ops">`;
+                q.opts.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(97 + optIdx);
+                    html += `<label><input type="radio" name="mc${idx}" value="${optIdx}"> ${letter}) ${opt}</label>`;
+                });
+                html += `</div><span class="fb" id="fbMC${idx}"></span></div>`;
+            });
+            mcContainer.innerHTML = html;
+        }
+        renderMC();
+
+        // Render A2 (fill verbs)
+        function renderA2() {
+            const container = document.getElementById('a2Container');
+            let html = '';
+            a2Items.forEach((item, idx) => {
+                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
+                    <span class="fill-text">${item.before}</span>
+                    <span class="inline-input"><input type="text" id="a2_${idx}" placeholder="has/have/is/am/are" autocomplete="off"></span>
+                    <span class="fill-text">${item.after}</span>
+                </div><span class="fill-feedback" id="fb_a2_${idx}"></span></div>`;
+            });
+            container.innerHTML = html;
+        }
+        renderA2();
+
+        // Render A3 (mixed grammar: some/a/much/many)
+        function renderA3() {
+            const container = document.getElementById('a3Container');
+            let html = '';
+            a3Items.forEach((item, idx) => {
+                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
+                    <span class="fill-text">${item.before}</span>
+                    <span class="inline-input"><input type="text" id="a3_${idx}" placeholder="answer" autocomplete="off"></span>
+                    <span class="fill-text">${item.after}</span>
+                </div><span class="fill-feedback" id="fb_a3_${idx}"></span></div>`;
+            });
+            container.innerHTML = html;
+        }
+        renderA3();
+
+        // Render Text 1 questions
+        function renderText1() {
+            const container = document.getElementById('text1Questions');
+            let html = '';
+            text1Qs.forEach((item, idx) => {
+                html += `<div class="fill-item" style="margin: 12px 0;"><span class="qnum">${idx+1}.</span>
+                    <div class="fill-content" style="flex:1;">
+                        <span class="fill-text">${item.question}</span>
+                        <span class="inline-input"><input type="text" id="t1_${idx}" placeholder="your answer" autocomplete="off"></span>
+                    </div>
+                    <span class="fill-feedback" id="fb_t1_${idx}"></span>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // Render Text 2 questions
+        function renderText2() {
+            const container = document.getElementById('text2Questions');
+            let html = '';
+            text2Qs.forEach((item, idx) => {
+                html += `<div class="fill-item" style="margin: 12px 0;"><span class="qnum">${idx+1}.</span>
+                    <div class="fill-content" style="flex:1;">
+                        <span class="fill-text">${item.question}</span>
+                        <span class="inline-input"><input type="text" id="t2_${idx}" placeholder="your answer" autocomplete="off"></span>
+                    </div>
+                    <span class="fill-feedback" id="fb_t2_${idx}"></span>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+        renderText1();
+        renderText2();
+
+        // ---------- SCORING FUNCTION (Part A max 25, Part B max 15) ----------
+        function hitungSkor() {
+            let skorA = 0;
+            // 1) MCQs (10 items)
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                const fb = document.getElementById(`fbMC${i}`);
+                if (selected !== null && parseInt(selected) === mcqs[i].correct) {
+                    fb.innerText = '✓'; fb.className = 'fb correct'; skorA++;
+                } else {
+                    const benar = mcqs[i].opts[mcqs[i].correct];
+                    const benarLetter = String.fromCharCode(97 + mcqs[i].correct);
+                    fb.innerText = selected ? `✗ (${benarLetter}) ${benar}` : `(answer: ${benarLetter}) ${benar}`;
+                    fb.className = 'fb wrong';
+                }
+            }
+
+            // 2) A.2 fill verbs (10 items)
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`a2_${i}`);
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = a2Items[i].correct.toLowerCase();
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorA++;
+                    } else {
+                        fb.innerText = val ? `✗ ${a2Items[i].correct}` : `${a2Items[i].correct}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            // 3) A.3 mixed grammar (5 items)
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`a3_${i}`);
+                const fb = document.getElementById(`fb_a3_${i}`);
+                if (inp) {
+                    let val = inp.value.trim().toLowerCase();
+                    let benar = a3Items[i].correct.toLowerCase();
+                    // tolerate variations for 'some' & 'an' & 'much' & 'many'
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorA++;
+                    } else {
+                        fb.innerText = val ? `✗ ${a3Items[i].correct}` : `${a3Items[i].correct}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            let skorB = 0;
+            // Text 1 questions (5 items)
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t1_${i}`);
+                const fb = document.getElementById(`fb_t1_${i}`);
+                if (inp) {
+                    let val = inp.value.trim().toLowerCase().replace(/[?.!]/g, '');
+                    let benar = text1Qs[i].correct.toLowerCase().replace(/[?.!]/g, '');
+                    // flexible matching for "on the table", "toni", "reading books", "yes"
+                    if ((val === benar) || (benar === "toni" && val === "toni") || 
+                        (benar === "on the table" && (val === "on the table" || val === "table")) ||
+                        (benar === "four" && (val === "four" || val === "4")) ||
+                        (benar === "yes" && (val === "yes" || val === "y" || val === "yes he does" || val.includes("yes, he does"))) ||
+                        (benar === "reading books" && (val.includes("reading") && val.includes("book")))) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${text1Qs[i].correct}` : `${text1Qs[i].correct}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            // Text 2 questions (5 items)
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t2_${i}`);
+                const fb = document.getElementById(`fb_t2_${i}`);
+                if (inp) {
+                    let val = inp.value.trim().toLowerCase().replace(/[?.!]/g, '');
+                    let benar = text2Qs[i].correct.toLowerCase().replace(/[?.!]/g, '');
+                    // flexible matching
+                    let isMatch = false;
+                    if (val === benar) isMatch = true;
+                    else if (benar === "bali" && val === "bali") isMatch = true;
+                    else if (benar === "because he never goes to bali" && (val.includes("never") && val.includes("bali"))) isMatch = true;
+                    else if (benar === "six" && (val === "six" || val === "6")) isMatch = true;
+                    else if (benar === "by plane" && (val.includes("plane") || val === "plane")) isMatch = true;
+                    else if (benar === "happy" && (val === "happy" || val.includes("fun") || val.includes("enjoy"))) isMatch = true;
+                    
+                    if (isMatch) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${text2Qs[i].correct}` : `${text2Qs[i].correct}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ---------- RESET FUNCTION ----------
+        function resetSemua() {
+            // Reset MCQs
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                radios.forEach(r => r.checked = false);
+                const fb = document.getElementById(`fbMC${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset A2 inputs
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`a2_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset A3
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`a3_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_a3_${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset Text1
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t1_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_t1_${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset Text2
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t2_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_t2_${i}`);
+                if (fb) fb.innerText = '';
+            }
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', hitungSkor);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>
