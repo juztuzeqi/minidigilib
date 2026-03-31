@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G2 English Program Monthly Assessment 2</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #d0e2f2; font-family: 'Segoe UI', Roboto, sans-serif; padding: 10px 8px; display: flex; justify-content: center; }
+        .paper { max-width: 750px; width: 100%; background: white; border-radius: 28px; box-shadow: 0 8px 25px rgba(0,30,60,0.2); padding: 18px 14px; }
+        h1 { font-size: 1.7rem; color: #123b54; margin: 0 0 2px 5px; }
+        .sub { font-size: 0.9rem; color: #34675c; margin-left: 8px; margin-bottom: 15px; }
+        .score-panel { background: #e2edfb; border-radius: 40px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; justify-content: space-between; margin-bottom: 20px; scroll-margin-top: 20px; }
+        .score-item { background: white; border-radius: 30px; padding: 4px 14px; font-weight: 600; font-size: 0.9rem; color: #114b66; box-shadow: 0 1px 4px #b0c8dd; }
+        .part { background: #f5faff; border-radius: 24px; padding: 18px 12px 22px; margin: 25px 0 18px; border: 1px solid #c0d6ed; }
+        .part h2 { background: #205882; color: white; display: inline-block; padding: 5px 24px; border-radius: 40px; font-size: 1.3rem; margin-top: -34px; margin-bottom: 16px; }
+        .grid-a { display: flex; flex-direction: column; gap: 12px; }
+        .qcard { background: white; border-radius: 18px; padding: 12px 14px; border: 1px solid #d0e2f5; font-size: 0.95rem; }
+        .qnum { font-weight: 700; color: #003f66; margin-right: 5px; }
+        .stem { line-height: 1.4; }
+        .ops { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; }
+        .ops label { background: #ecf3fc; padding: 4px 14px; border-radius: 30px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+        .fb { margin-left: 8px; font-weight: 600; font-size: 0.9rem; }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+        .fill-block { background: #fffcf0; border-radius: 24px; padding: 18px 16px; margin: 15px 0 10px; border: 2px solid #c0b28b; }
+        .fill-item { margin: 20px 0; display: flex; align-items: flex-start; gap: 10px; flex-wrap: nowrap; }
+        .fill-item .qnum { font-weight: 700; color: #003f66; min-width: 40px; font-size: 1rem; line-height: 1.5; flex-shrink: 0; }
+        .fill-content { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; line-height: 1.5; }
+        .inline-input { display: inline-block; width: 160px; flex-shrink: 0; }
+        .inline-input select { width: 100%; padding: 8px 12px; border: 2px solid #5f8bb3; border-radius: 30px; font-size: 0.9rem; text-align: center; background: white; cursor: pointer; }
+        .inline-input select.correct { background: #e3f7e3; border-color: #2a7f4a; }
+        .fill-feedback { font-weight: 700; font-size: 0.9rem; min-width: 80px; text-align: right; flex-shrink: 0; }
+        .fill-feedback.correct { color: #1f8b4c; }
+        .fill-feedback.wrong { color: #c13a3a; }
+        .text-question { background: #eef3fc; padding: 12px 15px; border-radius: 28px; margin-bottom: 18px; border-left: 8px solid #205882; }
+        .text-title { font-weight: 800; font-size: 1.1rem; color: #0f4c6b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .text-passage { background: #fef8e7; padding: 12px 15px; border-radius: 20px; margin: 10px 0 15px; font-style: normal; color: #2d3e50; border: 1px solid #ffe0a3; }
+        .check-bottom { display: flex; justify-content: center; margin: 20px 0 8px; }
+        .btn-large { background: #1e4e73; color: white; border: none; padding: 14px 30px; border-radius: 60px; font-size: 1.3rem; font-weight: 700; width: 100%; max-width: 300px; cursor: pointer; }
+        .btn-small { background: white; border: 1px solid #2c6085; padding: 6px 16px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .section-title { font-weight: 600; margin: 20px 0 10px; font-size: 1.1rem; color: #205882; }
+        .inline-text { display: inline; margin-right: 5px; }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G2 Monthly Assessment 2</h1>
+    <div class="sub">English Program | Grammar, Vocabulary & Reading</div>
+
+    <div class="score-panel" id="scorePanel">
+        <span class="score-item">Part A <span id="scoreA">0</span>/20</span>
+        <span class="score-item">Part B <span id="scoreB">0</span>/10</span>
+        <span class="score-item">Total <span id="scoreTotal">0</span>/30</span>
+        <button class="btn-small" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <!-- PART A: GRAMMAR & VOCABULARY -->
+    <div class="part">
+        <h2>🔹 PART A: Grammar & Vocabulary</h2>
+        
+        <div class="section-title">A.1 Multiple Choice (Questions 1–10)</div>
+        <div class="grid-a" id="partAMC"></div>
+
+        <div class="section-title">A.2 Choose the correct word</div>
+        <div class="fill-block" id="a2Container"></div>
+    </div>
+
+    <!-- PART B: READING COMPREHENSION -->
+    <div class="part">
+        <h2>🔸 PART B: Reading Comprehension</h2>
+        
+        <!-- Text 1: Rina -->
+        <div class="text-question">
+            <div class="text-title">📖 Text 1: Rina</div>
+            <div class="text-passage">
+                Rina is a student, she is ten years old. She lives in a small house with her parents. Every morning, Rina wakes up at six o'clock. She brushes her teeth and takes a shower. Then she has breakfast with her family.<br><br>
+                Rina has a blue bag. In her bag, there are books, a blue pencil and pink eraser. She goes to school at seven o'clock. She walks to school with her best friend, Siti. They are always happy.
+            </div>
+            <div id="text1Questions"></div>
+        </div>
+
+        <!-- Text 2: Tony and His Family -->
+        <div class="text-question">
+            <div class="text-title">🏠 Text 2: Tony and His Family</div>
+            <div class="text-passage">
+                Today is Sunday. Tony and his family are at home. Tony is sitting at the table. He is eating bread and drinking milk. His mother is in the kitchen. She is cooking fried chicken, his favorite food. His father is in the living room. He is watching the news on TV. Tony's brother is on the floor. He is playing with his toys, he is happy.
+            </div>
+            <div id="text2Questions"></div>
+        </div>
+    </div>
+
+    <div class="check-bottom">
+        <button class="btn-large" id="checkBtn">🔍 Check Answers</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- A.1 Multiple Choice (10 items based on PDF page 1) ----------
+        const mcqs = [
+            { stem: "I like eating fried chicken. ______ mother always cooks it for me.", opts: ["they", "its", "she", "my"], correct: 3 },
+            { stem: "______ are five oranges on the table.", opts: ["these", "the", "this", "that"], correct: 0 },
+            { stem: "We have a new teacher. ______ teacher is beautiful and kind.", opts: ["my", "her", "they", "our"], correct: 3 },
+            { stem: "______ is she happy? Because today is her birthday.", opts: ["which", "wh", "why", "when"], correct: 2 },
+            { stem: "______ do you live?", opts: ["where", "when", "why", "what"], correct: 0 },
+            { stem: "There are ______ balls in the basket.", opts: ["a little", "a", "any", "some"], correct: 3 },
+            { stem: "Which one is an uncountable noun?", opts: ["egg", "box", "milk", "door"], correct: 2 },
+            { stem: "Which one is a countable noun?", opts: ["hair", "coffee", "eraser", "oil"], correct: 2 },
+            { stem: "The cat is ______ the table. (Di bawah meja)", opts: ["over", "beside", "on", "under"], correct: 3 },
+            { stem: "Qamitha has a new bag. ______ bag is pink.", opts: ["our", "their", "his", "her"], correct: 3 }
+        ];
+
+        // ---------- A.2 Fill blanks with OPTIONS (dropdown) based on PDF page 2 ----------
+        const a2Items = [
+            { before: "I like to eat", after: "orange.", options: ["a", "an"], correct: "an" },
+            { before: "We drink", after: "milk in the morning.", options: ["much", "many"], correct: "much" },
+            { before: "", after: "is your best friend?", options: ["who", "when"], correct: "who" },
+            { before: "They see", after: "aeroplanes in the sky.", options: ["those", "these"], correct: "those" },
+            { before: "He", after: "black shoes.", options: ["have", "has"], correct: "has" },
+            { before: "My father", after: "to work by car.", options: ["go", "goes"], correct: "goes" },
+            { before: "My friends", after: "to my home today.", options: ["come", "comes"], correct: "come" },
+            { before: "", after: "is your birthday?", options: ["when", "where"], correct: "when" },
+            { before: "The cat is", after: "under the table.", options: ["sleep", "sleeping"], correct: "sleeping" },
+            { before: "She", after: "a volleyball player.", options: ["is", "am"], correct: "is" }
+        ];
+
+        // ---------- TEXT 1 QUESTIONS (5 items) ----------
+        const text1Qs = [
+            { question: "Who is Rina?", correct: "student" },
+            { question: "What time does she wake up?", correct: "six o'clock" },
+            { question: "What does she do with her family in the morning?", correct: "has breakfast" },
+            { question: "What is the colour of her bag?", correct: "blue" },
+            { question: "What time does she go to school?", correct: "seven o'clock" }
+        ];
+
+        // ---------- TEXT 2 QUESTIONS (5 items) ----------
+        const text2Qs = [
+            { question: "What day is today?", correct: "sunday" },
+            { question: "What is Tony doing?", correct: "eating bread and drinking milk" },
+            { question: "Where is his mother?", correct: "in the kitchen" },
+            { question: "What is his father doing in the living room?", correct: "watching the news" },
+            { question: "What is Tony's brother doing?", correct: "playing with his toys" }
+        ];
+
+        // ========== RENDER ALL SECTIONS ==========
+        // Render MCQs
+        const mcContainer = document.getElementById('partAMC');
+        function renderMC() {
+            let html = '';
+            mcqs.forEach((q, idx) => {
+                html += `<div class="qcard"><span class="qnum">${idx+1}.</span> <span class="stem">${q.stem}</span>
+                    <div class="ops">`;
+                q.opts.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(97 + optIdx);
+                    html += `<label><input type="radio" name="mc${idx}" value="${optIdx}"> ${letter}) ${opt}</label>`;
+                });
+                html += `</div><span class="fb" id="fbMC${idx}"></span></div>`;
+            });
+            mcContainer.innerHTML = html;
+        }
+        renderMC();
+
+        // Render A2 with dropdown selectors
+        function renderA2() {
+            const container = document.getElementById('a2Container');
+            let html = '';
+            a2Items.forEach((item, idx) => {
+                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
+                    <span class="fill-text">${item.before}</span>
+                    <span class="inline-input">
+                        <select id="a2_${idx}">
+                            <option value="">-- Choose --</option>`;
+                item.options.forEach(opt => {
+                    html += `<option value="${opt}">${opt}</option>`;
+                });
+                html += `</select></span>
+                    <span class="fill-text">${item.after}</span>
+                </div><span class="fill-feedback" id="fb_a2_${idx}"></span></div>`;
+            });
+            container.innerHTML = html;
+        }
+        renderA2();
+
+        // Render Text 1 questions (text input for reading comprehension)
+        function renderText1() {
+            const container = document.getElementById('text1Questions');
+            let html = '';
+            text1Qs.forEach((item, idx) => {
+                html += `<div class="fill-item" style="margin: 12px 0;"><span class="qnum">${idx+1}.</span>
+                    <div class="fill-content" style="flex:1;">
+                        <span class="fill-text">${item.question}</span>
+                        <span class="inline-input"><input type="text" id="t1_${idx}" placeholder="your answer" autocomplete="off"></span>
+                    </div>
+                    <span class="fill-feedback" id="fb_t1_${idx}"></span>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // Render Text 2 questions (text input for reading comprehension)
+        function renderText2() {
+            const container = document.getElementById('text2Questions');
+            let html = '';
+            text2Qs.forEach((item, idx) => {
+                html += `<div class="fill-item" style="margin: 12px 0;"><span class="qnum">${idx+1}.</span>
+                    <div class="fill-content" style="flex:1;">
+                        <span class="fill-text">${item.question}</span>
+                        <span class="inline-input"><input type="text" id="t2_${idx}" placeholder="your answer" autocomplete="off"></span>
+                    </div>
+                    <span class="fill-feedback" id="fb_t2_${idx}"></span>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+        renderText1();
+        renderText2();
+
+        // ---------- SCORING FUNCTION (Part A max 30, Part B max 10) ----------
+        function hitungSkor() {
+            let skorA = 0;
+            // 1) MCQs (10 items)
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                const fb = document.getElementById(`fbMC${i}`);
+                if (selected !== null && parseInt(selected) === mcqs[i].correct) {
+                    fb.innerText = '✓'; fb.className = 'fb correct'; skorA++;
+                } else {
+                    const benar = mcqs[i].opts[mcqs[i].correct];
+                    const benarLetter = String.fromCharCode(97 + mcqs[i].correct);
+                    fb.innerText = selected ? `✗ (${benarLetter}) ${benar}` : `(answer: ${benarLetter}) ${benar}`;
+                    fb.className = 'fb wrong';
+                }
+            }
+
+            // 2) A.2 dropdown selections (10 items)
+            for (let i = 0; i < 10; i++) {
+                const sel = document.getElementById(`a2_${i}`);
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (sel) {
+                    const val = sel.value;
+                    const benar = a2Items[i].correct;
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; sel.classList.add('correct'); skorA++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`;
+                        fb.className = 'fill-feedback wrong'; sel.classList.remove('correct');
+                    }
+                }
+            }
+
+            let skorB = 0;
+            // Text 1 questions (5 items) - flexible matching
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t1_${i}`);
+                const fb = document.getElementById(`fb_t1_${i}`);
+                if (inp) {
+                    let val = inp.value.trim().toLowerCase().replace(/[?.!]/g, '');
+                    let isMatch = false;
+                    
+                    if (i === 0) { // Who is Rina? -> student / a student
+                        if (val === "student" || val === "a student" || val.includes("student")) isMatch = true;
+                    }
+                    else if (i === 1) { // What time wake up? -> six o'clock / 6 o'clock / six
+                        if (val === "six o'clock" || val === "6 o'clock" || val === "six" || val === "6") isMatch = true;
+                    }
+                    else if (i === 2) { // What does she do with family? -> has breakfast / breakfast
+                        if (val.includes("breakfast") || val === "has breakfast") isMatch = true;
+                    }
+                    else if (i === 3) { // colour of bag? -> blue
+                        if (val === "blue") isMatch = true;
+                    }
+                    else if (i === 4) { // time go to school? -> seven o'clock / 7 o'clock / seven
+                        if (val === "seven o'clock" || val === "7 o'clock" || val === "seven" || val === "7") isMatch = true;
+                    }
+                    
+                    if (isMatch) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${text1Qs[i].correct}` : `${text1Qs[i].correct}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            // Text 2 questions (5 items) - flexible matching
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t2_${i}`);
+                const fb = document.getElementById(`fb_t2_${i}`);
+                if (inp) {
+                    let val = inp.value.trim().toLowerCase().replace(/[?.!]/g, '');
+                    let isMatch = false;
+                    
+                    if (i === 0) { // What day? -> sunday
+                        if (val === "sunday" || val === "sun") isMatch = true;
+                    }
+                    else if (i === 1) { // What is Tony doing? -> eating bread and drinking milk
+                        if ((val.includes("eating") && val.includes("bread")) || (val.includes("drinking") && val.includes("milk"))) isMatch = true;
+                        else if (val === "eating bread and drinking milk") isMatch = true;
+                    }
+                    else if (i === 2) { // Where is mother? -> in the kitchen / kitchen
+                        if (val.includes("kitchen")) isMatch = true;
+                    }
+                    else if (i === 3) { // What is father doing? -> watching the news / watching news
+                        if (val.includes("watching") && val.includes("news")) isMatch = true;
+                    }
+                    else if (i === 4) { // What is brother doing? -> playing with his toys / playing toys
+                        if ((val.includes("playing") && val.includes("toys")) || val.includes("playing with his toys")) isMatch = true;
+                    }
+                    
+                    if (isMatch) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${text2Qs[i].correct}` : `${text2Qs[i].correct}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ---------- RESET FUNCTION ----------
+        function resetSemua() {
+            // Reset MCQs
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                radios.forEach(r => r.checked = false);
+                const fb = document.getElementById(`fbMC${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset A2 dropdowns
+            for (let i = 0; i < 10; i++) {
+                const sel = document.getElementById(`a2_${i}`);
+                if (sel) { sel.value = ''; sel.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset Text1
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t1_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_t1_${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset Text2
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t2_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_t2_${i}`);
+                if (fb) fb.innerText = '';
+            }
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', hitungSkor);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>
