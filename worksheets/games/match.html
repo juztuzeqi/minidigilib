@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Word Match · Bonus Game</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: #f0f4f8;
+      padding: 12px 10px;
+      display: flex;
+      justify-content: center;
+    }
+    .paper {
+      max-width: 600px;
+      width: 100%;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 6px 18px rgba(0,20,40,0.1);
+      padding: 22px 16px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #1d3e5e;
+      margin-bottom: 5px;
+    }
+    .sub {
+      color: #3a6b8c;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #ced9e5;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 15px;
+      color: #3a6b8c;
+      text-decoration: none;
+    }
+    .progress-bar {
+      background: #e6edf6;
+      border-radius: 40px;
+      padding: 12px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+    .score-badge {
+      background: white;
+      padding: 5px 15px;
+      border-radius: 30px;
+    }
+    .correct { color: #1f7a4c; }
+    .game-board {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .column {
+      flex: 1;
+      min-width: 200px;
+    }
+    .column-title {
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 15px;
+      padding: 8px;
+      background: #e9f0fa;
+      border-radius: 30px;
+      color: #1d4e6b;
+    }
+    .card {
+      background: white;
+      border: 2px solid #cbdae9;
+      border-radius: 20px;
+      padding: 15px;
+      margin: 10px 0;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: 500;
+    }
+    .card:active {
+      transform: scale(0.98);
+      background: #f0f4fa;
+    }
+    .card.selected {
+      background: #d0e0ff;
+      border-color: #1e4e73;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .card.matched {
+      background: #c0e0d0;
+      border-color: #2a7f4a;
+      opacity: 0.6;
+      cursor: default;
+      text-decoration: line-through;
+    }
+    .card.matched:active {
+      transform: none;
+    }
+    .message {
+      text-align: center;
+      min-height: 40px;
+      font-weight: 600;
+      margin: 15px 0;
+    }
+    .btn {
+      background: #1e4e73;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .btn:active {
+      background: #123a55;
+    }
+    .btn-success {
+      background: #2a7f4a;
+    }
+    .completed-banner {
+      background: #c0e0d0;
+      border-radius: 40px;
+      padding: 25px;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .summary-stats {
+      background: #f8f0e0;
+      border-radius: 30px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="paper">
+  <a href="index-gm.html" class="back-link">← Back to Games</a>
+  <h1>🔄 Word Match</h1>
+  <div class="sub">Match each word with its correct meaning</div>
+  
+  <div id="gameArea"></div>
+</div>
+
+<script>
+// ==================== WORD PAIRS ====================
+const wordPairs = [
+  { word: 'morning', meaning: 'The time from sunrise until noon' },
+  { word: 'evening', meaning: 'The time between afternoon and night' },
+  { word: 'happy', meaning: 'Feeling joy or pleasure' },
+  { word: 'sad', meaning: 'Feeling unhappy' },
+  { word: 'big', meaning: 'Large in size' },
+  { word: 'small', meaning: 'Little in size' },
+  { word: 'fast', meaning: 'Moving quickly' },
+  { word: 'slow', meaning: 'Moving at low speed' },
+  { word: 'hot', meaning: 'Having high temperature' },
+  { word: 'cold', meaning: 'Having low temperature' }
+];
+
+  // State
+  let items = [];
+  let selectedIndex = null;
+  let matchedCount = 0;
+  let gameCompleted = false;
+  let stats = { correct: 0, total: wordPairs.length };
+
+  // Acak array
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Inisialisasi game
+  function initGame() {
+    // Buat items: setengah kata, setengah meaning
+    const words = wordPairs.map((pair, idx) => ({
+      id: idx,
+      type: 'word',
+      text: pair.word,
+      pairId: idx
+    }));
+    
+    const meanings = wordPairs.map((pair, idx) => ({
+      id: idx,
+      type: 'meaning',
+      text: pair.meaning,
+      pairId: idx
+    }));
+    
+    items = shuffleArray([...words, ...meanings]);
+    selectedIndex = null;
+    matchedCount = 0;
+    gameCompleted = false;
+    stats = { correct: 0, total: wordPairs.length };
+    render();
+  }
+
+  // Handle card click
+  function handleCardClick(index) {
+    if (gameCompleted) return;
+    if (items[index].matched) return;
+    
+    // Tidak ada yang dipilih
+    if (selectedIndex === null) {
+      selectedIndex = index;
+      render();
+      return;
+    }
+    
+    // Sudah ada yang dipilih
+    const selectedItem = items[selectedIndex];
+    const currentItem = items[index];
+    
+    // Kalau klik kartu yang sama
+    if (selectedIndex === index) {
+      selectedIndex = null;
+      render();
+      return;
+    }
+    
+    // Cek match
+    if (selectedItem.pairId === currentItem.pairId) {
+      // Match! ✅
+      items[selectedIndex].matched = true;
+      items[index].matched = true;
+      matchedCount++;
+      stats.correct++;
+      selectedIndex = null;
+      
+      // Cek apakah game selesai
+      if (matchedCount === wordPairs.length) {
+        gameCompleted = true;
+      }
+    } else {
+      // Tidak match ❌
+      selectedIndex = null;
+    }
+    
+    render();
+  }
+
+  function render() {
+    const gameArea = document.getElementById('gameArea');
+    
+    if (gameCompleted) {
+      const accuracy = Math.round((stats.correct / stats.total) * 100);
+      gameArea.innerHTML = `
+        <div class="completed-banner">
+          🏆 MISSION COMPLETED! 🏆
+        </div>
+        <div class="summary-stats">
+          <h3>📊 Final Score</h3>
+          <p style="font-size:1.3rem;">✅ Correct: ${stats.correct}/${stats.total}</p>
+          <p style="font-size:1.1rem;">Accuracy: ${accuracy}%</p>
+        </div>
+        <div style="text-align:center;">
+          <button class="btn btn-success" onclick="playAgain()">🔄 Play Again</button>
+          <button class="btn" onclick="window.location.href='indeks-gm.html'">🏠 Back to Games</button>
+        </div>
+      `;
+      return;
+    }
+    
+    const progress = Math.round((matchedCount / wordPairs.length) * 100);
+    
+    let html = `
+      <div class="progress-bar">
+        <span>🔤 Matched: ${matchedCount}/${wordPairs.length}</span>
+        <span class="score-badge">
+          <span class="correct">✅ ${stats.correct}</span> / ${stats.total}
+        </span>
+      </div>
+      
+      <div class="game-board">
+    `;
+    
+    // Bagi menjadi dua kolom
+    const midIndex = Math.ceil(items.length / 2);
+    const leftItems = items.slice(0, midIndex);
+    const rightItems = items.slice(midIndex);
+    
+    html += `
+  <div class="column">
+`;
+
+leftItems.forEach((item, idx) => {
+  const globalIdx = idx;
+  const isSelected = selectedIndex === globalIdx;
+  const isMatched = item.matched;
+  const cardClass = `card ${isSelected ? 'selected' : ''} ${isMatched ? 'matched' : ''}`;
+  html += `
+    <div class="${cardClass}" onclick="handleCardClick(${globalIdx})">
+      ${item.text}
+    </div>
+  `;
+});
+
+html += `</div><div class="column">`;
+
+rightItems.forEach((item, idx) => {
+  const globalIdx = idx + midIndex;
+  const isSelected = selectedIndex === globalIdx;
+  const isMatched = item.matched;
+  const cardClass = `card ${isSelected ? 'selected' : ''} ${isMatched ? 'matched' : ''}`;
+  html += `
+    <div class="${cardClass}" onclick="handleCardClick(${globalIdx})">
+      ${item.text}
+    </div>
+  `;
+});
+
+html += `</div>`;
+    
+    html += `
+      </div>
+      </div>
+      <div class="message">
+        ${selectedIndex !== null ? '✨ Click a card to match it' : '🔍 Click a word, then click its meaning'}
+      </div>
+    `;
+    
+    gameArea.innerHTML = html;
+  }
+
+  function playAgain() {
+    initGame();
+  }
+
+  // Expose ke global
+  window.handleCardClick = handleCardClick;
+  window.playAgain = playAgain;
+
+  // Start
+  initGame();
+</script>
+</body>
+</html>

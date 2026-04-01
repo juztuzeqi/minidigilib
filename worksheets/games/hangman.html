@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Hangman · Bonus Game</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: #f0f4f8;
+      padding: 12px 10px;
+      display: flex;
+      justify-content: center;
+    }
+    .paper {
+      max-width: 550px;
+      width: 100%;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 6px 18px rgba(0,20,40,0.1);
+      padding: 22px 16px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #1d3e5e;
+      margin-bottom: 5px;
+    }
+    .sub {
+      color: #3a6b8c;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #ced9e5;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 15px;
+      color: #3a6b8c;
+      text-decoration: none;
+    }
+    .progress-bar {
+      background: #e6edf6;
+      border-radius: 40px;
+      padding: 12px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+    .score-badge {
+      background: white;
+      padding: 5px 15px;
+      border-radius: 30px;
+    }
+    .correct { color: #1f7a4c; }
+    .incorrect { color: #b13e3e; }
+    .hangman-area {
+      text-align: center;
+      margin: 20px 0;
+      font-family: monospace;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      background: #f9fcff;
+      padding: 20px;
+      border-radius: 30px;
+      border: 1px solid #cbdae9;
+    }
+    .word-display {
+      font-size: 2.2rem;
+      letter-spacing: 12px;
+      font-weight: 700;
+      text-align: center;
+      margin: 25px 0;
+      font-family: monospace;
+    }
+    .letters-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 25px 0;
+    }
+    .letter-btn {
+      width: 50px;
+      height: 50px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      background: white;
+      border: 2px solid #8aa9c4;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .letter-btn:active {
+      background: #d5e4f5;
+      transform: scale(0.95);
+    }
+    .letter-btn:disabled {
+      background: #e0e7ef;
+      border-color: #b8c7d8;
+      color: #8899aa;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .message {
+      text-align: center;
+      min-height: 40px;
+      font-weight: 600;
+      margin: 15px 0;
+    }
+    .btn {
+      background: #1e4e73;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .btn:active {
+      background: #123a55;
+    }
+    .btn-success {
+      background: #2a7f4a;
+    }
+    .completed-banner {
+      background: #c0e0d0;
+      border-radius: 40px;
+      padding: 25px;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .summary-stats {
+      background: #f8f0e0;
+      border-radius: 30px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .wrong-guesses {
+      text-align: center;
+      color: #b13e3e;
+      margin: 10px 0;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+<div class="paper">
+  <a href="index-gm.html" class="back-link">← Back to Games</a>
+  <h1>🎭 Hangman</h1>
+  <div class="sub">Guess the word before the man is hanged</div>
+  
+  <div id="gameArea"></div>
+</div>
+
+<script>
+// ==================== KATA-KATA ====================
+const wordBank = [
+  { word: 'teacher', hint: 'The person who helps you learn' },
+  { word: 'school', hint: 'A place where students study' },
+  { word: 'student', hint: 'A person who learns' },
+  { word: 'classroom', hint: 'Room where lessons happen' },
+  { word: 'homework', hint: 'Tasks you do after school' },
+  { word: 'english', hint: 'The language we are learning' },
+  { word: 'reading', hint: 'Activity of looking at words' },
+  { word: 'writing', hint: 'Putting words on paper' },
+  { word: 'listening', hint: 'Using your ears to learn' },
+  { word: 'speaking', hint: 'Talking out loud' },
+  { word: 'grammar', hint: 'Rules of a language' },
+  { word: 'vocabulary', hint: 'Words you know' },
+  { word: 'dictionary', hint: 'Book to find word meanings' },
+  { word: 'conversation', hint: 'Talking with someone' },
+  { word: 'practice', hint: 'Repeat to get better' }
+];
+
+  // Hangman stages
+  const hangmanStages = [
+    "   +---+\n       |\n       |\n       |\n       |\n       |\n=========",
+    "   +---+\n   O   |\n       |\n       |\n       |\n       |\n=========",
+    "   +---+\n   O   |\n   |   |\n       |\n       |\n       |\n=========",
+    "   +---+\n   O   |\n  /|   |\n       |\n       |\n       |\n=========",
+    "   +---+\n   O   |\n  /|\\  |\n       |\n       |\n       |\n=========",
+    "   +---+\n   O   |\n  /|\\  |\n  /    |\n       |\n       |\n=========",
+    "   +---+\n   O   |\n  /|\\  |\n  / \\  |\n       |\n       |\n========="
+  ];
+
+  // State
+  let currentWord = '';
+  let currentHint = '';
+  let guessedLetters = [];
+  let wrongGuesses = 0;
+  let gameCompleted = false;
+  let stats = { correct: 0, total: 0 };
+  let currentWordIndex = 0;
+  let questions = [];
+
+  // Acak array
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Inisialisasi
+  function initGame() {
+    questions = shuffleArray([...wordBank]);
+    currentWordIndex = 0;
+    stats = { correct: 0, total: questions.length };
+    loadNextWord();
+  }
+
+  function loadNextWord() {
+    if (currentWordIndex >= questions.length) {
+      gameCompleted = true;
+      render();
+      return;
+    }
+    
+    currentWord = questions[currentWordIndex].word.toLowerCase();
+    currentHint = questions[currentWordIndex].hint;
+    guessedLetters = [];
+    wrongGuesses = 0;
+    gameCompleted = false;
+    render();
+  }
+
+  function getWordDisplay() {
+    return currentWord.split('').map(letter => 
+      guessedLetters.includes(letter) ? letter : '_'
+    ).join(' ');
+  }
+
+  function isWordGuessed() {
+    return currentWord.split('').every(letter => guessedLetters.includes(letter));
+  }
+
+  function checkGameOver() {
+    if (wrongGuesses >= hangmanStages.length - 1) {
+      return true;
+    }
+    return false;
+  }
+
+  function guessLetter(letter) {
+    if (gameCompleted) return;
+    if (guessedLetters.includes(letter)) return;
+    
+    guessedLetters.push(letter);
+    
+    if (currentWord.includes(letter)) {
+      // Benar
+      if (isWordGuessed()) {
+        stats.correct++;
+        currentWordIndex++;
+        setTimeout(() => {
+          if (currentWordIndex >= questions.length) {
+            gameCompleted = true;
+            render();
+          } else {
+            loadNextWord();
+          }
+        }, 1000);
+      }
+    } else {
+      // Salah
+      wrongGuesses++;
+      if (checkGameOver()) {
+        gameCompleted = true;
+        render();
+        return;
+      }
+    }
+    
+    render();
+  }
+
+  function render() {
+    const gameArea = document.getElementById('gameArea');
+    
+    if (currentWordIndex >= questions.length && !gameCompleted) {
+      gameCompleted = true;
+    }
+    
+    if (gameCompleted && currentWordIndex >= questions.length) {
+      const accuracy = Math.round((stats.correct / stats.total) * 100);
+      gameArea.innerHTML = `
+        <div class="completed-banner">
+          🏆 MISSION COMPLETED! 🏆
+        </div>
+        <div class="summary-stats">
+          <h3>📊 Final Score</h3>
+          <p style="font-size:1.3rem;">✅ Correct: ${stats.correct}/${stats.total}</p>
+          <p style="font-size:1.1rem;">Accuracy: ${accuracy}%</p>
+        </div>
+        <div style="text-align:center;">
+          <button class="btn btn-success" onclick="playAgain()">🔄 Play Again</button>
+          <button class="btn" onclick="window.location.href='index-gm.html'">🏠 Back to Games</button>
+        </div>
+      `;
+      return;
+    }
+    
+    if (gameCompleted && checkGameOver()) {
+      gameArea.innerHTML = `
+        <div class="completed-banner" style="background:#ffdddd; color:#a33;">
+          💀 GAME OVER 💀
+        </div>
+        <div class="summary-stats">
+          <h3>The word was:</h3>
+          <p style="font-size:2rem; font-weight:700;">${currentWord.toUpperCase()}</p>
+          <p style="margin-top:10px;">📌 ${currentHint}</p>
+        </div>
+        <div style="text-align:center;">
+          <button class="btn btn-success" onclick="loadNextWord()">➡️ Next Word</button>
+          <button class="btn" onclick="playAgain()">🔄 Play Again</button>
+        </div>
+      `;
+      return;
+    }
+    
+    // Render game aktif
+    const progress = Math.round((currentWordIndex / stats.total) * 100);
+    const wordDisplay = getWordDisplay();
+    const isGameOver = checkGameOver();
+    
+    let html = `
+      <div class="progress-bar">
+        <span>📖 Word ${currentWordIndex + 1}/${stats.total}</span>
+        <span class="score-badge">
+          <span class="correct">✅ ${stats.correct}</span> / ${stats.total}
+        </span>
+      </div>
+      
+      <div class="hangman-area">
+        <pre style="font-family:monospace; font-size:0.8rem;">${hangmanStages[wrongGuesses]}</pre>
+      </div>
+      
+      <div class="wrong-guesses">
+        ❌ Wrong guesses: ${wrongGuesses}/${hangmanStages.length - 1}
+      </div>
+      
+      <div class="word-display">${wordDisplay}</div>
+      
+      <div style="background:#e9f0fa; padding:12px; border-radius:30px; margin:15px 0;">
+        <span>📌 Hint: ${currentHint}</span>
+      </div>
+      
+      <div class="letters-grid" id="lettersGrid"></div>
+      
+      <div id="message" class="message"></div>
+    `;
+    
+    gameArea.innerHTML = html;
+    
+    // Render huruf A-Z
+    const lettersGrid = document.getElementById('lettersGrid');
+    if (lettersGrid && !isGameOver) {
+      const letters = 'abcdefghijklmnopqrstuvwxyz';
+      lettersGrid.innerHTML = '';
+      for (let letter of letters) {
+        const disabled = guessedLetters.includes(letter);
+        const btn = document.createElement('button');
+        btn.textContent = letter.toUpperCase();
+        btn.className = 'letter-btn';
+        btn.disabled = disabled;
+        btn.onclick = () => guessLetter(letter);
+        lettersGrid.appendChild(btn);
+      }
+    }
+  }
+
+  function playAgain() {
+    initGame();
+    render();
+  }
+
+  // Start
+  initGame();
+</script>
+</body>
+</html>
