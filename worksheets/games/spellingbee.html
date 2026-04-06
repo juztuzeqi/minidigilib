@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Spelling Bee · Bonus Game</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: #f0f4f8;
+      padding: 12px 10px;
+      display: flex;
+      justify-content: center;
+    }
+    .paper {
+      max-width: 600px;
+      width: 100%;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 6px 18px rgba(0,20,40,0.1);
+      padding: 22px 16px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #1d3e5e;
+      margin-bottom: 5px;
+    }
+    .sub {
+      color: #3a6b8c;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #ced9e5;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 15px;
+      color: #3a6b8c;
+      text-decoration: none;
+    }
+    .progress-bar {
+      background: #e6edf6;
+      border-radius: 40px;
+      padding: 12px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+    .score-badge {
+      background: white;
+      padding: 5px 15px;
+      border-radius: 30px;
+    }
+    .correct { color: #1f7a4c; }
+    .incorrect { color: #b13e3e; }
+    .clue-area {
+      background: #f9fcff;
+      padding: 25px;
+      border-radius: 30px;
+      text-align: center;
+      margin: 20px 0;
+      border: 1px solid #cbdae9;
+    }
+    .clue-icon {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    .clue-text {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #1d3e5e;
+      margin-bottom: 10px;
+    }
+    .word-length {
+      font-size: 0.9rem;
+      color: #5f7d9c;
+      font-family: monospace;
+    }
+    .input-area {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .spell-input {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #8aa9c4;
+      border-radius: 50px;
+      font-size: 1rem;
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .btn {
+      background: #1e4e73;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn:active {
+      background: #123a55;
+      transform: scale(0.97);
+    }
+    .btn-success {
+      background: #2a7f4a;
+    }
+    .btn-warning {
+      background: #b86b2c;
+    }
+    .message {
+      text-align: center;
+      min-height: 40px;
+      font-weight: 600;
+      margin: 15px 0;
+      padding: 10px;
+      border-radius: 30px;
+    }
+    .message.correct {
+      background: #c0e0d0;
+      color: #1a5a3a;
+    }
+    .message.wrong {
+      background: #f5cfcf;
+      color: #a33;
+    }
+    .lives-display {
+      text-align: center;
+      margin: 10px 0;
+      font-size: 1.3rem;
+    }
+    .heart {
+      color: #e74c3c;
+      font-size: 1.4rem;
+    }
+    .completed-banner {
+      background: #c0e0d0;
+      border-radius: 40px;
+      padding: 30px 20px;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .summary-stats {
+      background: #f8f0e0;
+      border-radius: 30px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .next-btn {
+      background: #2a7f4a;
+      margin-top: 10px;
+    }
+    .feedback {
+      font-size: 0.9rem;
+      margin-top: 10px;
+      color: #5f7d9c;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="paper">
+  <a href="index-gm.html" class="back-link">← Back to Games</a>
+  <h1>🐝 Spelling Bee</h1>
+  <div class="sub">Type the word correctly · 5 lives</div>
+  
+  <div id="gameArea"></div>
+</div>
+
+<script>
+  // ==================== WORD BANK (ALL ENGLISH) ====================
+  const wordBank = [
+    { word: "LIBRARY", clue: "A place where you can borrow books", icon: "📚" },
+    { word: "FABLE", clue: "A short story with animals that teaches a moral lesson", icon: "🐰" },
+    { word: "NOVEL", clue: "A long work of fiction", icon: "📖" },
+    { word: "POEM", clue: "A piece of writing with rhythm and beautiful language", icon: "✍️" },
+    { word: "PROSE", clue: "Written language that is not poetry", icon: "📝" },
+    { word: "FAIRYTALE", clue: "A magical story with princesses, dragons, and happy endings", icon: "👸" },
+    { word: "ENCYCLOPEDIA", clue: "A book with information about many subjects", icon: "📚" },
+    { word: "DICTIONARY", clue: "A book that lists words and their meanings", icon: "📘" },
+    { word: "LITERATURE", clue: "Written works of artistic value", icon: "🎭" },
+    { word: "LITERACY", clue: "The ability to read and write", icon: "📖" },
+    { word: "AUTHOR", clue: "A person who writes books", icon: "✍️" },
+    { word: "CHAPTER", clue: "A section of a book", icon: "📑" },
+    { word: "GENRE", clue: "A category of art or literature", icon: "🎨" },
+    { word: "PLOT", clue: "The main events of a story", icon: "📊" },
+    { word: "CHARACTER", clue: "A person or animal in a story", icon: "🧑" }
+  ];
+
+  // Game state
+  let questions = [];
+  let currentIndex = 0;
+  let lives = 5;
+  let score = 0;
+  let canAnswer = true;
+  let gameCompleted = false;
+
+  // Shuffle function
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Initialize game
+  function initGame() {
+    questions = shuffleArray([...wordBank]);
+    currentIndex = 0;
+    lives = 5;
+    score = 0;
+    canAnswer = true;
+    gameCompleted = false;
+    saveProgress();
+    render();
+  }
+
+  // Load saved progress
+  function loadProgress() {
+    const saved = localStorage.getItem('spellingBeeProgress');
+    if (saved) {
+      const data = JSON.parse(saved);
+      const today = new Date().toDateString();
+      if (data.date === today && data.questions && data.questions.length > 0) {
+        questions = data.questions;
+        currentIndex = data.currentIndex || 0;
+        lives = data.lives || 5;
+        score = data.score || 0;
+        gameCompleted = data.gameCompleted || false;
+        
+        if (gameCompleted || currentIndex >= questions.length) {
+          gameCompleted = true;
+        }
+        render();
+        return;
+      }
+    }
+    initGame();
+  }
+
+  function saveProgress() {
+    if (!gameCompleted && currentIndex < questions.length) {
+      const data = {
+        date: new Date().toDateString(),
+        questions: questions,
+        currentIndex: currentIndex,
+        lives: lives,
+        score: score,
+        gameCompleted: gameCompleted
+      };
+      localStorage.setItem('spellingBeeProgress', JSON.stringify(data));
+    }
+  }
+
+  function clearProgress() {
+    localStorage.removeItem('spellingBeeProgress');
+  }
+
+  function normalizeString(str) {
+    return str.toLowerCase()
+      .replace(/[^a-z]/g, '')
+      .trim();
+  }
+
+  function checkCompletion() {
+    if (currentIndex >= questions.length) {
+      gameCompleted = true;
+      clearProgress();
+      return true;
+    }
+    return false;
+  }
+
+  function gameOver() {
+    gameCompleted = true;
+    clearProgress();
+    render();
+  }
+
+  function checkAnswer() {
+    if (!canAnswer || gameCompleted) return;
+
+    const input = document.getElementById('spellInput');
+    const userAnswer = normalizeString(input.value);
+    const correctAnswer = normalizeString(questions[currentIndex].word);
+
+    if (userAnswer === "") {
+      showMessage("✏️ Type your answer first!", "wrong");
+      return;
+    }
+
+    if (userAnswer === correctAnswer) {
+      // Correct!
+      const points = 10;
+      score += points;
+      showMessage(`✅ CORRECT! +${points} points`, "correct");
+      canAnswer = false;
+      input.disabled = true;
+      document.querySelector('.btn-check').disabled = true;
+      
+      // Show next button
+      const nextBtn = document.createElement('button');
+      nextBtn.textContent = "➡️ Next Word";
+      nextBtn.className = "btn btn-success next-btn";
+      nextBtn.onclick = nextWord;
+      
+      const btnContainer = document.getElementById('btnContainer');
+      btnContainer.innerHTML = '';
+      btnContainer.appendChild(nextBtn);
+      
+      saveProgress();
+    } else {
+      // Wrong!
+      lives--;
+      showMessage(`❌ WRONG! The correct spelling is "${questions[currentIndex].word}"`, "wrong");
+      
+      if (lives <= 0) {
+        gameOver();
+      } else {
+        input.value = '';
+        input.focus();
+        saveProgress();
+      }
+    }
+    
+    render();
+  }
+
+  function nextWord() {
+    if (!canAnswer && !gameCompleted) {
+      currentIndex++;
+      
+      if (checkCompletion()) {
+        render();
+      } else {
+        canAnswer = true;
+        render();
+      }
+    }
+  }
+
+  function showMessage(msg, type) {
+    const msgDiv = document.getElementById('message');
+    msgDiv.textContent = msg;
+    msgDiv.className = `message ${type}`;
+    setTimeout(() => {
+      if (msgDiv) {
+        msgDiv.className = 'message';
+        msgDiv.textContent = '';
+      }
+    }, 2000);
+  }
+
+  function playAgain() {
+    clearProgress();
+    initGame();
+  }
+
+  function render() {
+    const gameArea = document.getElementById('gameArea');
+    
+    // Game over screen
+    if (gameCompleted && lives <= 0) {
+      gameArea.innerHTML = `
+        <div class="completed-banner" style="background:#ffdddd;">
+          💀 GAME OVER 💀
+        </div>
+        <div class="summary-stats">
+          <h3>The word was:</h3>
+          <p style="font-size:1.8rem; font-weight:700; word-break:break-all;">${questions[currentIndex]?.word || "---"}</p>
+          <p style="margin-top:10px;">📌 ${questions[currentIndex]?.clue || ""}</p>
+          <p style="margin-top:15px;">🏆 Final Score: ${score}</p>
+        </div>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button class="btn btn-success" onclick="playAgain()">🔄 Play Again</button>
+          <button class="btn" onclick="window.location.href='index-gm.html'">🏠 Back to Games</button>
+        </div>
+      `;
+      return;
+    }
+    
+    // Victory screen (all words completed)
+    if (gameCompleted && currentIndex >= questions.length) {
+      const totalWords = questions.length;
+      const maxScore = totalWords * 10;
+      const accuracy = Math.round((score / maxScore) * 100);
+      
+      gameArea.innerHTML = `
+        <div class="completed-banner">
+          🏆 VICTORY! 🏆
+        </div>
+        <div class="summary-stats">
+          <h3>📊 Final Score</h3>
+          <p style="font-size:1.5rem;">⭐ ${score} / ${maxScore} points</p>
+          <p style="font-size:1.1rem;">✅ Words spelled: ${totalWords}/${totalWords}</p>
+          <p style="font-size:1.1rem;">🎯 Accuracy: ${accuracy}%</p>
+        </div>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button class="btn btn-success" onclick="playAgain()">🔄 Play Again</button>
+          <button class="btn" onclick="window.location.href='index-gm.html'">🏠 Back to Games</button>
+        </div>
+      `;
+      return;
+    }
+    
+    // Active game
+    const currentWord = questions[currentIndex];
+    const hearts = '❤️'.repeat(lives) + '🖤'.repeat(5 - lives);
+    
+    let html = `
+      <div class="progress-bar">
+        <span>📖 Word ${currentIndex + 1}/${questions.length}</span>
+        <span class="score-badge">
+          <span class="correct">⭐ ${score}</span>
+        </span>
+      </div>
+      
+      <div class="lives-display">
+        <span class="heart">${hearts}</span>
+      </div>
+      
+      <div class="clue-area">
+        <div class="clue-icon">${currentWord.icon}</div>
+        <div class="clue-text">${currentWord.clue}</div>
+        <div class="word-length">📏 ${currentWord.word.length} letters</div>
+      </div>
+      
+      <div class="input-area">
+        <input type="text" id="spellInput" class="spell-input" placeholder="Type the word..." autocomplete="off" ${!canAnswer ? 'disabled' : ''}>
+      </div>
+      
+      <div id="btnContainer" style="display:flex; gap:10px; justify-content:center;">
+        ${canAnswer ? '<button class="btn btn-check" onclick="checkAnswer()">✓ Check</button>' : ''}
+      </div>
+      
+      <div id="message" class="message"></div>
+      <div class="feedback">✨ Type carefully. Wrong answers cost a life!</div>
+    `;
+    
+    gameArea.innerHTML = html;
+    
+    if (canAnswer) {
+      const input = document.getElementById('spellInput');
+      if (input) {
+        input.focus();
+        input.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            checkAnswer();
+          }
+        });
+      }
+    }
+  }
+
+  // Expose functions globally
+  window.checkAnswer = checkAnswer;
+  window.nextWord = nextWord;
+  window.playAgain = playAgain;
+  
+  // Start game
+  loadProgress();
+</script>
+</body>
+</html>
