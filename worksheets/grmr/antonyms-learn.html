@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Lawan Kata · BIG vs SMALL</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Courier New', monospace;
+      background: #f5f5dc;
+      margin: 10px;
+      text-align: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 550px;
+      margin: 0 auto;
+    }
+    h2 {
+      color: #2c3e50;
+      margin: 5px 0;
+      font-size: 1.6rem;
+    }
+    .mode-tab {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin: 15px 0;
+      background: white;
+      padding: 6px;
+      border-radius: 40px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 10px 12px;
+      background: #e2e8f0;
+      border: none;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 40px;
+      color: #334155;
+      transition: all 0.2s;
+    }
+    .mode-btn.active {
+      background: #3b82f6;
+      color: white;
+    }
+    .card {
+      background: white;
+      border: 3px solid #333;
+      border-radius: 30px;
+      padding: 30px 20px;
+      margin: 20px 0;
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+      transition: transform 0.1s;
+    }
+    .card:active {
+      transform: scale(0.98);
+    }
+    .emoji-big {
+      font-size: 120px;
+      line-height: 1.2;
+    }
+    .word-big {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 10px 0;
+      color: #1e293b;
+    }
+    .tap-hint {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+    .pair-reveal {
+      font-size: 32px;
+      margin-top: 20px;
+      padding: 15px;
+      background: #fef3c7;
+      border-radius: 20px;
+      border: 2px dashed #f59e0b;
+    }
+    .input-area {
+      margin: 20px 0;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    input {
+      padding: 15px;
+      font-size: 20px;
+      width: 180px;
+      text-align: center;
+      border: 2px solid #333;
+      border-radius: 40px;
+      background: white;
+      font-family: 'Courier New', monospace;
+    }
+    .check-btn {
+      padding: 15px 30px;
+      font-size: 20px;
+      background: #2ecc71;
+      color: white;
+      border: none;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: all 0.2s;
+    }
+    .check-btn:active {
+      background: #27ae60;
+      transform: scale(0.96);
+    }
+    .feedback {
+      font-size: 24px;
+      margin: 15px 0;
+      min-height: 40px;
+      font-weight: bold;
+    }
+    .nav-area {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 15px;
+    }
+    .nav-btn {
+      padding: 12px 25px;
+      font-size: 18px;
+      background: white;
+      border: 2px solid #7f8c8d;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #1e293b;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+    }
+    .nav-btn:active {
+      background: #e2e8f0;
+      transform: scale(0.96);
+    }
+    .restart-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 12px 20px;
+      border-radius: 40px;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #475569;
+    }
+    .score-area {
+      font-size: 22px;
+      margin: 15px 0;
+      background: white;
+      padding: 10px;
+      border-radius: 40px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🔤 Lawan Kata · Kelas 1</h2>
+
+  <div class="mode-tab">
+    <button class="mode-btn active" data-mode="learn">📖 Learn</button>
+    <button class="mode-btn" data-mode="practice">✏️ Practice</button>
+    <button class="mode-btn" data-mode="test">📝 Test</button>
+  </div>
+
+  <!-- ========== MODE LEARN ========== -->
+  <div id="learnMode">
+    <div class="card" id="learnCard">
+      <div class="emoji-big" id="learnEmoji">🐘</div>
+      <div class="word-big" id="learnWord">BIG</div>
+      <div class="tap-hint">👇 Tap to see lawan kata</div>
+      <div id="pairReveal" class="pair-reveal hidden"></div>
+    </div>
+    <div class="nav-area">
+      <button class="nav-btn" id="prevPair">◀ Prev</button>
+      <button class="nav-btn" id="nextPair">Next ▶</button>
+    </div>
+  </div>
+
+  <!-- ========== MODE PRACTICE ========== -->
+  <div id="practiceMode" class="hidden">
+    <div class="card" style="cursor: default;">
+      <div class="emoji-big" id="practiceEmoji">🐘</div>
+      <div class="word-big" id="practiceWord">BIG</div>
+    </div>
+    <div class="input-area">
+      <input type="text" id="answerInput" placeholder="Ketik lawan kata..." autocomplete="off" autocapitalize="none">
+      <button class="check-btn" id="checkAnswer">Check</button>
+    </div>
+    <div class="feedback" id="practiceFeedback"></div>
+    <div class="nav-area">
+      <button class="nav-btn" id="nextPractice">Lanjut ▶</button>
+    </div>
+  </div>
+
+  <!-- ========== MODE TEST ========== -->
+  <div id="testMode" class="hidden">
+    <div class="card" style="cursor: default;">
+      <div class="emoji-big" id="testEmoji">🐘</div>
+      <div class="word-big" id="testWord">BIG</div>
+    </div>
+    <div class="input-area">
+      <input type="text" id="testInput" placeholder="Ketik lawan kata..." autocomplete="off" autocapitalize="none">
+      <button class="check-btn" id="submitTest">Jawab</button>
+    </div>
+    <div class="feedback" id="testFeedback"></div>
+    <div class="score-area">
+      Score: <span id="testScore">0</span> / <span id="testTotal">8</span>
+    </div>
+    <button class="restart-btn" id="restartTest">🔄 Restart Test</button>
+  </div>
+</div>
+
+<script>
+  // ==================== DATA 8 PASANGAN LAWAN KATA ====================
+  const lawanKataPairs = [
+    { word: 'BIG', lawan: 'SMALL', emoji: '🐘', emojiLawan: '🐜' },
+    { word: 'TALL', lawan: 'SHORT', emoji: '🦒', emojiLawan: '🐧' },
+    { word: 'UP', lawan: 'DOWN', emoji: '⬆️', emojiLawan: '⬇️' },
+    { word: 'HOT', lawan: 'COLD', emoji: '🔥', emojiLawan: '❄️' },
+    { word: 'NEW', lawan: 'OLD', emoji: '✨', emojiLawan: '📜' },
+    { word: 'IN', lawan: 'OUT', emoji: '📥', emojiLawan: '📤' },
+    { word: 'BOY', lawan: 'GIRL', emoji: '👦', emojiLawan: '👧' },
+    { word: 'FEW', lawan: 'MANY', emoji: '1️⃣', emojiLawan: '🔢' }
+  ];
+
+  // State global
+  let currentLearnIndex = 0;
+  let currentPracticeIndex = 0;
+  let testQuestions = [];
+  let currentTestIndex = 0;
+  let testScore = 0;
+  let testAnswered = false;
+  let testFinished = false;
+
+  const audio = new Audio();
+
+  function playAudio(word) {
+    // Path relatif ke folder audio (sesuaikan jika perlu)
+    audio.src = `../audio/antonyms/${word.toLowerCase()}.mp3`;
+    audio.play().catch(e => console.log('Audio tidak tersedia:', e));
+  }
+
+  // ==================== MODE LEARN ====================
+  function updateLearnMode() {
+    const pair = lawanKataPairs[currentLearnIndex];
+    document.getElementById('learnEmoji').textContent = pair.emoji;
+    document.getElementById('learnWord').textContent = pair.word;
+    document.getElementById('pairReveal').classList.add('hidden');
+  }
+
+  document.getElementById('learnCard').addEventListener('click', function() {
+    const pair = lawanKataPairs[currentLearnIndex];
+    const revealDiv = document.getElementById('pairReveal');
+    revealDiv.textContent = `${pair.word}  ><  ${pair.lawan}  ${pair.emojiLawan}`;
+    revealDiv.classList.remove('hidden');
+    playAudio(pair.word);
+    setTimeout(() => playAudio(pair.lawan), 800);
+  });
+
+  document.getElementById('prevPair').addEventListener('click', function() {
+    currentLearnIndex = (currentLearnIndex - 1 + lawanKataPairs.length) % lawanKataPairs.length;
+    updateLearnMode();
+  });
+
+  document.getElementById('nextPair').addEventListener('click', function() {
+    currentLearnIndex = (currentLearnIndex + 1) % lawanKataPairs.length;
+    updateLearnMode();
+  });
+
+  // ==================== MODE PRACTICE ====================
+  function updatePracticeMode() {
+    const pair = lawanKataPairs[currentPracticeIndex];
+    document.getElementById('practiceEmoji').textContent = pair.emoji;
+    document.getElementById('practiceWord').textContent = pair.word;
+    document.getElementById('answerInput').value = '';
+    document.getElementById('practiceFeedback').textContent = '';
+    playAudio(pair.word);
+  }
+
+  document.getElementById('checkAnswer').addEventListener('click', function() {
+    const pair = lawanKataPairs[currentPracticeIndex];
+    const answer = document.getElementById('answerInput').value.trim().toUpperCase();
+    const feedback = document.getElementById('practiceFeedback');
+    
+    if (answer === pair.lawan) {
+      feedback.textContent = '✅ Correct! Good job!';
+      feedback.style.color = '#27ae60';
+      playAudio(pair.lawan);
+    } else {
+      // Hint dalam bahasa Indonesia
+      feedback.textContent = `❌ Try again. (Dimulai dengan ${pair.lawan.charAt(0)}...)`;
+      feedback.style.color = '#e74c3c';
+    }
+  });
+
+  document.getElementById('nextPractice').addEventListener('click', function() {
+    currentPracticeIndex = (currentPracticeIndex + 1) % lawanKataPairs.length;
+    updatePracticeMode();
+  });
+
+  // ==================== MODE TEST ====================
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function startTest() {
+    testQuestions = shuffleArray([...lawanKataPairs]);
+    currentTestIndex = 0;
+    testScore = 0;
+    testAnswered = false;
+    testFinished = false;
+    document.getElementById('testScore').textContent = '0';
+    document.getElementById('testTotal').textContent = testQuestions.length;
+    document.getElementById('testFeedback').textContent = '';
+    document.getElementById('testFeedback').style.color = '#27ae60';
+    updateTestDisplay();
+  }
+
+  function updateTestDisplay() {
+    if (currentTestIndex < testQuestions.length) {
+      const q = testQuestions[currentTestIndex];
+      document.getElementById('testEmoji').textContent = q.emoji;
+      document.getElementById('testWord').textContent = q.word;
+      document.getElementById('testInput').value = '';
+      testAnswered = false;
+      playAudio(q.word);
+    } else {
+      // Test selesai
+      testFinished = true;
+      document.getElementById('testFeedback').textContent = 
+        `🎉 Test selesai! Final Score: ${testScore} / ${testQuestions.length}`;
+      document.getElementById('testFeedback').style.color = '#1e293b';
+    }
+  }
+
+  document.getElementById('submitTest').addEventListener('click', function() {
+    if (testAnswered) return;
+    if (testFinished) return;
+    if (currentTestIndex >= testQuestions.length) return;
+
+    const q = testQuestions[currentTestIndex];
+    const answer = document.getElementById('testInput').value.trim().toUpperCase();
+    const feedback = document.getElementById('testFeedback');
+
+    if (answer === q.lawan) {
+      testScore++;
+      feedback.textContent = '✅ Correct!';
+      feedback.style.color = '#27ae60';
+      playAudio(q.lawan);
+    } else {
+      feedback.textContent = `❌ Jawaban: ${q.lawan}`;
+      feedback.style.color = '#e74c3c';
+    }
+
+    document.getElementById('testScore').textContent = testScore;
+    testAnswered = true;
+
+    // Lanjut ke soal berikutnya setelah 1.5 detik
+    setTimeout(() => {
+      currentTestIndex++;
+      updateTestDisplay();
+    }, 1500);
+  });
+
+  document.getElementById('restartTest').addEventListener('click', function() {
+    startTest();
+  });
+
+  // ==================== TAB SWITCHING ====================
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const mode = this.dataset.mode;
+      
+      // Update active button
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Show/hide modes
+      document.getElementById('learnMode').classList.add('hidden');
+      document.getElementById('practiceMode').classList.add('hidden');
+      document.getElementById('testMode').classList.add('hidden');
+      
+      if (mode === 'learn') {
+        document.getElementById('learnMode').classList.remove('hidden');
+        updateLearnMode();
+      } else if (mode === 'practice') {
+        document.getElementById('practiceMode').classList.remove('hidden');
+        updatePracticeMode();
+      } else if (mode === 'test') {
+        document.getElementById('testMode').classList.remove('hidden');
+        startTest();
+      }
+    });
+  });
+
+  // ==================== INIT ====================
+  updateLearnMode();
+  updatePracticeMode();
+</script>
+</body>
+</html>
