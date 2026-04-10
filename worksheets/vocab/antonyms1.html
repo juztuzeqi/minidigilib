@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Lawan Kata · BIG vs SMALL</title>
+  <title>Lawan Kata 1</title>
   <style>
     * {
       box-sizing: border-box;
@@ -159,13 +159,6 @@
       font-weight: bold;
       color: #475569;
     }
-    .score-area {
-      font-size: 22px;
-      margin: 15px 0;
-      background: white;
-      padding: 10px;
-      border-radius: 40px;
-    }
     .hidden {
       display: none;
     }
@@ -174,7 +167,7 @@
 <body>
 
 <div class="container">
-  <h2>🔤 Lawan Kata · Kelas 1</h2>
+  <h2>🔤 Antonyms 1</h2>
 
   <div class="mode-tab">
     <button class="mode-btn active" data-mode="learn">📖 Learn</button>
@@ -182,12 +175,12 @@
     <button class="mode-btn" data-mode="test">📝 Test</button>
   </div>
 
-  <!-- ========== MODE LEARN ========== -->
+  <!-- MODE LEARN -->
   <div id="learnMode">
     <div class="card" id="learnCard">
       <div class="emoji-big" id="learnEmoji">🐘</div>
       <div class="word-big" id="learnWord">BIG</div>
-      <div class="tap-hint">👇 Tap to see lawan kata</div>
+      <div class="tap-hint">👇 Tap to see antonyms</div>
       <div id="pairReveal" class="pair-reveal hidden"></div>
     </div>
     <div class="nav-area">
@@ -196,42 +189,39 @@
     </div>
   </div>
 
-  <!-- ========== MODE PRACTICE ========== -->
+  <!-- MODE PRACTICE -->
   <div id="practiceMode" class="hidden">
     <div class="card" style="cursor: default;">
       <div class="emoji-big" id="practiceEmoji">🐘</div>
       <div class="word-big" id="practiceWord">BIG</div>
     </div>
     <div class="input-area">
-      <input type="text" id="answerInput" placeholder="Ketik lawan kata..." autocomplete="off" autocapitalize="none">
+      <input type="text" id="answerInput" placeholder="Ketik antonim..." autocomplete="off" autocapitalize="none">
       <button class="check-btn" id="checkAnswer">Check</button>
     </div>
     <div class="feedback" id="practiceFeedback"></div>
     <div class="nav-area">
-      <button class="nav-btn" id="nextPractice">Lanjut ▶</button>
+      <button class="nav-btn" id="nextPractice">Next ▶</button>
     </div>
   </div>
 
-  <!-- ========== MODE TEST ========== -->
+  <!-- MODE TEST -->
   <div id="testMode" class="hidden">
     <div class="card" style="cursor: default;">
       <div class="emoji-big" id="testEmoji">🐘</div>
       <div class="word-big" id="testWord">BIG</div>
     </div>
     <div class="input-area">
-      <input type="text" id="testInput" placeholder="Ketik lawan kata..." autocomplete="off" autocapitalize="none">
-      <button class="check-btn" id="submitTest">Jawab</button>
+      <input type="text" id="testInput" placeholder="Ketik antonim..." autocomplete="off" autocapitalize="none">
+      <button class="check-btn" id="submitTest">Answer</button>
     </div>
     <div class="feedback" id="testFeedback"></div>
-    <div class="score-area">
-      Score: <span id="testScore">0</span> / <span id="testTotal">8</span>
-    </div>
     <button class="restart-btn" id="restartTest">🔄 Restart Test</button>
   </div>
 </div>
 
 <script>
-  // ==================== DATA 8 PASANGAN LAWAN KATA ====================
+  // ==================== DATA ====================
   const lawanKataPairs = [
     { word: 'BIG', lawan: 'SMALL', emoji: '🐘', emojiLawan: '🐜' },
     { word: 'TALL', lawan: 'SHORT', emoji: '🦒', emojiLawan: '🐧' },
@@ -243,7 +233,7 @@
     { word: 'FEW', lawan: 'MANY', emoji: '1️⃣', emojiLawan: '🔢' }
   ];
 
-  // State global
+  // State
   let currentLearnIndex = 0;
   let currentPracticeIndex = 0;
   let testQuestions = [];
@@ -252,12 +242,31 @@
   let testAnswered = false;
   let testFinished = false;
 
-  const audio = new Audio();
+  // Audio cache
+  const audioCache = {};
+
+  function preloadAudio(word) {
+    if (!audioCache[word]) {
+      const aud = new Audio();
+      aud.src = `audio/${word.toLowerCase()}.mp3`;
+      aud.load();
+      audioCache[word] = aud;
+    }
+  }
+
+  lawanKataPairs.forEach(pair => {
+    preloadAudio(pair.word);
+    preloadAudio(pair.lawan);
+  });
 
   function playAudio(word) {
-    // Path relatif ke folder audio (sesuaikan jika perlu)
-    audio.src = `../audio/antonyms/${word.toLowerCase()}.mp3`;
-    audio.play().catch(e => console.log('Audio tidak tersedia:', e));
+    if (audioCache[word]) {
+      audioCache[word].currentTime = 0;
+      audioCache[word].play().catch(e => console.log('Audio error:', e));
+    } else {
+      const audio = new Audio(`audio/${word.toLowerCase()}.mp3`);
+      audio.play().catch(e => console.log('Audio error:', e));
+    }
   }
 
   // ==================== MODE LEARN ====================
@@ -307,7 +316,6 @@
       feedback.style.color = '#27ae60';
       playAudio(pair.lawan);
     } else {
-      // Hint dalam bahasa Indonesia
       feedback.textContent = `❌ Try again. (Dimulai dengan ${pair.lawan.charAt(0)}...)`;
       feedback.style.color = '#e74c3c';
     }
@@ -333,8 +341,6 @@
     testScore = 0;
     testAnswered = false;
     testFinished = false;
-    document.getElementById('testScore').textContent = '0';
-    document.getElementById('testTotal').textContent = testQuestions.length;
     document.getElementById('testFeedback').textContent = '';
     document.getElementById('testFeedback').style.color = '#27ae60';
     updateTestDisplay();
@@ -349,10 +355,10 @@
       testAnswered = false;
       playAudio(q.word);
     } else {
-      // Test selesai
       testFinished = true;
+      const percentage = Math.round((testScore / testQuestions.length) * 100);
       document.getElementById('testFeedback').textContent = 
-        `🎉 Test selesai! Final Score: ${testScore} / ${testQuestions.length}`;
+        `🎉 Test selesai! Final Score: ${testScore} / ${testQuestions.length} (${percentage}%)`;
       document.getElementById('testFeedback').style.color = '#1e293b';
     }
   }
@@ -376,10 +382,8 @@
       feedback.style.color = '#e74c3c';
     }
 
-    document.getElementById('testScore').textContent = testScore;
     testAnswered = true;
 
-    // Lanjut ke soal berikutnya setelah 1.5 detik
     setTimeout(() => {
       currentTestIndex++;
       updateTestDisplay();
@@ -395,11 +399,9 @@
     btn.addEventListener('click', function() {
       const mode = this.dataset.mode;
       
-      // Update active button
       document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
       
-      // Show/hide modes
       document.getElementById('learnMode').classList.add('hidden');
       document.getElementById('practiceMode').classList.add('hidden');
       document.getElementById('testMode').classList.add('hidden');

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vocabulary · Mini DigiLib</title>
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background: #f5f5dc;
+      margin: 10px;
+      text-align: center;
+    }
+    h2 {
+      color: #2c3e50;
+      margin: 15px 0;
+    }
+    .menu-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .menu-card {
+      background: white;
+      border: 3px solid #333;
+      border-radius: 20px;
+      padding: 20px;
+      text-decoration: none;
+      color: #1e293b;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.1s;
+    }
+    .menu-card:active {
+      transform: scale(0.98);
+      background: #f8fafc;
+    }
+    .menu-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .menu-desc {
+      font-size: 16px;
+      color: #64748b;
+    }
+    .emoji-badge {
+      font-size: 40px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .back-link {
+      display: block;
+      margin: 25px auto;
+      padding: 12px;
+      background: white;
+      border-radius: 40px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      border: 1px solid #cbd5e1;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>📚 Vocabulary Builder</h2>
+
+<div class="menu-grid">
+  <a href="vocab/antonyms1.html" class="menu-card">
+    <span class="emoji-badge">🔤 ↔️</span>
+    <div class="menu-title">Lawan Kata 1</div>
+    <div class="menu-desc">big/small, tall/short, hot/cold, dll.</div>
+  </a>
+  
+  <a href="#" class="menu-card" style="opacity: 0.6;" onclick="alert('Segera hadir!')">
+    <span class="emoji-badge">🔤 ↔️</span>
+    <div class="menu-title">Lawan Kata 2</div>
+    <div class="menu-desc">fast/slow, happy/sad, day/night (soon)</div>
+  </a>
+  
+  <a href="#" class="menu-card" style="opacity: 0.6;" onclick="alert('Segera hadir!')">
+    <span class="emoji-badge">🔤 =</span>
+    <div class="menu-title">Padanan Kata</div>
+    <div class="menu-desc">big/large, small/tiny, happy/glad (soon)</div>
+  </a>
+</div>
+
+<a class="back-link" href="index-ws.html">⬅ Back to Worksheets</a>
+
+</body>
+</html>

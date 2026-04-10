@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Worksheet Library</title>
-<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/png" href="../favicon.png">
 
 <style>
   body {
@@ -16,6 +16,7 @@
   h1 {
     font-size: 26px;
     text-align: left;
+    margin-bottom: 5px;
   }
   h2 {
     font-size: 20px;
@@ -81,17 +82,33 @@
     background: #ffffff;
     box-shadow: 0 0 6px rgba(0,0,0,0.25);
   }
+  .coming-soon {
+    opacity: 0.7;
+  }
+  .coming-soon a {
+    background: #f1f5f9;
+    color: #64748b;
+  }
 </style>
 </head>
 
 <body>
+
 <!-- HOME BUTTON -->
 <a href="../index.html" class="home-btn">🏠 Home</a>
 
 <h1>📋 Worksheet Library</h1>
 <p>Choose an interactive worksheet category below. All grades can use these resources.</p>
 
-<!-- GRAMMAR INTERACTIVE -->
+<!-- ========== VOCABULARY ========== -->
+<h2>📚 Vocabulary</h2>
+<ul>
+  <li><a href="vocab/antonyms1.html">🔤 Lawan Kata 1 · big/small, tall/short, hot/cold</a></li>
+  <li class="coming-soon"><a href="#" onclick="alert('Segera hadir!'); return false;">🔤 Lawan Kata 2 · fast/slow, happy/sad, day/night (soon)</a></li>
+  <li class="coming-soon"><a href="#" onclick="alert('Segera hadir!'); return false;">📝 Padanan Kata · big/large, small/tiny (soon)</a></li>
+</ul>
+
+<!-- ========== GRAMMAR INTERACTIVE ========== -->
 <h2>🔤 Grammar Interactive</h2>
 <ul>
   <li><a href="grmr/mixed-tenses-1.html">⏳ Mixed Tenses 1</a></li>
@@ -102,7 +119,7 @@
   <li><a href="grmr/verbs.html">⚡ Verbs & Auxiliaries</a></li>
 </ul>
 
-<!-- READING INTERACTIVE -->
+<!-- ========== READING INTERACTIVE ========== -->
 <h2>📖 Reading Interactive</h2>
 <ul>
   <li><a href="reading/short-stories.html">📚 Short Stories with Questions</a></li>
@@ -110,11 +127,11 @@
   <li><a href="reading/comprehension.html">❓ Reading Comprehension</a></li>
 </ul>
 
-<!-- OTHERS / MISCELLANEOUS -->
+<!-- ========== OTHERS / MISCELLANEOUS ========== -->
 <h2>🎲 Others / Miscellaneous</h2>
 <ul>
-   <li><a href="misc/flashcards.html">🃏 Flashcards (Learn with Tracker)</a></li>
-   <li><a href="misc/flash-test.html">📝 Flash Test (Learn + Quiz)</a></li>
+  <li><a href="misc/flashcards.html">🃏 Flashcards (Learn with Tracker)</a></li>
+  <li><a href="misc/flash-test.html">📝 Flash Test (Learn + Quiz)</a></li>
   <li><a href="games/index-gm.html">🎮 Language Games</a></li>
 </ul>
 
