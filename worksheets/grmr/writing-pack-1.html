@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>Writing Pack - Prepositions</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #d4e3f0;
+    min-height: 100vh;
+    padding: 10px 6px;
+  }
+
+  .container {
+    max-width: 400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 16px 12px;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+    color: #1e3a5f;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #5d7f9e;
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+    border-bottom: 1px dashed #bdd3e8;
+    padding-bottom: 10px;
+  }
+
+  .writing-item {
+    background: #f8fbfe;
+    border: 2px solid #cde0f0;
+    border-radius: 16px;
+    padding: 16px 12px;
+    margin-bottom: 16px;
+  }
+
+  .item-number {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #2a76c7;
+    margin-bottom: 8px;
+  }
+
+  .image-area {
+    background: #f0f5fa;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    text-align: center;
+    border: 1px solid #bdd3e8;
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image-area img {
+    max-width: 100%;
+    max-height: 140px;
+    border-radius: 8px;
+  }
+
+  .image-placeholder {
+    color: #7f9cbb;
+    font-size: 0.8rem;
+  }
+
+  .write-area {
+    margin-top: 8px;
+  }
+
+  .write-label {
+    font-size: 0.8rem;
+    color: #5d7f9e;
+    margin-bottom: 4px;
+  }
+
+  .write-input {
+    width: 100%;
+    border: 2px solid #bdd3e8;
+    border-radius: 12px;
+    background: white;
+    font-size: 1rem;
+    padding: 12px 10px;
+    outline: none;
+    font-family: Arial, sans-serif;
+  }
+
+  .write-input:focus {
+    border-color: #3498db;
+    background: #fff9e0;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .btn {
+    padding: 14px 10px;
+    border: none;
+    border-radius: 40px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    touch-action: manipulation;
+    flex: 1;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: #2a76c7;
+    color: white;
+  }
+
+  .btn-primary:active {
+    background: #1a5a9c;
+  }
+
+  .btn-secondary {
+    background: #e8f0f8;
+    color: #2c3e50;
+  }
+
+  .btn-secondary:active {
+    background: #d0dfee;
+  }
+
+  .btn-success {
+    background: #27ae60;
+    color: white;
+  }
+
+  .btn-success:active {
+    background: #1e8a4d;
+  }
+
+  .score-box {
+    background: #fef9e7;
+    border: 2px solid #f1c40f;
+    border-radius: 16px;
+    padding: 16px;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .score {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1e3a5f;
+  }
+
+  .home-link {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    color: #5d7f9e;
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+
+  .correct-answer {
+    background: #e6f7e6 !important;
+    border-color: #27ae60 !important;
+  }
+
+  .wrong-answer {
+    background: #fee !important;
+    border-color: #e74c3c !important;
+  }
+
+  .answer-feedback {
+    font-size: 0.75rem;
+    margin-top: 4px;
+    min-height: 18px;
+  }
+
+  .correct-text {
+    color: #27ae60;
+  }
+
+  .wrong-text {
+    color: #e74c3c;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>✏️ Writing Pack</h1>
+  <div class="subtitle">in • on • under • near</div>
+  
+  <div id="writingList"></div>
+  
+  <div class="action-buttons">
+    <button class="btn btn-success" id="checkAllBtn">✓ Check All</button>
+    <button class="btn btn-secondary" id="resetBtn">↻ Reset</button>
+  </div>
+  
+  <div id="scoreBox" class="score-box hidden">
+    <div style="font-size: 0.9rem; color: #5d7f9e;">Your Score</div>
+    <div class="score" id="scoreDisplay">0/10</div>
+    <button class="btn btn-primary" id="newSetBtn" style="margin-top: 12px;">🔄 New Set</button>
+  </div>
+  
+  <a href="prepositions.html" class="home-link">← Back to Menu</a>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // Bank soal lengkap (18 soal) - sama dengan practice
+    const fullBank = [
+      { image: "cat-in-box.png", correct: "The cat is in the box." },
+      { image: "cat-on-box.png", correct: "The cat is on the box." },
+      { image: "cat-under-table.png", correct: "The cat is under the table." },
+      { image: "cat-near-box.png", correct: "The cat is near the box." },
+      { image: "bird-in-box.png", correct: "The bird is in the box." },
+      { image: "bird-on-tree.png", correct: "The bird is on the tree." },
+      { image: "bird-under-tree.png", correct: "The bird is under the tree." },
+      { image: "bird-near-tree.png", correct: "The bird is near the tree." },
+      { image: "fish-in-bowl.png", correct: "The fish is in the bowl." },
+      { image: "ball-on-bed.png", correct: "The ball is on the bed." },
+      { image: "ball-under-bed.png", correct: "The ball is under the bed." },
+      { image: "ball-near-bed.png", correct: "The ball is near the bed." },
+      { image: "dog-on-table.png", correct: "The dog is on the table." },
+      { image: "dog-under-table.png", correct: "The dog is under the table." },
+      { image: "dog-near-table.png", correct: "The dog is near the table." },
+      { image: "flower-near-tree.png", correct: "The flower is near the tree." },
+      { image: "book-on-table.png", correct: "The book is on the table." },
+      { image: "elephant-near-box.png", correct: "The elephant is near the box." }
+    ];
+
+    const IMAGE_PATH = "images/";
+    const ITEMS_PER_SET = 10;
+
+    let currentItems = [];
+    let checked = false;
+
+    const writingList = document.getElementById('writingList');
+    const checkAllBtn = document.getElementById('checkAllBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const newSetBtn = document.getElementById('newSetBtn');
+    const scoreBox = document.getElementById('scoreBox');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function newSet() {
+      const shuffled = shuffle([...fullBank]);
+      currentItems = shuffled.slice(0, ITEMS_PER_SET);
+      checked = false;
+      scoreBox.classList.add('hidden');
+    }
+
+    function renderList() {
+      let html = '';
+      
+      currentItems.forEach((item, index) => {
+        html += `
+          <div class="writing-item" id="item-${index}">
+            <div class="item-number">📝 ${index + 1} / ${currentItems.length}</div>
+            <div class="image-area" id="img-${index}">
+              <img src="${IMAGE_PATH}${item.image}" alt="" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'image-placeholder\\'>📷 ${item.image}</div>';">
+            </div>
+            <div class="write-area">
+              <div class="write-label">Write the sentence:</div>
+              <input type="text" id="input-${index}" class="write-input" placeholder="The ___ is ___ the ___." autocomplete="off" autocapitalize="none" spellcheck="false">
+              <div class="answer-feedback" id="fb-${index}"></div>
+            </div>
+          </div>
+        `;
+      });
+      
+      writingList.innerHTML = html;
+    }
+
+    function checkAll() {
+      let correctCount = 0;
+      
+      currentItems.forEach((item, index) => {
+        const input = document.getElementById(`input-${index}`);
+        const fb = document.getElementById(`fb-${index}`);
+        const userAnswer = input.value.trim();
+        const correctAnswer = item.correct;
+        
+        input.classList.remove('correct-answer', 'wrong-answer');
+        fb.classList.remove('correct-text', 'wrong-text');
+        
+        if (userAnswer === '') {
+          // Kosong, tidak dihitung
+          fb.textContent = '← Write something';
+          fb.classList.add('wrong-text');
+        } else if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+          input.classList.add('correct-answer');
+          fb.textContent = '✓ Correct!';
+          fb.classList.add('correct-text');
+          correctCount++;
+        } else {
+          input.classList.add('wrong-answer');
+          fb.textContent = `✗ Answer: "${correctAnswer}"`;
+          fb.classList.add('wrong-text');
+        }
+      });
+      
+      checked = true;
+      scoreDisplay.textContent = `${correctCount}/${currentItems.length}`;
+      scoreBox.classList.remove('hidden');
+      
+      // Scroll ke score
+      scoreBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function resetInputs() {
+      currentItems.forEach((item, index) => {
+        const input = document.getElementById(`input-${index}`);
+        const fb = document.getElementById(`fb-${index}`);
+        
+        input.value = '';
+        input.classList.remove('correct-answer', 'wrong-answer');
+        fb.textContent = '';
+        fb.classList.remove('correct-text', 'wrong-text');
+      });
+      
+      checked = false;
+      scoreBox.classList.add('hidden');
+    }
+
+    function refreshSet() {
+      newSet();
+      renderList();
+    }
+
+    // Event listeners
+    checkAllBtn.addEventListener('click', checkAll);
+    
+    resetBtn.addEventListener('click', resetInputs);
+    
+    newSetBtn.addEventListener('click', () => {
+      refreshSet();
+    });
+
+    // Init
+    newSet();
+    renderList();
+
+  })();
+</script>
+</body>
+</html>
