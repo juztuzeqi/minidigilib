@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>in • on • under • near</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #d4e3f0;
+    min-height: 100vh;
+    padding: 10px 6px;
+  }
+
+  .container {
+    max-width: 400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 16px 12px;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    color: #1e3a5f;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .progress {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #2c5282;
+    margin-bottom: 12px;
+    font-weight: bold;
+  }
+
+  .image-area {
+    background: #f0f5fa;
+    border-radius: 16px;
+    padding: 12px;
+    margin-bottom: 16px;
+    text-align: center;
+    border: 2px solid #bdd3e8;
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image-area img {
+    max-width: 100%;
+    max-height: 160px;
+    border-radius: 8px;
+  }
+
+  .image-placeholder {
+    color: #7f9cbb;
+    font-size: 0.9rem;
+  }
+
+  .sentence-box {
+    background: #fef9e7;
+    border-radius: 16px;
+    padding: 20px 12px;
+    margin-bottom: 16px;
+    border: 2px solid #f1c40f;
+    text-align: center;
+  }
+
+  .sentence {
+    font-size: 1.3rem;
+    color: #1e3a5f;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+
+  .blank-input {
+    width: 100px;
+    border: 3px solid #3498db;
+    border-radius: 12px;
+    background: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    color: #2c5282;
+    padding: 10px 5px;
+    outline: none;
+    font-family: Arial, sans-serif;
+    margin: 5px 0;
+  }
+
+  .blank-input:focus {
+    border-color: #e67e22;
+    background: #fff9e0;
+  }
+
+  .blank-input.correct-highlight {
+    border-color: #27ae60;
+    background: #e6f7e6;
+  }
+
+  .blank-input.wrong-highlight {
+    border-color: #e74c3c;
+    background: #fee;
+  }
+
+  .feedback {
+    min-height: 40px;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .feedback.correct {
+    background: #d5f0d5;
+    color: #1e6b3e;
+  }
+
+  .feedback.wrong {
+    background: #fce4e4;
+    color: #b53b3b;
+  }
+
+  .nav-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .btn {
+    padding: 14px 10px;
+    border: none;
+    border-radius: 40px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    background: white;
+    touch-action: manipulation;
+    flex: 1;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: #2a76c7;
+    color: white;
+  }
+
+  .btn-primary:active {
+    background: #1a5a9c;
+  }
+
+  .btn-primary:disabled {
+    background: #a0bcd8;
+    opacity: 0.7;
+  }
+
+  .btn-secondary {
+    background: #e8f0f8;
+    color: #2c3e50;
+  }
+
+  .btn-secondary:active {
+    background: #d0dfee;
+  }
+
+  .finish-box {
+    text-align: center;
+    padding: 20px;
+    background: #d4edda;
+    border-radius: 16px;
+    margin: 10px 0;
+  }
+
+  .finish-box h2 {
+    color: #155724;
+    font-size: 1.3rem;
+    margin: 10px 0;
+  }
+
+  .score {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #155724;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .home-link {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    color: #5d7f9e;
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+
+  .check-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>📍 in • on • under • near</h1>
+  
+  <!-- QUIZ VIEW -->
+  <div id="quizView">
+    <div class="progress" id="progressText">1 / 10</div>
+    
+    <div class="image-area" id="imageArea">
+      <div class="image-placeholder">📷 loading...</div>
+    </div>
+    
+    <div class="sentence-box">
+      <div class="sentence" id="sentenceLabel">The cat is</div>
+      <input type="text" id="answerInput" class="blank-input" placeholder="______" autocomplete="off" autocapitalize="none" spellcheck="false">
+      <div class="sentence" id="sentenceAfter">the box.</div>
+      
+      <div class="feedback" id="feedbackMsg"></div>
+      
+      <button class="btn btn-primary check-btn" id="checkBtn">Check ✓</button>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" id="prevBtn" disabled>← Prev</button>
+      <button class="btn btn-primary" id="nextBtn" disabled>Next →</button>
+    </div>
+  </div>
+  
+  <!-- FINISH VIEW -->
+  <div id="finishView" class="hidden">
+    <div class="finish-box">
+      <div style="font-size: 3rem;">🎉</div>
+      <h2>Session Complete!</h2>
+      <div class="score" id="finalScore">8/10</div>
+      <p style="margin: 15px 0;">Ready for another round?</p>
+      
+      <button class="btn btn-primary" id="newSessionBtn" style="width:100%;">🔄 New Session</button>
+      <button class="btn btn-secondary" id="retrySameBtn" style="width:100%; margin-top:8px;">🔁 Retry Same</button>
+    </div>
+  </div>
+  
+  <a href="prepositions.html" class="home-link">← Back to Menu</a>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // Bank soal 18
+    const questionBank = [
+      { image: "cat-in-box.png", before: "The cat is", after: "the box.", correct: "in" },
+      { image: "cat-on-box.png", before: "The cat is", after: "the box.", correct: "on" },
+      { image: "cat-under-table.png", before: "The cat is", after: "the table.", correct: "under" },
+      { image: "cat-near-box.png", before: "The cat is", after: "the box.", correct: "near" },
+      { image: "bird-in-box.png", before: "The bird is", after: "the box.", correct: "in" },
+      { image: "bird-on-tree.png", before: "The bird is", after: "the tree.", correct: "on" },
+      { image: "bird-under-tree.png", before: "The bird is", after: "the tree.", correct: "under" },
+      { image: "bird-near-tree.png", before: "The bird is", after: "the tree.", correct: "near" },
+      { image: "fish-in-bowl.png", before: "The fish is", after: "the bowl.", correct: "in" },
+      { image: "fish-in-bowl.png", before: "The fish is", after: "the bowl.", correct: "in" },
+      { image: "ball-on-bed.png", before: "The ball is", after: "the bed.", correct: "on" },
+      { image: "ball-under-bed.png", before: "The ball is", after: "the bed.", correct: "under" },
+      { image: "ball-near-bed.png", before: "The ball is", after: "the bed.", correct: "near" },
+      { image: "dog-on-table.png", before: "The dog is", after: "the table.", correct: "on" },
+      { image: "dog-under-table.png", before: "The dog is", after: "the table.", correct: "under" },
+      { image: "dog-near-table.png", before: "The dog is", after: "the table.", correct: "near" },
+      { image: "flower-near-tree.png", before: "The flower is", after: "the tree.", correct: "near" },
+      { image: "book-on-table.png", before: "The book is", after: "the table.", correct: "on" }
+    ];
+
+    const IMAGE_PATH = "images/";
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let userAnswers = [];
+    let answerStatus = [];
+
+    const quizView = document.getElementById('quizView');
+    const finishView = document.getElementById('finishView');
+    const progressText = document.getElementById('progressText');
+    const imageArea = document.getElementById('imageArea');
+    const sentenceLabel = document.getElementById('sentenceLabel');
+    const sentenceAfter = document.getElementById('sentenceAfter');
+    const answerInput = document.getElementById('answerInput');
+    const feedbackMsg = document.getElementById('feedbackMsg');
+    const checkBtn = document.getElementById('checkBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const finalScoreSpan = document.getElementById('finalScore');
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function newSession() {
+      const shuffled = shuffle([...questionBank]);
+      currentQuestions = shuffled.slice(0, 10);
+      currentIndex = 0;
+      userAnswers = new Array(10).fill("");
+      answerStatus = new Array(10).fill(null);
+    }
+
+    function renderQuestion() {
+      const q = currentQuestions[currentIndex];
+      
+      progressText.textContent = `${currentIndex + 1} / 10`;
+      imageArea.innerHTML = `<img src="${IMAGE_PATH}${q.image}" alt="" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'image-placeholder\\'>📷 ${q.image}</div>';">`;
+      sentenceLabel.textContent = q.before;
+      sentenceAfter.textContent = q.after;
+      
+      answerInput.value = userAnswers[currentIndex] || "";
+      answerInput.className = 'blank-input';
+      
+      const status = answerStatus[currentIndex];
+      if (status === true) {
+        answerInput.classList.add('correct-highlight');
+        feedbackMsg.textContent = `✅ Correct!`;
+        feedbackMsg.className = 'feedback correct';
+        checkBtn.disabled = true;
+        nextBtn.disabled = false;
+      } else if (status === false) {
+        answerInput.classList.add('wrong-highlight');
+        feedbackMsg.textContent = `❌ Try again!`;
+        feedbackMsg.className = 'feedback wrong';
+        checkBtn.disabled = false;
+        nextBtn.disabled = true;
+      } else {
+        feedbackMsg.textContent = '';
+        feedbackMsg.className = 'feedback';
+        checkBtn.disabled = false;
+        nextBtn.disabled = true;
+      }
+      
+      prevBtn.disabled = (currentIndex === 0);
+      answerInput.focus();
+    }
+
+    function checkAnswer() {
+      const q = currentQuestions[currentIndex];
+      const userAnswer = answerInput.value.trim().toLowerCase();
+      
+      userAnswers[currentIndex] = userAnswer;
+      
+      if (userAnswer === q.correct) {
+        answerStatus[currentIndex] = true;
+        answerInput.classList.add('correct-highlight');
+        feedbackMsg.textContent = `✅ Correct!`;
+        feedbackMsg.className = 'feedback correct';
+        checkBtn.disabled = true;
+        nextBtn.disabled = false;
+      } else {
+        answerStatus[currentIndex] = false;
+        answerInput.classList.add('wrong-highlight');
+        feedbackMsg.textContent = `❌ Try again!`;
+        feedbackMsg.className = 'feedback wrong';
+      }
+    }
+
+    function nextQuestion() {
+      if (currentIndex < 9) {
+        currentIndex++;
+        renderQuestion();
+      } else {
+        const score = answerStatus.filter(s => s === true).length;
+        quizView.classList.add('hidden');
+        finishView.classList.remove('hidden');
+        finalScoreSpan.textContent = `${score}/10`;
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    }
+
+    function retrySame() {
+      currentIndex = 0;
+      userAnswers = new Array(10).fill("");
+      answerStatus = new Array(10).fill(null);
+      quizView.classList.remove('hidden');
+      finishView.classList.add('hidden');
+      renderQuestion();
+    }
+
+    answerInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (!checkBtn.disabled) checkAnswer();
+        else if (!nextBtn.disabled) nextQuestion();
+      }
+    });
+
+    checkBtn.addEventListener('click', checkAnswer);
+    prevBtn.addEventListener('click', prevQuestion);
+    nextBtn.addEventListener('click', nextQuestion);
+    document.getElementById('newSessionBtn').addEventListener('click', () => {
+      newSession();
+      retrySame();
+    });
+    document.getElementById('retrySameBtn').addEventListener('click', retrySame);
+
+    newSession();
+    renderQuestion();
+  })();
+</script>
+</body>
+</html>
