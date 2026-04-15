@@ -3,151 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Supplementary Audio - Grade 3</title>
+<title>Grade 3</title>
 <link rel="icon" type="image/png" href="favicon.png">
-
 <style>
   body {
     font-family: Arial, sans-serif;
-    margin: 10px;
-    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+    background: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
-  h2 {
+  .container {
+    max-width: 500px;
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  h1 {
     text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 42px;
+    margin-bottom: 40px;
+    font-weight: 400;
   }
-  .lesson {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 12px;
-    margin-bottom: 12px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  .menu-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
-  .lesson p {
-    margin: 0 0 8px 0;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  audio {
-    width: 100%;
-  }
-  .back {
-    display: block;
-    margin: 20px auto;
+  .menu-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 18px;
-    padding: 12px;
-    background: #ffffff;
-    border-radius: 10px;
-    width: 80%;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
     color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: all 0.2s;
+    border: 1px solid #eee;
+  }
+  .menu-card:active {
+    background: #fafafa;
+    transform: scale(0.99);
+  }
+  .menu-card .emoji {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 15px;
+  }
+  .menu-card .label {
+    font-size: 28px;
+    font-weight: 400;
+  }
+  .back {
+    text-align: center;
+    margin-top: 40px;
+    text-decoration: none;
+    color: #888;
+    font-size: 18px;
   }
   .back:active {
-    background: #e9ecef;
+    color: #333;
   }
 </style>
 </head>
-
 <body>
 
-<h2>📙 Grade 3 Extras</h2>
-
-<div class="lesson">
-  <p>Gary and the Boy at the Supermarket</p>
-  <audio controls>
-    <source src="supp3/Gary and the Boy at the Supermarket.mp3" type="audio/mpeg">
-  </audio>
+<div class="container">
+  <h1>📙</h1>
+  
+  <div class="menu-grid">
+    <a href="supp3-stories.html" class="menu-card">
+      <span class="emoji">📖🎧</span>
+      <span class="label">Stories</span>
+    </a>
+    
+    <a href="supp3-eb.html" class="menu-card">
+      <span class="emoji">📝🔊</span>
+      <span class="label">EB Worksheets</span>
+    </a>
+  </div>
+  
+  <a href="index-ad.html" class="back">←</a>
 </div>
-
-<div class="lesson">
-  <p>Victor's Art Competition</p>
-  <audio controls>
-    <source src="supp3/Victor's Art Competition.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>Banana Fritters</p>
-  <audio controls>
-    <source src="supp3/Banana Fritters.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>Chong's Scary Night</p>
-  <audio controls>
-    <source src="supp3/Chong's Scary Night.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>Our Precious Earth</p>
-  <audio controls>
-    <source src="supp3/Our Precious Earth.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>The Snatch Theft</p>
-  <audio controls>
-    <source src="supp3/The Snatch Theft.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>A Hike Near the Reservoir</p>
-  <audio controls>
-    <source src="supp3/A Hike Near the Reservoir.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>The Python in the Park</p>
-  <audio controls>
-    <source src="supp3/The Python in the Park.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>Raju's New Roller-blades</p>
-  <audio controls>
-    <source src="supp3/Raju's New Roller-blades.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>The Road Accident</p>
-  <audio controls>
-    <source src="supp3/The Road Accident.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>The Big Bully</p>
-  <audio controls>
-    <source src="supp3/The Big Bully.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>Ali and the Broken Window</p>
-  <audio controls>
-    <source src="supp3/Ali and the Broken Window.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<div class="lesson">
-  <p>The Camping Trip</p>
-  <audio controls>
-    <source src="supp3/The Camping Trip.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
-<a class="back" href="index-ad.html">⬅ Back to Listening Centre</a>
 
 </body>
 </html>
