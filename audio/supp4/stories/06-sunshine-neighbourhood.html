@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A New Home in Sunshine Neighbourhood · Grade 4</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Courier New', monospace; background: #f5f5dc; margin: 10px; text-align: center; min-height: 100vh; }
+    .container { max-width: 650px; margin: 0 auto; }
+    h2 { color: #2c3e50; margin: 10px 0; font-size: 1.3rem; }
+    .mode-tab { display: flex; gap: 5px; margin: 15px 0; }
+    .mode-btn { flex: 1; padding: 12px 8px; background: #e2e8f0; border: none; border-radius: 40px; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
+    .mode-btn.active { background: #3b82f6; color: white; }
+    .story-box { background: white; border: 3px solid #333; border-radius: 20px; padding: 20px; margin: 15px 0; text-align: left; font-size: 16px; line-height: 1.6; max-height: 350px; overflow-y: auto; }
+    textarea { width: 100%; height: 200px; padding: 15px; font-size: 16px; border: 2px solid #333; border-radius: 20px; font-family: 'Courier New', monospace; margin: 15px 0; }
+    .check-btn { padding: 15px 30px; background: #2ecc71; color: white; border: none; border-radius: 40px; font-weight: bold; cursor: pointer; font-size: 18px; width: 100%; }
+    .nav-btn { padding: 12px 20px; background: white; border: 2px solid #7f8c8d; border-radius: 40px; cursor: pointer; font-weight: bold; margin: 5px; }
+    .back-link { display: block; margin: 20px auto; padding: 12px; background: white; border-radius: 40px; text-decoration: none; color: #333; border: 1px solid #cbd5e1; }
+    .hidden { display: none; }
+    .feedback { margin: 15px 0; font-weight: bold; font-size: 1.2rem; }
+    .diff-correct { background: #d4edda; color: #155724; padding: 2px 4px; border-radius: 4px; }
+    .diff-wrong { background: #f8d7da; color: #721c24; padding: 2px 4px; border-radius: 4px; text-decoration: line-through; }
+    .diff-missing { background: #fff3cd; color: #856404; padding: 2px 4px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>📖 A New Home in Sunshine Neighbourhood</h2>
+  
+  <div class="mode-tab">
+    <button class="mode-btn active" data-mode="read">👂 Listen & Read</button>
+    <button class="mode-btn" data-mode="write">✏️ Listen & Write</button>
+    <button class="mode-btn" data-mode="check">✅ Self-Check</button>
+  </div>
+
+  <div id="readMode">
+    <audio controls src="../audio/A New Home in Sunshine Neighbourhood.mp3" style="width:100%; margin:10px 0;"></audio>
+    <div class="story-box" id="storyText"></div>
+    <div style="display: flex; gap: 10px; margin-top: 10px;">
+      <button class="nav-btn" id="prevStoryBtn" style="flex:1;">◀ Prev</button>
+      <button class="nav-btn" id="nextStoryBtn" style="flex:1;">Next ▶</button>
+    </div>
+  </div>
+
+  <div id="writeMode" class="hidden">
+    <audio controls src="../audio/A New Home in Sunshine Neighbourhood.mp3" style="width:100%; margin:10px 0;"></audio>
+    <textarea id="dictationInput" placeholder="Type the story as you hear it..."></textarea>
+    <button class="check-btn" id="saveDictation">💾 Save & Check</button>
+    <p style="color:#7f8c8d; margin-top:10px; font-size:0.9rem;">💡 Tip: Play → Pause → Write → Repeat</p>
+  </div>
+
+  <div id="checkMode" class="hidden">
+    <div class="story-box" style="max-height: none;">
+      <p><strong>📝 Original:</strong></p>
+      <p id="originalTextDisplay" style="background:#f1f5f9; padding:10px; border-radius:10px;"></p>
+      <p><strong>✏️ Yours:</strong></p>
+      <p id="userTextDisplay" style="background:#fef3c7; padding:10px; border-radius:10px;"></p>
+      <p><strong>🔍 Differences (highlighted):</strong></p>
+      <p id="diffDisplay" style="background:white; padding:10px; border-radius:10px; border:1px solid #cbd5e1;"></p>
+    </div>
+    <div class="feedback" id="checkFeedback"></div>
+    <button class="nav-btn" id="backToWrite">← Back to Write</button>
+  </div>
+  
+  <a class="back-link" href="../index-supp4.html">⬅ Back to Story List</a>
+</div>
+
+<script>
+  const STORY_KEY = 'sunshine';
+  const NEXT_PAGE = '07-raju-family.html';
+  const PREV_PAGE = '05-alice-jungle.html';
+  
+  const originalStory = `Mr Ng, a factory worker, moved to Sunshine Neighbourhood last week. He and his family are happy there. Andy and Mike like their new school. They take five minutes to walk to school. The library is not far away either. "We can read more now," Mike tells his mother. "Good," his mother says. "Can we play in the playground, Father?" Andy asks. "It's safe. The police post is in front of it." "I know," their father says. "But don't play there by yourselves. Ask some of the children in the neighbourhood to play with you. We have friendly neighbours." "Aren't we lucky?" Mike says.`;
+
+  document.getElementById('storyText').innerHTML = originalStory.replace(/\n/g, '<br>');
+  document.getElementById('originalTextDisplay').innerHTML = originalStory.replace(/\n/g, '<br>');
+
+  function generateDiff(original, user) {
+    const origWords = original.split(/\s+/);
+    const userWords = user.split(/\s+/);
+    let diffHtml = '';
+    for (let i = 0; i < origWords.length; i++) {
+      if (i < userWords.length) {
+        if (origWords[i].toLowerCase() === userWords[i].toLowerCase()) {
+          diffHtml += `<span class="diff-correct">${origWords[i]}</span> `;
+        } else {
+          diffHtml += `<span class="diff-wrong" title="You wrote: ${userWords[i]}">${origWords[i]}</span> `;
+        }
+      } else {
+        diffHtml += `<span class="diff-missing">${origWords[i]}</span> `;
+      }
+    }
+    if (userWords.length > origWords.length) {
+      for (let i = origWords.length; i < userWords.length; i++) {
+        diffHtml += `<span class="diff-wrong" title="Extra word">${userWords[i]}</span> `;
+      }
+    }
+    return diffHtml;
+  }
+
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById('readMode').classList.add('hidden');
+      document.getElementById('writeMode').classList.add('hidden');
+      document.getElementById('checkMode').classList.add('hidden');
+      if (this.dataset.mode === 'read') {
+        document.getElementById('readMode').classList.remove('hidden');
+      } else if (this.dataset.mode === 'write') {
+        document.getElementById('writeMode').classList.remove('hidden');
+        const saved = localStorage.getItem(STORY_KEY);
+        if (saved) document.getElementById('dictationInput').value = saved;
+      } else if (this.dataset.mode === 'check') {
+        showComparison();
+        document.getElementById('checkMode').classList.remove('hidden');
+      }
+    });
+  });
+
+  function showComparison() {
+    const saved = localStorage.getItem(STORY_KEY) || '';
+    document.getElementById('userTextDisplay').innerHTML = saved.replace(/\n/g, '<br>') || '(No writing yet)';
+    if (!saved) {
+      document.getElementById('diffDisplay').innerHTML = '<em>No writing to compare.</em>';
+      document.getElementById('checkFeedback').textContent = '';
+      return;
+    }
+    const diffHtml = generateDiff(originalStory, saved);
+    document.getElementById('diffDisplay').innerHTML = diffHtml;
+    const origWords = originalStory.split(/\s+/).length;
+    const correctCount = (diffHtml.match(/diff-correct/g) || []).length;
+    const percent = Math.round((correctCount / origWords) * 100);
+    if (percent === 100) {
+      document.getElementById('checkFeedback').innerHTML = '🎉 Perfect! 100% match! Excellent work!';
+      document.getElementById('checkFeedback').style.color = '#27ae60';
+    } else if (percent >= 80) {
+      document.getElementById('checkFeedback').innerHTML = `👍 Good job! ${percent}% match. Keep practicing!`;
+      document.getElementById('checkFeedback').style.color = '#e67e22';
+    } else {
+      document.getElementById('checkFeedback').innerHTML = `📝 ${percent}% match. Listen again and try again.`;
+      document.getElementById('checkFeedback').style.color = '#e74c3c';
+    }
+  }
+
+  document.getElementById('saveDictation').addEventListener('click', function() {
+    const text = document.getElementById('dictationInput').value.trim();
+    localStorage.setItem(STORY_KEY, text);
+    document.querySelector('[data-mode="check"]').click();
+  });
+
+  document.getElementById('backToWrite').addEventListener('click', function() {
+    document.querySelector('[data-mode="write"]').click();
+  });
+
+  document.getElementById('prevStoryBtn').addEventListener('click', function() {
+    if (PREV_PAGE) window.location.href = PREV_PAGE;
+  });
+  
+  document.getElementById('nextStoryBtn').addEventListener('click', function() {
+    if (NEXT_PAGE) window.location.href = NEXT_PAGE;
+  });
+
+  const saved = localStorage.getItem(STORY_KEY);
+  if (saved) document.getElementById('dictationInput').value = saved;
+</script>
+</body>
+</html>
