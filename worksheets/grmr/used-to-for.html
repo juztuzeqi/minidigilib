@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Used to vs Used for · Worksheet</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0e8ef;
+      padding: 10px 6px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+    .paper {
+      max-width: 480px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 18px 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border: 1px solid #c0d0dd;
+    }
+    h1 {
+      font-size: 1.5rem;
+      color: #1e3a5f;
+      margin-bottom: 4px;
+    }
+    .sub {
+      font-size: 0.8rem;
+      color: #5f7d9c;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #b0c4d9;
+      padding-bottom: 8px;
+    }
+    .menu-tab {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
+      background: #d9e4ed;
+      padding: 4px;
+      border-radius: 30px;
+    }
+    .tab-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 10px 5px;
+      font-weight: bold;
+      color: #2c4b6e;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .tab-btn.active {
+      background: white;
+      color: #1e3a5f;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    .q-item {
+      background: #f5f9fe;
+      border-radius: 14px;
+      padding: 14px 12px;
+      margin-bottom: 14px;
+      border: 1px solid #c0d6ec;
+    }
+    .q-stem {
+      font-weight: 600;
+      color: #1e3a5f;
+      margin-bottom: 12px;
+    }
+    .options {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .options label {
+      background: white;
+      padding: 8px 16px;
+      border-radius: 30px;
+      border: 1px solid #acc6df;
+      font-size: 0.9rem;
+    }
+    .blank-input {
+      width: 100%;
+      border: 2px solid #acc6df;
+      border-radius: 30px;
+      padding: 14px 16px;
+      font-size: 1rem;
+      background: white;
+      margin: 8px 0;
+    }
+    .btn {
+      background: #1e4e73;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      font-size: 1rem;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 2px 4px #7f9ab3;
+    }
+    .btn-small {
+      background: #e4edf5;
+      color: #1e3a5f;
+      box-shadow: none;
+      padding: 10px;
+      border: 1px solid #a1bbd4;
+    }
+    .fb {
+      font-size: 0.85rem;
+      margin-top: 8px;
+      font-weight: bold;
+    }
+    .fb.correct { color: #1f7a4a; }
+    .fb.wrong { color: #b13e3e; }
+    .score-bar {
+      background: #e7dbb2;
+      padding: 8px 15px;
+      border-radius: 30px;
+      text-align: center;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+    .note-box {
+      background: #e8f0fa;
+      padding: 10px 14px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+      border-left: 4px solid #2a76c7;
+    }
+    .home-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #5f7d9c;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+<div class="paper">
+  <h1>📘 Used to vs Used for</h1>
+  <div class="sub">Practice · Writing · Self‑check</div>
+
+  <!-- CATATAN RINGKAS -->
+  <div class="note-box">
+    💡 <strong>used to</strong> + verb (kebiasaan dulu)<br>
+    💡 <strong>used for</strong> + verb-ing (fungsi/kegunaan)
+  </div>
+
+  <!-- TAB MINIMALIS -->
+  <div class="menu-tab">
+    <button class="tab-btn active" data-tab="quizTab">📋 Practice</button>
+    <button class="tab-btn" data-tab="writeTab">✏️ Writing</button>
+  </div>
+
+  <!-- ========== SECTION QUIZ ========== -->
+  <div id="quizTab" class="section active">
+    <div class="score-bar" id="quizScoreDisplay">✅ Score: 0/15</div>
+    <div id="quizContainer"></div>
+    <button class="btn" id="checkQuizBtn">🔍 Check Answers</button>
+    <button class="btn btn-small" id="resetQuizBtn">🔄 New Set</button>
+  </div>
+
+  <!-- ========== SECTION WRITING ========== -->
+  <div id="writeTab" class="section">
+    <div class="score-bar" id="writeScoreDisplay">✏️ Score: 0/15</div>
+    <div id="writingContainer"></div>
+    <button class="btn" id="checkWriteBtn">✓ Check Writing</button>
+    <button class="btn btn-small" id="resetWriteBtn">↻ Clear</button>
+  </div>
+
+  <a href="../index-ws.html" class="home-link">← Back to Worksheet Library</a>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // ---------- BANK SOAL USED TO / USED FOR ----------
+    const quizBank = [
+      { stem: "A spoon is ___ eating soup.", opts: ["used to", "used for"], correct: 1 },
+      { stem: "I ___ watch cartoons every morning.", opts: ["used to", "used for"], correct: 0 },
+      { stem: "A bag is ___ carrying books.", opts: ["used to", "used for"], correct: 1 },
+      { stem: "He ___ be very shy.", opts: ["used to", "used for"], correct: 0 },
+      { stem: "Shoes are ___ protecting your feet.", opts: ["used to", "used for"], correct: 1 },
+      { stem: "A pencil is ___ writing.", opts: ["used to", "used for"], correct: 1 },
+      { stem: "She ___ play with dolls when she was little.", opts: ["used to", "used for"], correct: 0 },
+      { stem: "A knife is ___ cutting vegetables.", opts: ["used to", "used for"], correct: 1 },
+      { stem: "We ___ live in a small house.", opts: ["used to", "used for"], correct: 0 },
+      { stem: "A ruler is ___ measuring length.", opts: ["used to", "used for"], correct: 1 },
+      { stem: "They ___ go to the beach every weekend.", opts: ["used to", "used for"], correct: 0 },
+      { stem: "A chair is ___ sitting.", opts: ["used to", "used for"], correct: 1 },
+      { stem: "My father ___ ride a bicycle to work.", opts: ["used to", "used for"], correct: 0 },
+      { stem: "A computer is ___ doing homework.", opts: ["used to", "used for"], correct: 1 },
+      { stem: "I ___ drink milk every night.", opts: ["used to", "used for"], correct: 0 },
+      { stem: "An umbrella is ___ protection from rain.", opts: ["used to", "used for"], correct: 1 },
+      { stem: "She ___ have long hair.", opts: ["used to", "used for"], correct: 0 },
+      { stem: "A phone is ___ making calls.", opts: ["used to", "used for"], correct: 1 },
+      { stem: "We ___ visit grandma every Sunday.", opts: ["used to", "used for"], correct: 0 },
+      { stem: "Glasses are ___ improving vision.", opts: ["used to", "used for"], correct: 1 }
+    ];
+
+    // Writing set
+    const writingBank = [
+      { before: "A spoon is", after: "eating soup.", ans: "used for" },
+      { before: "I", after: "watch cartoons every morning.", ans: "used to" },
+      { before: "A bag is", after: "carrying books.", ans: "used for" },
+      { before: "He", after: "be very shy.", ans: "used to" },
+      { before: "Shoes are", after: "protecting your feet.", ans: "used for" },
+      { before: "A pencil is", after: "writing.", ans: "used for" },
+      { before: "She", after: "play with dolls when she was little.", ans: "used to" },
+      { before: "A knife is", after: "cutting vegetables.", ans: "used for" },
+      { before: "We", after: "live in a small house.", ans: "used to" },
+      { before: "A ruler is", after: "measuring length.", ans: "used for" },
+      { before: "They", after: "go to the beach every weekend.", ans: "used to" },
+      { before: "A chair is", after: "sitting.", ans: "used for" },
+      { before: "My father", after: "ride a bicycle to work.", ans: "used to" },
+      { before: "A computer is", after: "doing homework.", ans: "used for" },
+      { before: "I", after: "drink milk every night.", ans: "used to" },
+      { before: "An umbrella is", after: "protection from rain.", ans: "used for" },
+      { before: "She", after: "have long hair.", ans: "used to" },
+      { before: "A phone is", after: "making calls.", ans: "used for" },
+      { before: "We", after: "visit grandma every Sunday.", ans: "used to" },
+      { before: "Glasses are", after: "improving vision.", ans: "used for" }
+    ];
+
+    // ---------- STATE ----------
+    let currentQuizSet = [];
+    let quizAnswers = [];
+    let quizChecked = false;
+
+    let currentWriteSet = [];
+    let writeChecked = false;
+
+    // ---------- TAB SWITCHER ----------
+    const tabs = document.querySelectorAll('.tab-btn');
+    const sections = document.querySelectorAll('.section');
+    tabs.forEach(t => {
+      t.addEventListener('click', () => {
+        const targetId = t.getAttribute('data-tab');
+        tabs.forEach(btn => btn.classList.remove('active'));
+        sections.forEach(sec => sec.classList.remove('active'));
+        t.classList.add('active');
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+
+    // ---------- FUNGSI UMUM ----------
+    function shufflePick(arr, count) {
+      const shuffled = [...arr].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, count);
+    }
+
+    // ---------- QUIZ SECTION ----------
+    function newQuizSet() {
+      currentQuizSet = shufflePick(quizBank, 15);
+      quizAnswers = new Array(15).fill(null);
+      quizChecked = false;
+      renderQuiz();
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
+      let html = '';
+      currentQuizSet.forEach((q, idx) => {
+        html += `<div class="q-item">
+          <div class="q-stem">${idx+1}. ${q.stem}</div>
+          <div class="options" id="quizOpts-${idx}">`;
+        q.opts.forEach((opt, optIdx) => {
+          const checked = (quizAnswers[idx] === optIdx) ? 'checked' : '';
+          html += `<label><input type="radio" name="quizQ${idx}" value="${optIdx}" ${checked}> ${opt}</label>`;
+        });
+        html += `</div><div class="fb" id="quizFb-${idx}"></div></div>`;
+      });
+      container.innerHTML = html;
+      
+      for (let i = 0; i < 15; i++) {
+        const radios = document.getElementsByName(`quizQ${i}`);
+        radios.forEach(r => {
+          r.addEventListener('change', (e) => {
+            quizAnswers[i] = parseInt(e.target.value);
+            if (quizChecked) {
+              checkSingleQuiz(i);
+              updateQuizScore();
+            }
+          });
+        });
+      }
+      updateQuizScore();
+    }
+
+    function checkSingleQuiz(idx) {
+      const fb = document.getElementById(`quizFb-${idx}`);
+      const q = currentQuizSet[idx];
+      const selected = quizAnswers[idx];
+      if (selected === q.correct) {
+        fb.textContent = '✅ Correct!';
+        fb.className = 'fb correct';
+        return true;
+      } else {
+        const correctAns = q.opts[q.correct];
+        fb.textContent = `❌ Answer: ${correctAns}`;
+        fb.className = 'fb wrong';
+        return false;
+      }
+    }
+
+    function checkAllQuiz() {
+      let correct = 0;
+      for (let i = 0; i < 15; i++) {
+        if (checkSingleQuiz(i)) correct++;
+      }
+      quizChecked = true;
+      document.getElementById('quizScoreDisplay').innerText = `✅ Score: ${correct}/15`;
+    }
+
+    function updateQuizScore() {
+      if (!quizChecked) {
+        const answered = quizAnswers.filter(a => a !== null).length;
+        document.getElementById('quizScoreDisplay').innerText = `✅ Answered: ${answered}/15`;
+        return;
+      }
+      const correct = currentQuizSet.reduce((acc, q, i) => acc + (quizAnswers[i] === q.correct ? 1 : 0), 0);
+      document.getElementById('quizScoreDisplay').innerText = `✅ Score: ${correct}/15`;
+    }
+
+    // ---------- WRITING SECTION ----------
+    function newWriteSet() {
+      currentWriteSet = shufflePick(writingBank, 15);
+      writeChecked = false;
+      renderWriting();
+    }
+
+    function renderWriting() {
+      const container = document.getElementById('writingContainer');
+      let html = '';
+      currentWriteSet.forEach((item, idx) => {
+        html += `<div class="q-item">
+          <div class="q-stem">${idx+1}. ${item.before} ______ ${item.after}</div>
+          <input type="text" id="writeInput-${idx}" class="blank-input" placeholder="used to / used for" autocomplete="off" spellcheck="false" value="">
+          <div class="fb" id="writeFb-${idx}"></div>
+        </div>`;
+      });
+      container.innerHTML = html;
+      document.getElementById('writeScoreDisplay').innerText = `✏️ Score: 0/15`;
+    }
+
+    function checkWriting() {
+      let correct = 0;
+      for (let i = 0; i < 15; i++) {
+        const input = document.getElementById(`writeInput-${i}`);
+        const fb = document.getElementById(`writeFb-${i}`);
+        const ans = input.value.trim().toLowerCase();
+        const correctAns = currentWriteSet[i].ans;
+        
+        if (ans === correctAns) {
+          fb.textContent = '✅ Correct!';
+          fb.className = 'fb correct';
+          correct++;
+        } else {
+          fb.textContent = `❌ Answer: "${correctAns}"`;
+          fb.className = 'fb wrong';
+        }
+      }
+      writeChecked = true;
+      document.getElementById('writeScoreDisplay').innerText = `✏️ Score: ${correct}/15`;
+    }
+
+    function resetWritingInputs() {
+      for (let i = 0; i < 15; i++) {
+        const input = document.getElementById(`writeInput-${i}`);
+        if (input) input.value = '';
+        const fb = document.getElementById(`writeFb-${i}`);
+        if (fb) { fb.textContent = ''; fb.className = 'fb'; }
+      }
+      writeChecked = false;
+      document.getElementById('writeScoreDisplay').innerText = `✏️ Score: 0/15`;
+    }
+
+    // ---------- EVENT LISTENERS ----------
+    document.getElementById('checkQuizBtn').addEventListener('click', checkAllQuiz);
+    document.getElementById('resetQuizBtn').addEventListener('click', newQuizSet);
+    document.getElementById('checkWriteBtn').addEventListener('click', checkWriting);
+    document.getElementById('resetWriteBtn').addEventListener('click', resetWritingInputs);
+    document.getElementById('resetWriteBtn').addEventListener('dblclick', newWriteSet);
+
+    // Inisialisasi
+    newQuizSet();
+    newWriteSet();
+
+  })();
+</script>
+</body>
+</html>
