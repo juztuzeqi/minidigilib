@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Camping Trip · Grade 3</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Courier New', monospace; background: #f5f5dc; margin: 10px; text-align: center; min-height: 100vh; }
+    .container { max-width: 650px; margin: 0 auto; }
+    h2 { color: #2c3e50; margin: 10px 0; font-size: 1.3rem; }
+    .mode-tab { display: flex; gap: 5px; margin: 15px 0; }
+    .mode-btn { flex: 1; padding: 12px 8px; background: #e2e8f0; border: none; border-radius: 40px; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
+    .mode-btn.active { background: #3b82f6; color: white; }
+    .story-box { background: white; border: 3px solid #333; border-radius: 20px; padding: 20px; margin: 15px 0; text-align: left; font-size: 16px; line-height: 1.6; max-height: 350px; overflow-y: auto; }
+    textarea { width: 100%; height: 200px; padding: 15px; font-size: 16px; border: 2px solid #333; border-radius: 20px; font-family: 'Courier New', monospace; margin: 15px 0; }
+    .check-btn { padding: 15px 30px; background: #2ecc71; color: white; border: none; border-radius: 40px; font-weight: bold; cursor: pointer; font-size: 18px; width: 100%; }
+    .nav-btn { padding: 12px 20px; background: white; border: 2px solid #7f8c8d; border-radius: 40px; cursor: pointer; font-weight: bold; margin: 5px; }
+    .back-link { display: block; margin: 20px auto; padding: 12px; background: white; border-radius: 40px; text-decoration: none; color: #333; border: 1px solid #cbd5e1; }
+    .hidden { display: none; }
+    .feedback { margin: 15px 0; font-weight: bold; font-size: 1.2rem; }
+    .diff-correct { background: #d4edda; color: #155724; padding: 2px 4px; border-radius: 4px; }
+    .diff-wrong { background: #f8d7da; color: #721c24; padding: 2px 4px; border-radius: 4px; }
+    .missing-box { background: #fff3cd; border: 2px solid #f59e0b; border-radius: 10px; padding: 15px; margin-top: 20px; text-align: left; }
+    .missing-title { font-weight: bold; color: #856404; margin-bottom: 10px; }
+    .missing-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .missing-word { background: white; padding: 4px 10px; border-radius: 20px; border: 1px solid #f59e0b; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>📖 The Camping Trip</h2>
+  
+  <div class="mode-tab">
+    <button class="mode-btn active" data-mode="read">👂 Listen & Read</button>
+    <button class="mode-btn" data-mode="write">✏️ Listen & Write</button>
+    <button class="mode-btn" data-mode="check">✅ Self-Check</button>
+  </div>
+
+  <div id="readMode">
+    <audio controls src="../audio/The Camping Trip.mp3" style="width:100%; margin:10px 0;"></audio>
+    <div class="story-box" id="storyText"></div>
+    <div style="display: flex; gap: 10px; margin-top: 10px;">
+      <button class="nav-btn" id="prevStoryBtn" style="flex:1;">◀ Prev</button>
+      <button class="nav-btn" id="nextStoryBtn" style="flex:1;">Next ▶</button>
+    </div>
+  </div>
+
+  <div id="writeMode" class="hidden">
+    <audio controls src="../audio/The Camping Trip.mp3" style="width:100%; margin:10px 0;"></audio>
+    <textarea id="dictationInput" placeholder="Type the story as you hear it..."></textarea>
+    <button class="check-btn" id="saveDictation">💾 Save & Check</button>
+    <p style="color:#7f8c8d; margin-top:10px; font-size:0.9rem;">💡 Tip: Play → Pause → Write → Repeat</p>
+  </div>
+
+  <div id="checkMode" class="hidden">
+    <div class="story-box" style="max-height: none;">
+      <p><strong>📝 Original:</strong></p>
+      <p id="originalTextDisplay" style="background:#f1f5f9; padding:10px; border-radius:10px;"></p>
+      <p><strong>✏️ Yours:</strong></p>
+      <p id="userTextDisplay" style="background:#fef3c7; padding:10px; border-radius:10px;"></p>
+      <p><strong>🔍 Differences (highlighted):</strong></p>
+      <p id="diffDisplay" style="background:white; padding:10px; border-radius:10px; border:1px solid #cbd5e1;"></p>
+    </div>
+    <div class="feedback" id="checkFeedback"></div>
+    
+    <div id="missingBox" class="missing-box" style="display: none;">
+      <div class="missing-title">📋 Missing Words (you didn't write):</div>
+      <div id="missingList" class="missing-list"></div>
+    </div>
+    
+    <button class="nav-btn" id="backToWrite">← Back to Write</button>
+  </div>
+  
+  <a class="back-link" href="../index-supp3.html">⬅ Back to Story List</a>
+</div>
+
+<script>
+  const STORY_KEY = 'campingTrip';
+  const NEXT_PAGE = '';
+  const PREV_PAGE = '12-ali-broken-window.html';
+  
+  const originalStory = `Jack and his friends went on a camping trip in the jungle during the last holidays. Being the oldest, Jack was chosen to lead them. They packed their equipment and set out for the jungle. The hike was long and tedious. His younger friends were tired and their spirits were low. Jack led them on with some singing and encouragement. They came to a clearing by a stream and decided to camp there. They started a campfire which they hoped would keep the wild animals away. Jack gave them a briefing about camping rules. It was for the benefit of the newer and inexperienced members.`;
+
+  document.getElementById('storyText').innerHTML = originalStory.replace(/\n/g, '<br>');
+  document.getElementById('originalTextDisplay').innerHTML = originalStory.replace(/\n/g, '<br>');
+
+  function generateDiffBoW(original, user) {
+    // Normalisasi super cepat
+    const norm = (text) => {
+      let result = '';
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i].toLowerCase();
+        if (c >= 'a' && c <= 'z') result += c;
+        else if (c === ' ' && result[result.length-1] !== ' ') result += ' ';
+      }
+      return result.trim();
+    };
+    
+    const oWords = norm(original).split(' ');
+    const uWords = norm(user).split(' ');
+    const oDisplay = original.split(/\s+/);
+    const uDisplay = user.split(/\s+/);
+    
+    const freq = {};
+    for (let i = 0; i < oWords.length; i++) {
+      const w = oWords[i];
+      freq[w] = (freq[w] || 0) + 1;
+    }
+    
+    let html = '';
+    let correct = 0;
+    
+    // Proses user words
+    for (let i = 0; i < uDisplay.length; i++) {
+      const normWord = uWords[i];
+      if (freq[normWord] > 0) {
+        freq[normWord]--;
+        html += '<span class="diff-correct">' + uDisplay[i] + '</span> ';
+        correct++;
+      } else {
+        html += '<span class="diff-wrong" title="Extra/typo">' + uDisplay[i] + '</span> ';
+      }
+    }
+    
+    // Kumpulkan missing words
+    const missingWords = [];
+    for (let i = 0; i < oDisplay.length; i++) {
+      const normWord = oWords[i];
+      if (freq[normWord] > 0) {
+        missingWords.push(oDisplay[i]);
+        freq[normWord]--;
+      }
+    }
+    
+    const total = oWords.length;
+    const percent = total ? Math.round((correct / total) * 100) : 0;
+    
+    return { html, percent, correct, total, missingWords };
+  }
+
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById('readMode').classList.add('hidden');
+      document.getElementById('writeMode').classList.add('hidden');
+      document.getElementById('checkMode').classList.add('hidden');
+      if (this.dataset.mode === 'read') {
+        document.getElementById('readMode').classList.remove('hidden');
+      } else if (this.dataset.mode === 'write') {
+        document.getElementById('writeMode').classList.remove('hidden');
+        const saved = localStorage.getItem(STORY_KEY);
+        if (saved) document.getElementById('dictationInput').value = saved;
+      } else if (this.dataset.mode === 'check') {
+        showComparison();
+        document.getElementById('checkMode').classList.remove('hidden');
+      }
+    });
+  });
+
+  function showComparison() {
+    const saved = localStorage.getItem(STORY_KEY) || '';
+    document.getElementById('userTextDisplay').innerHTML = saved.replace(/\n/g, '<br>') || '(No writing yet)';
+    
+    if (!saved) {
+      document.getElementById('diffDisplay').innerHTML = '<em>No writing to compare.</em>';
+      document.getElementById('checkFeedback').textContent = '';
+      document.getElementById('missingBox').style.display = 'none';
+      return;
+    }
+    
+    const result = generateDiffBoW(originalStory, saved);
+    document.getElementById('diffDisplay').innerHTML = result.html;
+    
+    // Tampilkan missing words
+    if (result.missingWords.length > 0) {
+const missingHtml = result.missingWords.map(w => 
+  '<span class="missing-word">• ' + w + '</span>'
+).join('');
+      document.getElementById('missingList').innerHTML = missingHtml;
+      document.getElementById('missingBox').style.display = 'block';
+    } else { document.getElementById('missingBox').style.display = 'none';
+    }
+    
+    const percent = result.percent;
+    const diff = result.total - result.correct;
+    
+    if (percent === 100) {
+      document.getElementById('checkFeedback').innerHTML = '🎉 Perfect! 100% match! Excellent work!';
+      document.getElementById('checkFeedback').style.color = '#27ae60';
+    } else if (percent >= 70) {
+      document.getElementById('checkFeedback').innerHTML = '👍 Good effort! ' + percent + '% match. ' + diff + ' word(s) to fix.';
+      document.getElementById('checkFeedback').style.color = '#e67e22';
+    } else {
+      document.getElementById('checkFeedback').innerHTML = '📝 ' + percent + '% match. ' + diff + ' word(s) different. Keep practicing!';
+      document.getElementById('checkFeedback').style.color = '#e74c3c';
+    }
+  }
+
+  document.getElementById('saveDictation').addEventListener('click', function() {
+    const text = document.getElementById('dictationInput').value.trim();
+    localStorage.setItem(STORY_KEY, text);
+    document.querySelector('[data-mode="check"]').click();
+  });
+
+  document.getElementById('backToWrite').addEventListener('click', function() {
+    document.querySelector('[data-mode="write"]').click();
+  });
+
+  document.getElementById('prevStoryBtn').addEventListener('click', function() {
+    if (PREV_PAGE) window.location.href = PREV_PAGE;
+  });
+  
+  document.getElementById('nextStoryBtn').addEventListener('click', function() {
+    if (NEXT_PAGE) window.location.href = NEXT_PAGE;
+  });
+
+  const saved = localStorage.getItem(STORY_KEY);
+  if (saved) document.getElementById('dictationInput').value = saved;
+</script>
+</body>
+</html>
