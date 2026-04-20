@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Short Questions · Worksheet</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0e8ef;
+      padding: 10px 6px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+    .paper {
+      max-width: 480px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 18px 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border: 1px solid #c0d0dd;
+    }
+    h1 {
+      font-size: 1.5rem;
+      color: #1e3a5f;
+      margin-bottom: 4px;
+    }
+    .sub {
+      font-size: 0.8rem;
+      color: #5f7d9c;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #b0c4d9;
+      padding-bottom: 8px;
+    }
+    .conversation-box {
+      background: #f0f5fa;
+      border-radius: 16px;
+      padding: 16px 14px;
+      margin-bottom: 16px;
+      border-left: 4px solid #2a76c7;
+    }
+    .speaker-a {
+      color: #1e4e73;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .speaker-b {
+      color: #2c5f8a;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .q-item {
+      background: #f5f9fe;
+      border-radius: 14px;
+      padding: 14px 12px;
+      margin-bottom: 14px;
+      border: 1px solid #c0d6ec;
+    }
+    .q-stem {
+      font-weight: 400;
+      color: #1e3a5f;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .q-stem .a-label {
+      font-weight: 700;
+      color: #1e4e73;
+      margin-right: 6px;
+    }
+    .blank-input {
+      width: 100%;
+      border: 2px solid #acc6df;
+      border-radius: 30px;
+      padding: 14px 16px;
+      font-size: 1rem;
+      background: white;
+      margin: 8px 0;
+    }
+    .btn {
+      background: #1e4e73;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      font-size: 1rem;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 2px 4px #7f9ab3;
+    }
+    .btn-small {
+      background: #e4edf5;
+      color: #1e3a5f;
+      box-shadow: none;
+      padding: 10px;
+      border: 1px solid #a1bbd4;
+    }
+    .fb {
+      font-size: 0.85rem;
+      margin-top: 8px;
+      font-weight: bold;
+    }
+    .fb.correct { color: #1f7a4a; }
+    .fb.wrong { color: #b13e3e; }
+    .score-bar {
+      background: #e7dbb2;
+      padding: 8px 15px;
+      border-radius: 30px;
+      text-align: center;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+    .example-box {
+      background: #e8f0fa;
+      padding: 14px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+    }
+    .example-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1e3a5f;
+    }
+    .home-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #5f7d9c;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+<div class="paper">
+  <h1>💬 Short Questions</h1>
+  <div class="sub">Echo Questions · Showing Interest</div>
+
+  <!-- CONTOH -->
+  <div class="example-box">
+    <div class="example-title">📌 Contoh:</div>
+    <div class="conversation-box" style="padding: 12px; margin-bottom: 0;">
+      <div class="speaker-a">A: I've already asked the waiter for a glass of water.</div>
+      <div class="speaker-b">B: <strong>Have you?</strong></div>
+    </div>
+    <div class="conversation-box" style="padding: 12px; margin-top: 8px;">
+      <div class="speaker-a">A: My uncle is a firefighter. He likes his job.</div>
+      <div class="speaker-b">B: Oh. <strong>Is he?</strong></div>
+    </div>
+  </div>
+
+  <!-- SCORE & CONTAINER -->
+  <div class="score-bar" id="scoreDisplay">✏️ Score: 0/10</div>
+  <div id="questionsContainer"></div>
+  
+  <button class="btn" id="checkBtn">✓ Check Answers</button>
+  <button class="btn btn-small" id="resetBtn">🔄 New Set</button>
+  <button class="btn btn-small" id="clearBtn">↻ Clear All</button>
+
+  <a href="../index-ws.html" class="home-link">← Back to Worksheet Library</a>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // ---------- BANK SOAL SHORT QUESTIONS (25+ item) ----------
+    const questionBank = [
+      // is / are / am
+      { a: "My uncle is a firefighter. He likes his job.", b: "Is he?" },
+      { a: "My sister is a doctor.", b: "Is she?" },
+      { a: "The children are hungry.", b: "Are they?" },
+      { a: "I'm really tired today.", b: "Are you?" },
+      { a: "We are going to the beach tomorrow.", b: "Are you?" },
+      { a: "This coffee is cold.", b: "Is it?" },
+      { a: "My parents are coming to visit.", b: "Are they?" },
+      { a: "She is studying abroad now.", b: "Is she?" },
+      { a: "I am the new manager here.", b: "Are you?" },
+      
+      // was / were
+      { a: "I was at the meeting yesterday.", b: "Were you?" },
+      { a: "The movie was really boring.", b: "Was it?" },
+      { a: "They were late again.", b: "Were they?" },
+      { a: "She was very happy with the result.", b: "Was she?" },
+      
+      // do / does / did
+      { a: "I like chocolate ice cream.", b: "Do you?" },
+      { a: "She works at the hospital.", b: "Does she?" },
+      { a: "He doesn't eat meat.", b: "Doesn't he?" },
+      { a: "We went to Bali last year.", b: "Did you?" },
+      { a: "I didn't finish my homework.", b: "Didn't you?" },
+      { a: "They bought a new car.", b: "Did they?" },
+      { a: "She called you yesterday.", b: "Did she?" },
+      
+      // have / has
+      { a: "I've already asked the waiter for water.", b: "Have you?" },
+      { a: "She has finished her project.", b: "Has she?" },
+      { a: "We haven't eaten lunch yet.", b: "Haven't you?" },
+      { a: "He has been to Japan twice.", b: "Has he?" },
+      { a: "I have three brothers.", b: "Do you?" },
+      { a: "She has a new job.", b: "Does she?" },
+      
+      // can / could / will / would
+      { a: "I can speak three languages.", b: "Can you?" },
+      { a: "She can't drive a car.", b: "Can't she?" },
+      { a: "We will be there at 8.", b: "Will you?" },
+      { a: "I won't be able to come.", b: "Won't you?" },
+      { a: "I would like some coffee.", b: "Would you?" },
+      { a: "He could swim when he was five.", b: "Could he?" }
+    ];
+
+    // ---------- STATE ----------
+    let currentSet = [];
+    let checked = false;
+    const ITEMS_PER_SET = 10;
+
+    const container = document.getElementById('questionsContainer');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+
+    // ---------- FUNGSI ----------
+    function shufflePick(arr, count) {
+      const shuffled = [...arr].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, count);
+    }
+
+    function newSet() {
+      currentSet = shufflePick(questionBank, ITEMS_PER_SET);
+      checked = false;
+      renderQuestions();
+    }
+
+    function renderQuestions() {
+      let html = '';
+      currentSet.forEach((item, idx) => {
+        html += `<div class="q-item">
+          <div class="q-stem">
+            <span class="a-label">A:</span> ${item.a}
+          </div>
+          <div class="speaker-b" style="margin-bottom: 4px;">
+            <span style="font-weight: 700; color: #1e4e73;">B:</span> 
+            <input type="text" id="input-${idx}" class="blank-input" placeholder="______?" autocomplete="off" spellcheck="false" style="width: auto; min-width: 120px; margin: 0;">
+          </div>
+          <div class="fb" id="fb-${idx}"></div>
+        </div>`;
+      });
+      container.innerHTML = html;
+      scoreDisplay.innerText = `✏️ Score: 0/${ITEMS_PER_SET}`;
+    }
+
+    function checkAnswers() {
+      let correct = 0;
+      
+      for (let i = 0; i < ITEMS_PER_SET; i++) {
+        const input = document.getElementById(`input-${i}`);
+        const fb = document.getElementById(`fb-${i}`);
+        const userAnswer = input.value.trim();
+        const correctAnswer = currentSet[i].b;
+        
+        // Normalisasi: lowercase, hilangkan spasi berlebih
+        const normalizedUser = userAnswer.toLowerCase().replace(/\s+/g, ' ').trim();
+        const normalizedCorrect = correctAnswer.toLowerCase().trim();
+        
+        // Cek dengan/tanpa "oh"
+        const userNoOh = normalizedUser.replace(/^oh[.!]?\s*/i, '').trim();
+        const correctNoOh = normalizedCorrect.replace(/^oh[.!]?\s*/i, '').trim();
+        
+        fb.classList.remove('correct', 'wrong');
+        
+        if (userAnswer === '') {
+          fb.textContent = '← Write your answer';
+          fb.classList.add('wrong');
+        } else if (normalizedUser === normalizedCorrect || userNoOh === correctNoOh) {
+          fb.textContent = '✅ Correct!';
+          fb.classList.add('correct');
+          correct++;
+        } else {
+          fb.textContent = `❌ Answer: "${correctAnswer}"`;
+          fb.classList.add('wrong');
+        }
+      }
+      
+      checked = true;
+      scoreDisplay.innerText = `✏️ Score: ${correct}/${ITEMS_PER_SET}`;
+    }
+
+    function clearAllInputs() {
+      for (let i = 0; i < ITEMS_PER_SET; i++) {
+        const input = document.getElementById(`input-${i}`);
+        const fb = document.getElementById(`fb-${i}`);
+        if (input) input.value = '';
+        if (fb) { fb.textContent = ''; fb.classList.remove('correct', 'wrong'); }
+      }
+      checked = false;
+      scoreDisplay.innerText = `✏️ Score: 0/${ITEMS_PER_SET}`;
+    }
+
+    // ---------- EVENT LISTENERS ----------
+    document.getElementById('checkBtn').addEventListener('click', checkAnswers);
+    document.getElementById('resetBtn').addEventListener('click', newSet);
+    document.getElementById('clearBtn').addEventListener('click', clearAllInputs);
+
+    // Inisialisasi
+    newSet();
+
+  })();
+</script>
+</body>
+</html>
