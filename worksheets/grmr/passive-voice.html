@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Passive Voice · Past Simple</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0e8ef;
+      padding: 10px 6px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+    .paper {
+      max-width: 480px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 18px 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border: 1px solid #c0d0dd;
+    }
+    h1 {
+      font-size: 1.5rem;
+      color: #1e3a5f;
+      margin-bottom: 4px;
+    }
+    .sub {
+      font-size: 0.8rem;
+      color: #5f7d9c;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #b0c4d9;
+      padding-bottom: 8px;
+    }
+    .menu-tab {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
+      background: #d9e4ed;
+      padding: 4px;
+      border-radius: 30px;
+    }
+    .tab-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 10px 5px;
+      font-weight: bold;
+      color: #2c4b6e;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .tab-btn.active {
+      background: white;
+      color: #1e3a5f;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    .q-item {
+      background: #f5f9fe;
+      border-radius: 14px;
+      padding: 14px 12px;
+      margin-bottom: 14px;
+      border: 1px solid #c0d6ec;
+    }
+    .q-stem {
+      font-weight: 600;
+      color: #1e3a5f;
+      margin-bottom: 12px;
+    }
+    .verb-hint {
+      display: inline-block;
+      background: #e4edf5;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      margin-left: 8px;
+      color: #1e4e73;
+      font-weight: normal;
+    }
+    .options {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .options label {
+      background: white;
+      padding: 8px 16px;
+      border-radius: 30px;
+      border: 1px solid #acc6df;
+      font-size: 0.9rem;
+    }
+    .blank-input {
+      width: 100%;
+      border: 2px solid #acc6df;
+      border-radius: 30px;
+      padding: 14px 16px;
+      font-size: 1rem;
+      background: white;
+      margin: 8px 0;
+    }
+    .btn {
+      background: #1e4e73;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      font-size: 1rem;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 2px 4px #7f9ab3;
+    }
+    .btn-small {
+      background: #e4edf5;
+      color: #1e3a5f;
+      box-shadow: none;
+      padding: 10px;
+      border: 1px solid #a1bbd4;
+    }
+    .fb {
+      font-size: 0.85rem;
+      margin-top: 8px;
+      font-weight: bold;
+    }
+    .fb.correct { color: #1f7a4a; }
+    .fb.wrong { color: #b13e3e; }
+    .score-bar {
+      background: #e7dbb2;
+      padding: 8px 15px;
+      border-radius: 30px;
+      text-align: center;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+    .formula-box {
+      background: #e8f0fa;
+      padding: 10px 14px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+      text-align: center;
+      border: 1px dashed #2a76c7;
+    }
+    .home-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #5f7d9c;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+<div class="paper">
+  <h1>📘 Passive Voice</h1>
+  <div class="sub">Past Simple · was/were + V3</div>
+
+  <!-- RUMUS -->
+  <div class="formula-box">
+    💡 <strong>was / were + Verb 3 (Past Participle)</strong>
+  </div>
+
+  <!-- TAB -->
+  <div class="menu-tab">
+    <button class="tab-btn active" data-tab="quizTab">📋 Practice</button>
+    <button class="tab-btn" data-tab="writeTab">✏️ Writing</button>
+  </div>
+
+  <!-- ========== SECTION PRACTICE (PILIHAN GANDA) ========== -->
+  <div id="quizTab" class="section active">
+    <div class="score-bar" id="quizScoreDisplay">✅ Score: 0/15</div>
+    <div id="quizContainer"></div>
+    <button class="btn" id="checkQuizBtn">🔍 Check Answers</button>
+    <button class="btn btn-small" id="resetQuizBtn">🔄 New Set</button>
+  </div>
+
+  <!-- ========== SECTION WRITING (ISIAN) ========== -->
+  <div id="writeTab" class="section">
+    <div class="score-bar" id="writeScoreDisplay">✏️ Score: 0/15</div>
+    <div id="writingContainer"></div>
+    <button class="btn" id="checkWriteBtn">✓ Check Writing</button>
+    <button class="btn btn-small" id="resetWriteBtn">↻ Clear</button>
+  </div>
+
+  <a href="../index-ws.html" class="home-link">← Back to Worksheet Library</a>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // ---------- BANK SOAL PASSIVE VOICE (25+ item) ----------
+    const quizBank = [
+      // Soal dari Bro
+      { stem: "The book was _________ by a famous author.", verb: "write", correct: "written" },
+      { stem: "The cake was _________ by the children.", verb: "eat", correct: "eaten" },
+      { stem: "The door was _________ by Tom yesterday.", verb: "open", correct: "opened" },
+      { stem: "The game was _________ by our team.", verb: "win", correct: "won" },
+      { stem: "The song was _________ by her.", verb: "sing", correct: "sung" },
+      { stem: "The homework was _________ by the student.", verb: "do", correct: "done" },
+      { stem: "The ball was _________ by the boy.", verb: "catch", correct: "caught" },
+      { stem: "The letter was _________ yesterday.", verb: "send", correct: "sent" },
+      { stem: "The car was _________ by my father.", verb: "drive", correct: "driven" },
+      { stem: "The cake was _________ this morning.", verb: "make", correct: "made" },
+      { stem: "The book was _________ by the girl.", verb: "read", correct: "read" },
+      { stem: "The clothes were _________ by my mother.", verb: "wash", correct: "washed" },
+      { stem: "The picture was _________ by Ali.", verb: "draw", correct: "drawn" },
+      { stem: "The window was _________ by the ball.", verb: "break", correct: "broken" },
+      { stem: "The song was _________ by the students.", verb: "sing", correct: "sung" },
+      
+      // Tambahan
+      { stem: "The money was _________ in the drawer.", verb: "hide", correct: "hidden" },
+      { stem: "The tree was _________ down by the storm.", verb: "blow", correct: "blown" },
+      { stem: "The email was _________ this morning.", verb: "write", correct: "written" },
+      { stem: "The house was _________ in 2010.", verb: "build", correct: "built" },
+      { stem: "The keys were _________ under the mat.", verb: "leave", correct: "left" },
+      { stem: "The thief was _________ by the police.", verb: "catch", correct: "caught" },
+      { stem: "The flowers were _________ by my sister.", verb: "plant", correct: "planted" },
+      { stem: "The glass was _________ by the cat.", verb: "break", correct: "broken" },
+      { stem: "The pizza was _________ in 10 minutes.", verb: "eat", correct: "eaten" },
+      { stem: "The gift was _________ in beautiful paper.", verb: "wrap", correct: "wrapped" },
+      { stem: "The movie was _________ by a famous director.", verb: "direct", correct: "directed" },
+      { stem: "The bridge was _________ last year.", verb: "build", correct: "built" }
+    ];
+
+    // Distractor options buat Practice
+    function generateOptions(correctV3, verb1) {
+      const commonDistractors = {
+        'write': ['wrote', 'writed', 'writes'],
+        'eat': ['ate', 'eated', 'eats'],
+        'open': ['opens', 'openeded', 'opening'],
+        'win': ['winned', 'wins', 'winning'],
+        'sing': ['sang', 'singed', 'sings'],
+        'do': ['did', 'does', 'doing'],
+        'catch': ['catched', 'catching', 'catchs'],
+        'send': ['sended', 'sends', 'sending'],
+        'drive': ['drove', 'drived', 'drives'],
+        'make': ['maked', 'makes', 'making'],
+        'read': ['readed', 'reads', 'reading'],
+        'wash': ['wesh', 'washes', 'washing'],
+        'draw': ['drew', 'drawed', 'draws'],
+        'break': ['broke', 'breaked', 'breaks'],
+        'hide': ['hid', 'hided', 'hides'],
+        'blow': ['blew', 'blowed', 'blows'],
+        'build': ['builded', 'builds', 'building'],
+        'leave': ['leaved', 'leaves', 'leaving'],
+        'plant': ['plant', 'plants', 'planting'],
+        'wrap': ['wrapp', 'wraps', 'wrapping'],
+        'direct': ['direct', 'directs', 'directing']
+      };
+      
+      let distractors = commonDistractors[verb1] || [verb1 + 'ed', verb1 + 'd', verb1 + 'ing'];
+      let options = [correctV3, ...distractors.slice(0, 3)];
+      return [...new Set(options)].sort(() => Math.random() - 0.5);
+    }
+
+    // Writing bank
+    const writingBank = quizBank.map(q => ({
+      before: q.stem.replace('_________', ''),
+      after: '',
+      verb: q.verb,
+      ans: q.correct
+    }));
+
+    // ---------- STATE ----------
+    let currentQuizSet = [];
+    let quizAnswers = [];
+    let quizChecked = false;
+    let quizOptionsForEach = [];
+
+    let currentWriteSet = [];
+    let writeChecked = false;
+
+    // ---------- TAB SWITCHER ----------
+    const tabs = document.querySelectorAll('.tab-btn');
+    const sections = document.querySelectorAll('.section');
+    tabs.forEach(t => {
+      t.addEventListener('click', () => {
+        const targetId = t.getAttribute('data-tab');
+        tabs.forEach(btn => btn.classList.remove('active'));
+        sections.forEach(sec => sec.classList.remove('active'));
+        t.classList.add('active');
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+
+    // ---------- FUNGSI UMUM ----------
+    function shufflePick(arr, count) {
+      const shuffled = [...arr].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, count);
+    }
+
+    // ---------- QUIZ SECTION ----------
+    function newQuizSet() {
+      currentQuizSet = shufflePick(quizBank, 15);
+      quizAnswers = new Array(15).fill(null);
+      quizOptionsForEach = currentQuizSet.map(q => generateOptions(q.correct, q.verb));
+      quizChecked = false;
+      renderQuiz();
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
+      let html = '';
+      currentQuizSet.forEach((q, idx) => {
+        const options = quizOptionsForEach[idx];
+        html += `<div class="q-item">
+          <div class="q-stem">${idx+1}. ${q.stem} <span class="verb-hint">(${q.verb})</span></div>
+          <div class="options" id="quizOpts-${idx}">`;
+        options.forEach((opt, optIdx) => {
+          const checked = (quizAnswers[idx] === opt) ? 'checked' : '';
+          html += `<label><input type="radio" name="quizQ${idx}" value="${opt}" ${checked}> ${opt}</label>`;
+        });
+        html += `</div><div class="fb" id="quizFb-${idx}"></div></div>`;
+      });
+      container.innerHTML = html;
+      
+      for (let i = 0; i < 15; i++) {
+        const radios = document.getElementsByName(`quizQ${i}`);
+        radios.forEach(r => {
+          r.addEventListener('change', (e) => {
+            quizAnswers[i] = e.target.value;
+            if (quizChecked) {
+              checkSingleQuiz(i);
+              updateQuizScore();
+            }
+          });
+        });
+      }
+      updateQuizScore();
+    }
+
+    function checkSingleQuiz(idx) {
+      const fb = document.getElementById(`quizFb-${idx}`);
+      const q = currentQuizSet[idx];
+      const selected = quizAnswers[idx];
+      if (selected === q.correct) {
+        fb.textContent = '✅ Correct!';
+        fb.className = 'fb correct';
+        return true;
+      } else {
+        fb.textContent = `❌ Answer: ${q.correct}`;
+        fb.className = 'fb wrong';
+        return false;
+      }
+    }
+
+    function checkAllQuiz() {
+      let correct = 0;
+      for (let i = 0; i < 15; i++) {
+        if (checkSingleQuiz(i)) correct++;
+      }
+      quizChecked = true;
+      document.getElementById('quizScoreDisplay').innerText = `✅ Score: ${correct}/15`;
+    }
+
+    function updateQuizScore() {
+      if (!quizChecked) {
+        const answered = quizAnswers.filter(a => a !== null).length;
+        document.getElementById('quizScoreDisplay').innerText = `✅ Answered: ${answered}/15`;
+        return;
+      }
+      const correct = currentQuizSet.reduce((acc, q, i) => acc + (quizAnswers[i] === q.correct ? 1 : 0), 0);
+      document.getElementById('quizScoreDisplay').innerText = `✅ Score: ${correct}/15`;
+    }
+
+    // ---------- WRITING SECTION ----------
+    function newWriteSet() {
+      currentWriteSet = shufflePick(writingBank, 15);
+      writeChecked = false;
+      renderWriting();
+    }
+
+    function renderWriting() {
+      const container = document.getElementById('writingContainer');
+      let html = '';
+      currentWriteSet.forEach((item, idx) => {
+        html += `<div class="q-item">
+          <div class="q-stem">${idx+1}. ${item.before}_________ <span class="verb-hint">(${item.verb})</span></div>
+          <input type="text" id="writeInput-${idx}" class="blank-input" placeholder="Verb 3" autocomplete="off" spellcheck="false" value="">
+          <div class="fb" id="writeFb-${idx}"></div>
+        </div>`;
+      });
+      container.innerHTML = html;
+      document.getElementById('writeScoreDisplay').innerText = `✏️ Score: 0/15`;
+    }
+
+    function checkWriting() {
+      let correct = 0;
+      for (let i = 0; i < 15; i++) {
+        const input = document.getElementById(`writeInput-${i}`);
+        const fb = document.getElementById(`writeFb-${i}`);
+        const ans = input.value.trim().toLowerCase();
+        const correctAns = currentWriteSet[i].ans.toLowerCase();
+        
+        if (ans === correctAns) {
+          fb.textContent = '✅ Correct!';
+          fb.className = 'fb correct';
+          correct++;
+        } else {
+          fb.textContent = `❌ Answer: "${currentWriteSet[i].ans}"`;
+          fb.className = 'fb wrong';
+        }
+      }
+      writeChecked = true;
+      document.getElementById('writeScoreDisplay').innerText = `✏️ Score: ${correct}/15`;
+    }
+
+    function resetWritingInputs() {
+      for (let i = 0; i < 15; i++) {
+        const input = document.getElementById(`writeInput-${i}`);
+        if (input) input.value = '';
+        const fb = document.getElementById(`writeFb-${i}`);
+        if (fb) { fb.textContent = ''; fb.className = 'fb'; }
+      }
+      writeChecked = false;
+      document.getElementById('writeScoreDisplay').innerText = `✏️ Score: 0/15`;
+    }
+
+    // ---------- EVENT LISTENERS ----------
+    document.getElementById('checkQuizBtn').addEventListener('click', checkAllQuiz);
+    document.getElementById('resetQuizBtn').addEventListener('click', newQuizSet);
+    document.getElementById('checkWriteBtn').addEventListener('click', checkWriting);
+    document.getElementById('resetWriteBtn').addEventListener('click', resetWritingInputs);
+    document.getElementById('resetWriteBtn').addEventListener('dblclick', newWriteSet);
+
+    // Inisialisasi
+    newQuizSet();
+    newWriteSet();
+
+  })();
+</script>
+</body>
+</html>
