@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Question Tags · Worksheet</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0e8ef;
+      padding: 10px 6px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+    .paper {
+      max-width: 480px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 18px 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border: 1px solid #c0d0dd;
+    }
+    h1 {
+      font-size: 1.5rem;
+      color: #1e3a5f;
+      margin-bottom: 4px;
+    }
+    .sub {
+      font-size: 0.8rem;
+      color: #5f7d9c;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #b0c4d9;
+      padding-bottom: 8px;
+    }
+    .menu-tab {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
+      background: #d9e4ed;
+      padding: 4px;
+      border-radius: 30px;
+    }
+    .tab-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 10px 5px;
+      font-weight: bold;
+      color: #2c4b6e;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .tab-btn.active {
+      background: white;
+      color: #1e3a5f;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    .q-item {
+      background: #f5f9fe;
+      border-radius: 14px;
+      padding: 14px 12px;
+      margin-bottom: 14px;
+      border: 1px solid #c0d6ec;
+    }
+    .q-stem {
+      font-weight: 600;
+      color: #1e3a5f;
+      margin-bottom: 12px;
+    }
+    .options {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .options label {
+      background: white;
+      padding: 8px 16px;
+      border-radius: 30px;
+      border: 1px solid #acc6df;
+      font-size: 0.9rem;
+    }
+    .blank-input {
+      width: 100%;
+      border: 2px solid #acc6df;
+      border-radius: 30px;
+      padding: 14px 16px;
+      font-size: 1rem;
+      background: white;
+      margin: 8px 0;
+    }
+    .btn {
+      background: #1e4e73;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      font-size: 1rem;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 2px 4px #7f9ab3;
+    }
+    .btn-small {
+      background: #e4edf5;
+      color: #1e3a5f;
+      box-shadow: none;
+      padding: 10px;
+      border: 1px solid #a1bbd4;
+    }
+    .fb {
+      font-size: 0.85rem;
+      margin-top: 8px;
+      font-weight: bold;
+    }
+    .fb.correct { color: #1f7a4a; }
+    .fb.wrong { color: #b13e3e; }
+    .score-bar {
+      background: #e7dbb2;
+      padding: 8px 15px;
+      border-radius: 30px;
+      text-align: center;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+    .home-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #5f7d9c;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+<div class="paper">
+  <h1>🏷️ Question Tags</h1>
+  <div class="sub">Working Together · Jobs · Family</div>
+
+  <!-- TAB MINIMALIS -->
+  <div class="menu-tab">
+    <button class="tab-btn active" data-tab="quizTab">📋 Practice</button>
+    <button class="tab-btn" data-tab="writeTab">✏️ Writing</button>
+  </div>
+
+  <!-- ========== SECTION QUIZ ========== -->
+  <div id="quizTab" class="section active">
+    <div class="score-bar" id="quizScoreDisplay">✅ Score: 0/15</div>
+    <div id="quizContainer"></div>
+    <button class="btn" id="checkQuizBtn">🔍 Check Answers</button>
+    <button class="btn btn-small" id="resetQuizBtn">🔄 New Set</button>
+  </div>
+
+  <!-- ========== SECTION WRITING ========== -->
+  <div id="writeTab" class="section">
+    <div class="score-bar" id="writeScoreDisplay">✏️ Score: 0/15</div>
+    <div id="writingContainer"></div>
+    <button class="btn" id="checkWriteBtn">✓ Check Writing</button>
+    <button class="btn btn-small" id="resetWriteBtn">↻ Clear</button>
+  </div>
+
+  <a href="../index-ws.html" class="home-link">← Back to Worksheet Library</a>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // ---------- BANK SOAL QUESTION TAGS (35+ item) ----------
+    // Tema: Working together, Jobs, Family
+    // Auxiliary: did, have (possession), have/has (present perfect), is, can, are
+    const quizBank = [
+      // is / isn't
+      { stem: "She is a doctor, ___ she?", opts: ["is", "isn't", "does", "has"], correct: 1 },
+      { stem: "He isn't tired, ___ he?", opts: ["is", "isn't", "does", "has"], correct: 0 },
+      { stem: "Your mother is a teacher, ___ she?", opts: ["is", "isn't", "does", "has"], correct: 1 },
+      { stem: "The baby isn't sleeping, ___ he?", opts: ["is", "isn't", "does", "has"], correct: 0 },
+      { stem: "Mr. Budi is our boss, ___ he?", opts: ["is", "isn't", "does", "has"], correct: 1 },
+      { stem: "That job isn't easy, ___ it?", opts: ["is", "isn't", "does", "has"], correct: 0 },
+      
+      // are / aren't
+      { stem: "They are working together, ___ they?", opts: ["are", "aren't", "do", "have"], correct: 1 },
+      { stem: "We aren't late, ___ we?", opts: ["are", "aren't", "do", "have"], correct: 0 },
+      { stem: "Your parents are at home, ___ they?", opts: ["are", "aren't", "do", "have"], correct: 1 },
+      { stem: "The children aren't hungry, ___ they?", opts: ["are", "aren't", "do", "have"], correct: 0 },
+      { stem: "You are my partner, ___ you?", opts: ["are", "aren't", "do", "have"], correct: 1 },
+      { stem: "Those tools aren't broken, ___ they?", opts: ["are", "aren't", "do", "have"], correct: 0 },
+      
+      // can / can't
+      { stem: "She can speak English, ___ she?", opts: ["can", "can't", "does", "is"], correct: 1 },
+      { stem: "He can't drive a car, ___ he?", opts: ["can", "can't", "does", "is"], correct: 0 },
+      { stem: "We can finish this together, ___ we?", opts: ["can", "can't", "do", "are"], correct: 1 },
+      { stem: "They can't come to the meeting, ___ they?", opts: ["can", "can't", "do", "are"], correct: 0 },
+      { stem: "My father can fix anything, ___ he?", opts: ["can", "can't", "does", "is"], correct: 1 },
+      
+      // did / didn't (Simple Past)
+      { stem: "She worked yesterday, ___ she?", opts: ["did", "didn't", "does", "was"], correct: 1 },
+      { stem: "He didn't call you, ___ he?", opts: ["did", "didn't", "does", "was"], correct: 0 },
+      { stem: "They finished the project, ___ they?", opts: ["did", "didn't", "do", "were"], correct: 1 },
+      { stem: "We didn't see the manager, ___ we?", opts: ["did", "didn't", "do", "were"], correct: 0 },
+      { stem: "Your sister helped you, ___ she?", opts: ["did", "didn't", "does", "was"], correct: 1 },
+      { stem: "I didn't break the vase, ___ I?", opts: ["did", "didn't", "do", "was"], correct: 0 },
+      
+      // have / haven't (Possession)
+      { stem: "You have a new job, ___ you?", opts: ["have", "haven't", "do", "are"], correct: 1 },
+      { stem: "She hasn't got a car, ___ she?", opts: ["has", "hasn't", "does", "is"], correct: 0 },
+      { stem: "They have three children, ___ they?", opts: ["have", "haven't", "do", "are"], correct: 1 },
+      { stem: "He hasn't got any money, ___ he?", opts: ["has", "hasn't", "does", "is"], correct: 0 },
+      { stem: "We have a meeting at 2, ___ we?", opts: ["have", "haven't", "do", "are"], correct: 1 },
+      
+      // have/has (Present Perfect)
+      { stem: "She has finished her work, ___ she?", opts: ["has", "hasn't", "does", "is"], correct: 1 },
+      { stem: "They have gone to Jakarta, ___ they?", opts: ["have", "haven't", "do", "are"], correct: 1 },
+      { stem: "He hasn't eaten lunch yet, ___ he?", opts: ["has", "hasn't", "does", "is"], correct: 0 },
+      { stem: "We have met the new boss, ___ we?", opts: ["have", "haven't", "do", "are"], correct: 1 },
+      { stem: "She hasn't called her mother, ___ she?", opts: ["has", "hasn't", "does", "is"], correct: 0 },
+      { stem: "You have worked here for five years, ___ you?", opts: ["have", "haven't", "do", "are"], correct: 1 },
+      { stem: "The team has completed the project, ___ it?", opts: ["has", "hasn't", "does", "is"], correct: 1 },
+      { stem: "I haven't seen that movie, ___ I?", opts: ["have", "haven't", "do", "am"], correct: 0 }
+    ];
+
+    // Writing bank
+    const writingBank = [
+      { before: "She is a doctor,", after: "she?", ans: "isn't" },
+      { before: "He isn't tired,", after: "he?", ans: "is" },
+      { before: "They are working together,", after: "they?", ans: "aren't" },
+      { before: "We aren't late,", after: "we?", ans: "are" },
+      { before: "She can speak English,", after: "she?", ans: "can't" },
+      { before: "He can't drive,", after: "he?", ans: "can" },
+      { before: "She worked yesterday,", after: "she?", ans: "didn't" },
+      { before: "He didn't call you,", after: "he?", ans: "did" },
+      { before: "You have a new job,", after: "you?", ans: "haven't" },
+      { before: "She hasn't got a car,", after: "she?", ans: "has" },
+      { before: "She has finished her work,", after: "she?", ans: "hasn't" },
+      { before: "They have gone to Jakarta,", after: "they?", ans: "haven't" },
+      { before: "He hasn't eaten lunch yet,", after: "he?", ans: "has" },
+      { before: "We have met the new boss,", after: "we?", ans: "haven't" },
+      { before: "Your mother is a teacher,", after: "she?", ans: "isn't" },
+      { before: "Mr. Budi is our boss,", after: "he?", ans: "isn't" },
+      { before: "The children aren't hungry,", after: "they?", ans: "are" },
+      { before: "We can finish together,", after: "we?", ans: "can't" },
+      { before: "My father can fix anything,", after: "he?", ans: "can't" },
+      { before: "They finished the project,", after: "they?", ans: "didn't" },
+      { before: "I didn't break it,", after: "I?", ans: "did" },
+      { before: "They have three children,", after: "they?", ans: "haven't" },
+      { before: "You have worked here for five years,", after: "you?", ans: "haven't" }
+    ];
+
+    // ---------- STATE ----------
+    let currentQuizSet = [];
+    let quizAnswers = [];
+    let quizChecked = false;
+
+    let currentWriteSet = [];
+    let writeChecked = false;
+
+    // ---------- TAB SWITCHER ----------
+    const tabs = document.querySelectorAll('.tab-btn');
+    const sections = document.querySelectorAll('.section');
+    tabs.forEach(t => {
+      t.addEventListener('click', () => {
+        const targetId = t.getAttribute('data-tab');
+        tabs.forEach(btn => btn.classList.remove('active'));
+        sections.forEach(sec => sec.classList.remove('active'));
+        t.classList.add('active');
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+
+    // ---------- FUNGSI UMUM ----------
+    function shufflePick(arr, count) {
+      const shuffled = [...arr].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, count);
+    }
+
+    // ---------- QUIZ SECTION ----------
+    function newQuizSet() {
+      currentQuizSet = shufflePick(quizBank, 15);
+      quizAnswers = new Array(15).fill(null);
+      quizChecked = false;
+      renderQuiz();
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
+      let html = '';
+      currentQuizSet.forEach((q, idx) => {
+        html += `<div class="q-item">
+          <div class="q-stem">${idx+1}. ${q.stem}</div>
+          <div class="options" id="quizOpts-${idx}">`;
+        q.opts.forEach((opt, optIdx) => {
+          const checked = (quizAnswers[idx] === optIdx) ? 'checked' : '';
+          html += `<label><input type="radio" name="quizQ${idx}" value="${optIdx}" ${checked}> ${opt}</label>`;
+        });
+        html += `</div><div class="fb" id="quizFb-${idx}"></div></div>`;
+      });
+      container.innerHTML = html;
+      
+      for (let i = 0; i < 15; i++) {
+        const radios = document.getElementsByName(`quizQ${i}`);
+        radios.forEach(r => {
+          r.addEventListener('change', (e) => {
+            quizAnswers[i] = parseInt(e.target.value);
+            if (quizChecked) {
+              checkSingleQuiz(i);
+              updateQuizScore();
+            }
+          });
+        });
+      }
+      updateQuizScore();
+    }
+
+    function checkSingleQuiz(idx) {
+      const fb = document.getElementById(`quizFb-${idx}`);
+      const q = currentQuizSet[idx];
+      const selected = quizAnswers[idx];
+      if (selected === q.correct) {
+        fb.textContent = '✅ Correct!';
+        fb.className = 'fb correct';
+        return true;
+      } else {
+        const correctAns = q.opts[q.correct];
+        fb.textContent = `❌ Answer: ${correctAns}`;
+        fb.className = 'fb wrong';
+        return false;
+      }
+    }
+
+    function checkAllQuiz() {
+      let correct = 0;
+      for (let i = 0; i < 15; i++) {
+        if (checkSingleQuiz(i)) correct++;
+      }
+      quizChecked = true;
+      document.getElementById('quizScoreDisplay').innerText = `✅ Score: ${correct}/15`;
+    }
+
+    function updateQuizScore() {
+      if (!quizChecked) {
+        const answered = quizAnswers.filter(a => a !== null).length;
+        document.getElementById('quizScoreDisplay').innerText = `✅ Answered: ${answered}/15`;
+        return;
+      }
+      const correct = currentQuizSet.reduce((acc, q, i) => acc + (quizAnswers[i] === q.correct ? 1 : 0), 0);
+      document.getElementById('quizScoreDisplay').innerText = `✅ Score: ${correct}/15`;
+    }
+
+    // ---------- WRITING SECTION ----------
+    function newWriteSet() {
+      currentWriteSet = shufflePick(writingBank, 15);
+      writeChecked = false;
+      renderWriting();
+    }
+
+    function renderWriting() {
+      const container = document.getElementById('writingContainer');
+      let html = '';
+      currentWriteSet.forEach((item, idx) => {
+        html += `<div class="q-item">
+          <div class="q-stem">${idx+1}. ${item.before} ______ ${item.after}</div>
+          <input type="text" id="writeInput-${idx}" class="blank-input" placeholder="isn't / did / have / can / are ..." autocomplete="off" spellcheck="false" value="">
+          <div class="fb" id="writeFb-${idx}"></div>
+        </div>`;
+      });
+      container.innerHTML = html;
+      document.getElementById('writeScoreDisplay').innerText = `✏️ Score: 0/15`;
+    }
+
+    function checkWriting() {
+      let correct = 0;
+      for (let i = 0; i < 15; i++) {
+        const input = document.getElementById(`writeInput-${i}`);
+        const fb = document.getElementById(`writeFb-${i}`);
+        const ans = input.value.trim().toLowerCase();
+        const correctAns = currentWriteSet[i].ans;
+        
+        if (ans === correctAns) {
+          fb.textContent = '✅ Correct!';
+          fb.className = 'fb correct';
+          correct++;
+        } else {
+          fb.textContent = `❌ Answer: "${correctAns}"`;
+          fb.className = 'fb wrong';
+        }
+      }
+      writeChecked = true;
+      document.getElementById('writeScoreDisplay').innerText = `✏️ Score: ${correct}/15`;
+    }
+
+    function resetWritingInputs() {
+      for (let i = 0; i < 15; i++) {
+        const input = document.getElementById(`writeInput-${i}`);
+        if (input) input.value = '';
+        const fb = document.getElementById(`writeFb-${i}`);
+        if (fb) { fb.textContent = ''; fb.className = 'fb'; }
+      }
+      writeChecked = false;
+      document.getElementById('writeScoreDisplay').innerText = `✏️ Score: 0/15`;
+    }
+
+    // ---------- EVENT LISTENERS ----------
+    document.getElementById('checkQuizBtn').addEventListener('click', checkAllQuiz);
+    document.getElementById('resetQuizBtn').addEventListener('click', newQuizSet);
+    document.getElementById('checkWriteBtn').addEventListener('click', checkWriting);
+    document.getElementById('resetWriteBtn').addEventListener('click', resetWritingInputs);
+    document.getElementById('resetWriteBtn').addEventListener('dblclick', newWriteSet);
+
+    // Inisialisasi
+    newQuizSet();
+    newWriteSet();
+
+  })();
+</script>
+</body>
+</html>
