@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TPR Flashcards - Pre-Grade 1</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f4f8;
+    min-height: 100vh;
+    padding: 15px;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding: 8px 0;
+  }
+
+  .back-btn {
+    background: #fff;
+    border: 2px solid #2196F3;
+    color: #2196F3;
+    font-size: 1.1rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .back-btn:hover {
+    background: #e3f2fd;
+  }
+
+  .header h2 {
+    font-size: 1.3rem;
+    color: #333;
+    margin: 0;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    font-style: italic;
+  }
+
+  /* TOPIC CARDS */
+  .topic-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .topic-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .topic-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+
+  .topic-num {
+    background: #2196F3;
+    color: #fff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .topic-info {
+    flex: 1;
+  }
+
+  .topic-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 3px;
+  }
+
+  .topic-desc {
+    font-size: 0.8rem;
+    color: #777;
+  }
+
+  .topic-score {
+    font-size: 0.85rem;
+    color: #666;
+    background: #f5f5f5;
+    padding: 6px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .topic-score.done {
+    background: #E8F5E9;
+    color: #2E7D32;
+    font-weight: bold;
+  }
+
+  /* FOOTER */
+  .footer-note {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #999;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <a href="../index.html" class="back-btn">← Home</a>
+    <h2>🗣️ TPR Flashcards</h2>
+  </div>
+
+  <div class="subtitle">Pre-Grade 1 — Listen, Move, Learn</div>
+
+  <!-- TOPIC LIST -->
+  <div class="topic-list">
+
+    <a class="topic-card" href="actions/actions.html">
+      <div class="topic-num">1</div>
+      <div class="topic-info">
+        <div class="topic-title">Actions</div>
+        <div class="topic-desc">sit down, stand up, walk, run, read, write...</div>
+      </div>
+      <span class="topic-score" id="score-1">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="alphabet-names/alphabet-names.html">
+      <div class="topic-num">2</div>
+      <div class="topic-info">
+        <div class="topic-title">Alphabet Names</div>
+        <div class="topic-desc">A, B, C, D... (nama huruf + bunyi)</div>
+      </div>
+      <span class="topic-score" id="score-2">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="numbers-11-20/index.html">
+      <div class="topic-num">3</div>
+      <div class="topic-info">
+        <div class="topic-title">Numbers 11–20</div>
+        <div class="topic-desc">eleven, twelve, thirteen... twenty</div>
+      </div>
+      <span class="topic-score" id="score-3">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="numbers-21-100/index.html">
+      <div class="topic-num">4</div>
+      <div class="topic-info">
+        <div class="topic-title">Numbers 21–100</div>
+        <div class="topic-desc">twenty, thirty... one hundred</div>
+      </div>
+      <span class="topic-score" id="score-4">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="body-parts/index.html">
+      <div class="topic-num">5</div>
+      <div class="topic-info">
+        <div class="topic-title">Body Parts</div>
+        <div class="topic-desc">head, shoulders, knees, toes, hands, feet...</div>
+      </div>
+      <span class="topic-score" id="score-5">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="face-parts/index.html">
+      <div class="topic-num">6</div>
+      <div class="topic-info">
+        <div class="topic-title">Face Parts</div>
+        <div class="topic-desc">eyes, ears, mouth, nose, hair, cheeks...</div>
+      </div>
+      <span class="topic-score" id="score-6">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="classroom/index.html">
+      <div class="topic-num">7</div>
+      <div class="topic-info">
+        <div class="topic-title">Classroom Objects</div>
+        <div class="topic-desc">table, chair, board, book, pencil, bag...</div>
+      </div>
+      <span class="topic-score" id="score-7">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="colors/index.html">
+      <div class="topic-num">8</div>
+      <div class="topic-info">
+        <div class="topic-title">Colors</div>
+        <div class="topic-desc">red, blue, green, yellow, orange, purple...</div>
+      </div>
+      <span class="topic-score" id="score-8">⭐ --</span>
+    </a>
+
+  </div>
+
+  <div class="footer-note">8 Topics · 80+ Words · TPR Method</div>
+
+</div>
+
+<script>
+// Load progress dari localStorage masing-masing topik
+const storageKeys = {
+  1: 'tpr-actions-progress',
+  2: 'tpr-alphabet-progress',
+  3: 'tpr-numbers11-progress',
+  4: 'tpr-numbers21-progress',
+  5: 'tpr-body-progress',
+  6: 'tpr-face-progress',
+  7: 'tpr-classroom-progress',
+  8: 'tpr-colors-progress'
+};
+
+for (let i = 1; i <= 8; i++) {
+  const key = storageKeys[i];
+  const el = document.getElementById('score-' + i);
+  const data = localStorage.getItem(key);
+
+  if (data) {
+    const parsed = JSON.parse(data);
+    el.textContent = '⭐ ' + parsed.bestScore + '/' + parsed.total;
+    el.classList.add('done');
+  }
+}
+</script>
+
+</body>
+</html>

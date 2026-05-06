@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TPR Actions - Pre-Grade 1</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f4f8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  /* HEADER */
+  .header {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    margin-bottom: 5px;
+  }
+
+  .back-btn {
+    background: #fff;
+    border: 2px solid #2196F3;
+    color: #2196F3;
+    font-size: 1.2rem;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .back-btn:hover {
+    background: #e3f2fd;
+  }
+
+  .header h2 {
+    font-size: 1.4rem;
+    color: #333;
+    margin: 0;
+  }
+
+  .progress-dot {
+    margin-left: auto;
+    font-size: 0.85rem;
+    color: #666;
+    background: #fff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* MODE TABS */
+  .tabs {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    gap: 0;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    background: #e0e0e0;
+    color: #555;
+    transition: all 0.2s;
+  }
+
+  .tab.active {
+    background: #2196F3;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  /* MAIN DISPLAY */
+  .main-display {
+    width: 100%;
+    max-width: 600px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* LEARN MODE */
+  .learn-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .image-card {
+    width: 250px;
+    height: 250px;
+    border-radius: 16px;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+  }
+
+  .image-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  }
+
+  .image-card:active {
+    transform: scale(0.97);
+  }
+
+  .image-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .play-hint {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 1.6rem;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .nav-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .nav-btn {
+    background: #fff;
+    border: 2px solid #2196F3;
+    color: #2196F3;
+    font-size: 1.4rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover {
+    background: #e3f2fd;
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .counter {
+    font-size: 1rem;
+    color: #666;
+    min-width: 60px;
+    text-align: center;
+  }
+
+  /* QUIZ MODE */
+  .quiz-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .quiz-audio-btn {
+    background: #FF9800;
+    color: #fff;
+    border: none;
+    font-size: 3rem;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255,152,0,0.4);
+    transition: transform 0.1s;
+  }
+
+  .quiz-audio-btn:active {
+    transform: scale(0.9);
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .option-card {
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #fff;
+    border: 3px solid #ddd;
+    overflow: hidden;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .option-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .option-card:hover {
+    border-color: #90CAF9;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  }
+
+  .option-card.correct {
+    border-color: #4CAF50;
+    background: #E8F5E9;
+  }
+
+  .option-card.wrong {
+    border-color: #f44336;
+    background: #FFEBEE;
+  }
+
+  .quiz-score {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .quiz-done {
+    text-align: center;
+  }
+
+  .quiz-done h3 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+
+  .retry-btn {
+    background: #2196F3;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .retry-btn:hover {
+    background: #1976D2;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 400px) {
+    .image-card {
+      width: 200px;
+      height: 200px;
+    }
+    .options-grid {
+      gap: 6px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="../index-tp.html" class="back-btn">← Back</a>
+  <h2>1. Actions</h2>
+  <span class="progress-dot" id="progressDot">⭐ --</span>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" id="tabLearn" onclick="switchMode('learn')">📖 Learn</button>
+  <button class="tab" id="tabQuiz" onclick="switchMode('quiz')">🎯 Quiz</button>
+</div>
+
+<!-- MAIN DISPLAY -->
+<div class="main-display">
+
+  <!-- LEARN AREA -->
+  <div class="learn-area" id="learnArea">
+    <div class="image-card" id="learnCard" onclick="playCurrentAudio()">
+      <img id="learnImg" src="" alt="Action">
+      <span class="play-hint">🔊</span>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" id="prevBtn" onclick="prevItem()">◀</button>
+      <span class="counter" id="learnCounter">1 / 10</span>
+      <button class="nav-btn" id="nextBtn" onclick="nextItem()">▶</button>
+    </div>
+  </div>
+
+  <!-- QUIZ AREA -->
+  <div class="quiz-area hidden" id="quizArea">
+    <button class="quiz-audio-btn" id="quizAudioBtn" onclick="playQuizAudio()">🔊</button>
+    <div class="options-grid" id="optionsGrid"></div>
+    <div class="quiz-score" id="quizScore">Score: 0 / 10</div>
+  </div>
+
+  <!-- QUIZ DONE -->
+  <div class="quiz-done hidden" id="quizDone">
+    <h3>🎉 Quiz Complete!</h3>
+    <p id="quizFinalScore" style="font-size: 1.3rem;"></p>
+    <button class="retry-btn" onclick="retryQuiz()">🔄 Try Again</button>
+  </div>
+
+</div>
+
+<script>
+// ===== DATA =====
+const items = [
+  { name: 'sit-down',   label: 'sit down' },
+  { name: 'stand-up',   label: 'stand up' },
+  { name: 'walk',       label: 'walk' },
+  { name: 'run',        label: 'run' },
+  { name: 'read',       label: 'read' },
+  { name: 'write',      label: 'write' },
+  { name: 'jump',       label: 'jump' },
+  { name: 'clap',       label: 'clap' },
+  { name: 'point',      label: 'point' },
+  { name: 'touch',      label: 'touch' }
+];
+
+const BASE = ''; // folder saat ini
+
+// ===== STATE =====
+let currentMode = 'learn';
+let learnIndex = 0;
+let quizItems = [];
+let quizIndex = 0;
+let quizScore = 0;
+let quizAnswered = false;
+let quizLocked = false;
+
+// ===== AUDIO HELPERS =====
+function getAudioPath(name) {
+  return BASE + 'audio/' + name + '.mp3';
+}
+
+function getImgPath(name) {
+  return BASE + 'img/' + name + '.jpg';
+}
+
+function playAudio(name) {
+  const audio = new Audio(getAudioPath(name));
+  audio.play().catch(e => console.log('Audio play prevented:', e));
+}
+
+// ===== LEARN MODE =====
+function renderLearn() {
+  const item = items[learnIndex];
+  document.getElementById('learnImg').src = getImgPath(item.name);
+  document.getElementById('learnCounter').textContent = (learnIndex + 1) + ' / ' + items.length;
+  document.getElementById('prevBtn').disabled = (learnIndex === 0);
+  document.getElementById('nextBtn').disabled = (learnIndex === items.length - 1);
+}
+
+function playCurrentAudio() {
+  playAudio(items[learnIndex].name);
+}
+
+function nextItem() {
+  if (learnIndex < items.length - 1) {
+    learnIndex++;
+    renderLearn();
+  }
+}
+
+function prevItem() {
+  if (learnIndex > 0) {
+    learnIndex--;
+    renderLearn();
+  }
+}
+
+// ===== QUIZ MODE =====
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQuiz() {
+  // Generate 10 quiz questions (one per item)
+  quizItems = shuffle(items.map((item, idx) => ({ correctIndex: idx, correct: item })));
+  quizIndex = 0;
+  quizScore = 0;
+  quizAnswered = false;
+  quizLocked = false;
+  updateQuizScore();
+}
+
+function getOptions(correctItem) {
+  // Pick 3 wrong options
+  const others = items.filter(i => i.name !== correctItem.name);
+  const wrongs = shuffle(others).slice(0, 3);
+  const all = shuffle([correctItem, ...wrongs]);
+  return all;
+}
+
+function renderQuizQuestion() {
+  if (quizIndex >= quizItems.length) {
+    showQuizDone();
+    return;
+  }
+
+  quizLocked = false;
+  quizAnswered = false;
+
+  const q = quizItems[quizIndex];
+  const options = getOptions(q.correct);
+
+  // Build grid
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+
+  options.forEach(opt => {
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    card.innerHTML = '<img src="' + getImgPath(opt.name) + '" alt="">';
+    card.onclick = function() {
+      handleOptionClick(card, opt.name === q.correct.name);
+    };
+    grid.appendChild(card);
+  });
+
+  updateQuizScore();
+
+  // Auto-play audio after short delay
+  setTimeout(() => { playAudio(q.correct.name); }, 300);
+}
+
+function handleOptionClick(card, isCorrect) {
+  if (quizLocked) return;
+  quizLocked = true;
+  quizAnswered = true;
+
+  if (isCorrect) {
+    card.classList.add('correct');
+    quizScore++;
+  } else {
+    card.classList.add('wrong');
+    // Highlight correct option
+    const allCards = document.querySelectorAll('.option-card');
+    const correctName = quizItems[quizIndex].correct.name;
+    allCards.forEach(c => {
+      const img = c.querySelector('img');
+      if (img && img.src.includes(correctName + '.jpg')) {
+        c.classList.add('correct');
+      }
+    });
+  }
+
+  updateQuizScore();
+
+  // Next question after 1.2s
+  setTimeout(() => {
+    quizIndex++;
+    renderQuizQuestion();
+  }, 1200);
+}
+
+function playQuizAudio() {
+  if (quizIndex < quizItems.length) {
+    playAudio(quizItems[quizIndex].correct.name);
+  }
+}
+
+function updateQuizScore() {
+  document.getElementById('quizScore').textContent = 'Score: ' + quizScore + ' / ' + quizItems.length;
+}
+
+function showQuizDone() {
+  document.getElementById('quizArea').classList.add('hidden');
+  document.getElementById('quizDone').classList.remove('hidden');
+  document.getElementById('quizFinalScore').textContent = 'Your score: ' + quizScore + ' / ' + quizItems.length;
+
+  // Save to localStorage
+  saveProgress(quizScore, quizItems.length);
+}
+
+function retryQuiz() {
+  document.getElementById('quizDone').classList.add('hidden');
+  document.getElementById('quizArea').classList.remove('hidden');
+  buildQuiz();
+  renderQuizQuestion();
+}
+
+// ===== MODE SWITCHING =====
+function switchMode(mode) {
+  currentMode = mode;
+
+  document.getElementById('tabLearn').classList.toggle('active', mode === 'learn');
+  document.getElementById('tabQuiz').classList.toggle('active', mode === 'quiz');
+
+  const learnArea = document.getElementById('learnArea');
+  const quizArea = document.getElementById('quizArea');
+  const quizDone = document.getElementById('quizDone');
+
+  if (mode === 'learn') {
+    learnArea.classList.remove('hidden');
+    quizArea.classList.add('hidden');
+    quizDone.classList.add('hidden');
+    renderLearn();
+  } else {
+    learnArea.classList.add('hidden');
+    quizArea.classList.remove('hidden');
+    quizDone.classList.add('hidden');
+    buildQuiz();
+    renderQuizQuestion();
+  }
+}
+
+// ===== PROGRESS (localStorage) =====
+const STORAGE_KEY = 'tpr-actions-progress';
+
+function saveProgress(score, total) {
+  const data = {
+    bestScore: score,
+    total: total,
+    lastAttempt: new Date().toISOString()
+  };
+
+  // Keep best score
+  const existing = localStorage.getItem(STORAGE_KEY);
+  if (existing) {
+    const prev = JSON.parse(existing);
+    if (prev.bestScore > score) {
+      data.bestScore = prev.bestScore;
+    }
+  }
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  updateProgressDot();
+}
+
+function updateProgressDot() {
+  const dot = document.getElementById('progressDot');
+  const existing = localStorage.getItem(STORAGE_KEY);
+  if (existing) {
+    const data = JSON.parse(existing);
+    dot.textContent = '⭐ ' + data.bestScore + '/' + data.total;
+  } else {
+    dot.textContent = '⭐ --';
+  }
+}
+
+// ===== KEYBOARD NAVIGATION =====
+document.addEventListener('keydown', function(e) {
+  if (currentMode === 'learn') {
+    if (e.key === 'ArrowRight') nextItem();
+    if (e.key === 'ArrowLeft') prevItem();
+  }
+});
+
+// ===== INIT =====
+updateProgressDot();
+renderLearn();
+
+</script>
+</body>
+</html>
