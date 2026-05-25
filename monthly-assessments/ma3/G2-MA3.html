@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G2 English Program Monthly Assessment 3</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #d0e2f2; font-family: 'Segoe UI', Roboto, sans-serif; padding: 10px 8px; display: flex; justify-content: center; }
+        .paper { max-width: 750px; width: 100%; background: white; border-radius: 28px; box-shadow: 0 8px 25px rgba(0,30,60,0.2); padding: 18px 14px; }
+        h1 { font-size: 1.7rem; color: #123b54; margin: 0 0 2px 5px; }
+        .sub { font-size: 0.9rem; color: #34675c; margin-left: 8px; margin-bottom: 15px; }
+        .score-panel { background: #e2edfb; border-radius: 40px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; justify-content: space-between; margin-bottom: 20px; scroll-margin-top: 20px; }
+        .score-item { background: white; border-radius: 30px; padding: 4px 14px; font-weight: 600; font-size: 0.9rem; color: #114b66; box-shadow: 0 1px 4px #b0c8dd; }
+        .part { background: #f5faff; border-radius: 24px; padding: 18px 12px 22px; margin: 25px 0 18px; border: 1px solid #c0d6ed; }
+        .part h2 { background: #205882; color: white; display: inline-block; padding: 5px 24px; border-radius: 40px; font-size: 1.3rem; margin-top: -34px; margin-bottom: 16px; }
+        .grid-a { display: flex; flex-direction: column; gap: 12px; }
+        .qcard { background: white; border-radius: 18px; padding: 12px 14px; border: 1px solid #d0e2f5; font-size: 0.95rem; }
+        .qnum { font-weight: 700; color: #003f66; margin-right: 5px; }
+        .stem { line-height: 1.4; }
+        .ops { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; }
+        .ops label { background: #ecf3fc; padding: 4px 14px; border-radius: 30px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+        .fb { margin-left: 8px; font-weight: 600; font-size: 0.9rem; }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+        .fill-block { background: #fffcf0; border-radius: 24px; padding: 18px 16px; margin: 15px 0 10px; border: 2px solid #c0b28b; }
+        .fill-item { margin: 20px 0; display: flex; align-items: flex-start; gap: 10px; flex-wrap: nowrap; }
+        .fill-item .qnum { font-weight: 700; color: #003f66; min-width: 40px; font-size: 1rem; line-height: 1.5; flex-shrink: 0; }
+        .fill-content { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; line-height: 1.5; }
+        .inline-input { display: inline-block; width: 160px; flex-shrink: 0; }
+        .inline-input select, .inline-input input { width: 100%; padding: 8px 12px; border: 2px solid #5f8bb3; border-radius: 30px; font-size: 0.9rem; text-align: center; background: white; cursor: pointer; }
+        .inline-input input { cursor: text; }
+        .inline-input select.correct, .inline-input input.correct { background: #e3f7e3; border-color: #2a7f4a; }
+        .fill-feedback { font-weight: 700; font-size: 0.9rem; min-width: 80px; text-align: right; flex-shrink: 0; }
+        .fill-feedback.correct { color: #1f8b4c; }
+        .fill-feedback.wrong { color: #c13a3a; }
+        .text-question { background: #eef3fc; padding: 12px 15px; border-radius: 28px; margin-bottom: 18px; border-left: 8px solid #205882; }
+        .text-title { font-weight: 800; font-size: 1.1rem; color: #0f4c6b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .text-passage { background: #fef8e7; padding: 12px 15px; border-radius: 20px; margin: 10px 0 15px; font-style: normal; color: #2d3e50; border: 1px solid #ffe0a3; line-height: 1.6; }
+        .check-bottom { display: flex; justify-content: center; margin: 20px 0 8px; }
+        .btn-large { background: #1e4e73; color: white; border: none; padding: 14px 30px; border-radius: 60px; font-size: 1.3rem; font-weight: 700; width: 100%; max-width: 300px; cursor: pointer; }
+        .btn-small { background: white; border: 1px solid #2c6085; padding: 6px 16px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .section-title { font-weight: 600; margin: 20px 0 10px; font-size: 1.1rem; color: #205882; }
+        hr { margin: 10px 0; }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G2 Monthly Assessment 3</h1>
+    <div class="sub">English Program | Grammar & Reading Comprehension</div>
+
+    <div class="score-panel" id="scorePanel">
+        <span class="score-item">Part A <span id="scoreA">0</span>/20</span>
+        <span class="score-item">Part B <span id="scoreB">0</span>/10</span>
+        <span class="score-item">Total <span id="scoreTotal">0</span>/30</span>
+        <button class="btn-small" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <!-- PART A: GRAMMAR -->
+    <div class="part">
+        <h2>🔹 PART A: Grammar</h2>
+        
+        <div class="section-title">A.1 Multiple Choice (Questions 1–10)</div>
+        <div class="grid-a" id="partAMC"></div>
+
+        <div class="section-title">A.2 Choose the correct word (Circle the best answer)</div>
+        <div class="fill-block" id="a2Container"></div>
+    </div>
+
+    <!-- PART B: READING COMPREHENSION -->
+    <div class="part">
+        <h2>🔸 PART B: Reading Comprehension</h2>
+        
+        <!-- Text 1: Sasmita (sesuai PDF halaman 2) -->
+        <div class="text-question">
+            <div class="text-title">👩‍🍳 Text 1: Sasmita</div>
+            <div class="text-passage">
+                Sasmita likes cooking with her mother. Every Sunday morning, they go to the market to buy vegetables, fruits and fish. After that, they cook lunch together in the kitchen.<br><br>
+                Her favorite food is fried rice. She also enjoys making fruit juice for her family. Her family always says that the food is delicious.
+            </div>
+            <div id="text1Questions"></div>
+        </div>
+
+        <!-- Text 2: Peter and Paul (sesuai PDF halaman 3) -->
+        <div class="text-question">
+            <div class="text-title">🐠 Text 2: Peter and Paul</div>
+            <div class="text-passage">
+                Peter and his brother, Paul, like Aquarium fishes. They love to go to the small aquarium near their home. They like to look at all the fishes in the shop. Peter's favorite is the bright orange goldfish. Paul prefers the fighting fish.
+            </div>
+            <div class="section-title" style="margin-top: 10px;">Fill in the blanks with suitable words from the passage!</div>
+            <div id="text2Questions"></div>
+        </div>
+    </div>
+
+    <div class="check-bottom">
+        <button class="btn-large" id="checkBtn">🔍 Check Answers</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ========== A.1 MULTIPLE CHOICE (10 soal berdasarkan PDF halaman 1) ==========
+        const mcqs = [
+            { stem: "______ is your name?", opts: ["what", "who", "why", "when"], correct: 0 },
+            { stem: "______ many mangoes on the table?", opts: ["which", "when", "why", "how"], correct: 3 },
+            { stem: "______ is your best friend?", opts: ["while", "when", "why", "who"], correct: 3 },
+            { stem: "______ fruits do you like? Apple or orange?", opts: ["which", "why", "when", "who"], correct: 0 },
+            { stem: "She ______ to school by bus.", opts: ["goes", "go", "going", "gone"], correct: 0 },
+            { stem: "They ______ milk every morning.", opts: ["drink", "drinks", "cook", "eat"], correct: 0 },
+            { stem: "My cat ______ fish.", opts: ["like", "likes", "liked", "liking"], correct: 1 },
+            { stem: "We ______ studying English at the moment.", opts: ["are", "is", "has", "have"], correct: 0 },
+            { stem: "My brother ______ a doctor, but he is a policeman.", opts: ["are", "is", "are not", "is not"], correct: 3 },
+            { stem: "My friends ______ playing football now.", opts: ["has", "have", "is", "are"], correct: 3 }
+        ];
+
+        // ========== A.2 Choose correct word (10 soal berdasarkan PDF halaman 2) ==========
+        const a2Items = [
+            { before: "They", after: "basketball in the field.", options: ["play", "plays"], correct: "play" },
+            { before: "The bird", after: "happily.", options: ["sing", "sings"], correct: "sings" },
+            { before: "She", after: "her teeth everyday.", options: ["brush", "brushes"], correct: "brushes" },
+            { before: "The sun", after: "brightly.", options: ["shines", "shine"], correct: "shines" },
+            { before: "My mother", after: "cooking cake now.", options: ["are", "is"], correct: "is" },
+            { before: "My brother", after: "to school by motorbike.", options: ["go", "goes"], correct: "goes" },
+            { before: "She", after: "to play badminton.", options: ["likes", "like"], correct: "likes" },
+            { before: "", after: "book is this?", options: ["when", "whose"], correct: "whose" },
+            { before: "", after: "are they going?", options: ["where", "who"], correct: "where" },
+            { before: "", after: "is she crying?", options: ["why", "when"], correct: "why" }
+        ];
+
+        // ========== TEXT 1 QUESTIONS (5 soal essay) berdasarkan PDF halaman 2 ==========
+        const text1Qs = [
+            { question: "Who does Sasmita like cooking with?", correct: "her mother" },
+            { question: "When do they go to the market?", correct: "every sunday morning" },
+            { question: "What is Sasmita's favorite food?", correct: "fried rice" },
+            { question: "What does she enjoy making for her family?", correct: "fruit juice" },
+            { question: "What does her family say about the food?", correct: "delicious" }
+        ];
+
+        // ========== TEXT 2 FILL IN BLANKS (5 soal) berdasarkan PDF halaman 3 ==========
+        // Urutan: 1. Aquarium fishes, 2. home, 3. small aquarium, 4. Peter, 5. Paul
+        const text2Items = [
+            { before: "1. Peter and Paul like", after: "", correct: "Aquarium fishes" },
+            { before: "2. There is an aquarium near their", after: "", correct: "home" },
+            { before: "3. Peter and Paul like to go to the", after: "to look at the fishes.", correct: "small aquarium" },
+            { before: "4.", after: "likes goldfish.", correct: "Peter" },
+            { before: "5.", after: "likes fighting fish.", correct: "Paul" }
+        ];
+
+        // ========== RENDER FUNCTIONS ==========
+        // Render MCQs
+        const mcContainer = document.getElementById('partAMC');
+        function renderMC() {
+            let html = '';
+            mcqs.forEach((q, idx) => {
+                html += `<div class="qcard"><span class="qnum">${idx+1}.</span> <span class="stem">${q.stem}</span>
+                    <div class="ops">`;
+                q.opts.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(97 + optIdx);
+                    html += `<label><input type="radio" name="mc${idx}" value="${optIdx}"> ${letter}) ${opt}</label>`;
+                });
+                html += `</div><span class="fb" id="fbMC${idx}"></span></div>`;
+            });
+            mcContainer.innerHTML = html;
+        }
+        renderMC();
+
+        // Render A2 dropdowns
+        function renderA2() {
+            const container = document.getElementById('a2Container');
+            let html = '';
+            a2Items.forEach((item, idx) => {
+                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
+                    <span class="fill-text">${item.before}</span>
+                    <span class="inline-input">
+                        <select id="a2_${idx}">
+                            <option value="">-- Choose --</option>`;
+                item.options.forEach(opt => {
+                    html += `<option value="${opt}">${opt}</option>`;
+                });
+                html += `</select></span>
+                    <span class="fill-text">${item.after}</span>
+                </div><span class="fill-feedback" id="fb_a2_${idx}"></span></div>`;
+            });
+            container.innerHTML = html;
+        }
+        renderA2();
+
+        // Render Text 1 questions (essay input)
+        function renderText1() {
+            const container = document.getElementById('text1Questions');
+            let html = '';
+            text1Qs.forEach((item, idx) => {
+                html += `<div class="fill-item" style="margin: 12px 0;"><span class="qnum">${idx+1}.</span>
+                    <div class="fill-content" style="flex:1;">
+                        <span class="fill-text">${item.question}</span>
+                        <span class="inline-input"><input type="text" id="t1_${idx}" placeholder="your answer" autocomplete="off"></span>
+                    </div>
+                    <span class="fill-feedback" id="fb_t1_${idx}"></span>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // Render Text 2 fill in blanks (input teks)
+        function renderText2() {
+            const container = document.getElementById('text2Questions');
+            let html = '';
+            text2Items.forEach((item, idx) => {
+                html += `<div class="fill-item" style="margin: 12px 0;"><span class="qnum">${idx+1}.</span>
+                    <div class="fill-content" style="flex:1;">
+                        <span class="fill-text">${item.before}</span>
+                        <span class="inline-input"><input type="text" id="t2_${idx}" placeholder="answer" autocomplete="off"></span>
+                        <span class="fill-text">${item.after}</span>
+                    </div>
+                    <span class="fill-feedback" id="fb_t2_${idx}"></span>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+        renderText1();
+        renderText2();
+
+        // ========== SCORING FUNCTION (Part A max 20, Part B max 10) ==========
+        function hitungSkor() {
+            let skorA = 0;
+            
+            // 1) MCQs (10 items)
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                const fb = document.getElementById(`fbMC${i}`);
+                if (selected !== null && parseInt(selected) === mcqs[i].correct) {
+                    fb.innerText = '✓'; fb.className = 'fb correct'; skorA++;
+                } else {
+                    const benar = mcqs[i].opts[mcqs[i].correct];
+                    const benarLetter = String.fromCharCode(97 + mcqs[i].correct);
+                    fb.innerText = selected ? `✗ (${benarLetter}) ${benar}` : `(answer: ${benarLetter}) ${benar}`;
+                    fb.className = 'fb wrong';
+                }
+            }
+
+            // 2) A.2 dropdown selections (10 items)
+            for (let i = 0; i < 10; i++) {
+                const sel = document.getElementById(`a2_${i}`);
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (sel) {
+                    const val = sel.value;
+                    const benar = a2Items[i].correct;
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; sel.classList.add('correct'); skorA++;
+                    } else {
+                        fb.innerText = val ? `✗ ${benar}` : `${benar}`;
+                        fb.className = 'fill-feedback wrong'; sel.classList.remove('correct');
+                    }
+                }
+            }
+
+            let skorB = 0;
+            
+            // TEXT 1 (5 items) - flexible matching sesuai kunci PDF
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t1_${i}`);
+                const fb = document.getElementById(`fb_t1_${i}`);
+                if (inp) {
+                    let val = inp.value.trim().toLowerCase().replace(/[?.!]/g, '');
+                    let isMatch = false;
+                    if (i === 0) { // cooking with: her mother / mother
+                        if (val === "her mother" || val === "mother" || val.includes("mother")) isMatch = true;
+                    }
+                    else if (i === 1) { // when go to market: every sunday morning / sunday morning
+                        if (val === "every sunday morning" || val === "sunday morning" || (val.includes("sunday") && val.includes("morning"))) isMatch = true;
+                    }
+                    else if (i === 2) { // favorite food: fried rice
+                        if (val === "fried rice" || val.includes("fried rice")) isMatch = true;
+                    }
+                    else if (i === 3) { // enjoy making: fruit juice
+                        if (val === "fruit juice" || val.includes("fruit juice")) isMatch = true;
+                    }
+                    else if (i === 4) { // family says: delicious / the food is delicious
+                        if (val === "delicious" || val.includes("delicious") || val === "the food is delicious") isMatch = true;
+                    }
+                    if (isMatch) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${text1Qs[i].correct}` : `${text1Qs[i].correct}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            // TEXT 2 (5 items) fill in blanks - sesuai kunci PDF halaman 4
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t2_${i}`);
+                const fb = document.getElementById(`fb_t2_${i}`);
+                if (inp) {
+                    let val = inp.value.trim().toLowerCase().replace(/[?.!]/g, '');
+                    let benar = text2Items[i].correct.toLowerCase();
+                    let isMatch = false;
+                    
+                    // Flexible matching
+                    if (i === 0 && (val === "aquarium fishes" || val === "aquarium fish" || val.includes("aquarium"))) isMatch = true;
+                    else if (i === 1 && (val === "home" || val === "their home")) isMatch = true;
+                    else if (i === 2 && (val === "small aquarium" || val === "the small aquarium" || val.includes("small aquarium"))) isMatch = true;
+                    else if (i === 3 && (val === "peter" || val === "peter likes")) isMatch = true;
+                    else if (i === 4 && (val === "paul" || val === "paul likes")) isMatch = true;
+                    else if (val === benar) isMatch = true;
+                    
+                    if (isMatch) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${text2Items[i].correct}` : `${text2Items[i].correct}`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ========== RESET ALL ==========
+        function resetSemua() {
+            // Reset MCQs
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                radios.forEach(r => r.checked = false);
+                const fb = document.getElementById(`fbMC${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset A2 dropdowns
+            for (let i = 0; i < 10; i++) {
+                const sel = document.getElementById(`a2_${i}`);
+                if (sel) { sel.value = ''; sel.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset Text1 inputs
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t1_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_t1_${i}`);
+                if (fb) fb.innerText = '';
+            }
+            // Reset Text2 inputs
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`t2_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct'); }
+                const fb = document.getElementById(`fb_t2_${i}`);
+                if (fb) fb.innerText = '';
+            }
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        // Event listeners
+        document.getElementById('checkBtn').addEventListener('click', hitungSkor);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>

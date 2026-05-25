@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G6 English Program Monthly Assessment 3</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #d0e2f2; font-family: 'Segoe UI', Roboto, sans-serif; padding: 10px 8px; display: flex; justify-content: center; }
+        .paper { max-width: 750px; width: 100%; background: white; border-radius: 28px; box-shadow: 0 8px 25px rgba(0,30,60,0.2); padding: 18px 14px; }
+        h1 { font-size: 1.7rem; color: #123b54; margin: 0 0 2px 5px; }
+        .sub { font-size: 0.9rem; color: #34675c; margin-left: 8px; margin-bottom: 15px; }
+        .score-panel { background: #e2edfb; border-radius: 40px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; justify-content: space-between; margin-bottom: 20px; scroll-margin-top: 20px; }
+        .score-item { background: white; border-radius: 30px; padding: 4px 14px; font-weight: 600; font-size: 0.9rem; color: #114b66; box-shadow: 0 1px 4px #b0c8dd; }
+        .part { background: #f5faff; border-radius: 24px; padding: 18px 12px 22px; margin: 25px 0 18px; border: 1px solid #c0d6ed; }
+        .part h2 { background: #205882; color: white; display: inline-block; padding: 5px 24px; border-radius: 40px; font-size: 1.3rem; margin-top: -34px; margin-bottom: 16px; }
+        .grid-a { display: flex; flex-direction: column; gap: 12px; }
+        .qcard { background: white; border-radius: 18px; padding: 12px 14px; border: 1px solid #d0e2f5; font-size: 0.95rem; }
+        .qnum { font-weight: 700; color: #003f66; margin-right: 5px; }
+        .stem { line-height: 1.4; }
+        .ops { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; }
+        .ops label { background: #ecf3fc; padding: 4px 14px; border-radius: 30px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+        .fb { margin-left: 8px; font-weight: 600; font-size: 0.9rem; }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+        .fill-block { background: #fffcf0; border-radius: 24px; padding: 18px 16px; margin: 15px 0 10px; border: 2px solid #c0b28b; }
+        .fill-item { margin: 20px 0; display: flex; align-items: flex-start; gap: 10px; flex-wrap: nowrap; }
+        .fill-item .qnum { font-weight: 700; color: #003f66; min-width: 40px; font-size: 1rem; line-height: 1.5; flex-shrink: 0; }
+        .fill-content { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; line-height: 1.5; }
+        .inline-input { display: inline-block; width: 130px; flex-shrink: 0; }
+        .inline-input input { width: 100%; padding: 8px 12px; border: 2px solid #5f8bb3; border-radius: 30px; font-size: 0.9rem; text-align: center; background: white; }
+        .inline-input input.correct { background: #e3f7e3; border-color: #2a7f4a; }
+        .inline-feedback { font-weight: 700; font-size: 0.9rem; margin-left: 5px; display: inline-block; min-width: 40px; }
+        .inline-feedback.correct { color: #1f8b4c; }
+        .inline-feedback.wrong { color: #c13a3a; }
+        .section-title { font-weight: 600; margin: 20px 0 10px; font-size: 1.1rem; color: #205882; }
+        .check-bottom { display: flex; justify-content: center; margin: 20px 0 8px; }
+        .btn-large { background: #1e4e73; color: white; border: none; padding: 14px 30px; border-radius: 60px; font-size: 1.3rem; font-weight: 700; width: 100%; max-width: 300px; cursor: pointer; }
+        .btn-small { background: white; border: 1px solid #2c6085; padding: 6px 16px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .wordbank { background: #e0dcc0; padding: 8px 14px; border-radius: 40px; font-size: 0.85rem; margin: 10px 0 8px; font-weight: 600; display: flex; flex-wrap: wrap; gap: 6px 16px; border: 2px dashed #7f6e4e; }
+        .cloze-text { background: #fef8e7; padding: 15px; border-radius: 20px; line-height: 1.8; text-align: justify; margin-bottom: 15px; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G6 Monthly Assessment 3</h1>
+    <div class="sub">English Program | Grammar & Cloze</div>
+
+    <div class="score-panel" id="scorePanel">
+        <span class="score-item">Part A <span id="scoreA">0</span>/20</span>
+        <span class="score-item">Part B <span id="scoreB">0</span>/20</span>
+        <span class="score-item">Total <span id="scoreTotal">0</span>/40</span>
+        <button class="btn-small" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <div class="part">
+        <h2>🔹 PART A: Grammar</h2>
+        <div class="grid-a" id="partAList"></div>
+    </div>
+
+    <div class="part">
+        <h2>🔸 PART B: Cloze Exercise</h2>
+        <div class="cloze-block">
+            <div class="wordbank">📌 BANK: trip, lake, lifestyle, dock, delicious, favourite, stay, company, jokes, prepares, misses, delicate</div>
+            <div class="cloze-text" id="text1Inline"></div>
+        </div>
+        <div class="cloze-block">
+            <div class="wordbank">📌 BANK: ago, by, his, how, in, more, most, much, tea, was</div>
+            <div class="cloze-text" id="text2Inline"></div>
+        </div>
+    </div>
+
+    <div class="check-bottom">
+        <button class="btn-large" id="checkBtn">🔍 Check Answers</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ========== PART A: 20 GRAMMAR SOAL ==========
+        const partA = [
+            { stem: "Mathilda ______ for Dublin next week.", opts: ["left", "has left", "is leaving", "to leave"], correct: 2 },
+            { stem: "I am ______ than all of you.", opts: ["heavy", "heavier", "heaviest", "heavily"], correct: 1 },
+            { stem: "Walk as ______ as possible.", opts: ["quiet", "quieter", "quietest", "quietly"], correct: 3 },
+            { stem: "Peter did not agree ______ us.", opts: ["at", "on", "to", "with"], correct: 3 },
+            { stem: "Look at my cat. ______ has white fur.", opts: ["He", "She", "It", "They"], correct: 2 },
+            { stem: "Vincent made a cup of drink for ______.", opts: ["ourselves", "yourself", "himself", "themselves"], correct: 2 },
+            { stem: "Lena is looking for her pen. This must be ______.", opts: ["her", "hers", "she", "mine"], correct: 1 },
+            { stem: "The cup ______ I washed was broken.", opts: ["whose", "which", "who", "whom"], correct: 1 },
+            { stem: "______ is our new teacher?", opts: ["Which", "What", "Who", "Whom"], correct: 2 },
+            { stem: "______ was at home at that time.", opts: ["Anybody", "Nobody", "Someone", "Everyone"], correct: 2 },
+            { stem: "These are books. ______ are magazines.", opts: ["This", "That", "Those", "Each other"], correct: 2 },
+            { stem: "Mary and Annie used to visit ______.", opts: ["one another", "each other", "themselves", "ourselves"], correct: 1 },
+            { stem: "The players passed the ball to ______.", opts: ["each other", "one another", "themselves", "him"], correct: 1 },
+            { stem: "Alfred is not well ______ he wants to work.", opts: ["and", "but", "because", "as"], correct: 1 },
+            { stem: "John ______ Esther are going on a tour.", opts: ["and", "but", "as well as", "or"], correct: 0 },
+            { stem: "The food is tasty ______ it is too oily.", opts: ["and", "but", "so", "until"], correct: 1 },
+            { stem: "It is a hot day ______ we do not mind.", opts: ["because", "since", "although", "so"], correct: 2 },
+            { stem: "Rita was singing ______ Ivan was strumming the guitar.", opts: ["while", "or", "until", "as"], correct: 0 },
+            { stem: "Raise your hand ______ you are ready.", opts: ["as", "when", "until", "or"], correct: 1 },
+            { stem: "Don't stop ______ you come to a junction.", opts: ["until", "when", "as", "so that"], correct: 0 }
+        ];
+
+        // ========== TEXT KEYS ==========
+        const t1Keys = ["company", "favourite", "lake", "dock", "jokes", "prepares", "delicious", "stay", "misses", "lifestyle"];
+        const t2Keys = ["in", "ago", "was", "how", "most", "by", "his", "much", "more", "tea"];
+
+        // ========== RENDER PART A ==========
+        const aContainer = document.getElementById('partAList');
+        function renderPartA() {
+            let html = '';
+            partA.forEach((q, idx) => {
+                html += `<div class="qcard"><span class="qnum">${idx+1}.</span> <span class="stem">${q.stem}</span>
+                    <div class="ops">`;
+                q.opts.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(97 + optIdx);
+                    html += `<label><input type="radio" name="q${idx}" value="${optIdx}"> ${letter}) ${opt}</label>`;
+                });
+                html += `</div><span class="fb" id="fbA${idx}"></span></div>`;
+            });
+            aContainer.innerHTML = html;
+        }
+        renderPartA();
+
+        // ========== CLOZE TEXT (STRING, BUKAN ARRAY) ==========
+        const text1Raw = `Timothy loves to visit his grandparents. They like his (1) too. His (2) thing to do is go fishing with Grandpa. They live right on a (3). They can fish from the (4) or they can go out in the small boat. Grandpa tells the funniest (5) when they go fishing. He also tells Timothy stories about his father when he was a little boy like Timothy. Grandma cooks the fish they catch and (6) some other (7) dishes as well. She is a great cook. Timothy always feels sad when it comes to the end of his (8) there. He (9) his grandparents very much. He also misses the easygoing (10) they enjoy.`;
+        
+        const text2Raw = `Tea is a popular drink originated (1) China. It was believed that about 4,700 years (2), a Chinese emperor (3) boiling water under a tree when a few leaves fell into his drink. He noticed a pleasant smell coming from the cup. When he tasted it, he found that it was very good. That was (4) people starting drinking tea. The (5) convenient way of preparing tea is from a tea bag. It was invented (6) Thomas Sullivan, a tea merchant. One day, Thomas decided to send tea samples put in silk bags to (7) customers. They liked the idea so (8) that they wanted more of such tea bags. Today, (9) than half the tea in the world is bought this way. Each year, there are over 800 billion cups of (10) consumed worldwide.`;
+
+        // ========== BUILD CLOZE FUNCTION ==========
+        function buildCloze(text, keys, prefix) {
+            let html = text;
+            for (let i = 0; i < keys.length; i++) {
+                const placeholder = `(${i+1})`;
+                const inputHtml = `<span class="inline-input"><input type="text" id="${prefix}_${i}" placeholder="(${i+1})" autocomplete="off"><span class="inline-feedback" id="fb_${prefix}_${i}"></span></span>`;
+                html = html.replace(placeholder, inputHtml);
+            }
+            return html;
+        }
+
+        document.getElementById('text1Inline').innerHTML = buildCloze(text1Raw, t1Keys, 't1');
+        document.getElementById('text2Inline').innerHTML = buildCloze(text2Raw, t2Keys, 't2');
+
+        // ========== SCORING ==========
+        function hitungSkor() {
+            let skorA = 0;
+            // Part A scoring
+            for (let i = 0; i < 20; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                const fb = document.getElementById(`fbA${i}`);
+                if (selected !== null && parseInt(selected) === partA[i].correct) {
+                    fb.innerText = '✓'; fb.className = 'fb correct'; skorA++;
+                } else {
+                    const benar = partA[i].opts[partA[i].correct];
+                    const benarLetter = String.fromCharCode(97 + partA[i].correct);
+                    fb.innerText = selected ? `✗ (${benarLetter}) ${benar}` : `(answer: ${benarLetter}) ${benar}`;
+                    fb.className = 'fb wrong';
+                }
+            }
+
+            let skorB = 0;
+            // Text 1 scoring
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`t1_${i}`);
+                const fb = document.getElementById(`fb_t1_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = t1Keys[i].toLowerCase();
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'inline-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${t1Keys[i]}` : `${t1Keys[i]}`;
+                        fb.className = 'inline-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+            // Text 2 scoring
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`t2_${i}`);
+                const fb = document.getElementById(`fb_t2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = t2Keys[i].toLowerCase();
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'inline-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ ${t2Keys[i]}` : `${t2Keys[i]}`;
+                        fb.className = 'inline-feedback wrong'; inp.classList.remove('correct');
+                    }
+                }
+            }
+
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ========== RESET ==========
+        function resetSemua() {
+            for (let i = 0; i < 20; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                radios.forEach(r => r.checked = false);
+                const fb = document.getElementById(`fbA${i}`); if (fb) fb.innerText = '';
+            }
+            for (let i = 0; i < 10; i++) {
+                const inp1 = document.getElementById(`t1_${i}`); if (inp1) { inp1.value = ''; inp1.classList.remove('correct'); }
+                const fb1 = document.getElementById(`fb_t1_${i}`); if (fb1) fb1.innerText = '';
+                const inp2 = document.getElementById(`t2_${i}`); if (inp2) { inp2.value = ''; inp2.classList.remove('correct'); }
+                const fb2 = document.getElementById(`fb_t2_${i}`); if (fb2) fb2.innerText = '';
+            }
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', hitungSkor);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>
+```
