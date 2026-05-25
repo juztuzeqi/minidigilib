@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spelling Test - MA 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>MA3 · Dictation Audio</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * {
             box-sizing: border-box;
@@ -11,123 +12,227 @@
             padding: 0;
         }
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #f0f7ff;
-            padding: 15px;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            background: #d0e2f2;
+            padding: 20px 12px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
         }
         .container {
             max-width: 550px;
             width: 100%;
             background: white;
             border-radius: 32px;
-            padding: 40px 25px;
-            box-shadow: 0 8px 25px rgba(0,20,50,0.15);
-            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 30, 60, 0.2);
+            padding: 24px 20px 30px;
         }
         h1 {
-            font-size: 2.5rem;
-            color: #1d4e6b;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #0b3b5a;
+            text-align: center;
+            margin-bottom: 5px;
         }
-        .construction-icon {
-            font-size: 5rem;
-            margin: 20px 0;
-            animation: gentlePulse 2s infinite ease-in-out;
-        }
-        @keyframes gentlePulse {
-            0% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.9; }
-        }
-        h2 {
-            font-size: 2rem;
-            color: #b45f2b;
-            margin-bottom: 15px;
-        }
-        .message {
-            background: #fef7e0;
-            border: 3px dashed #c0a86a;
-            border-radius: 40px;
-            padding: 25px;
-            margin: 25px 0;
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #4d3e1a;
-        }
-        .highlight {
-            background: #1e4e73;
+        .badge {
+            background: #f4a261;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 30px;
             color: white;
-            padding: 8px 20px;
-            border-radius: 60px;
             display: inline-block;
-            margin: 10px 0;
-            font-weight: 600;
+            margin-left: 8px;
+            vertical-align: middle;
         }
-        .button {
-            display: inline-block;
-            background: #e9f2fa;
-            border: 2px solid #8eb9d5;
-            border-radius: 60px;
-            padding: 15px 40px;
-            margin: 20px 0;
-            font-size: 1.2rem;
+        .sub {
+            text-align: center;
+            color: #34675c;
+            margin-bottom: 25px;
+            font-size: 0.85rem;
+        }
+        .audio-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 15px 0;
+        }
+        .audio-row {
+            background: #f5faff;
+            border-radius: 20px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid #c0d6ed;
+        }
+        .grade-label {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0a3147;
+            min-width: 85px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .audio-btn {
+            background: white;
+            border: 1.5px solid #1d5b8e;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-size: 0.95rem;
             font-weight: 600;
-            color: #1d4e6b;
-            text-decoration: none;
+            color: #1d5b8e;
+            cursor: pointer;
             transition: 0.2s;
         }
-        .button:hover {
-            background: #d4e4f5;
-            transform: scale(1.02);
+        .audio-btn:active {
+            background: #1d5b8e;
+            color: white;
         }
-        .footer-note {
-            color: #5f7d9c;
-            font-size: 0.9rem;
-            margin-top: 25px;
-            font-style: italic;
-        }
-        .home-btn {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            background: #ffffffdd;
-            padding: 8px 18px;
-            border-radius: 30px;
+        .back-link {
+            display: block;
+            margin: 30px auto 10px;
+            text-align: center;
             text-decoration: none;
-            color: #333;
-            backdrop-filter: blur(2px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            z-index: 999;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            padding: 12px;
+            background: #ffffff;
+            border-radius: 50px;
+            width: 80%;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            color: #1d5b8e;
+            font-weight: 600;
+            border: 1px solid #c0d6ed;
+        }
+        .back-link:active {
+            background: #e9ecef;
+        }
+        hr {
+            margin: 10px 0;
+            border-color: #c0d6ed;
+        }
+        .note {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #8aacc9;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
-    <a href="../index.html" class="home-btn">🏠 Home</a>
-    
-    <div class="container">
-        <div class="construction-icon">🚧</div>
-        <h1>MA 3</h1>
-        <h2>Spelling Test</h2>
-        
-        <div class="message">
-            <span class="highlight">📢 UNDER CONSTRUCTION</span>
-            <br><br>
-            We're building this page.<br>
-            <strong>Spelling Test MA 2 is already available</strong><br>
-            in the Listening Centre.
+<div class="container">
+    <h1>🎧 MA3 Audio <span class="badge">Dictation</span></h1>
+    <div class="sub">Listen to each grade's dictation</div>
+
+    <div class="audio-list">
+        <!-- Grade 2 -->
+        <div class="audio-row">
+            <span class="grade-label">Grade 2</span>
+            <div class="btn-group">
+                <button class="audio-btn" data-grade="G2" data-action="play">▶ Play</button>
+                <button class="audio-btn" data-grade="G2" data-action="pause">⏸ Pause</button>
+                <button class="audio-btn" data-grade="G2" data-action="stop">⏹ Stop</button>
+            </div>
         </div>
-        
-        <a href="index-ad.html" class="button">🎧 Go to Listening Centre</a>
-        <a href="spelling-ma2.html" class="button" style="background: #1e4e73; color: white; border-color: #0a3142;">📄 Try MA 2 Instead</a>
-        
-        <div class="footer-note">
-            ✨ MA 1 · MA 3 · MA 4 will be ready soon
+
+        <!-- Grade 3 -->
+        <div class="audio-row">
+            <span class="grade-label">Grade 3</span>
+            <div class="btn-group">
+                <button class="audio-btn" data-grade="G3" data-action="play">▶ Play</button>
+                <button class="audio-btn" data-grade="G3" data-action="pause">⏸ Pause</button>
+                <button class="audio-btn" data-grade="G3" data-action="stop">⏹ Stop</button>
+            </div>
+        </div>
+
+        <!-- Grade 4 -->
+        <div class="audio-row">
+            <span class="grade-label">Grade 4</span>
+            <div class="btn-group">
+                <button class="audio-btn" data-grade="G4" data-action="play">▶ Play</button>
+                <button class="audio-btn" data-grade="G4" data-action="pause">⏸ Pause</button>
+                <button class="audio-btn" data-grade="G4" data-action="stop">⏹ Stop</button>
+            </div>
+        </div>
+
+        <!-- Grade 5 -->
+        <div class="audio-row">
+            <span class="grade-label">Grade 5</span>
+            <div class="btn-group">
+                <button class="audio-btn" data-grade="G5" data-action="play">▶ Play</button>
+                <button class="audio-btn" data-grade="G5" data-action="pause">⏸ Pause</button>
+                <button class="audio-btn" data-grade="G5" data-action="stop">⏹ Stop</button>
+            </div>
+        </div>
+
+        <!-- Grade 6 -->
+        <div class="audio-row">
+            <span class="grade-label">Grade 6</span>
+            <div class="btn-group">
+                <button class="audio-btn" data-grade="G6" data-action="play">▶ Play</button>
+                <button class="audio-btn" data-grade="G6" data-action="pause">⏸ Pause</button>
+                <button class="audio-btn" data-grade="G6" data-action="stop">⏹ Stop</button>
+            </div>
         </div>
     </div>
+
+    <div class="note">📁 Audio files: audma3/G2.mp3 · audma3/G3.mp3 · audma3/G4.mp3 · audma3/G5.mp3 · audma3/G6.mp3</div>
+
+    <a class="back-link" href="index.html">⬅ Back to Home</a>
+</div>
+
+<script>
+    // Create audio objects for each grade (lazy load)
+    const audioPlayers = {
+        G2: null,
+        G3: null,
+        G4: null,
+        G5: null,
+        G6: null
+    };
+
+    function getAudio(grade) {
+        if (!audioPlayers[grade]) {
+            audioPlayers[grade] = new Audio(`audma3/${grade}.mp3`);
+        }
+        return audioPlayers[grade];
+    }
+
+    function stopAudio(grade) {
+        const audio = getAudio(grade);
+        audio.pause();
+        audio.currentTime = 0;
+    }
+
+    function pauseAudio(grade) {
+        const audio = getAudio(grade);
+        audio.pause();
+    }
+
+    function playAudio(grade) {
+        const audio = getAudio(grade);
+        audio.play().catch(e => console.log('Play error:', e));
+    }
+
+    // Add event listeners to all buttons
+    const allBtns = document.querySelectorAll('.audio-btn');
+    allBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const grade = btn.getAttribute('data-grade');
+            const action = btn.getAttribute('data-action');
+            
+            if (action === 'play') {
+                playAudio(grade);
+            } else if (action === 'pause') {
+                pauseAudio(grade);
+            } else if (action === 'stop') {
+                stopAudio(grade);
+            }
+        });
+    });
+</script>
 </body>
 </html>
