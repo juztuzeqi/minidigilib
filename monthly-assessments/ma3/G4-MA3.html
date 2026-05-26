@@ -131,18 +131,18 @@
             { stem: "A ______ bakes cakes.", correct: "baker" }
         ];
 
-        // ========== B.2 Short Answers (10 soal) - 2 VERSI TERPISAH ==========
+        // ========== B.2 Short Answers (10 soal) - DENGAN CONTRACTION UNTUK NO ==========
         const b2Items = [
-            { question: "Is he rich?", yesCorrect: "yes, he is", noCorrect: "no, he is not" },
-            { question: "Can you write in English?", yesCorrect: "yes, i can", noCorrect: "no, i cannot" },
-            { question: "Are they thirsty?", yesCorrect: "yes, they are", noCorrect: "no, they are not" },
-            { question: "Were they naughty yesterday?", yesCorrect: "yes, they were", noCorrect: "no, they were not" },
-            { question: "Is Michell crying?", yesCorrect: "yes, she is", noCorrect: "no, she is not" },
-            { question: "Could you do the sums last night?", yesCorrect: "yes, i could", noCorrect: "no, i could not" },
-            { question: "Was she early yesterday?", yesCorrect: "yes, she was", noCorrect: "no, she was not" },
-            { question: "Is he coming to my house?", yesCorrect: "yes, he is", noCorrect: "no, he is not" },
-            { question: "Does she have a doll?", yesCorrect: "yes, she does", noCorrect: "no, she does not" },
-            { question: "Could you dance the whole night?", yesCorrect: "yes, i could", noCorrect: "no, i could not" }
+            { question: "Is he rich?", yesCorrect: "yes, he is", noCorrect: ["no, he is not", "no, he isn't"] },
+            { question: "Can you write in English?", yesCorrect: "yes, i can", noCorrect: ["no, i cannot", "no, i can't"] },
+            { question: "Are they thirsty?", yesCorrect: "yes, they are", noCorrect: ["no, they are not", "no, they aren't"] },
+            { question: "Were they naughty yesterday?", yesCorrect: "yes, they were", noCorrect: ["no, they were not", "no, they weren't"] },
+            { question: "Is Michell crying?", yesCorrect: "yes, she is", noCorrect: ["no, she is not", "no, she isn't"] },
+            { question: "Could you do the sums last night?", yesCorrect: "yes, i could", noCorrect: ["no, i could not", "no, i couldn't"] },
+            { question: "Was she early yesterday?", yesCorrect: "yes, she was", noCorrect: ["no, she was not", "no, she wasn't"] },
+            { question: "Is he coming to my house?", yesCorrect: "yes, he is", noCorrect: ["no, he is not", "no, he isn't"] },
+            { question: "Does she have a doll?", yesCorrect: "yes, she does", noCorrect: ["no, she does not", "no, she doesn't"] },
+            { question: "Could you dance the whole night?", yesCorrect: "yes, i could", noCorrect: ["no, i could not", "no, i couldn't"] }
         ];
 
         // ========== RENDER FUNCTIONS ==========
@@ -298,7 +298,7 @@
             
             // B.2 Short Answers - 2 versi (Yes dan No) - each 1 point (total 20 points)
             for (let i = 0; i < 10; i++) {
-                // Cek jawaban Yes
+                // Cek jawaban Yes (hanya 1 kemungkinan)
                 const yesInp = document.getElementById(`b2_yes_${i}`);
                 const yesFb = document.getElementById(`fb_b2_yes_${i}`);
                 if (yesInp) {
@@ -312,13 +312,15 @@
                     }
                 }
                 
-                // Cek jawaban No
+                // Cek jawaban No (bisa menerima contraction - cek array)
                 const noInp = document.getElementById(`b2_no_${i}`);
                 const noFb = document.getElementById(`fb_b2_no_${i}`);
                 if (noInp) {
                     let val = noInp.value.trim().toLowerCase().replace(/[?.!]/g, '');
-                    const benarNo = b2Items[i].noCorrect.toLowerCase();
-                    if (val === benarNo) {
+                    const correctOptions = b2Items[i].noCorrect;
+                    const isCorrect = correctOptions.includes(val);
+                    
+                    if (isCorrect) {
                         noFb.innerText = '✓'; noFb.className = 'fill-feedback correct'; noInp.classList.add('correct'); skorB++;
                     } else {
                         noFb.innerText = '✗'; noFb.className = 'fill-feedback wrong'; noInp.classList.remove('correct');
