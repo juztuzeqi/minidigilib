@@ -24,13 +24,14 @@
         .fb.correct { color: #1f8b4c; }
         .fb.wrong { color: #c13a3a; }
         .fill-block { background: #fffcf0; border-radius: 24px; padding: 18px 16px; margin: 15px 0 10px; border: 2px solid #c0b28b; }
-        .fill-item { margin: 20px 0; display: flex; align-items: flex-start; gap: 10px; flex-wrap: nowrap; }
+        .fill-item { margin: 20px 0; display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
         .fill-item .qnum { font-weight: 700; color: #003f66; min-width: 40px; font-size: 1rem; line-height: 1.5; flex-shrink: 0; }
         .fill-content { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; line-height: 1.5; }
         .inline-input { display: inline-block; width: 160px; flex-shrink: 0; }
-        .inline-input input, .inline-input select { width: 100%; padding: 8px 12px; border: 2px solid #5f8bb3; border-radius: 30px; font-size: 0.9rem; text-align: center; background: white; }
-        .inline-input input.correct, .inline-input select.correct { background: #e3f7e3; border-color: #2a7f4a; }
-        .fill-feedback { font-weight: 700; font-size: 0.9rem; min-width: 80px; text-align: right; flex-shrink: 0; }
+        .inline-input input { width: 100%; padding: 8px 12px; border: 2px solid #5f8bb3; border-radius: 30px; font-size: 0.9rem; text-align: center; background: white; }
+        .inline-input input.correct { background: #e3f7e3; border-color: #2a7f4a; }
+        .inline-input input.wrong { background: #ffe6e6; border-color: #c13a3a; }
+        .fill-feedback { font-weight: 700; font-size: 0.8rem; min-width: 60px; text-align: center; flex-shrink: 0; }
         .fill-feedback.correct { color: #1f8b4c; }
         .fill-feedback.wrong { color: #c13a3a; }
         .section-title { font-weight: 600; margin: 20px 0 10px; font-size: 1.1rem; color: #205882; }
@@ -38,6 +39,9 @@
         .btn-large { background: #1e4e73; color: white; border: none; padding: 14px 30px; border-radius: 60px; font-size: 1.3rem; font-weight: 700; width: 100%; max-width: 300px; cursor: pointer; }
         .btn-small { background: white; border: 1px solid #2c6085; padding: 6px 16px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
         .wordbank { background: #e0dcc0; padding: 8px 14px; border-radius: 40px; font-size: 0.85rem; margin: 10px 0 8px; font-weight: 600; display: flex; flex-wrap: wrap; gap: 6px 16px; border: 2px dashed #7f6e4e; }
+        .two-columns { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
+        .answer-box { display: flex; align-items: center; gap: 8px; background: #f0f4f8; padding: 6px 12px; border-radius: 40px; }
+        .answer-box label { font-size: 0.75rem; font-weight: 600; color: #1a4c6e; }
     </style>
 </head>
 <body>
@@ -47,8 +51,8 @@
 
     <div class="score-panel" id="scorePanel">
         <span class="score-item">Part A <span id="scoreA">0</span>/25</span>
-        <span class="score-item">Part B <span id="scoreB">0</span>/15</span>
-        <span class="score-item">Total <span id="scoreTotal">0</span>/40</span>
+        <span class="score-item">Part B <span id="scoreB">0</span>/20</span>
+        <span class="score-item">Total <span id="scoreTotal">0</span>/45</span>
         <button class="btn-small" id="resetBtn">↺ Reset</button>
     </div>
 
@@ -69,7 +73,8 @@
         <div class="section-title">B.1 Choose the correct profession</div>
         <div class="wordbank">📌 BANK: Nurse, Bus-driver, Butcher, Plumber, Author, Chef, Soldier, Dentist, Fruit-seller, Baker</div>
         <div class="grid-a" id="b1Container"></div>
-        <div class="section-title">B.2 Short Answers (Yes/No)</div>
+        
+        <div class="section-title">B.2 Short Answers (Yes + No) — Tulis kedua versi</div>
         <div class="fill-block" id="b2Container"></div>
     </div>
 
@@ -80,11 +85,11 @@
 
 <script>
     (function() {
-        // A.1 Multiple Choice (10) based on PDF
+        // ========== A.1 MULTIPLE CHOICE (10 soal) ==========
         const mcqs = [
             { stem: "______ shoes did you buy for your mother?", opts: ["Who", "What", "Whose", "Which"], correct: 3 },
             { stem: "______ broke the lamp in the classroom?", opts: ["What", "Who", "Where", "Which"], correct: 1 },
-            { stem: "______ cat is this?", opts: ["Which", "Who", "Why", "When"], correct: 0 },
+            { stem: "______ cat is this?", opts: ["Which", "Who", "Whose", "When"], correct: 2 },
             { stem: "______ is the time now?", opts: ["Who", "Which", "What", "Why"], correct: 2 },
             { stem: "Why did they walk to school?", opts: ["Because they were hungry", "Because they missed the bus", "Because they liked the teacher", "Because they played football"], correct: 1 },
             { stem: "Why is she crying so loudly?", opts: ["Because she cannot find her bag", "Because she is eating", "Because she is sleepy", "Because she won a prize"], correct: 0 },
@@ -94,25 +99,25 @@
             { stem: "They ______ their homework every day.", opts: ["does", "do", "did", "doing"], correct: 1 }
         ];
 
-// ========== A.2 Simple Present Tense (5 soal) ==========
-const a2Items = [
-    { before: "I", after: "to my best friend every day. (talk)", correct: "talk" },
-    { before: "We", after: "porridge when we are sick. (eat)", correct: "eat" },
-    { before: "Owls", after: "during the day. (sleep)", correct: "sleep" },
-    { before: "The courier", after: "the packages every day. (deliver)", correct: "delivers" },
-    { before: "My mother", after: "the plants every afternoon. (water)", correct: "waters" }
-];
+        // ========== A.2 Simple Present (5 soal) ==========
+        const a2Items = [
+            { before: "I", after: "to my best friend every day. (talk)", correct: "talk" },
+            { before: "We", after: "porridge when we are sick. (eat)", correct: "eat" },
+            { before: "Owls", after: "during the day. (sleep)", correct: "sleep" },
+            { before: "The courier", after: "the packages every day. (deliver)", correct: "delivers" },
+            { before: "My mother", after: "the plants every afternoon. (water)", correct: "waters" }
+        ];
 
-// ========== A.3 Present Continuous Tense (5 soal) ==========
-const a3Items = [
-    { before: "Marry", after: "a story book now. (read)", correct: "is reading" },
-    { before: "The workers", after: "the tree now. (chop)", correct: "are chopping" },
-    { before: "The kitten", after: "now. (sleep)", correct: "is sleeping" },
-    { before: "I", after: "the mug now. (wash)", correct: "am washing" },
-    { before: "It", after: "now. (rain)", correct: "is raining" }
-];
+        // ========== A.3 Present Continuous (5 soal) ==========
+        const a3Items = [
+            { before: "Marry", after: "a story book now. (read)", correct: "is reading" },
+            { before: "The workers", after: "the tree now. (chop)", correct: "are chopping" },
+            { before: "The kitten", after: "now. (sleep)", correct: "is sleeping" },
+            { before: "I", after: "the mug now. (wash)", correct: "am washing" },
+            { before: "It", after: "now. (rain)", correct: "is raining" }
+        ];
 
-        // B.1 Professions (10)
+        // ========== B.1 Professions (10 soal) ==========
         const profItems = [
             { stem: "A ______ helps to protect his country.", correct: "soldier" },
             { stem: "A ______ works in the kitchen.", correct: "chef" },
@@ -126,21 +131,23 @@ const a3Items = [
             { stem: "A ______ bakes cakes.", correct: "baker" }
         ];
 
-        // B.2 Short Answers (10)
+        // ========== B.2 Short Answers (10 soal) - 2 VERSI TERPISAH ==========
         const b2Items = [
-            { before: "Is he rich?", correct: "Yes, he is" },
-            { before: "Can you write in English?", correct: "Yes, I can" },
-            { before: "Are they thirsty?", correct: "Yes, they are" },
-            { before: "Were they naughty yesterday?", correct: "Yes, they were" },
-            { before: "Is Michell crying?", correct: "No, she is not" },
-            { before: "Could you do the sums last night?", correct: "Yes, I could" },
-            { before: "Was she early yesterday?", correct: "No, she was not" },
-            { before: "Is he coming to my house?", correct: "Yes, he is" },
-            { before: "Does she have a doll?", correct: "Yes, she does" },
-            { before: "Could you dance the whole night?", correct: "No, I could not" }
+            { question: "Is he rich?", yesCorrect: "yes, he is", noCorrect: "no, he is not" },
+            { question: "Can you write in English?", yesCorrect: "yes, i can", noCorrect: "no, i cannot" },
+            { question: "Are they thirsty?", yesCorrect: "yes, they are", noCorrect: "no, they are not" },
+            { question: "Were they naughty yesterday?", yesCorrect: "yes, they were", noCorrect: "no, they were not" },
+            { question: "Is Michell crying?", yesCorrect: "yes, she is", noCorrect: "no, she is not" },
+            { question: "Could you do the sums last night?", yesCorrect: "yes, i could", noCorrect: "no, i could not" },
+            { question: "Was she early yesterday?", yesCorrect: "yes, she was", noCorrect: "no, she was not" },
+            { question: "Is he coming to my house?", yesCorrect: "yes, he is", noCorrect: "no, he is not" },
+            { question: "Does she have a doll?", yesCorrect: "yes, she does", noCorrect: "no, she does not" },
+            { question: "Could you dance the whole night?", yesCorrect: "yes, i could", noCorrect: "no, i could not" }
         ];
 
-        // Render MCQs
+        // ========== RENDER FUNCTIONS ==========
+        
+        // Render MCQs A.1
         const mcContainer = document.getElementById('partAMC');
         function renderMC() {
             let html = '';
@@ -157,6 +164,7 @@ const a3Items = [
         }
         renderMC();
 
+        // Render A2 & A3 (text input)
         function renderFill(containerId, items, prefix) {
             const container = document.getElementById(containerId);
             let html = '';
@@ -164,7 +172,7 @@ const a3Items = [
                 html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
                     <span class="fill-text">${item.before}</span>
                     <span class="inline-input"><input type="text" id="${prefix}_${idx}" placeholder="answer" autocomplete="off"></span>
-                    <span class="fill-text">${item.after || ''}</span>
+                    <span class="fill-text">${item.after}</span>
                 </div><span class="fill-feedback" id="fb_${prefix}_${idx}"></span></div>`;
             });
             container.innerHTML = html;
@@ -186,22 +194,40 @@ const a3Items = [
         }
         renderB1();
 
+        // Render B2 - 2 kolom jawaban (Yes dan No)
         function renderB2() {
             const container = document.getElementById('b2Container');
             let html = '';
             b2Items.forEach((item, idx) => {
-                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
-                    <span class="fill-text">${item.before}</span>
-                    <span class="inline-input"><input type="text" id="b2_${idx}" placeholder="Yes/No answer" autocomplete="off"></span>
-                </div><span class="fill-feedback" id="fb_b2_${idx}"></span></div>`;
+                html += `
+                    <div class="fill-item" style="border-bottom: 1px dashed #caddf0; padding-bottom: 12px;">
+                        <div style="display: flex; flex-wrap: wrap; width: 100%; gap: 10px;">
+                            <div style="min-width: 140px; font-weight: 600; color: #0a3147;">${idx+1}. ${item.question}</div>
+                            <div class="two-columns">
+                                <div class="answer-box">
+                                    <label>✅ Yes:</label>
+                                    <input type="text" id="b2_yes_${idx}" placeholder="Yes answer" autocomplete="off" style="width: 140px; padding: 6px 10px; border-radius: 30px; border: 1.5px solid #5f8bb3;">
+                                    <span class="fill-feedback" id="fb_b2_yes_${idx}"></span>
+                                </div>
+                                <div class="answer-box">
+                                    <label>❌ No:</label>
+                                    <input type="text" id="b2_no_${idx}" placeholder="No answer" autocomplete="off" style="width: 140px; padding: 6px 10px; border-radius: 30px; border: 1.5px solid #5f8bb3;">
+                                    <span class="fill-feedback" id="fb_b2_no_${idx}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
             container.innerHTML = html;
         }
         renderB2();
 
+        // ========== SCORING FUNCTION ==========
         function hitungSkor() {
             let skorA = 0;
-            // MCQs 10
+            
+            // MCQs A.1 (10)
             for (let i = 0; i < 10; i++) {
                 const radios = document.getElementsByName(`mc${i}`);
                 let selected = null;
@@ -216,7 +242,8 @@ const a3Items = [
                     fb.className = 'fb wrong';
                 }
             }
-            // A2 Simple Present 5
+            
+            // A.2 Simple Present (5)
             for (let i = 0; i < 5; i++) {
                 const inp = document.getElementById(`a2_${i}`);
                 const fb = document.getElementById(`fb_a2_${i}`);
@@ -228,10 +255,12 @@ const a3Items = [
                     } else {
                         fb.innerText = val ? `✗ ${a2Items[i].correct}` : `${a2Items[i].correct}`;
                         fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                        inp.classList.add('wrong');
                     }
                 }
             }
-            // A3 Present Continuous 5
+            
+            // A.3 Present Continuous (5)
             for (let i = 0; i < 5; i++) {
                 const inp = document.getElementById(`a3_${i}`);
                 const fb = document.getElementById(`fb_a3_${i}`);
@@ -243,12 +272,14 @@ const a3Items = [
                     } else {
                         fb.innerText = val ? `✗ ${a3Items[i].correct}` : `${a3Items[i].correct}`;
                         fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                        inp.classList.add('wrong');
                     }
                 }
             }
 
             let skorB = 0;
-            // B1 Professions 10
+            
+            // B.1 Professions (10)
             for (let i = 0; i < 10; i++) {
                 const inp = document.getElementById(`b1_${i}`);
                 const fb = document.getElementById(`fb_b1_${i}`);
@@ -260,54 +291,35 @@ const a3Items = [
                     } else {
                         fb.innerText = val ? `✗ ${profItems[i].correct}` : `${profItems[i].correct}`;
                         fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                        inp.classList.add('wrong');
                     }
                 }
             }
-            // B2 Short Answers 10
+            
+            // B.2 Short Answers - 2 versi (Yes dan No)
             for (let i = 0; i < 10; i++) {
-                const inp = document.getElementById(`b2_${i}`);
-                const fb = document.getElementById(`fb_b2_${i}`);
-                if (inp) {
-                    let val = inp.value.trim().toLowerCase().replace(/[.?!]/g, '');
-                    const benar = b2Items[i].correct.toLowerCase();
-                    if (val === benar || val === benar.replace(/,/g, '').replace(/\s+/g, ' ')) {
-                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorB++;
+                // Cek jawaban Yes
+                const yesInp = document.getElementById(`b2_yes_${i}`);
+                const yesFb = document.getElementById(`fb_b2_yes_${i}`);
+                if (yesInp) {
+                    let val = yesInp.value.trim().toLowerCase().replace(/[?.!]/g, '');
+                    const benarYes = b2Items[i].yesCorrect.toLowerCase();
+                    if (val === benarYes) {
+                        yesFb.innerText = '✓'; yesFb.className = 'fill-feedback correct'; yesInp.classList.add('correct'); skorB++;
                     } else {
-                        fb.innerText = val ? `✗ ${b2Items[i].correct}` : `${b2Items[i].correct}`;
-                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                        yesFb.innerText = val ? `✗` : `✗`;
+                        yesFb.className = 'fill-feedback wrong'; yesInp.classList.remove('correct');
+                        yesInp.classList.add('wrong');
                     }
                 }
-            }
-
-            document.getElementById('scoreA').innerText = skorA;
-            document.getElementById('scoreB').innerText = skorB;
-            document.getElementById('scoreTotal').innerText = skorA + skorB;
-            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function resetSemua() {
-            for (let i = 0; i < 10; i++) {
-                document.getElementsByName(`mc${i}`).forEach(r => r.checked = false);
-                const fb = document.getElementById(`fbMC${i}`); if (fb) fb.innerText = '';
-                const inp1 = document.getElementById(`b1_${i}`); if (inp1) { inp1.value = ''; inp1.classList.remove('correct'); }
-                const fb1 = document.getElementById(`fb_b1_${i}`); if (fb1) fb1.innerText = '';
-                const inp2 = document.getElementById(`b2_${i}`); if (inp2) { inp2.value = ''; inp2.classList.remove('correct'); }
-                const fb2 = document.getElementById(`fb_b2_${i}`); if (fb2) fb2.innerText = '';
-            }
-            for (let i = 0; i < 5; i++) {
-                const inp = document.getElementById(`a2_${i}`); if (inp) { inp.value = ''; inp.classList.remove('correct'); }
-                const fb = document.getElementById(`fb_a2_${i}`); if (fb) fb.innerText = '';
-                const inp3 = document.getElementById(`a3_${i}`); if (inp3) { inp3.value = ''; inp3.classList.remove('correct'); }
-                const fb3 = document.getElementById(`fb_a3_${i}`); if (fb3) fb3.innerText = '';
-            }
-            document.getElementById('scoreA').innerText = '0';
-            document.getElementById('scoreB').innerText = '0';
-            document.getElementById('scoreTotal').innerText = '0';
-        }
-
-        document.getElementById('checkBtn').addEventListener('click', hitungSkor);
-        document.getElementById('resetBtn').addEventListener('click', resetSemua);
-    })();
-</script>
-</body>
-</html>
+                
+                // Cek jawaban No
+                const noInp = document.getElementById(`b2_no_${i}`);
+                const noFb = document.getElementById(`fb_b2_no_${i}`);
+                if (noInp) {
+                    let val = noInp.value.trim().toLowerCase().replace(/[?.!]/g, '');
+                    const benarNo = b2Items[i].noCorrect.toLowerCase();
+                    if (val === benarNo) {
+                        noFb.innerText = '✓'; noFb.className = 'fill-feedback correct'; noInp.classList.add('correct'); skorB++;
+                    } else {
+                        noFb.innerText = val 
