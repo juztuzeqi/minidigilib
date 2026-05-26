@@ -51,8 +51,8 @@
 
     <div class="score-panel" id="scorePanel">
         <span class="score-item">Part A <span id="scoreA">0</span>/25</span>
-        <span class="score-item">Part B <span id="scoreB">0</span>/20</span>
-        <span class="score-item">Total <span id="scoreTotal">0</span>/45</span>
+        <span class="score-item">Part B <span id="scoreB">0</span>/30</span>
+        <span class="score-item">Total <span id="scoreTotal">0</span>/55</span>
         <button class="btn-small" id="resetBtn">↺ Reset</button>
     </div>
 
@@ -227,7 +227,7 @@
         function hitungSkor() {
             let skorA = 0;
             
-            // MCQs A.1 (10)
+            // MCQs A.1 (10) - each 1 point
             for (let i = 0; i < 10; i++) {
                 const radios = document.getElementsByName(`mc${i}`);
                 let selected = null;
@@ -243,7 +243,7 @@
                 }
             }
             
-            // A.2 Simple Present (5)
+            // A.2 Simple Present (5) - each 1 point
             for (let i = 0; i < 5; i++) {
                 const inp = document.getElementById(`a2_${i}`);
                 const fb = document.getElementById(`fb_a2_${i}`);
@@ -260,7 +260,7 @@
                 }
             }
             
-            // A.3 Present Continuous (5)
+            // A.3 Present Continuous (5) - each 1 point
             for (let i = 0; i < 5; i++) {
                 const inp = document.getElementById(`a3_${i}`);
                 const fb = document.getElementById(`fb_a3_${i}`);
@@ -279,7 +279,7 @@
 
             let skorB = 0;
             
-            // B.1 Professions (10)
+            // B.1 Professions (10) - each 1 point
             for (let i = 0; i < 10; i++) {
                 const inp = document.getElementById(`b1_${i}`);
                 const fb = document.getElementById(`fb_b1_${i}`);
@@ -296,7 +296,7 @@
                 }
             }
             
-            // B.2 Short Answers - 2 versi (Yes dan No)
+            // B.2 Short Answers - 2 versi (Yes dan No) - each 1 point (total 20 points)
             for (let i = 0; i < 10; i++) {
                 // Cek jawaban Yes
                 const yesInp = document.getElementById(`b2_yes_${i}`);
@@ -307,8 +307,7 @@
                     if (val === benarYes) {
                         yesFb.innerText = '✓'; yesFb.className = 'fill-feedback correct'; yesInp.classList.add('correct'); skorB++;
                     } else {
-                        yesFb.innerText = val ? `✗` : `✗`;
-                        yesFb.className = 'fill-feedback wrong'; yesInp.classList.remove('correct');
+                        yesFb.innerText = '✗'; yesFb.className = 'fill-feedback wrong'; yesInp.classList.remove('correct');
                         yesInp.classList.add('wrong');
                     }
                 }
@@ -322,4 +321,52 @@
                     if (val === benarNo) {
                         noFb.innerText = '✓'; noFb.className = 'fill-feedback correct'; noInp.classList.add('correct'); skorB++;
                     } else {
-                        noFb.innerText = val 
+                        noFb.innerText = '✗'; noFb.className = 'fill-feedback wrong'; noInp.classList.remove('correct');
+                        noInp.classList.add('wrong');
+                    }
+                }
+            }
+
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ========== RESET FUNCTION ==========
+        function resetSemua() {
+            // Reset MCQs
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                radios.forEach(r => r.checked = false);
+                const fb = document.getElementById(`fbMC${i}`); if (fb) fb.innerText = '';
+            }
+            // Reset A2 & A3
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`a2_${i}`); if (inp) { inp.value = ''; inp.classList.remove('correct', 'wrong'); }
+                const fb = document.getElementById(`fb_a2_${i}`); if (fb) fb.innerText = '';
+                const inp3 = document.getElementById(`a3_${i}`); if (inp3) { inp3.value = ''; inp3.classList.remove('correct', 'wrong'); }
+                const fb3 = document.getElementById(`fb_a3_${i}`); if (fb3) fb3.innerText = '';
+            }
+            // Reset B1 & B2
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`b1_${i}`); if (inp) { inp.value = ''; inp.classList.remove('correct', 'wrong'); }
+                const fb = document.getElementById(`fb_b1_${i}`); if (fb) fb.innerText = '';
+                
+                const yesInp = document.getElementById(`b2_yes_${i}`); if (yesInp) { yesInp.value = ''; yesInp.classList.remove('correct', 'wrong'); }
+                const yesFb = document.getElementById(`fb_b2_yes_${i}`); if (yesFb) yesFb.innerText = '';
+                
+                const noInp = document.getElementById(`b2_no_${i}`); if (noInp) { noInp.value = ''; noInp.classList.remove('correct', 'wrong'); }
+                const noFb = document.getElementById(`fb_b2_no_${i}`); if (noFb) noFb.innerText = '';
+            }
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', hitungSkor);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>
