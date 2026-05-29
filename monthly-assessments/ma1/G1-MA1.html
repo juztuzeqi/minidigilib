@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Series 1 · Rehearsal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Comic Sans MS', sans-serif;
+            background: #fef9f0;
+            color: #3a2f28;
+            padding: 20px;
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.7;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 10px 10px;
+            border-bottom: 3px dashed #e0c8a8;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            color: #b45f3a;
+        }
+        .header .sub {
+            font-size: 0.95rem;
+            color: #8b6f5c;
+            margin-top: 4px;
+        }
+        .part-label {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 30px 0 10px;
+            color: #b45f3a;
+            border-left: 5px solid #e0b88a;
+            padding-left: 10px;
+        }
+        .question {
+            background: #fffaf4;
+            border: 1px solid #ecdcc9;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .q-text {
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 1.05rem;
+        }
+        .q-hint {
+            font-size: 0.8rem;
+            color: #b09370;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .options label {
+            background: #fff7ef;
+            border: 1px solid #dccbb8;
+            border-radius: 20px;
+            padding: 5px 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .options label:hover {
+            background: #fbe8d5;
+            border-color: #c9a87c;
+        }
+        .options input[type="radio"] {
+            accent-color: #b45f3a;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 25px 0 15px;
+        }
+        button {
+            background: #b45f3a;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 9px 20px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(180,95,58,0.2);
+        }
+        button:hover { background: #9b4d2e; }
+        button.reset {
+            background: #f0e3d5;
+            color: #5e4030;
+            box-shadow: none;
+        }
+        button.reset:hover { background: #e5d2be; }
+        .result {
+            background: #fff7ef;
+            border-radius: 14px;
+            padding: 16px;
+            margin: 10px 0 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: 1px solid #dccbb8;
+            text-align: center;
+            display: none;
+        }
+        .footer-note {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #c0aa90;
+            text-align: center;
+            border-top: 1px dashed #e0c8a8;
+            padding-top: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>📘 Series 1 · Rehearsal</h1>
+    <div class="sub">Practice before the real test.</div>
+</div>
+
+<form id="testForm">
+
+    <!-- PART A -->
+    <div class="part-label">🧩 Part A · am / is / are</div>
+
+    <div class="question">
+        <div class="q-text">1. I ___ Emma.</div>
+        <div class="q-hint">💡 I + ?</div>
+        <div class="options">
+            <label><input type="radio" name="q1" value="am"> am</label>
+            <label><input type="radio" name="q1" value="is"> is</label>
+            <label><input type="radio" name="q1" value="are"> are</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">2. You ___ my friend.</div>
+        <div class="q-hint">💡 You + ?</div>
+        <div class="options">
+            <label><input type="radio" name="q2" value="am"> am</label>
+            <label><input type="radio" name="q2" value="is"> is</label>
+            <label><input type="radio" name="q2" value="are"> are</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">3. He ___ my brother.</div>
+        <div class="q-hint">💡 He + ?</div>
+        <div class="options">
+            <label><input type="radio" name="q3" value="am"> am</label>
+            <label><input type="radio" name="q3" value="is"> is</label>
+            <label><input type="radio" name="q3" value="are"> are</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">4. She ___ my mother.</div>
+        <div class="q-hint">💡 She + ?</div>
+        <div class="options">
+            <label><input type="radio" name="q4" value="am"> am</label>
+            <label><input type="radio" name="q4" value="is"> is</label>
+            <label><input type="radio" name="q4" value="are"> are</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">5. We ___ a happy family.</div>
+        <div class="q-hint">💡 We + ?</div>
+        <div class="options">
+            <label><input type="radio" name="q5" value="am"> am</label>
+            <label><input type="radio" name="q5" value="is"> is</label>
+            <label><input type="radio" name="q5" value="are"> are</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">6. It ___ my cat, Kitty.</div>
+        <div class="q-hint">💡 It + ?</div>
+        <div class="options">
+            <label><input type="radio" name="q6" value="am"> am</label>
+            <label><input type="radio" name="q6" value="is"> is</label>
+            <label><input type="radio" name="q6" value="are"> are</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">7. They ___ happy.</div>
+        <div class="q-hint">💡 They + ?</div>
+        <div class="options">
+            <label><input type="radio" name="q7" value="am"> am</label>
+            <label><input type="radio" name="q7" value="is"> is</label>
+            <label><input type="radio" name="q7" value="are"> are</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">8. My father ___ 41 years old.</div>
+        <div class="q-hint">💡 My father = he</div>
+        <div class="options">
+            <label><input type="radio" name="q8" value="am"> am</label>
+            <label><input type="radio" name="q8" value="is"> is</label>
+            <label><input type="radio" name="q8" value="are"> are</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">9. Kitty ___ small.</div>
+        <div class="q-hint">💡 Kitty = it</div>
+        <div class="options">
+            <label><input type="radio" name="q9" value="am"> am</label>
+            <label><input type="radio" name="q9" value="is"> is</label>
+            <label><input type="radio" name="q9" value="are"> are</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">10. David and Kitty ___ playing.</div>
+        <div class="q-hint">💡 David and Kitty = they</div>
+        <div class="options">
+            <label><input type="radio" name="q10" value="am"> am</label>
+            <label><input type="radio" name="q10" value="is"> is</label>
+            <label><input type="radio" name="q10" value="are"> are</label>
+        </div>
+    </div>
+
+    <!-- PART B -->
+    <div class="part-label">🧩 Part B · have / has</div>
+
+    <div class="question">
+        <div class="q-text">11. We ___ a house.</div>
+        <div class="q-hint">💡 We + ?</div>
+        <div class="options">
+            <label><input type="radio" name="q11" value="have"> have</label>
+            <label><input type="radio" name="q11" value="has"> has</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">12. Mr Wilson ___ a car.</div>
+        <div class="q-hint">💡 Mr Wilson = he</div>
+        <div class="options">
+            <label><input type="radio" name="q12" value="have"> have</label>
+            <label><input type="radio" name="q12" value="has"> has</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">13. I ___ a brother.</div>
+        <div class="q-hint">💡 I + ?</div>
+        <div class="options">
+            <label><input type="radio" name="q13" value="have"> have</label>
+            <label><input type="radio" name="q13" value="has"> has</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">14. She ___ a cat.</div>
+        <div class="q-hint">💡 She + ?</div>
+        <div class="options">
+            <label><input type="radio" name="q14" value="have"> have</label>
+            <label><input type="radio" name="q14" value="has"> has</label>
+        </div>
+    </div>
+
+    <!-- PART C -->
+    <div class="part-label">🧩 Part C · This is / That is</div>
+
+    <div class="question">
+        <div class="q-text">15. ___ my father. 👇👨</div>
+        <div class="q-hint">💡 dekat</div>
+        <div class="options">
+            <label><input type="radio" name="q15" value="This is"> This is</label>
+            <label><input type="radio" name="q15" value="That is"> That is</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">16. ___ my mother. 👇👩</div>
+        <div class="q-hint">💡 dekat</div>
+        <div class="options">
+            <label><input type="radio" name="q16" value="This is"> This is</label>
+            <label><input type="radio" name="q16" value="That is"> That is</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">17. ___ Mr Wilson. 👉👉 👨‍🦳🚗</div>
+        <div class="q-hint">💡 jauh</div>
+        <div class="options">
+            <label><input type="radio" name="q17" value="This is"> This is</label>
+            <label><input type="radio" name="q17" value="That is"> That is</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">18. ___ his car. 👉👉 🚗</div>
+        <div class="q-hint">💡 jauh</div>
+        <div class="options">
+            <label><input type="radio" name="q18" value="This is"> This is</label>
+            <label><input type="radio" name="q18" value="That is"> That is</label>
+        </div>
+    </div>
+
+    <!-- PART D -->
+    <div class="part-label">🧩 Part D · He / She / It</div>
+
+    <div class="question">
+        <div class="q-text">19. David is my brother. ___ is 10 years old.</div>
+        <div class="q-hint">💡 David = laki-laki</div>
+        <div class="options">
+            <label><input type="radio" name="q19" value="He"> He</label>
+            <label><input type="radio" name="q19" value="She"> She</label>
+            <label><input type="radio" name="q19" value="It"> It</label>
+        </div>
+    </div>
+
+    <div class="question">
+        <div class="q-text">20. Kitty is my cat. ___ is cute.</div>
+        <div class="q-hint">💡 Kitty = hewan</div>
+        <div class="options">
+            <label><input type="radio" name="q20" value="He"> He</label>
+            <label><input type="radio" name="q20" value="She"> She</label>
+            <label><input type="radio" name="q20" value="It"> It</label>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button type="button" onclick="checkAnswers()">✅ Check</button>
+        <button type="button" class="reset" onclick="resetForm()">🔄 Retry</button>
+    </div>
+
+    <div class="result" id="resultBox"></div>
+
+</form>
+
+<div class="footer-note">
+    ✨ Practice makes progress. ✨
+</div>
+
+<script>
+    const answerKey = {
+        q1: "am", q2: "are", q3: "is", q4: "is", q5: "are",
+        q6: "is", q7: "are", q8: "is", q9: "is", q10: "are",
+        q11: "have", q12: "has", q13: "have", q14: "has",
+        q15: "This is", q16: "This is", q17: "That is", q18: "That is",
+        q19: "He", q20: "It"
+    };
+
+    function checkAnswers() {
+        let correct = 0;
+        let total = Object.keys(answerKey).length;
+        let unanswered = [];
+
+        for (let q in answerKey) {
+            let selected = document.querySelector(`input[name="${q}"]:checked`);
+            if (!selected) {
+                unanswered.push(q);
+                continue;
+            }
+            if (selected.value === answerKey[q]) {
+                correct++;
+            }
+        }
+
+        const resultBox = document.getElementById("resultBox");
+        resultBox.style.display = "block";
+
+        if (unanswered.length > 0) {
+            resultBox.innerHTML = `⚠️ ${unanswered.length} question(s) not answered yet.`;
+            resultBox.style.color = "#b45f3a";
+            return;
+        }
+
+        let emoji = correct === total ? "🌟" : correct >= 16 ? "🎉" : "📖";
+        resultBox.innerHTML = `${emoji} ${correct}/${total} correct.`;
+        resultBox.style.color = "#3a2f28";
+    }
+
+    function resetForm() {
+        document.getElementById("testForm").reset();
+        document.getElementById("resultBox").style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
