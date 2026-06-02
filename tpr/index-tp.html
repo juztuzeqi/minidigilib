@@ -3,315 +3,343 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Formative Assessment 1 - Pre-Grade 1</title>
+<title>TPR Flashcards - Pre-Grade 1</title>
+<link rel="icon" type="image/png" href="../favicon.png">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
   body {
     font-family: Arial, sans-serif;
     background: #f0f4f8;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
+    padding: 15px;
   }
 
-  .header {
-    width: 100%;
+  .container {
     max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-    margin-bottom: 5px;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding: 8px 0;
   }
 
   .back-btn {
     background: #fff;
     border: 2px solid #2196F3;
     color: #2196F3;
-    font-size: 1.2rem;
-    padding: 8px 14px;
+    font-size: 1.1rem;
+    padding: 6px 12px;
     border-radius: 8px;
-    cursor: pointer;
     text-decoration: none;
+    white-space: nowrap;
   }
 
-  .back-btn:hover { background: #e3f2fd; }
+  .back-btn:hover {
+    background: #e3f2fd;
+  }
 
-  .header h2 { font-size: 1.3rem; color: #333; margin: 0; }
-  .header span { font-size: 0.8rem; color: #666; margin-left: auto; }
+  .header h2 {
+    font-size: 1.3rem;
+    color: #333;
+    margin: 0;
+  }
 
-  .quiz-area {
-    width: 100%;
-    max-width: 600px;
+  .subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    font-style: italic;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 18px 0 8px;
+    padding-left: 4px;
+  }
+
+  /* TOPIC CARDS */
+  .topic-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-
-  .quiz-audio-btn {
-    background: #FF9800;
-    color: #fff;
-    border: none;
-    font-size: 3rem;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(255,152,0,0.4);
-    transition: transform 0.1s;
-  }
-
-  .quiz-audio-btn:active { transform: scale(0.9); }
-
-  .options-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 10px;
-    width: 100%;
-    max-width: 400px;
   }
 
-  .option-card {
-    aspect-ratio: 1 / 1;
-    border-radius: 12px;
-    cursor: pointer;
+  .topic-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     background: #fff;
-    border: 3px solid #ddd;
-    overflow: hidden;
-    transition: all 0.15s;
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
   }
 
-  .option-card img { width: 100%; height: 100%; object-fit: cover; }
+  .topic-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
 
-  .option-card.correct { border-color: #4CAF50; background: #E8F5E9; }
-  .option-card.wrong { border-color: #f44336; background: #FFEBEE; }
-
-  .quiz-score { font-size: 1rem; font-weight: bold; color: #333; }
-
-  .quiz-done { text-align: center; }
-  .quiz-done h3 { font-size: 1.4rem; margin-bottom: 8px; }
-  .quiz-done .pass { color: #4CAF50; }
-  .quiz-done .fail { color: #f44336; }
-
-  .retry-btn {
+  .topic-num {
     background: #2196F3;
     color: #fff;
-    border: none;
-    padding: 12px 28px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
     font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 10px;
+    flex-shrink: 0;
   }
 
-  .hidden { display: none !important; }
+  .topic-num.assessment {
+    background: #4CAF50;
+  }
 
-  @media (max-width: 400px) {
-    .options-grid { gap: 6px; }
+  .topic-num.final {
+    background: #FF9800;
+  }
+
+  .topic-info {
+    flex: 1;
+  }
+
+  .topic-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 3px;
+  }
+
+  .topic-desc {
+    font-size: 0.8rem;
+    color: #777;
+  }
+
+  .topic-score {
+    font-size: 0.85rem;
+    color: #666;
+    background: #f5f5f5;
+    padding: 6px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .topic-score.done {
+    background: #E8F5E9;
+    color: #2E7D32;
+    font-weight: bold;
+  }
+
+  .topic-card.assessment-card {
+    border-left: 4px solid #4CAF50;
+  }
+
+  .topic-card.final-card {
+    border-left: 4px solid #FF9800;
+  }
+
+  /* FOOTER */
+  .footer-note {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #999;
   }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <a href="index-tp.html" class="back-btn">← Back</a>
-  <h2>Formative Assessment 1</h2>
-  <span id="progressDot">Units 1-4</span>
-</div>
+<div class="container">
 
-<div class="quiz-area" id="quizArea">
-  <button class="quiz-audio-btn" id="quizAudioBtn" onclick="playQuizAudio()">🔊</button>
-  <div class="options-grid" id="optionsGrid"></div>
-  <div class="quiz-score" id="quizScore">Score: 0 / 20</div>
-</div>
+  <!-- HEADER -->
+  <div class="header">
+    <a href="../index.html" class="back-btn">← Home</a>
+    <h2>🗣️ TPR Flashcards</h2>
+  </div>
 
-<div class="quiz-done hidden" id="quizDone">
-  <h3>Assessment Complete</h3>
-  <p id="quizFinalScore" style="font-size: 1.2rem;"></p>
-  <p id="passFailText" style="font-weight: bold;"></p>
-  <button class="retry-btn" onclick="retryQuiz()">🔄 Try Again</button>
+  <div class="subtitle">Pre-Grade 1 — Listen, Move, Learn</div>
+
+  <!-- ===== TOPICS ===== -->
+  <div class="section-header">📖 Learning Topics</div>
+
+  <div class="topic-list">
+
+    <a class="topic-card" href="actions/actions.html">
+      <div class="topic-num">1</div>
+      <div class="topic-info">
+        <div class="topic-title">Actions</div>
+        <div class="topic-desc">sit down, stand up, walk, run, read, write...</div>
+      </div>
+      <span class="topic-score" id="score-1">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="alphabet-names/alphabet-names.html">
+      <div class="topic-num">2</div>
+      <div class="topic-info">
+        <div class="topic-title">Alphabet Names</div>
+        <div class="topic-desc">A, B, C, D... (nama huruf + bunyi)</div>
+      </div>
+      <span class="topic-score" id="score-2">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="numbers-11-20/numbers-11-20.html">
+      <div class="topic-num">3</div>
+      <div class="topic-info">
+        <div class="topic-title">Numbers 11–20</div>
+        <div class="topic-desc">eleven, twelve, thirteen... twenty</div>
+      </div>
+      <span class="topic-score" id="score-3">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="numbers-21-100/numbers-21-100.html">
+      <div class="topic-num">4</div>
+      <div class="topic-info">
+        <div class="topic-title">Numbers 21–100</div>
+        <div class="topic-desc">twenty, thirty... one hundred</div>
+      </div>
+      <span class="topic-score" id="score-4">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="body-parts/body-parts.html">
+      <div class="topic-num">5</div>
+      <div class="topic-info">
+        <div class="topic-title">Body Parts</div>
+        <div class="topic-desc">head, shoulders, knees, toes, hands, feet...</div>
+      </div>
+      <span class="topic-score" id="score-5">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="face-parts/face-parts.html">
+      <div class="topic-num">6</div>
+      <div class="topic-info">
+        <div class="topic-title">Face Parts</div>
+        <div class="topic-desc">eyes, ears, mouth, nose, hair, cheeks...</div>
+      </div>
+      <span class="topic-score" id="score-6">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="classroom/classroom.html">
+      <div class="topic-num">7</div>
+      <div class="topic-info">
+        <div class="topic-title">Classroom Objects</div>
+        <div class="topic-desc">table, chair, board, book, pencil, bag...</div>
+      </div>
+      <span class="topic-score" id="score-7">⭐ --</span>
+    </a>
+
+    <a class="topic-card" href="colors/colors.html">
+      <div class="topic-num">8</div>
+      <div class="topic-info">
+        <div class="topic-title">Colors</div>
+        <div class="topic-desc">red, blue, green, yellow, orange, purple...</div>
+      </div>
+      <span class="topic-score" id="score-8">⭐ --</span>
+    </a>
+
+  </div>
+
+  <!-- ===== ASSESSMENTS ===== -->
+  <div class="section-header">📋 Assessments</div>
+
+  <div class="topic-list">
+
+    <a class="topic-card assessment-card" href="formative-1.html">
+      <div class="topic-num assessment">FA1</div>
+      <div class="topic-info">
+        <div class="topic-title">Formative Assessment 1</div>
+        <div class="topic-desc">Units 1–4: Actions, Alphabet, Numbers 11-20 & 21-100</div>
+      </div>
+      <span class="topic-score" id="score-fa1">📝</span>
+    </a>
+
+    <a class="topic-card assessment-card" href="formative-2.html">
+      <div class="topic-num assessment">FA2</div>
+      <div class="topic-info">
+        <div class="topic-title">Formative Assessment 2</div>
+        <div class="topic-desc">Units 5–8: Body, Face, Classroom, Colors</div>
+      </div>
+      <span class="topic-score" id="score-fa2">📝</span>
+    </a>
+
+    <a class="topic-card final-card" href="final-test.html">
+      <div class="topic-num final">FT</div>
+      <div class="topic-info">
+        <div class="topic-title">Final Test</div>
+        <div class="topic-desc">All Units 1–8 · 30 questions · Pass: 23/30</div>
+      </div>
+      <span class="topic-score" id="score-ft">📝</span>
+    </a>
+
+  </div>
+
+  <div class="footer-note">8 Topics · 80+ Words · TPR Method</div>
+
 </div>
 
 <script>
-// ===== DATA =====
-const pool = [
-  { name: 'sit-down', topic: 'actions' },
-  { name: 'stand-up', topic: 'actions' },
-  { name: 'walk', topic: 'actions' },
-  { name: 'run', topic: 'actions' },
-  { name: 'read', topic: 'actions' },
-  { name: 'write', topic: 'actions' },
-  { name: 'jump', topic: 'actions' },
-  { name: 'clap', topic: 'actions' },
-  { name: 'point', topic: 'actions' },
-  { name: 'touch', topic: 'actions' },
-  { name: 'eleven', topic: 'numbers-11-20' },
-  { name: 'twelve', topic: 'numbers-11-20' },
-  { name: 'thirteen', topic: 'numbers-11-20' },
-  { name: 'fourteen', topic: 'numbers-11-20' },
-  { name: 'fifteen', topic: 'numbers-11-20' },
-  { name: 'sixteen', topic: 'numbers-11-20' },
-  { name: 'seventeen', topic: 'numbers-11-20' },
-  { name: 'eighteen', topic: 'numbers-11-20' },
-  { name: 'nineteen', topic: 'numbers-11-20' },
-  { name: 'twenty', topic: 'numbers-11-20' },
-  { name: 'twenty-one', topic: 'numbers-21-100' },
-  { name: 'twenty-two', topic: 'numbers-21-100' },
-  { name: 'thirty', topic: 'numbers-21-100' },
-  { name: 'forty', topic: 'numbers-21-100' },
-  { name: 'fifty', topic: 'numbers-21-100' },
-  { name: 'sixty', topic: 'numbers-21-100' },
-  { name: 'seventy', topic: 'numbers-21-100' },
-  { name: 'eighty', topic: 'numbers-21-100' },
-  { name: 'ninety', topic: 'numbers-21-100' },
-  { name: 'one-hundred', topic: 'numbers-21-100' }
-];
+// Load progress dari localStorage masing-masing topik
+const storageKeys = {
+  1: 'tpr-actions-progress',
+  2: 'tpr-alphabet-progress',
+  3: 'tpr-numbers-11-20-progress',
+  4: 'tpr-numbers-21-100-progress',
+  5: 'tpr-body-parts-progress',
+  6: 'tpr-face-parts-progress',
+  7: 'tpr-classroom-progress',
+  8: 'tpr-colors-progress'
+};
 
-const alphabetPool = "abcdefghijklmnopqrstuvwxyz".split("").map(letter => ({
-  name: letter,
-  topic: 'alphabet-names'
-}));
+for (let i = 1; i <= 8; i++) {
+  const key = storageKeys[i];
+  const el = document.getElementById('score-' + i);
+  const data = localStorage.getItem(key);
 
-const TOTAL = 20;
-const PASS = 15;
-
-let quizItems = [];
-let quizIndex = 0;
-let quizScore = 0;
-let quizLocked = false;
-
-function getAudioPath(topic, name) {
-  return topic + '/audio/' + name + '.mp3';
-}
-
-function getImgPath(topic, name) {
-  return topic + '/img/' + name + '.jpg';
-}
-
-function playAudio(topic, name) {
-  const audio = new Audio(getAudioPath(topic, name));
-  audio.play().catch(e => console.log('Audio:', e));
-}
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-function buildQuiz() {
-  const alphabet = shuffle(alphabetPool).slice(0, 5);
-  const fromPool = shuffle(pool);
-  const actions = fromPool.filter(i => i.topic === 'actions').slice(0, 5);
-  const num11 = fromPool.filter(i => i.topic === 'numbers-11-20').slice(0, 5);
-  const num21 = fromPool.filter(i => i.topic === 'numbers-21-100').slice(0, 5);
-
-  quizItems = shuffle([...actions, ...alphabet, ...num11, ...num21]).map(item => ({ correct: item }));
-  quizIndex = 0;
-  quizScore = 0;
-  quizLocked = false;
-}
-
-function getOptions(correctItem) {
-  const sameTopic = pool.filter(i => i.topic === correctItem.topic && i.name !== correctItem.name);
-  const otherTopics = pool.filter(i => i.topic !== correctItem.topic);
-  let wrongs = sameTopic.length >= 3 ? shuffle(sameTopic).slice(0, 3) : shuffle([...sameTopic, ...otherTopics]).slice(0, 3);
-  return shuffle([correctItem, ...wrongs]);
-}
-
-function renderQuizQuestion() {
-  if (quizIndex >= quizItems.length) { showQuizDone(); return; }
-
-  quizLocked = false;
-  const q = quizItems[quizIndex];
-  const options = getOptions(q.correct);
-
-  const grid = document.getElementById('optionsGrid');
-  grid.innerHTML = '';
-
-  options.forEach(opt => {
-    const card = document.createElement('div');
-    card.className = 'option-card';
-    card.innerHTML = '<img src="' + getImgPath(opt.topic, opt.name) + '" alt="">';
-    card.onclick = function() { handleOptionClick(card, opt.name === q.correct.name && opt.topic === q.correct.topic); };
-    grid.appendChild(card);
-  });
-
-  document.getElementById('quizScore').textContent = 'Score: ' + quizScore + ' / ' + TOTAL;
-  setTimeout(() => { playAudio(q.correct.topic, q.correct.name); }, 300);
-}
-
-function handleOptionClick(card, isCorrect) {
-  if (quizLocked) return;
-  quizLocked = true;
-
-  if (isCorrect) {
-    card.classList.add('correct');
-    quizScore++;
-  } else {
-    card.classList.add('wrong');
-    const allCards = document.querySelectorAll('.option-card');
-    const correctName = quizItems[quizIndex].correct.name;
-    const correctTopic = quizItems[quizIndex].correct.topic;
-    allCards.forEach(c => {
-      const img = c.querySelector('img');
-      if (img && img.src.includes(correctTopic + '/img/' + correctName + '.jpg')) {
-        c.classList.add('correct');
-      }
-    });
-  }
-
-  document.getElementById('quizScore').textContent = 'Score: ' + quizScore + ' / ' + TOTAL;
-  setTimeout(() => { quizIndex++; renderQuizQuestion(); }, 1200);
-}
-
-function playQuizAudio() {
-  if (quizIndex < quizItems.length) {
-    playAudio(quizItems[quizIndex].correct.topic, quizItems[quizIndex].correct.name);
+  if (data) {
+    const parsed = JSON.parse(data);
+    el.textContent = '⭐ ' + parsed.bestScore + '/' + parsed.total;
+    el.classList.add('done');
   }
 }
 
-function showQuizDone() {
-  document.getElementById('quizArea').classList.add('hidden');
-  document.getElementById('quizDone').classList.remove('hidden');
+// Load progress assessment
+const assessmentKeys = {
+  fa1: 'tpr-formative-1-progress',
+  fa2: 'tpr-formative-2-progress',
+  ft: 'tpr-final-test-progress'
+};
 
-  const passed = quizScore >= PASS;
-  document.getElementById('quizFinalScore').textContent = 'Your score: ' + quizScore + ' / ' + TOTAL;
-  const passFail = document.getElementById('passFailText');
-  if (passed) {
-    passFail.textContent = '✅ PASSED! Continue to Unit 5.';
-    passFail.className = 'pass';
-  } else {
-    passFail.textContent = '❌ NOT YET. Review and try again.';
-    passFail.className = 'fail';
+for (const [id, key] of Object.entries(assessmentKeys)) {
+  const el = document.getElementById('score-' + id);
+  const data = localStorage.getItem(key);
+
+  if (data) {
+    const parsed = JSON.parse(data);
+    const passed = parsed.bestScore >= parsed.passingScore;
+    el.textContent = (passed ? '✅ ' : '❌ ') + parsed.bestScore + '/' + parsed.total;
+    if (passed) el.classList.add('done');
   }
-
-  const data = { bestScore: quizScore, total: TOTAL, passingScore: PASS, lastAttempt: new Date().toISOString() };
-  const existing = localStorage.getItem('tpr-formative-1-progress');
-  if (existing) {
-    const prev = JSON.parse(existing);
-    if (prev.bestScore > quizScore) data.bestScore = prev.bestScore;
-  }
-  localStorage.setItem('tpr-formative-1-progress', JSON.stringify(data));
 }
-
-function retryQuiz() {
-  document.getElementById('quizDone').classList.add('hidden');
-  document.getElementById('quizArea').classList.remove('hidden');
-  buildQuiz();
-  renderQuizQuestion();
-}
-
-// Init
-buildQuiz();
-renderQuizQuestion();
 </script>
+
 </body>
 </html>
