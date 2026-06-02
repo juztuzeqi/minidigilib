@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Formative Assessment 1 - Pre-Grade 1</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
   body {
     font-family: Arial, sans-serif;
@@ -17,6 +21,7 @@
     padding: 10px;
   }
 
+  /* HEADER */
   .header {
     width: 100%;
     max-width: 600px;
@@ -38,18 +43,44 @@
     text-decoration: none;
   }
 
-  .back-btn:hover { background: #e3f2fd; }
+  .back-btn:hover {
+    background: #e3f2fd;
+  }
 
-  .header h2 { font-size: 1.3rem; color: #333; margin: 0; }
-  .header span { font-size: 0.8rem; color: #666; margin-left: auto; }
+  .header h2 {
+    font-size: 1.4rem;
+    color: #333;
+    margin: 0;
+  }
 
-  .quiz-area {
+  .header span {
+    margin-left: auto;
+    font-size: 0.85rem;
+    color: #666;
+    background: #fff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* MAIN DISPLAY */
+  .main-display {
     width: 100%;
     max-width: 600px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* QUIZ MODE */
+  .quiz-area {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
+    width: 100%;
   }
 
   .quiz-audio-btn {
@@ -65,7 +96,9 @@
     transition: transform 0.1s;
   }
 
-  .quiz-audio-btn:active { transform: scale(0.9); }
+  .quiz-audio-btn:active {
+    transform: scale(0.9);
+  }
 
   .options-grid {
     display: grid;
@@ -83,35 +116,69 @@
     border: 3px solid #ddd;
     overflow: hidden;
     transition: all 0.15s;
+    position: relative;
   }
 
-  .option-card img { width: 100%; height: 100%; object-fit: cover; }
+  .option-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-  .option-card.correct { border-color: #4CAF50; background: #E8F5E9; }
-  .option-card.wrong { border-color: #f44336; background: #FFEBEE; }
+  .option-card:hover {
+    border-color: #90CAF9;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  }
 
-  .quiz-score { font-size: 1rem; font-weight: bold; color: #333; }
+  .option-card.correct {
+    border-color: #4CAF50;
+    background: #E8F5E9;
+  }
 
-  .quiz-done { text-align: center; }
-  .quiz-done h3 { font-size: 1.4rem; margin-bottom: 8px; }
-  .quiz-done .pass { color: #4CAF50; }
-  .quiz-done .fail { color: #f44336; }
+  .option-card.wrong {
+    border-color: #f44336;
+    background: #FFEBEE;
+  }
+
+  .quiz-score {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .quiz-done {
+    text-align: center;
+  }
+
+  .quiz-done h3 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
 
   .retry-btn {
     background: #2196F3;
     color: #fff;
     border: none;
     padding: 12px 28px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     border-radius: 8px;
     cursor: pointer;
     margin-top: 10px;
   }
 
-  .hidden { display: none !important; }
+  .retry-btn:hover {
+    background: #1976D2;
+  }
 
+  .hidden {
+    display: none !important;
+  }
+
+  /* RESPONSIVE */
   @media (max-width: 400px) {
-    .options-grid { gap: 6px; }
+    .options-grid {
+      gap: 6px;
+    }
   }
 </style>
 </head>
@@ -120,81 +187,84 @@
 <div class="header">
   <a href="index-tp.html" class="back-btn">← Back</a>
   <h2>Formative Assessment 1</h2>
-  <span id="progressDot">Units 1-4</span>
+  <span>Units 1-4</span>
 </div>
 
-<div class="quiz-area" id="quizArea">
-  <button class="quiz-audio-btn" id="quizAudioBtn" onclick="playQuizAudio()">🔊</button>
-  <div class="options-grid" id="optionsGrid"></div>
-  <div class="quiz-score" id="quizScore">Score: 0 / 20</div>
-</div>
+<!-- MAIN DISPLAY -->
+<div class="main-display">
 
-<div class="quiz-done hidden" id="quizDone">
-  <h3>Assessment Complete</h3>
-  <p id="quizFinalScore" style="font-size: 1.2rem;"></p>
-  <p id="passFailText" style="font-weight: bold;"></p>
-  <button class="retry-btn" onclick="retryQuiz()">🔄 Try Again</button>
+  <!-- QUIZ AREA -->
+  <div class="quiz-area" id="quizArea">
+    <button class="quiz-audio-btn" id="quizAudioBtn" onclick="playQuizAudio()">🔊</button>
+    <div class="options-grid" id="optionsGrid"></div>
+    <div class="quiz-score" id="quizScore">Score: 0 / 20</div>
+  </div>
+
+  <!-- QUIZ DONE -->
+  <div class="quiz-done hidden" id="quizDone">
+    <h3>🎉 Assessment Complete!</h3>
+    <p id="quizFinalScore" style="font-size: 1.3rem;"></p>
+    <p id="passFailText" style="font-weight: bold;"></p>
+    <button class="retry-btn" onclick="retryQuiz()">🔄 Try Again</button>
+  </div>
+
 </div>
 
 <script>
-// ===== DATA =====
-const pool = [
-  { name: 'sit-down', topic: 'actions' },
-  { name: 'stand-up', topic: 'actions' },
-  { name: 'walk', topic: 'actions' },
-  { name: 'run', topic: 'actions' },
-  { name: 'read', topic: 'actions' },
-  { name: 'write', topic: 'actions' },
-  { name: 'jump', topic: 'actions' },
-  { name: 'clap', topic: 'actions' },
-  { name: 'point', topic: 'actions' },
-  { name: 'touch', topic: 'actions' },
-  { name: 'eleven', topic: 'numbers-11-20' },
-  { name: 'twelve', topic: 'numbers-11-20' },
-  { name: 'thirteen', topic: 'numbers-11-20' },
-  { name: 'fourteen', topic: 'numbers-11-20' },
-  { name: 'fifteen', topic: 'numbers-11-20' },
-  { name: 'sixteen', topic: 'numbers-11-20' },
-  { name: 'seventeen', topic: 'numbers-11-20' },
-  { name: 'eighteen', topic: 'numbers-11-20' },
-  { name: 'nineteen', topic: 'numbers-11-20' },
-  { name: 'twenty', topic: 'numbers-11-20' },
-  { name: 'twenty-one', topic: 'numbers-21-100' },
-  { name: 'twenty-two', topic: 'numbers-21-100' },
-  { name: 'thirty', topic: 'numbers-21-100' },
-  { name: 'forty', topic: 'numbers-21-100' },
-  { name: 'fifty', topic: 'numbers-21-100' },
-  { name: 'sixty', topic: 'numbers-21-100' },
-  { name: 'seventy', topic: 'numbers-21-100' },
-  { name: 'eighty', topic: 'numbers-21-100' },
-  { name: 'ninety', topic: 'numbers-21-100' },
-  { name: 'one-hundred', topic: 'numbers-21-100' }
-];
+// ===== DATA POOL =====
+// Fungsi bantu: buat item dengan properti name dan folder (topic)
+function makeItems(names, folder) {
+  return names.map(name => ({ name: name, folder: folder }));
+}
 
-const alphabetPool = "abcdefghijklmnopqrstuvwxyz".split("").map(letter => ({
-  name: letter,
-  topic: 'alphabet-names'
-}));
+// Actions (10)
+const actions = makeItems([
+  'sit-down', 'stand-up', 'walk', 'run',
+  'read', 'write', 'jump', 'clap', 'point', 'touch'
+], 'actions');
 
-const TOTAL = 20;
-const PASS = 15;
+// Alphabet (26)
+const alphabet = makeItems('abcdefghijklmnopqrstuvwxyz'.split(''), 'alphabet-names');
 
+// Numbers 11-20 (10)
+const numbers11 = makeItems([
+  'eleven', 'twelve', 'thirteen', 'fourteen',
+  'fifteen', 'sixteen', 'seventeen', 'eighteen',
+  'nineteen', 'twenty'
+], 'numbers-11-20');
+
+// Numbers 21-100 (10 core + 8 bonus)
+const numbers21 = makeItems([
+  'twenty-one', 'twenty-two', 'thirty', 'forty',
+  'fifty', 'sixty', 'seventy', 'eighty', 'ninety', 'one-hundred',
+  'twenty-five', 'thirty-seven', 'forty-two', 'fifty-eight',
+  'sixty-three', 'seventy-one', 'eighty-four', 'ninety-nine'
+], 'numbers-21-100');
+
+// Gabung semua
+const allItems = [...actions, ...alphabet, ...numbers11, ...numbers21];
+
+// ===== STATE =====
 let quizItems = [];
 let quizIndex = 0;
 let quizScore = 0;
 let quizLocked = false;
 
-function getAudioPath(topic, name) {
-  return topic + '/audio/' + name + '.mp3';
+const TOTAL_QUESTIONS = 20;
+const PASSING_SCORE = 15;
+
+// ===== HELPERS =====
+function getAudioPath(folder, name) {
+  return folder + '/audio/' + name + '.mp3';
 }
 
-function getImgPath(topic, name) {
-  return topic + '/img/' + name + '.jpg';
+function getImgPath(folder, name) {
+  return folder + '/img/' + name + '.jpg';
 }
 
-function playAudio(topic, name) {
-  const audio = new Audio(getAudioPath(topic, name));
-  audio.play().catch(e => console.log('Audio:', e));
+function playAudio(folder, name) {
+  const audio = new Audio(getAudioPath(folder, name));
+  audio.play().catch(e => console.log('Audio play prevented:', e));
 }
 
 function shuffle(arr) {
@@ -206,30 +276,47 @@ function shuffle(arr) {
   return a;
 }
 
+// ===== BUILD QUIZ =====
 function buildQuiz() {
-  const alphabet = shuffle(alphabetPool).slice(0, 5);
-  const fromPool = shuffle(pool);
-  const actions = fromPool.filter(i => i.topic === 'actions').slice(0, 5);
-  const num11 = fromPool.filter(i => i.topic === 'numbers-11-20').slice(0, 5);
-  const num21 = fromPool.filter(i => i.topic === 'numbers-21-100').slice(0, 5);
+  // Ambil 5 dari setiap topik
+  const pick = (pool, count) => shuffle(pool).slice(0, count);
 
-  quizItems = shuffle([...actions, ...alphabet, ...num11, ...num21]).map(item => ({ correct: item }));
+  const selected = [
+    ...pick(actions, 5),
+    ...pick(alphabet, 5),
+    ...pick(numbers11, 5),
+    ...pick(numbers21, 5)
+  ];
+
+  quizItems = shuffle(selected).map(item => ({ correct: item }));
   quizIndex = 0;
   quizScore = 0;
   quizLocked = false;
 }
 
 function getOptions(correctItem) {
-  const sameTopic = pool.filter(i => i.topic === correctItem.topic && i.name !== correctItem.name);
-  const otherTopics = pool.filter(i => i.topic !== correctItem.topic);
-  let wrongs = sameTopic.length >= 3 ? shuffle(sameTopic).slice(0, 3) : shuffle([...sameTopic, ...otherTopics]).slice(0, 3);
+  // Ambil 3 opsi salah — usahakan dari topik yang sama
+  const sameTopic = allItems.filter(i => i.folder === correctItem.folder && i.name !== correctItem.name);
+  const otherTopics = allItems.filter(i => i.folder !== correctItem.folder);
+
+  let wrongs;
+  if (sameTopic.length >= 3) {
+    wrongs = shuffle(sameTopic).slice(0, 3);
+  } else {
+    wrongs = shuffle([...sameTopic, ...otherTopics]).slice(0, 3);
+  }
+
   return shuffle([correctItem, ...wrongs]);
 }
 
 function renderQuizQuestion() {
-  if (quizIndex >= quizItems.length) { showQuizDone(); return; }
+  if (quizIndex >= quizItems.length) {
+    showQuizDone();
+    return;
+  }
 
   quizLocked = false;
+
   const q = quizItems[quizIndex];
   const options = getOptions(q.correct);
 
@@ -239,13 +326,16 @@ function renderQuizQuestion() {
   options.forEach(opt => {
     const card = document.createElement('div');
     card.className = 'option-card';
-    card.innerHTML = '<img src="' + getImgPath(opt.topic, opt.name) + '" alt="">';
-    card.onclick = function() { handleOptionClick(card, opt.name === q.correct.name && opt.topic === q.correct.topic); };
+    card.innerHTML = '<img src="' + getImgPath(opt.folder, opt.name) + '" alt="">';
+    card.onclick = function() {
+      handleOptionClick(card, opt.name === q.correct.name && opt.folder === q.correct.folder);
+    };
     grid.appendChild(card);
   });
 
-  document.getElementById('quizScore').textContent = 'Score: ' + quizScore + ' / ' + TOTAL;
-  setTimeout(() => { playAudio(q.correct.topic, q.correct.name); }, 300);
+  updateQuizScore();
+
+  setTimeout(() => { playAudio(q.correct.folder, q.correct.name); }, 300);
 }
 
 function handleOptionClick(card, isCorrect) {
@@ -257,49 +347,54 @@ function handleOptionClick(card, isCorrect) {
     quizScore++;
   } else {
     card.classList.add('wrong');
+    // Tunjukkan jawaban benar
     const allCards = document.querySelectorAll('.option-card');
     const correctName = quizItems[quizIndex].correct.name;
-    const correctTopic = quizItems[quizIndex].correct.topic;
+    const correctFolder = quizItems[quizIndex].correct.folder;
     allCards.forEach(c => {
       const img = c.querySelector('img');
-      if (img && img.src.includes(correctTopic + '/img/' + correctName + '.jpg')) {
+      if (img && img.src.includes(correctFolder + '/img/' + correctName + '.jpg')) {
         c.classList.add('correct');
       }
     });
   }
 
-  document.getElementById('quizScore').textContent = 'Score: ' + quizScore + ' / ' + TOTAL;
-  setTimeout(() => { quizIndex++; renderQuizQuestion(); }, 1200);
+  updateQuizScore();
+
+  setTimeout(() => {
+    quizIndex++;
+    renderQuizQuestion();
+  }, 1200);
 }
 
 function playQuizAudio() {
   if (quizIndex < quizItems.length) {
-    playAudio(quizItems[quizIndex].correct.topic, quizItems[quizIndex].correct.name);
+    playAudio(quizItems[quizIndex].correct.folder, quizItems[quizIndex].correct.name);
   }
+}
+
+function updateQuizScore() {
+  document.getElementById('quizScore').textContent = 'Score: ' + quizScore + ' / ' + TOTAL_QUESTIONS;
 }
 
 function showQuizDone() {
   document.getElementById('quizArea').classList.add('hidden');
   document.getElementById('quizDone').classList.remove('hidden');
 
-  const passed = quizScore >= PASS;
-  document.getElementById('quizFinalScore').textContent = 'Your score: ' + quizScore + ' / ' + TOTAL;
+  const passed = quizScore >= PASSING_SCORE;
+  document.getElementById('quizFinalScore').textContent = 'Your score: ' + quizScore + ' / ' + TOTAL_QUESTIONS;
+
   const passFail = document.getElementById('passFailText');
   if (passed) {
     passFail.textContent = '✅ PASSED! Continue to Unit 5.';
-    passFail.className = 'pass';
+    passFail.style.color = '#4CAF50';
   } else {
     passFail.textContent = '❌ NOT YET. Review and try again.';
-    passFail.className = 'fail';
+    passFail.style.color = '#f44336';
   }
 
-  const data = { bestScore: quizScore, total: TOTAL, passingScore: PASS, lastAttempt: new Date().toISOString() };
-  const existing = localStorage.getItem('tpr-formative-1-progress');
-  if (existing) {
-    const prev = JSON.parse(existing);
-    if (prev.bestScore > quizScore) data.bestScore = prev.bestScore;
-  }
-  localStorage.setItem('tpr-formative-1-progress', JSON.stringify(data));
+  // Simpan ke localStorage
+  saveProgress(quizScore, TOTAL_QUESTIONS);
 }
 
 function retryQuiz() {
@@ -309,9 +404,32 @@ function retryQuiz() {
   renderQuizQuestion();
 }
 
-// Init
+// ===== PROGRESS (localStorage) =====
+const STORAGE_KEY = 'tpr-formative-1-progress';
+
+function saveProgress(score, total) {
+  const data = {
+    bestScore: score,
+    total: total,
+    passingScore: PASSING_SCORE,
+    lastAttempt: new Date().toISOString()
+  };
+
+  const existing = localStorage.getItem(STORAGE_KEY);
+  if (existing) {
+    const prev = JSON.parse(existing);
+    if (prev.bestScore > score) {
+      data.bestScore = prev.bestScore;
+    }
+  }
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+// ===== INIT =====
 buildQuiz();
 renderQuizQuestion();
+
 </script>
 </body>
 </html>
