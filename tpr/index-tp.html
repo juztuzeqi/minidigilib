@@ -62,6 +62,17 @@
     font-style: italic;
   }
 
+  /* SECTION HEADER */
+  .section-header {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 18px 0 8px;
+    padding-left: 4px;
+  }
+
   /* TOPIC CARDS */
   .topic-list {
     display: flex;
@@ -101,6 +112,14 @@
     flex-shrink: 0;
   }
 
+  .topic-num.assessment {
+    background: #4CAF50;
+  }
+
+  .topic-num.final {
+    background: #FF9800;
+  }
+
   .topic-info {
     flex: 1;
   }
@@ -131,6 +150,14 @@
     font-weight: bold;
   }
 
+  .topic-card.assessment-card {
+    border-left: 4px solid #4CAF50;
+  }
+
+  .topic-card.final-card {
+    border-left: 4px solid #FF9800;
+  }
+
   /* FOOTER */
   .footer-note {
     text-align: center;
@@ -152,7 +179,9 @@
 
   <div class="subtitle">Pre-Grade 1 — Listen, Move, Learn</div>
 
-  <!-- TOPIC LIST -->
+  <!-- ===== TOPICS ===== -->
+  <div class="section-header">📖 Learning Topics</div>
+
   <div class="topic-list">
 
     <a class="topic-card" href="actions/actions.html">
@@ -229,6 +258,40 @@
 
   </div>
 
+  <!-- ===== ASSESSMENTS ===== -->
+  <div class="section-header">📋 Assessments</div>
+
+  <div class="topic-list">
+
+    <a class="topic-card assessment-card" href="formative-1.html">
+      <div class="topic-num assessment">FA1</div>
+      <div class="topic-info">
+        <div class="topic-title">Formative Assessment 1</div>
+        <div class="topic-desc">Units 1–4: Actions, Alphabet, Numbers 11-20 & 21-100</div>
+      </div>
+      <span class="topic-score" id="score-fa1">📝</span>
+    </a>
+
+    <a class="topic-card assessment-card" href="formative-2.html">
+      <div class="topic-num assessment">FA2</div>
+      <div class="topic-info">
+        <div class="topic-title">Formative Assessment 2</div>
+        <div class="topic-desc">Units 5–8: Body, Face, Classroom, Colors</div>
+      </div>
+      <span class="topic-score" id="score-fa2">📝</span>
+    </a>
+
+    <a class="topic-card final-card" href="final-test.html">
+      <div class="topic-num final">FT</div>
+      <div class="topic-info">
+        <div class="topic-title">Final Test</div>
+        <div class="topic-desc">All Units 1–8 · 30 questions · Pass: 23/30</div>
+      </div>
+      <span class="topic-score" id="score-ft">📝</span>
+    </a>
+
+  </div>
+
   <div class="footer-note">8 Topics · 80+ Words · TPR Method</div>
 
 </div>
@@ -238,10 +301,10 @@
 const storageKeys = {
   1: 'tpr-actions-progress',
   2: 'tpr-alphabet-progress',
-  3: 'tpr-numbers11-progress',
-  4: 'tpr-numbers21-progress',
-  5: 'tpr-body-progress',
-  6: 'tpr-face-progress',
+  3: 'tpr-numbers-11-20-progress',
+  4: 'tpr-numbers-21-100-progress',
+  5: 'tpr-body-parts-progress',
+  6: 'tpr-face-parts-progress',
   7: 'tpr-classroom-progress',
   8: 'tpr-colors-progress'
 };
@@ -255,6 +318,25 @@ for (let i = 1; i <= 8; i++) {
     const parsed = JSON.parse(data);
     el.textContent = '⭐ ' + parsed.bestScore + '/' + parsed.total;
     el.classList.add('done');
+  }
+}
+
+// Load progress assessment
+const assessmentKeys = {
+  fa1: 'tpr-formative-1-progress',
+  fa2: 'tpr-formative-2-progress',
+  ft: 'tpr-final-test-progress'
+};
+
+for (const [id, key] of Object.entries(assessmentKeys)) {
+  const el = document.getElementById('score-' + id);
+  const data = localStorage.getItem(key);
+
+  if (data) {
+    const parsed = JSON.parse(data);
+    const passed = parsed.bestScore >= parsed.passingScore;
+    el.textContent = (passed ? '✅ ' : '❌ ') + parsed.bestScore + '/' + parsed.total;
+    if (passed) el.classList.add('done');
   }
 }
 </script>
