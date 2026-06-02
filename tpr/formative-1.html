@@ -40,34 +40,16 @@
 
   .back-btn:hover { background: #e3f2fd; }
 
-  .header h2 { font-size: 1.4rem; color: #333; margin: 0; }
-
-  .progress {
-    margin-left: auto;
-    font-size: 0.85rem;
-    color: #666;
-    background: #fff;
-    padding: 6px 12px;
-    border-radius: 20px;
-    white-space: nowrap;
-  }
-
-  .main-display {
-    width: 100%;
-    max-width: 600px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+  .header h2 { font-size: 1.3rem; color: #333; margin: 0; }
+  .header span { font-size: 0.8rem; color: #666; margin-left: auto; }
 
   .quiz-area {
+    width: 100%;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    width: 100%;
   }
 
   .quiz-audio-btn {
@@ -101,60 +83,30 @@
     border: 3px solid #ddd;
     overflow: hidden;
     transition: all 0.15s;
-    position: relative;
   }
 
   .option-card img { width: 100%; height: 100%; object-fit: cover; }
 
-  .option-card:hover {
-    border-color: #90CAF9;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  }
-
   .option-card.correct { border-color: #4CAF50; background: #E8F5E9; }
   .option-card.wrong { border-color: #f44336; background: #FFEBEE; }
 
-  .quiz-score { font-size: 1.1rem; font-weight: bold; color: #333; }
+  .quiz-score { font-size: 1rem; font-weight: bold; color: #333; }
 
   .quiz-done { text-align: center; }
-
-  .quiz-done h3 { font-size: 1.6rem; margin-bottom: 10px; }
-
-  .pass { color: #4CAF50; }
-  .fail { color: #f44336; }
+  .quiz-done h3 { font-size: 1.4rem; margin-bottom: 8px; }
+  .quiz-done .pass { color: #4CAF50; }
+  .quiz-done .fail { color: #f44336; }
 
   .retry-btn {
     background: #2196F3;
     color: #fff;
     border: none;
     padding: 12px 28px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     border-radius: 8px;
     cursor: pointer;
     margin-top: 10px;
   }
-
-  .retry-btn:hover { background: #1976D2; }
-
-  .start-screen {
-    text-align: center;
-  }
-
-  .start-screen h3 { font-size: 1.4rem; margin-bottom: 10px; }
-  .start-screen p { color: #666; margin-bottom: 20px; }
-
-  .start-btn {
-    background: #4CAF50;
-    color: #fff;
-    border: none;
-    padding: 14px 32px;
-    font-size: 1.2rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  .start-btn:hover { background: #388E3C; }
 
   .hidden { display: none !important; }
 
@@ -166,44 +118,27 @@
 <body>
 
 <div class="header">
-  <a href="../index-tp.html" class="back-btn">← Back</a>
+  <a href="index-tp.html" class="back-btn">← Back</a>
   <h2>Formative Assessment 1</h2>
-  <span class="progress" id="progressDot">Units 1-4</span>
+  <span id="progressDot">Units 1-4</span>
 </div>
 
-<div class="main-display">
+<div class="quiz-area" id="quizArea">
+  <button class="quiz-audio-btn" id="quizAudioBtn" onclick="playQuizAudio()">🔊</button>
+  <div class="options-grid" id="optionsGrid"></div>
+  <div class="quiz-score" id="quizScore">Score: 0 / 20</div>
+</div>
 
-  <!-- START SCREEN -->
-  <div class="start-screen" id="startScreen">
-    <h3>📋 Formative Assessment 1</h3>
-    <p>Units 1–4: Actions, Alphabet, Numbers 11-20, Numbers 21-100</p>
-    <p>20 questions · Pass: 15/20</p>
-    <p id="bestScoreText"></p>
-    <button class="start-btn" onclick="startQuiz()">▶ Start</button>
-  </div>
-
-  <!-- QUIZ AREA -->
-  <div class="quiz-area hidden" id="quizArea">
-    <button class="quiz-audio-btn" id="quizAudioBtn" onclick="playQuizAudio()">🔊</button>
-    <div class="options-grid" id="optionsGrid"></div>
-    <div class="quiz-score" id="quizScore">Score: 0 / 20</div>
-  </div>
-
-  <!-- QUIZ DONE -->
-  <div class="quiz-done hidden" id="quizDone">
-    <h3 id="doneTitle">🎉 Assessment Complete!</h3>
-    <p id="quizFinalScore" style="font-size: 1.3rem;"></p>
-    <p id="passFailText" style="font-size: 1.1rem; font-weight: bold;"></p>
-    <button class="retry-btn" onclick="retryQuiz()">🔄 Try Again</button>
-  </div>
-
+<div class="quiz-done hidden" id="quizDone">
+  <h3>Assessment Complete</h3>
+  <p id="quizFinalScore" style="font-size: 1.2rem;"></p>
+  <p id="passFailText" style="font-weight: bold;"></p>
+  <button class="retry-btn" onclick="retryQuiz()">🔄 Try Again</button>
 </div>
 
 <script>
-// ===== POOL SOAL =====
-// Semua item dari unit 1-4
+// ===== DATA =====
 const pool = [
-  // Unit 1: Actions
   { name: 'sit-down', topic: 'actions' },
   { name: 'stand-up', topic: 'actions' },
   { name: 'walk', topic: 'actions' },
@@ -214,8 +149,6 @@ const pool = [
   { name: 'clap', topic: 'actions' },
   { name: 'point', topic: 'actions' },
   { name: 'touch', topic: 'actions' },
-  // Unit 2: Alphabet (10 random dari 26)
-  // Unit 3: Numbers 11-20
   { name: 'eleven', topic: 'numbers-11-20' },
   { name: 'twelve', topic: 'numbers-11-20' },
   { name: 'thirteen', topic: 'numbers-11-20' },
@@ -226,7 +159,6 @@ const pool = [
   { name: 'eighteen', topic: 'numbers-11-20' },
   { name: 'nineteen', topic: 'numbers-11-20' },
   { name: 'twenty', topic: 'numbers-11-20' },
-  // Unit 4: Numbers 21-100
   { name: 'twenty-one', topic: 'numbers-21-100' },
   { name: 'twenty-two', topic: 'numbers-21-100' },
   { name: 'thirty', topic: 'numbers-21-100' },
@@ -239,14 +171,13 @@ const pool = [
   { name: 'one-hundred', topic: 'numbers-21-100' }
 ];
 
-// Pool alfabet (26 huruf)
 const alphabetPool = "abcdefghijklmnopqrstuvwxyz".split("").map(letter => ({
   name: letter,
   topic: 'alphabet-names'
 }));
 
-const TOTAL_QUESTIONS = 20;
-const PASSING_SCORE = 15;
+const TOTAL = 20;
+const PASS = 15;
 
 let quizItems = [];
 let quizIndex = 0;
@@ -263,7 +194,7 @@ function getImgPath(topic, name) {
 
 function playAudio(topic, name) {
   const audio = new Audio(getAudioPath(topic, name));
-  audio.play().catch(e => console.log('Audio play prevented:', e));
+  audio.play().catch(e => console.log('Audio:', e));
 }
 
 function shuffle(arr) {
@@ -276,35 +207,22 @@ function shuffle(arr) {
 }
 
 function buildQuiz() {
-  // Pilih 10 alfabet random
-  const randomAlphabet = shuffle(alphabetPool).slice(0, 5);
-  
-  // Gabung semua: actions (5), alphabet (5), numbers 11-20 (5), numbers 21-100 (5)
+  const alphabet = shuffle(alphabetPool).slice(0, 5);
   const fromPool = shuffle(pool);
   const actions = fromPool.filter(i => i.topic === 'actions').slice(0, 5);
   const num11 = fromPool.filter(i => i.topic === 'numbers-11-20').slice(0, 5);
   const num21 = fromPool.filter(i => i.topic === 'numbers-21-100').slice(0, 5);
-  
-  const selected = shuffle([...actions, ...randomAlphabet, ...num11, ...num21]);
-  
-  quizItems = selected.map(item => ({ correct: item }));
+
+  quizItems = shuffle([...actions, ...alphabet, ...num11, ...num21]).map(item => ({ correct: item }));
   quizIndex = 0;
   quizScore = 0;
   quizLocked = false;
 }
 
 function getOptions(correctItem) {
-  // Cari 3 opsi salah dari pool yang sama (atau campur)
   const sameTopic = pool.filter(i => i.topic === correctItem.topic && i.name !== correctItem.name);
   const otherTopics = pool.filter(i => i.topic !== correctItem.topic);
-  
-  let wrongs = [];
-  if (sameTopic.length >= 3) {
-    wrongs = shuffle(sameTopic).slice(0, 3);
-  } else {
-    wrongs = shuffle([...sameTopic, ...otherTopics]).slice(0, 3);
-  }
-  
+  let wrongs = sameTopic.length >= 3 ? shuffle(sameTopic).slice(0, 3) : shuffle([...sameTopic, ...otherTopics]).slice(0, 3);
   return shuffle([correctItem, ...wrongs]);
 }
 
@@ -326,7 +244,7 @@ function renderQuizQuestion() {
     grid.appendChild(card);
   });
 
-  document.getElementById('quizScore').textContent = 'Score: ' + quizScore + ' / ' + TOTAL_QUESTIONS;
+  document.getElementById('quizScore').textContent = 'Score: ' + quizScore + ' / ' + TOTAL;
   setTimeout(() => { playAudio(q.correct.topic, q.correct.name); }, 300);
 }
 
@@ -350,7 +268,7 @@ function handleOptionClick(card, isCorrect) {
     });
   }
 
-  document.getElementById('quizScore').textContent = 'Score: ' + quizScore + ' / ' + TOTAL_QUESTIONS;
+  document.getElementById('quizScore').textContent = 'Score: ' + quizScore + ' / ' + TOTAL;
   setTimeout(() => { quizIndex++; renderQuizQuestion(); }, 1200);
 }
 
@@ -363,28 +281,25 @@ function playQuizAudio() {
 function showQuizDone() {
   document.getElementById('quizArea').classList.add('hidden');
   document.getElementById('quizDone').classList.remove('hidden');
-  
-  const passed = quizScore >= PASSING_SCORE;
-  document.getElementById('quizFinalScore').textContent = 'Your score: ' + quizScore + ' / ' + TOTAL_QUESTIONS;
-  
+
+  const passed = quizScore >= PASS;
+  document.getElementById('quizFinalScore').textContent = 'Your score: ' + quizScore + ' / ' + TOTAL;
   const passFail = document.getElementById('passFailText');
   if (passed) {
-    passFail.textContent = '✅ PASSED! You can continue to Unit 5.';
+    passFail.textContent = '✅ PASSED! Continue to Unit 5.';
     passFail.className = 'pass';
   } else {
     passFail.textContent = '❌ NOT YET. Review and try again.';
     passFail.className = 'fail';
   }
-  
-  saveProgress(quizScore);
-}
 
-function startQuiz() {
-  document.getElementById('startScreen').classList.add('hidden');
-  document.getElementById('quizArea').classList.remove('hidden');
-  document.getElementById('quizDone').classList.add('hidden');
-  buildQuiz();
-  renderQuizQuestion();
+  const data = { bestScore: quizScore, total: TOTAL, passingScore: PASS, lastAttempt: new Date().toISOString() };
+  const existing = localStorage.getItem('tpr-formative-1-progress');
+  if (existing) {
+    const prev = JSON.parse(existing);
+    if (prev.bestScore > quizScore) data.bestScore = prev.bestScore;
+  }
+  localStorage.setItem('tpr-formative-1-progress', JSON.stringify(data));
 }
 
 function retryQuiz() {
@@ -394,31 +309,9 @@ function retryQuiz() {
   renderQuizQuestion();
 }
 
-// Progress
-const STORAGE_KEY = 'tpr-formative-1-progress';
-
-function saveProgress(score) {
-  const data = { bestScore: score, total: TOTAL_QUESTIONS, lastAttempt: new Date().toISOString() };
-  const existing = localStorage.getItem(STORAGE_KEY);
-  if (existing) {
-    const prev = JSON.parse(existing);
-    if (prev.bestScore > score) data.bestScore = prev.bestScore;
-  }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  updateBestScore();
-}
-
-function updateBestScore() {
-  const data = localStorage.getItem(STORAGE_KEY);
-  const text = document.getElementById('bestScoreText');
-  if (data) {
-    const prev = JSON.parse(data);
-    text.textContent = '🏆 Best: ' + prev.bestScore + '/' + prev.total;
-  }
-}
-
 // Init
-updateBestScore();
+buildQuiz();
+renderQuizQuestion();
 </script>
 </body>
 </html>
