@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Test - Pre-Grade 1</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f4f8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  /* HEADER */
+  .header {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    margin-bottom: 5px;
+  }
+
+  .back-btn {
+    background: #fff;
+    border: 2px solid #FF9800;
+    color: #FF9800;
+    font-size: 1.2rem;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .back-btn:hover {
+    background: #fff3e0;
+  }
+
+  .header h2 {
+    font-size: 1.4rem;
+    color: #333;
+    margin: 0;
+  }
+
+  .header span {
+    margin-left: auto;
+    font-size: 0.85rem;
+    color: #666;
+    background: #fff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* MAIN DISPLAY */
+  .main-display {
+    width: 100%;
+    max-width: 600px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* QUIZ MODE */
+  .quiz-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .quiz-audio-btn {
+    background: #FF9800;
+    color: #fff;
+    border: none;
+    font-size: 3rem;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255,152,0,0.4);
+    transition: transform 0.1s;
+  }
+
+  .quiz-audio-btn:active {
+    transform: scale(0.9);
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .option-card {
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #fff;
+    border: 3px solid #ddd;
+    overflow: hidden;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .option-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .option-card:hover {
+    border-color: #FFCC80;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  }
+
+  .option-card.correct {
+    border-color: #4CAF50;
+    background: #E8F5E9;
+  }
+
+  .option-card.wrong {
+    border-color: #f44336;
+    background: #FFEBEE;
+  }
+
+  .quiz-score {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .quiz-done {
+    text-align: center;
+  }
+
+  .quiz-done h3 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+
+  .retry-btn {
+    background: #FF9800;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .retry-btn:hover {
+    background: #F57C00;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 400px) {
+    .options-grid {
+      gap: 6px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index-tp.html" class="back-btn">← Back</a>
+  <h2>Final Test</h2>
+  <span>All Units 1-8</span>
+</div>
+
+<!-- MAIN DISPLAY -->
+<div class="main-display">
+
+  <!-- QUIZ AREA -->
+  <div class="quiz-area" id="quizArea">
+    <button class="quiz-audio-btn" id="quizAudioBtn" onclick="playQuizAudio()">🔊</button>
+    <div class="options-grid" id="optionsGrid"></div>
+    <div class="quiz-score" id="quizScore">Score: 0 / 30</div>
+  </div>
+
+  <!-- QUIZ DONE -->
+  <div class="quiz-done hidden" id="quizDone">
+    <h3>🏆 Final Test Complete!</h3>
+    <p id="quizFinalScore" style="font-size: 1.3rem;"></p>
+    <p id="passFailText" style="font-weight: bold;"></p>
+    <button class="retry-btn" onclick="retryQuiz()">🔄 Try Again</button>
+  </div>
+
+</div>
+
+<script>
+// ===== DATA POOL =====
+function makeItems(names, folder) {
+  return names.map(name => ({ name: name, folder: folder }));
+}
+
+// Actions (10)
+const actions = makeItems([
+  'sit-down', 'stand-up', 'walk', 'run',
+  'read', 'write', 'jump', 'clap', 'point', 'touch'
+], 'actions');
+
+// Alphabet (26)
+const alphabet = makeItems('abcdefghijklmnopqrstuvwxyz'.split(''), 'alphabet-names');
+
+// Numbers 11-20 (10)
+const numbers11 = makeItems([
+  'eleven', 'twelve', 'thirteen', 'fourteen',
+  'fifteen', 'sixteen', 'seventeen', 'eighteen',
+  'nineteen', 'twenty'
+], 'numbers-11-20');
+
+// Numbers 21-100 (18)
+const numbers21 = makeItems([
+  'twenty-one', 'twenty-two', 'thirty', 'forty',
+  'fifty', 'sixty', 'seventy', 'eighty', 'ninety', 'one-hundred',
+  'twenty-five', 'thirty-seven', 'forty-two', 'fifty-eight',
+  'sixty-three', 'seventy-one', 'eighty-four', 'ninety-nine'
+], 'numbers-21-100');
+
+// Body Parts (12)
+const bodyParts = makeItems([
+  'head', 'shoulder', 'knee', 'toe',
+  'hand', 'hands', 'arm', 'arms',
+  'foot', 'feet', 'leg', 'legs'
+], 'body-parts');
+
+// Face Parts (9)
+const faceParts = makeItems([
+  'eyes', 'ears', 'mouth', 'nose',
+  'hair', 'cheeks', 'chin',
+  'teeth', 'tooth'
+], 'face-parts');
+
+// Classroom (9)
+const classroom = makeItems([
+  'table', 'chair', 'board', 'book',
+  'pencil', 'pen', 'bag', 'eraser', 'ruler'
+], 'classroom');
+
+// Colors (8)
+const colors = makeItems([
+  'red', 'blue', 'green', 'yellow',
+  'orange', 'purple', 'black', 'white'
+], 'colors');
+
+// Gabung semua
+const allItems = [...actions, ...alphabet, ...numbers11, ...numbers21, ...bodyParts, ...faceParts, ...classroom, ...colors];
+
+// ===== STATE =====
+let quizItems = [];
+let quizIndex = 0;
+let quizScore = 0;
+let quizLocked = false;
+
+const TOTAL_QUESTIONS = 30;
+const PASSING_SCORE = 23;
+
+// ===== HELPERS =====
+function getAudioPath(folder, name) {
+  return folder + '/audio/' + name + '.mp3';
+}
+
+function getImgPath(folder, name) {
+  return folder + '/img/' + name + '.jpg';
+}
+
+function playAudio(folder, name) {
+  const audio = new Audio(getAudioPath(folder, name));
+  audio.play().catch(e => console.log('Audio play prevented:', e));
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ===== BUILD QUIZ =====
+function buildQuiz() {
+  const pick = (pool, count) => shuffle(pool).slice(0, count);
+
+  const selected = [
+    ...pick(actions, 4),
+    ...pick(alphabet, 4),
+    ...pick(numbers11, 4),
+    ...pick(numbers21, 4),
+    ...pick(bodyParts, 4),
+    ...pick(faceParts, 3),
+    ...pick(classroom, 4),
+    ...pick(colors, 3)
+  ];
+
+  quizItems = shuffle(selected).map(item => ({ correct: item }));
+  quizIndex = 0;
+  quizScore = 0;
+  quizLocked = false;
+}
+
+function getOptions(correctItem) {
+  const sameTopic = allItems.filter(i => i.folder === correctItem.folder && i.name !== correctItem.name);
+  const otherTopics = allItems.filter(i => i.folder !== correctItem.folder);
+
+  let wrongs;
+  if (sameTopic.length >= 3) {
+    wrongs = shuffle(sameTopic).slice(0, 3);
+  } else {
+    wrongs = shuffle([...sameTopic, ...otherTopics]).slice(0, 3);
+  }
+
+  return shuffle([correctItem, ...wrongs]);
+}
+
+function renderQuizQuestion() {
+  if (quizIndex >= quizItems.length) {
+    showQuizDone();
+    return;
+  }
+
+  quizLocked = false;
+
+  const q = quizItems[quizIndex];
+  const options = getOptions(q.correct);
+
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+
+  options.forEach(opt => {
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    card.innerHTML = '<img src="' + getImgPath(opt.folder, opt.name) + '" alt="">';
+    card.onclick = function() {
+      handleOptionClick(card, opt.name === q.correct.name && opt.folder === q.correct.folder);
+    };
+    grid.appendChild(card);
+  });
+
+  updateQuizScore();
+
+  setTimeout(() => { playAudio(q.correct.folder, q.correct.name); }, 300);
+}
+
+function handleOptionClick(card, isCorrect) {
+  if (quizLocked) return;
+  quizLocked = true;
+
+  if (isCorrect) {
+    card.classList.add('correct');
+    quizScore++;
+  } else {
+    card.classList.add('wrong');
+    const allCards = document.querySelectorAll('.option-card');
+    const correctName = quizItems[quizIndex].correct.name;
+    const correctFolder = quizItems[quizIndex].correct.folder;
+    allCards.forEach(c => {
+      const img = c.querySelector('img');
+      if (img && img.src.includes(correctFolder + '/img/' + correctName + '.jpg')) {
+        c.classList.add('correct');
+      }
+    });
+  }
+
+  updateQuizScore();
+
+  setTimeout(() => {
+    quizIndex++;
+    renderQuizQuestion();
+  }, 1200);
+}
+
+function playQuizAudio() {
+  if (quizIndex < quizItems.length) {
+    playAudio(quizItems[quizIndex].correct.folder, quizItems[quizIndex].correct.name);
+  }
+}
+
+function updateQuizScore() {
+  document.getElementById('quizScore').textContent = 'Score: ' + quizScore + ' / ' + TOTAL_QUESTIONS;
+}
+
+function showQuizDone() {
+  document.getElementById('quizArea').classList.add('hidden');
+  document.getElementById('quizDone').classList.remove('hidden');
+
+  const passed = quizScore >= PASSING_SCORE;
+  document.getElementById('quizFinalScore').textContent = 'Your score: ' + quizScore + ' / ' + TOTAL_QUESTIONS;
+
+  const passFail = document.getElementById('passFailText');
+  if (passed) {
+    passFail.textContent = '✅ PASSED! Ready for Grade 1!';
+    passFail.style.color = '#4CAF50';
+  } else {
+    passFail.textContent = '❌ NOT YET. Review and try again.';
+    passFail.style.color = '#f44336';
+  }
+
+  saveProgress(quizScore, TOTAL_QUESTIONS);
+}
+
+function retryQuiz() {
+  document.getElementById('quizDone').classList.add('hidden');
+  document.getElementById('quizArea').classList.remove('hidden');
+  buildQuiz();
+  renderQuizQuestion();
+}
+
+// ===== PROGRESS (localStorage) =====
+const STORAGE_KEY = 'tpr-final-test-progress';
+
+function saveProgress(score, total) {
+  const data = {
+    bestScore: score,
+    total: total,
+    passingScore: PASSING_SCORE,
+    lastAttempt: new Date().toISOString()
+  };
+
+  const existing = localStorage.getItem(STORAGE_KEY);
+  if (existing) {
+    const prev = JSON.parse(existing);
+    if (prev.bestScore > score) {
+      data.bestScore = prev.bestScore;
+    }
+  }
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+// ===== INIT =====
+buildQuiz();
+renderQuizQuestion();
+
+</script>
+</body>
+</html>
