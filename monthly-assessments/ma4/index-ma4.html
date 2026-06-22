@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MA3 · Select Grade</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            background: #d0e2f2;
+            padding: 20px 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: white;
+            border-radius: 40px;
+            box-shadow: 0 15px 30px rgba(20, 60, 120, 0.25);
+            padding: 25px 20px 35px;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 3px dashed #9bb7d4;
+            padding-bottom: 20px;
+        }
+        
+        .header img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+        
+        .header-text h1 {
+            font-size: 2rem;
+            color: #0b3b5a;
+            line-height: 1.2;
+        }
+        
+        .header-text .sub {
+            font-size: 1rem;
+            color: #2d6a7e;
+            font-style: italic;
+        }
+        
+        .badge-new {
+            background: #f4a261;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        .breadcrumb {
+            margin-bottom: 25px;
+            background: #e1effb;
+            padding: 10px 18px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+        
+        .breadcrumb a {
+            color: #1f5e8e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .breadcrumb span {
+            color: #0b3b5a;
+            font-weight: 600;
+        }
+        
+        /* Grade Grid */
+        .grade-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 30px 0 20px;
+        }
+        
+        .grade-card {
+            background: linear-gradient(145deg, #f5faff, #e6f0fa);
+            border-radius: 30px;
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid #bed9f0;
+            transition: 0.2s;
+        }
+        
+        .grade-card:hover {
+            background: #d4e9ff;
+            border-color: #2f7eb3;
+            transform: scale(1.01);
+        }
+        
+        .grade-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .grade-icon {
+            font-size: 2.2rem;
+            background: #1d5b8e;
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 4px 8px #8fb4d4;
+        }
+        
+        .grade-info h3 {
+            font-size: 1.8rem;
+            color: #0a3147;
+            margin-bottom: 5px;
+        }
+        
+        .grade-info p {
+            font-size: 0.85rem;
+            color: #4a6f8a;
+        }
+        
+        /* Tombol aktif (READY) */
+        .grade-btn {
+            background: #2b6c9e;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: 0.2s;
+            box-shadow: 0 3px 8px #7f9eb9;
+            display: inline-block;
+        }
+        
+        .grade-btn:hover {
+            background: #1b4e78;
+        }
+        
+        /* Tombol untuk status coming */
+        .btn-coming {
+            background: #e9c46a;
+            color: #5e3a00;
+            cursor: default;
+            pointer-events: none;
+            opacity: 0.9;
+            box-shadow: none;
+        }
+        
+        /* Tombol untuk status NOT AVAILABLE */
+        .btn-notavail {
+            background: #b0a0a0;
+            color: #4a3a3a;
+            cursor: default;
+            pointer-events: none;
+            opacity: 0.6;
+            box-shadow: none;
+        }
+        
+        .footer-note {
+            margin-top: 30px;
+            text-align: center;
+            color: #2a577b;
+            font-size: 0.9rem;
+            border-top: 2px solid #c5ddf5;
+            padding-top: 20px;
+        }
+        
+        .footer-note span {
+            background: #e6f2ff;
+            padding: 5px 15px;
+            border-radius: 30px;
+        }
+        
+        /* Status badges */
+        .status-ready {
+            display: inline-block;
+            font-size: 0.7rem;
+            background: #2a9d8f;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+        
+        .status-coming {
+            display: inline-block;
+            font-size: 0.7rem;
+            background: #e9c46a;
+            color: #5e3a00;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+        
+        .status-notavail {
+            display: inline-block;
+            font-size: 0.7rem;
+            background: #a84c4c;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-text">
+                <h1>📘 MA4 · Select Grade</h1>
+                <div class="sub">Monthly Assessment 3 <span class="badge-new">NEW</span></div>
+            </div>
+        </div>
+        
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="../../index.html">Home</a> › 
+            <a href="../index-ma.html">Monthly Assessments</a> › 
+            <span>MA4</span>
+        </div>
+        
+        <!-- Info notice -->
+        <div style="background: #fff8e7; border-radius: 20px; padding: 12px 18px; margin-bottom: 20px; border-left: 6px solid #f4a261;">
+            <span style="font-size: 0.9rem;">📌 <strong>Monthly Assessment 4</strong> | Choose your grade level below to start the test. Each assessment includes Grammar, Vocabulary, and Reading Comprehension.</span>
+        </div>
+        
+        <!-- Grade Grid: G1 - G9 -->
+        <div class="grade-grid">
+            
+            <!-- ========== GRADE 1 ========== COMING -->
+            <div class="grade-card">
+                <div class="grade-left">
+                    <div class="grade-icon">G1</div>
+                    <div class="grade-info">
+                        <h3>Grade 1 <span class="status-coming">Coming</span></h3>
+                        <p>Basic grammar, pronouns, reading</p>
+                    </div>
+                </div>
+                <a href="#" class="grade-btn btn-coming">Coming →</a>
+            </div>
+            
+            <!-- ========== GRADE 2 ========== READY -->
+            <div class="grade-card">
+                <div class="grade-left">
+                    <div class="grade-icon">G2</div>
+                    <div class="grade-info">
+                        <h3>Grade 2 <span class="status-ready">Ready</span></h3>
+                        <p>Question words, present tense, reading</p>
+                    </div>
+                </div>
+                <a href="G2-MA4.html" class="grade-btn">Start →</a>
+            </div>
+            
+            <!-- ========== GRADE 3 ========== READY -->
+            <div class="grade-card">
+                <div class="grade-left">
+                    <div class="grade-icon">G3</div>
+                    <div class="grade-info">
+                        <h3>Grade 3 <span class="status-ready">Ready</span></h3>
+                        <p>Adverbs, conjunctions, cloze passage</p>
+                    </div>
+                </div>
+                <a href="G3-MA4.html" class="grade-btn">Start →</a>
+            </div>
+            
+            <!-- ========== GRADE 4 ========== READY -->
+            <div class="grade-card">
+                <div class="grade-left">
+                    <div class="grade-icon">G4</div>
+                    <div class="grade-info">
+                        <h3>Grade 4 <span class="status-ready">Ready</span></h3>
+                        <p>Questions, grammar, vocabulary</p>
+                    </div>
+                </div>
+                <a href="G4-MA4.html" class="grade-btn">Start →</a>
+            </div>
+            
+            <!-- ========== GRADE 5 ========== READY -->
+            <div class="grade-card">
+                <div class="grade-left">
+                    <div class="grade-icon">G5</div>
+                    <div class="grade-info">
+                        <h3>Grade 5 <span class="status-ready">Ready</span></h3>
+                        <p>Grammar & cloze exercise</p>
+                    </div>
+                </div>
+                <a href="G5-MA4.html" class="grade-btn">Start →</a>
+            </div>
+            
+            <!-- ========== GRADE 6 ========== READY -->
+            <div class="grade-card">
+                <div class="grade-left">
+                    <div class="grade-icon">G6</div>
+                    <div class="grade-info">
+                        <h3>Grade 6 <span class="status-ready">Ready</span></h3>
+                        <p>Grammar & cloze passage</p>
+                    </div>
+                </div>
+                <a href="G6-MA4.html" class="grade-btn">Start →</a>
+            </div>
+            
+            <!-- ========== GRADE 7 ========== NOT AVAILABLE -->
+            <div class="grade-card">
+                <div class="grade-left">
+                    <div class="grade-icon">G7</div>
+                    <div class="grade-info">
+                        <h3>Grade 7 <span class="status-notavail">Not Available</span></h3>
+                        <p>Intermediate grammar</p>
+                    </div>
+                </div>
+                <a href="#" class="grade-btn btn-notavail">Not Available →</a>
+            </div>
+            
+            <!-- ========== GRADE 8 ========== NOT AVAILABLE -->
+            <div class="grade-card">
+                <div class="grade-left">
+                    <div class="grade-icon">G8</div>
+                    <div class="grade-info">
+                        <h3>Grade 8 <span class="status-notavail">Not Available</span></h3>
+                        <p>Grammar & comprehension</p>
+                    </div>
+                </div>
+                <a href="#" class="grade-btn btn-notavail">Not Available →</a>
+            </div>
+            
+            <!-- ========== GRADE 9 ========== NOT AVAILABLE -->
+            <div class="grade-card">
+                <div class="grade-left">
+                    <div class="grade-icon">G9</div>
+                    <div class="grade-info">
+                        <h3>Grade 9 <span class="status-notavail">Not Available</span></h3>
+                        <p>Advanced grammar & cloze</p>
+                    </div>
+                </div>
+                <a href="#" class="grade-btn btn-notavail">Not Available →</a>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <span>📖 G1: Coming | G2-G6: Ready | G7-G9: Not Available</span>
+        </div>
+    </div>
+</body>
+</html>
+```
