@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>G4 English Program Monthly Assessment 4</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #d0e2f2; font-family: 'Segoe UI', Roboto, sans-serif; padding: 10px 8px; display: flex; justify-content: center; }
+        .paper { max-width: 700px; width: 100%; background: white; border-radius: 28px; box-shadow: 0 8px 25px rgba(0,30,60,0.2); padding: 18px 14px; }
+        h1 { font-size: 1.7rem; color: #123b54; margin: 0 0 2px 5px; }
+        .sub { font-size: 0.9rem; color: #34675c; margin-left: 8px; margin-bottom: 15px; }
+        .score-panel { background: #e2edfb; border-radius: 40px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; justify-content: space-between; margin-bottom: 20px; scroll-margin-top: 20px; }
+        .score-item { background: white; border-radius: 30px; padding: 4px 14px; font-weight: 600; font-size: 0.9rem; color: #114b66; box-shadow: 0 1px 4px #b0c8dd; }
+        .part { background: #f5faff; border-radius: 24px; padding: 18px 12px 22px; margin: 25px 0 18px; border: 1px solid #c0d6ed; }
+        .part h2 { background: #205882; color: white; display: inline-block; padding: 5px 24px; border-radius: 40px; font-size: 1.3rem; margin-top: -34px; margin-bottom: 16px; }
+        .grid-a { display: flex; flex-direction: column; gap: 12px; }
+        .qcard { background: white; border-radius: 18px; padding: 12px 14px; border: 1px solid #d0e2f5; font-size: 0.95rem; }
+        .qnum { font-weight: 700; color: #003f66; margin-right: 5px; }
+        .stem { line-height: 1.4; }
+        .ops { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; }
+        .ops label { background: #ecf3fc; padding: 4px 14px; border-radius: 30px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+        .fb { margin-left: 8px; font-weight: 600; font-size: 0.9rem; }
+        .fb.correct { color: #1f8b4c; }
+        .fb.wrong { color: #c13a3a; }
+        .fill-block { background: #fffcf0; border-radius: 24px; padding: 18px 16px; margin: 15px 0 10px; border: 2px solid #c0b28b; }
+        .fill-item { margin: 20px 0; display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+        .fill-item .qnum { font-weight: 700; color: #003f66; min-width: 40px; font-size: 1rem; line-height: 1.5; flex-shrink: 0; }
+        .fill-content { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; line-height: 1.5; }
+        .inline-input { display: inline-block; width: 140px; flex-shrink: 0; }
+        .inline-input input, .inline-input select { width: 100%; padding: 8px 12px; border: 2px solid #5f8bb3; border-radius: 30px; font-size: 0.9rem; text-align: center; background: white; }
+        .inline-input input.correct, .inline-input select.correct { background: #e3f7e3; border-color: #2a7f4a; }
+        .inline-input input.wrong, .inline-input select.wrong { background: #ffe6e6; border-color: #c13a3a; }
+        .fill-feedback { font-weight: 700; font-size: 0.9rem; min-width: 70px; text-align: center; flex-shrink: 0; }
+        .fill-feedback.correct { color: #1f8b4c; }
+        .fill-feedback.wrong { color: #c13a3a; }
+        .section-title { font-weight: 600; margin: 20px 0 10px; font-size: 1.1rem; color: #205882; }
+        .check-bottom { display: flex; justify-content: center; margin: 20px 0 8px; gap: 12px; flex-wrap: wrap; }
+        .btn-large { background: #1e4e73; color: white; border: none; padding: 14px 30px; border-radius: 60px; font-size: 1.3rem; font-weight: 700; width: 100%; max-width: 280px; cursor: pointer; }
+        .btn-small { background: white; border: 1px solid #2c6085; padding: 6px 16px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .wordbank { background: #e0dcc0; padding: 12px 18px; border-radius: 40px; font-size: 0.95rem; font-weight: 600; display: flex; flex-wrap: wrap; gap: 8px 20px; border: 2px dashed #7f6e4e; margin-bottom: 20px; }
+        .comprehension-text { background: #f0f4fa; padding: 16px; border-radius: 16px; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.7; border-left: 4px solid #205882; }
+        .comprehension-text strong { color: #123b54; }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>📘 G4 Monthly Assessment 4</h1>
+    <div class="sub">English Program | Grammar &amp; Vocabulary</div>
+
+    <div class="score-panel" id="scorePanel">
+        <span class="score-item">Part A <span id="scoreA">0</span>/20</span>
+        <span class="score-item">Part B <span id="scoreB">0</span>/20</span>
+        <span class="score-item">Total <span id="scoreTotal">0</span>/40</span>
+        <button class="btn-small" id="resetBtn">↺ Reset</button>
+    </div>
+
+    <!-- ===================== PART A ===================== -->
+    <div class="part">
+        <h2>🔹 PART A: Grammar</h2>
+
+        <!-- A.1 Multiple Choice (10 soal) -->
+        <div class="section-title">A.1 Multiple Choice</div>
+        <div class="grid-a" id="partAMC"></div>
+
+        <!-- A.2 Conjunctions (5 soal) -->
+        <div class="section-title" style="margin-top:25px;">A.2 Conjunctions — <em>and, but, because, so, or</em></div>
+        <div class="fill-block" id="a2Container"></div>
+
+        <!-- A.3 Comparison (5 soal) -->
+        <div class="section-title" style="margin-top:25px;">A.3 Comparison</div>
+        <div class="fill-block" id="a3Container"></div>
+    </div>
+
+    <!-- ===================== PART B ===================== -->
+    <div class="part">
+        <h2>🔸 PART B: Exercise</h2>
+
+        <!-- B.1 Comprehension -->
+        <div class="section-title">B.1 Comprehension</div>
+        <div class="comprehension-text">
+            <strong>Raju's family</strong> lives in Jurong. His father is a taxi-driver and his mother is a housewife. Raju has a sister and a brother. Raju's family goes to the park every Sunday. Sometimes, Raju lets his pet dog run around freely.<br><br>
+            On Raju's birthday, his mother gave him a toy car. His grandmother baked him a cake. Raju's family will be going for holiday in Malaysia next week. His cousin, Samy is joining them.
+        </div>
+        <div class="fill-block" id="b1Container"></div>
+
+        <!-- B.2 Vocabulary -->
+        <div class="section-title" style="margin-top:25px;">B.2 Vocabulary</div>
+        <div class="wordbank">
+            📌 WORD BANK: Canteen, Stickers, Slide, Sing, Skipping rope, Draw, Beach, Football, Read, Swing
+        </div>
+        <div class="fill-block" id="b2Container"></div>
+    </div>
+
+    <div class="check-bottom">
+        <button class="btn-large" id="checkBtn">🔍 Check Answers</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+
+        // ========== A.1 MULTIPLE CHOICE (10) ==========
+        const mcqs = [
+            { stem: "When my mother ______ cookies, she broke a bowl.", opts: ["made", "was making", "makes", "is making"], correct: 1 },
+            { stem: "My brother ______ when the burglars broke into the house.", opts: ["slept", "sleeps", "was sleeping", "is sleeping"], correct: 2 },
+            { stem: "People ______ since early morning.", opts: ["were queueing", "queue", "queued", "are queueing"], correct: 0 },
+            { stem: "My friend ______ house. I really miss her.", opts: ["just moved", "has just moved", "move", "moving"], correct: 1 },
+            { stem: "Mr Hall ______ his bag. He is looking for it.", opts: ["has just lost", "lose", "lost", "losing"], correct: 0 },
+            { stem: "The man shouted ______ at the stranger.", opts: ["angry", "anger", "angrily", "angrier"], correct: 2 },
+            { stem: "She smiled ______ when she received the prize.", opts: ["broad", "broadly", "broader", "breadth"], correct: 1 },
+            { stem: "He is too ______. He must eat more.", opts: ["strong", "thin", "tall", "healthy"], correct: 1 },
+            { stem: "His hair is ______. He is going to cut it.", opts: ["short", "curly", "long", "black"], correct: 2 },
+            { stem: "The boxes are too ______. We cannot even lift them up.", opts: ["light", "small", "heavy", "heaviest"], correct: 2 }
+        ];
+
+        // ========== A.2 CONJUNCTIONS (5) ==========
+        const a2Items = [
+            { before: "He studied hard", after: "passed the test.", correct: "and" },
+            { before: "Thomas studied hard", after: "he did not pass the test.", correct: "but" },
+            { before: "She is happy", after: "she has passed the exam.", correct: "because" },
+            { before: "Are we having fish", after: "chicken for lunch?", correct: "or" },
+            { before: "Sally fell", after: "hurt her leg.", correct: "and" }
+        ];
+
+        // ========== A.3 COMPARISON (5) ==========
+        const a3Items = [
+            { before: "Mabel is", after: "than Margaret.", options: ["old", "older", "oldest"], correct: "older" },
+            { before: "He is the", after: "runner in the school.", options: ["fast", "faster", "fastest"], correct: "fastest" },
+            { before: "The Hello Kitty toy is", after: "than the Pokemon toy.", options: ["cute", "cuter", "cutest"], correct: "cuter" },
+            { before: "Suleiman is the", after: "boy in the class.", options: ["quiet", "quieter", "quietest"], correct: "quietest" },
+            { before: "Vivian is", after: "than Susan.", options: ["pretty", "prettier", "prettiest"], correct: "prettier" }
+        ];
+
+        // ========== B.1 COMPREHENSION (10) ==========
+        const b1Items = [
+            { before: "Where does Raju live?", correct: "Jurong" },
+            { before: "What does Raju's father work as?", correct: "taxi driver" },
+            { before: "Raju's mother is a", correct: "housewife" },
+            { before: "There are", after: "children in Raju's family.", correct: "3" },
+            { before: "Raju's family goes to the park", after: "times a week.", correct: "one" },
+            { before: "What does Raju keep as a pet?", correct: "dog" },
+            { before: "What did his mother give him for his birthday?", correct: "toy car" },
+            { before: "Who baked him a cake for his birthday?", correct: "grandmother" },
+            { before: "Where are they going for a holiday?", correct: "Malaysia" },
+            { before: "Who is joining them?", correct: "Samy" }
+        ];
+
+        // ========== B.2 VOCABULARY (10) ==========
+        const b2Items = [
+            { before: "We build sandcastles on the", after: ".", correct: "beach" },
+            { before: "We exchange", after: "for our collection.", correct: "stickers" },
+            { before: "We play on the", after: "at the playground.", correct: "slide" },
+            { before: "We", after: "together in school.", correct: "draw" },        // DIPERBAIKI
+            { before: "We kick a", after: "in the field.", correct: "football" },
+            { before: "We eat together in the", after: ".", correct: "canteen" },
+            { before: "We", after: "books together.", correct: "read" },
+            { before: "We", after: "songs together.", correct: "sing" },            // DIPERBAIKI
+            { before: "We skip with the", after: ".", correct: "skipping rope" },
+            { before: "We enjoy going down the", after: ".", correct: "slide" }
+        ];
+
+        // ========== RENDER FUNCTIONS ==========
+
+        // Render MCQs A.1
+        const mcContainer = document.getElementById('partAMC');
+        function renderMC() {
+            let html = '';
+            mcqs.forEach((q, idx) => {
+                html += `<div class="qcard"><span class="qnum">${idx+1}.</span> <span class="stem">${q.stem}</span>
+                    <div class="ops">`;
+                q.opts.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(97 + optIdx);
+                    html += `<label><input type="radio" name="mc${idx}" value="${optIdx}"> ${letter}) ${opt}</label>`;
+                });
+                html += `</div><span class="fb" id="fbMC${idx}"></span></div>`;
+            });
+            mcContainer.innerHTML = html;
+        }
+        renderMC();
+
+        // Render A2 (text input)
+        function renderA2() {
+            const container = document.getElementById('a2Container');
+            let html = '';
+            a2Items.forEach((item, idx) => {
+                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
+                    <span class="fill-text">${item.before}</span>
+                    <span class="inline-input"><input type="text" id="a2_${idx}" placeholder="conjunction" autocomplete="off"></span>
+                    <span class="fill-text">${item.after}</span>
+                </div><span class="fill-feedback" id="fb_a2_${idx}"></span></div>`;
+            });
+            container.innerHTML = html;
+        }
+        renderA2();
+
+        // Render A3 (dropdown)
+        function renderA3() {
+            const container = document.getElementById('a3Container');
+            let html = '';
+            a3Items.forEach((item, idx) => {
+                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
+                    <span class="fill-text">${item.before}</span>
+                    <span class="inline-input"><select id="a3_${idx}"><option value="">--</option>`;
+                item.options.forEach(opt => html += `<option value="${opt}">${opt}</option>`);
+                html += `</select></span>
+                    <span class="fill-text">${item.after}</span>
+                </div><span class="fill-feedback" id="fb_a3_${idx}"></span></div>`;
+            });
+            container.innerHTML = html;
+        }
+        renderA3();
+
+        // Render B1 Comprehension (text input)
+        function renderB1() {
+            const container = document.getElementById('b1Container');
+            let html = '';
+            b1Items.forEach((item, idx) => {
+                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
+                    <span class="fill-text">${item.before}</span>
+                    <span class="inline-input"><input type="text" id="b1_${idx}" placeholder="answer" autocomplete="off"></span>
+                    ${item.after ? `<span class="fill-text">${item.after}</span>` : ''}
+                </div><span class="fill-feedback" id="fb_b1_${idx}"></span></div>`;
+            });
+            container.innerHTML = html;
+        }
+        renderB1();
+
+        // Render B2 Vocabulary (text input)
+        function renderB2() {
+            const container = document.getElementById('b2Container');
+            let html = '';
+            b2Items.forEach((item, idx) => {
+                html += `<div class="fill-item"><span class="qnum">${idx+1}.</span><div class="fill-content">
+                    <span class="fill-text">${item.before}</span>
+                    <span class="inline-input"><input type="text" id="b2_${idx}" placeholder="answer" autocomplete="off"></span>
+                    <span class="fill-text">${item.after}</span>
+                </div><span class="fill-feedback" id="fb_b2_${idx}"></span></div>`;
+            });
+            container.innerHTML = html;
+        }
+        renderB2();
+
+        // ========== SCORING ==========
+        function hitungSkor() {
+            let skorA = 0;
+
+            // MCQs A.1 (10)
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                let selected = null;
+                for (let r of radios) if (r.checked) { selected = r.value; break; }
+                const fb = document.getElementById(`fbMC${i}`);
+                if (selected !== null && parseInt(selected) === mcqs[i].correct) {
+                    fb.innerText = '✓'; fb.className = 'fb correct'; skorA++;
+                } else {
+                    const benar = mcqs[i].opts[mcqs[i].correct];
+                    const benarLetter = String.fromCharCode(97 + mcqs[i].correct);
+                    fb.innerText = selected ? `✗ (${benarLetter}) ${benar}` : `(answer: ${benarLetter}) ${benar}`;
+                    fb.className = 'fb wrong';
+                }
+            }
+
+            // A.2 Conjunctions (5)
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`a2_${i}`);
+                const fb = document.getElementById(`fb_a2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = a2Items[i].correct.toLowerCase();
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorA++;
+                    } else {
+                        fb.innerText = val ? `✗ (${a2Items[i].correct})` : `(answer: ${a2Items[i].correct})`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                        inp.classList.add('wrong');
+                    }
+                }
+            }
+
+            // A.3 Comparison (5)
+            for (let i = 0; i < 5; i++) {
+                const sel = document.getElementById(`a3_${i}`);
+                const fb = document.getElementById(`fb_a3_${i}`);
+                if (sel) {
+                    const val = sel.value;
+                    const benar = a3Items[i].correct;
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; sel.classList.add('correct'); skorA++;
+                    } else {
+                        fb.innerText = val ? `✗ (${benar})` : `(answer: ${benar})`;
+                        fb.className = 'fill-feedback wrong'; sel.classList.remove('correct');
+                        sel.classList.add('wrong');
+                    }
+                }
+            }
+
+            let skorB = 0;
+
+            // B.1 Comprehension (10)
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`b1_${i}`);
+                const fb = document.getElementById(`fb_b1_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase().replace(/[.?]/g, '');
+                    const benar = b1Items[i].correct.toLowerCase().replace(/[.?]/g, '');
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ (${b1Items[i].correct})` : `(answer: ${b1Items[i].correct})`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                        inp.classList.add('wrong');
+                    }
+                }
+            }
+
+            // B.2 Vocabulary (10)
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`b2_${i}`);
+                const fb = document.getElementById(`fb_b2_${i}`);
+                if (inp) {
+                    const val = inp.value.trim().toLowerCase();
+                    const benar = b2Items[i].correct.toLowerCase();
+                    if (val === benar) {
+                        fb.innerText = '✓'; fb.className = 'fill-feedback correct'; inp.classList.add('correct'); skorB++;
+                    } else {
+                        fb.innerText = val ? `✗ (${b2Items[i].correct})` : `(answer: ${b2Items[i].correct})`;
+                        fb.className = 'fill-feedback wrong'; inp.classList.remove('correct');
+                        inp.classList.add('wrong');
+                    }
+                }
+            }
+
+            document.getElementById('scoreA').innerText = skorA;
+            document.getElementById('scoreB').innerText = skorB;
+            document.getElementById('scoreTotal').innerText = skorA + skorB;
+            document.getElementById('scorePanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ========== RESET ==========
+        function resetSemua() {
+            // Reset MCQs
+            for (let i = 0; i < 10; i++) {
+                const radios = document.getElementsByName(`mc${i}`);
+                radios.forEach(r => r.checked = false);
+                const fb = document.getElementById(`fbMC${i}`); if (fb) fb.innerText = '';
+            }
+            // Reset A2
+            for (let i = 0; i < 5; i++) {
+                const inp = document.getElementById(`a2_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct', 'wrong'); }
+                const fb = document.getElementById(`fb_a2_${i}`); if (fb) fb.innerText = '';
+            }
+            // Reset A3
+            for (let i = 0; i < 5; i++) {
+                const sel = document.getElementById(`a3_${i}`);
+                if (sel) { sel.value = ''; sel.classList.remove('correct', 'wrong'); }
+                const fb = document.getElementById(`fb_a3_${i}`); if (fb) fb.innerText = '';
+            }
+            // Reset B1
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`b1_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct', 'wrong'); }
+                const fb = document.getElementById(`fb_b1_${i}`); if (fb) fb.innerText = '';
+            }
+            // Reset B2
+            for (let i = 0; i < 10; i++) {
+                const inp = document.getElementById(`b2_${i}`);
+                if (inp) { inp.value = ''; inp.classList.remove('correct', 'wrong'); }
+                const fb = document.getElementById(`fb_b2_${i}`); if (fb) fb.innerText = '';
+            }
+            document.getElementById('scoreA').innerText = '0';
+            document.getElementById('scoreB').innerText = '0';
+            document.getElementById('scoreTotal').innerText = '0';
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', hitungSkor);
+        document.getElementById('resetBtn').addEventListener('click', resetSemua);
+    })();
+</script>
+</body>
+</html>
