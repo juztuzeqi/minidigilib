@@ -1,138 +1,264 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Level-Up Test Preparation</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            background: #d0e2f2;
+            padding: 20px 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 550px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 10px 30px rgba(0, 30, 60, 0.2);
+            padding: 24px 20px 30px;
+        }
+        h1 {
+            font-size: 1.8rem;
+            color: #0b3b5a;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .badge {
+            background: #f4a261;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 30px;
+            color: white;
+            display: inline-block;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .sub {
+            text-align: center;
+            color: #34675c;
+            margin-bottom: 25px;
+            font-size: 0.85rem;
+        }
+        .audio-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 15px 0;
+        }
+        .audio-row {
+            background: #f5faff;
+            border-radius: 20px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid #c0d6ed;
+        }
+        .grade-label {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0a3147;
+            min-width: 85px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .audio-btn {
+            background: white;
+            border: 1.5px solid #1d5b8e;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1d5b8e;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .audio-btn:active {
+            background: #1d5b8e;
+            color: white;
+        }
+        .back-link {
+            display: block;
+            margin: 30px auto 10px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 12px;
+            background: #ffffff;
+            border-radius: 50px;
+            width: 80%;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            color: #1d5b8e;
+            font-weight: 600;
+            border: 1px solid #c0d6ed;
+        }
+        .back-link:active {
+            background: #e9ecef;
+        }
+        hr {
+            margin: 10px 0;
+            border-color: #c0d6ed;
+        }
+        .note {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #8aacc9;
+            margin-top: 15px;
+        }
 
-  <title>KP2A Level-Up Practice Test</title>
-  <link rel="icon" type="image/png" href="favicon.png">
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      font-size: 22px;
-      line-height: 1.6;
-      padding: 20px;
-      text-align: center;
-    }
-
-    h1 {
-      color: #2196F3;
-    }
-    
-    input {
-      font-size: 22px;
-      padding: 10px;
-      width: 90%;
-      max-width: 400px;
-      margin-bottom: 15px;
-      border: 2px solid #ddd;
-      border-radius: 5px;
-    }
-    
-    input:focus {
-      border-color: #2196F3;
-      outline: none;
-    }
-
-    button {
-      font-size: 22px;
-      padding: 12px 30px;
-      cursor: pointer;
-      background: #2196F3;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-    
-    button:hover {
-      background: #1976D2;
-    }
-    
-    .back-link {
-      display: block;
-      margin-top: 30px;
-      font-size: 18px;
-      color: #666;
-      text-decoration: none;
-    }
-    
-    .back-link:hover {
-      color: #2196F3;
-    }
-    
-    .token-hint {
-      margin-top: 25px;
-      padding: 15px;
-      background: #f0f8ff;
-      border-radius: 8px;
-      display: inline-block;
-      font-size: 18px;
-    }
-  </style>
+        .transcript-btn {
+            display: block;
+            background: #f4a261;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 14px 20px;
+            margin: 20px auto 10px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .transcript-btn:active {
+            background: #e08e3a;
+            transform: scale(0.98);
+        }
+    </style>
 </head>
-
 <body>
+<div class="container">
+    <h1>🎧 Level-Up Test <span class="badge">Preparation</span></h1>
+    <div class="sub">Listen to each grade's dictation</div>
 
-<h1>📝 Level-Up Practice Test</h1>
+    <div class="audio-list">
+        <!-- Grade 2 -->
+        <div class="audio-row">
+            <span class="grade-label">Grade 2</span>
+            <div class="btn-group">
+                <button class="audio-btn" data-grade="G2" data-action="play">▶ Play</button>
+                <button class="audio-btn" data-grade="G2" data-action="pause">⏸ Pause</button>
+                <button class="audio-btn" data-grade="G2" data-action="stop">⏹ Stop</button>
+            </div>
+        </div>
 
-<p>Please enter your name:</p>
-<input type="text" id="studentName" placeholder="Your Name">
+        <!-- Grade 3 -->
+        <div class="audio-row">
+            <span class="grade-label">Grade 3</span>
+            <div class="btn-group">
+                <button class="audio-btn" data-grade="G3" data-action="play">▶ Play</button>
+                <button class="audio-btn" data-grade="G3" data-action="pause">⏸ Pause</button>
+                <button class="audio-btn" data-grade="G3" data-action="stop">⏹ Stop</button>
+            </div>
+        </div>
 
-<p>Enter test token:</p>
-<input type="text" id="token" placeholder="Test Token">
+        <!-- Grade 4 -->
+        <div class="audio-row">
+            <span class="grade-label">Grade 4</span>
+            <div class="btn-group">
+                <button class="audio-btn" data-grade="G4" data-action="play">▶ Play</button>
+                <button class="audio-btn" data-grade="G4" data-action="pause">⏸ Pause</button>
+                <button class="audio-btn" data-grade="G4" data-action="stop">⏹ Stop</button>
+            </div>
+        </div>
 
-<br>
-<button onclick="startTest()">Start Test</button>
+        <!-- Grade 5 -->
+        <div class="audio-row">
+            <span class="grade-label">Grade 5</span>
+            <div class="btn-group">
+                <button class="audio-btn" data-grade="G5" data-action="play">▶ Play</button>
+                <button class="audio-btn" data-grade="G5" data-action="pause">⏸ Pause</button>
+                <button class="audio-btn" data-grade="G5" data-action="stop">⏹ Stop</button>
+            </div>
+        </div>
 
-<a href="../index.html" class="back-link">← Back to Mini DigiLib</a>
+        <!-- Grade 6 -->
+        <div class="audio-row">
+            <span class="grade-label">Grade 6</span>
+            <div class="btn-group">
+                <button class="audio-btn" data-grade="G6" data-action="play">▶ Play</button>
+                <button class="audio-btn" data-grade="G6" data-action="pause">⏸ Pause</button>
+                <button class="audio-btn" data-grade="G6" data-action="stop">⏹ Stop</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transcript button - links to HTML page with PDF download links -->
+    <a href="level-up-audio/transcripts/dictation-transcript-g2-g6.html" class="transcript-btn" target="_blank">
+        📖 Lihat Transkrip G2-G6
+    </a>
+
+    <div class="note">📁 Audio files: level-up-audio/G2.mp3 · level-up-audio/G3.mp3 · level-up-audio/G4.mp3 · level-up-audio/G5.mp3 · level-up-audio/G6.mp3</div>
+
+    <a class="back-link" href="../index.html">⬅ Back to Home</a>
+</div>
 
 <script>
-  function startTest() {
-    const name = document.getElementById("studentName").value.trim();
-    const token = document.getElementById("token").value.trim();
+    // Create audio objects for each grade (lazy load)
+    const audioPlayers = {
+        G2: null,
+        G3: null,
+        G4: null,
+        G5: null,
+        G6: null
+    };
 
-    if (name === "") {
-      alert("Please enter your name.");
-      return;
+    function getAudio(grade) {
+        if (!audioPlayers[grade]) {
+            audioPlayers[grade] = new Audio(`level-up-audio/${grade}.mp3`);
+        }
+        return audioPlayers[grade];
     }
 
-    if (token === "") {
-      alert("Please enter the test token.");
-      return;
+    function stopAudio(grade) {
+        const audio = getAudio(grade);
+        audio.pause();
+        audio.currentTime = 0;
     }
 
-    // Check token
-    if (token === "I can do it") {
-      // Save student name for use in menu
-      localStorage.setItem('student_name', name);
-      
-      // Redirect to menu.html
-      window.location.href = "menu.html";
-    } else {
-      alert("Invalid token. Please ask your teacher.");
+    function pauseAudio(grade) {
+        const audio = getAudio(grade);
+        audio.pause();
     }
-  }
-  
-  // Allow Enter key to submit
-  document.getElementById("token").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      startTest();
+
+    function playAudio(grade) {
+        const audio = getAudio(grade);
+        audio.play().catch(e => console.log('Play error:', e));
     }
-  });
-  
-  // Auto-focus on name field
-  document.getElementById("studentName").focus();
-  
-  // Load previous name if exists
-  const savedName = localStorage.getItem('student_name');
-  if (savedName) {
-    document.getElementById("studentName").value = savedName;
-    document.getElementById("token").focus();
-  }
+
+    // Add event listeners to all buttons
+    const allBtns = document.querySelectorAll('.audio-btn');
+    allBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const grade = btn.getAttribute('data-grade');
+            const action = btn.getAttribute('data-action');
+            
+            if (action === 'play') {
+                playAudio(grade);
+            } else if (action === 'pause') {
+                pauseAudio(grade);
+            } else if (action === 'stop') {
+                stopAudio(grade);
+            }
+        });
+    });
 </script>
-
 </body>
 </html>
